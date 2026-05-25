@@ -4,21 +4,18 @@ import 'package:school/features/core_ui/BulletinScreen/bulletin_screen.dart';
 import 'package:school/features/core_ui/Setting/Settingscreen.dart';
 import 'package:school/generated/l10n.dart';
 
-class StudentHomePage extends StatefulWidget {
+class NavHomePage extends StatefulWidget {
   final AuthEntities user;
-  const StudentHomePage({super.key, required this.user});
+  const NavHomePage({super.key, required this.user});
 
   @override
-  State<StudentHomePage> createState() => _StudentHomePageState();
+  State<NavHomePage> createState() => _NavHomePageState();
 }
 
-class _StudentHomePageState extends State<StudentHomePage>
+class _NavHomePageState extends State<NavHomePage>
     with SingleTickerProviderStateMixin {
   late final PageController _pageController;
   int _currentIndex = 0;
-
-  late AnimationController _animationController;
-  late Animation<double> _scaleAnimation;
 
   @override
   Widget build(BuildContext context) {
@@ -26,33 +23,7 @@ class _StudentHomePageState extends State<StudentHomePage>
 
     return Scaffold(
       extendBody: true,
-      floatingActionButton: AnimatedBuilder(
-        animation: _scaleAnimation,
-        builder: (context, child) {
-          return Transform.scale(
-            scale: 0.9 + (0.2 * _scaleAnimation.value),
-            child: FloatingActionButton.extended(
-              onPressed: () {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //     builder: (context) => const AIChatScreen(),
-                //   ),
-                // );
-              },
-              icon: const Icon(Icons.smart_toy),
-              label: Text(S.of(context).askAI),
-              backgroundColor: const Color.fromARGB(143, 62, 61, 29),
-              foregroundColor: Colors.white,
-              elevation: 8,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30),
-              ),
-            ),
-          );
-        },
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+
       body: PageView(
         controller: _pageController,
         physics: const NeverScrollableScrollPhysics(),
@@ -118,8 +89,12 @@ class _StudentHomePageState extends State<StudentHomePage>
                     ),
                     _buildNavItem(
                       index: 1,
-                      icon: Icons.receipt,
-                      activeIcon: Icons.receipt,
+                      icon: widget.user.role == "Student"
+                          ? Icons.receipt
+                          : Icons.person,
+                      activeIcon: widget.user.role == "Student"
+                          ? Icons.receipt
+                          : Icons.person,
                       label: S.of(context).Students,
                     ),
                     _buildNavItem(
@@ -141,7 +116,6 @@ class _StudentHomePageState extends State<StudentHomePage>
   @override
   void dispose() {
     _pageController.dispose();
-    _animationController.dispose();
     super.dispose();
   }
 
@@ -149,15 +123,6 @@ class _StudentHomePageState extends State<StudentHomePage>
   void initState() {
     super.initState();
     _pageController = PageController();
-
-    _animationController = AnimationController(
-      duration: const Duration(milliseconds: 1200),
-      vsync: this,
-    )..repeat(reverse: true);
-    _scaleAnimation = CurvedAnimation(
-      parent: _animationController,
-      curve: Curves.easeInOut,
-    );
   }
 
   NavigationDestination _buildNavItem({

@@ -7,7 +7,7 @@ import 'package:school/core/injection.dart' as di;
 import 'package:school/core/theme/theme.dart';
 import 'package:school/features/Auth/data/datasources/local_data_source.dart';
 import 'package:school/features/Auth/ui/bloc/auth_bloc.dart';
-import 'package:school/features/core_ui/Different/Routing.dart';
+import 'package:school/features/core_ui/Integration/Routing.dart';
 import 'package:school/generated/l10n.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
