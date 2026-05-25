@@ -333,6 +333,11 @@ class S {
   String get Cancel {
     return Intl.message('Cancel', name: 'Cancel', desc: '', args: []);
   }
+
+  /// `Ask AI`
+  String get askAI {
+    return Intl.message('Ask AI', name: 'askAI', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

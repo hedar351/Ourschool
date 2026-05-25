@@ -49,6 +49,7 @@ dependencies:
   internet_connection_checker: ^3.0.1
   http: ^1.6.0
   shared_preferences: ^2.5.5
+  google_generative_ai: ^0.4.7
   # path_provider: ^2.1.5
   # url_launcher: ^6.3.2
   # share_plus: ^13.1.0

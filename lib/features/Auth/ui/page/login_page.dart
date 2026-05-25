@@ -4,7 +4,8 @@ import 'package:school/core/widget/SnackBar/Message.dart';
 import 'package:school/features/Auth/ui/bloc/auth_bloc.dart';
 import 'package:school/generated/l10n.dart';
 
-import '../../../Teacher/home_page.dart';
+import '../../../Student/StudentHomePage.dart';
+import '../../../Teacher/TeacherHomePage.dart';
 import '../../../core_ui/Different/onboarding/Ui/onboarding_screen.dart';
 import '../widget/login_footer.dart';
 import '../widget/login_form.dart';
@@ -80,9 +81,9 @@ class _LoginPageState extends State<LoginPage> {
         MaterialPageRoute(builder: (_) => TeacherHomePage(user: state.user)),
       );
     } else if (role == "Student") {
-      // Navigator.of(context).pushReplacement(
-      //   MaterialPageRoute(builder: (_) => StudentHomePage(user: state.user)),
-      // );
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (_) => StudentHomePage(user: state.user)),
+      );
     } else if (role == "Admin") {
       _showUnavailableDialogAndRedirect(context);
     }

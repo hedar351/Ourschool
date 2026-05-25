@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school/core/widget/Loadingwidget.dart';
 import 'package:school/features/Auth/ui/bloc/auth_bloc.dart';
-import 'package:school/features/Teacher/home_page.dart';
+import 'package:school/features/Teacher/TeacherHomePage.dart';
 import 'package:school/features/core_ui/Different/onboarding/Ui/onboarding_screen.dart';
 import 'package:school/generated/l10n.dart';
+
+import '../../Student/StudentHomePage.dart';
 
 class SplashPage extends StatelessWidget {
   const SplashPage({super.key});
@@ -32,6 +34,9 @@ class SplashPage extends StatelessWidget {
         MaterialPageRoute(builder: (_) => TeacherHomePage(user: state.user)),
       );
     } else if (role == "Student") {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (_) => StudentHomePage(user: state.user)),
+      );
     } else if (role == "Admin") {
       _showUnavailableDialogAndRedirect(context);
     }

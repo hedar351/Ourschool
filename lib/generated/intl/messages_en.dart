@@ -42,6 +42,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "account_not_available": MessageLookupByLibrary.simpleMessage(
       "This account is currently not available for viewing",
     ),
+    "askAI": MessageLookupByLibrary.simpleMessage("Ask AI"),
     "browse_school": MessageLookupByLibrary.simpleMessage(
       "Browse school information",
     ),

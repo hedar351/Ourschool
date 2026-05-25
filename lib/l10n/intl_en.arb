@@ -35,5 +35,6 @@
     "Theme": "Theme",
     "Language": "Language",
     "want_to_logout": "Are you sure you want to logout?",
-    "Cancel": "Cancel"
+    "Cancel": "Cancel",
+    "askAI": "Ask AI"
 }
