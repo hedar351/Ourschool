@@ -4,6 +4,9 @@ import 'package:school/features/core_ui/BulletinScreen/bulletin_screen.dart';
 import 'package:school/features/core_ui/Setting/Settingscreen.dart';
 import 'package:school/generated/l10n.dart';
 
+import '../../Student/ui/page/AcademicRecordScreen.dart';
+import '../../Teacher/ui/page/StudentData.dart';
+
 class NavHomePage extends StatefulWidget {
   final AuthEntities user;
   const NavHomePage({super.key, required this.user});
@@ -27,14 +30,12 @@ class _NavHomePageState extends State<NavHomePage>
       body: PageView(
         controller: _pageController,
         physics: const NeverScrollableScrollPhysics(),
-        children: const [
+        children: [
           BulletinScreen(),
-          Center(
-            child: Text(
-              'Students - قيد التطوير',
-              style: TextStyle(fontSize: 16),
-            ),
-          ),
+
+          widget.user.role == "Student"
+              ? AcademicRecordScreen()
+              : StudentData(),
           SettingsScreen(),
         ],
       ),
