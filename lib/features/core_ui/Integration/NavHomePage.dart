@@ -6,6 +6,7 @@ import 'package:school/generated/l10n.dart';
 
 import '../../Student/ui/page/AcademicRecordScreen.dart';
 import '../../Student/ui/page/StudentPaymentsScreen.dart';
+import '../../Supervisor/UI/page/ClassScreen.dart';
 import '../../Teacher/ui/page/StudentData.dart';
 
 class NavHomePage extends StatefulWidget {
@@ -36,7 +37,9 @@ class _NavHomePageState extends State<NavHomePage>
 
           widget.user.role == "Student"
               ? AcademicRecordScreen()
-              : TeacherClassesScreen(),
+              : widget.user.role == "Teacher"
+              ? SchoolsScreen()
+              : ClassScreen(),
           ?widget.user.role == "Student" ? StudentPaymentsScreen() : null,
           SettingsScreen(),
         ],

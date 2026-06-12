@@ -4,8 +4,7 @@ import 'package:school/core/widget/SnackBar/Message.dart';
 import 'package:school/features/Auth/ui/bloc/auth_bloc.dart';
 import 'package:school/generated/l10n.dart';
 
-import '../../../core_ui/Integration/NavHomePage.dart';
-import '../../../core_ui/Integration/onboarding/Ui/onboarding_screen.dart';
+import '../../../core_ui/Integration/Routing.dart';
 import '../widget/login_footer.dart';
 import '../widget/login_form.dart';
 import '../widget/login_header.dart';
@@ -74,16 +73,6 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
-  void routing(String role, BuildContext context, AuthLoaded state) {
-    if (role == "Teacher" || role == "Student") {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => NavHomePage(user: state.user)),
-      );
-    } else if (role == "Admin") {
-      _showUnavailableDialogAndRedirect(context);
-    }
-  }
-
   void _dispatchLoginEvent() {
     if (_formKey.currentState!.validate()) {
       context.read<AuthBloc>().add(
@@ -116,29 +105,5 @@ class _LoginPageState extends State<LoginPage> {
     } else if (state is AuthLoaded) {
       routing(state.user.role, context, state);
     }
-  }
-
-  void _showUnavailableDialogAndRedirect(BuildContext context) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext dialogContext) {
-        return AlertDialog(
-          title: Text(S.of(context).Unavailable),
-          content: Text(S.of(context).account_not_available),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(dialogContext).pop();
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (_) => const WelcomeScreen()),
-                );
-              },
-              child: Text(S.of(context).Ok),
-            ),
-          ],
-        );
-      },
-    );
   }
 }

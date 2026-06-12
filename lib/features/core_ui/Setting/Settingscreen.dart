@@ -4,8 +4,9 @@ import 'package:school/core/cubit/locale_cubit.dart';
 import 'package:school/core/widget/PopupMenu.dart';
 import 'package:school/core/widget/theme_toggle_button.dart';
 import 'package:school/features/Auth/ui/bloc/auth_bloc.dart';
-import 'package:school/features/core_ui/Integration/onboarding/Ui/onboarding_screen.dart';
 import 'package:school/generated/l10n.dart';
+
+import '../Integration/onboarding/Ui/onboarding_screen.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
