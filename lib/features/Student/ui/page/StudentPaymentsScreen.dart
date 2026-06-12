@@ -74,6 +74,7 @@ class _StudentPaymentsScreenState extends State<StudentPaymentsScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text('مستحقات $name'),
         centerTitle: true,
         flexibleSpace: Container(

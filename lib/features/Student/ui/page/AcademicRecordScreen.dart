@@ -140,6 +140,7 @@ class _AcademicRecordScreenState extends State<AcademicRecordScreen>
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
+            automaticallyImplyLeading: false,
             expandedHeight: 200,
             pinned: true,
             flexibleSpace: FlexibleSpaceBar(
