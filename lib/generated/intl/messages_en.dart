@@ -26,12 +26,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "Announcements": MessageLookupByLibrary.simpleMessage("Announcements"),
     "Cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
     "Home": MessageLookupByLibrary.simpleMessage("Home"),
+    "Info": MessageLookupByLibrary.simpleMessage("AcademicRecord"),
     "Language": MessageLookupByLibrary.simpleMessage("Language"),
     "Logout": MessageLookupByLibrary.simpleMessage("Logout"),
     "Ok": MessageLookupByLibrary.simpleMessage("Ok"),
     "Password": MessageLookupByLibrary.simpleMessage(
       "Please enter your password",
     ),
+    "Payments": MessageLookupByLibrary.simpleMessage("Payments"),
     "Settings": MessageLookupByLibrary.simpleMessage("Settings"),
     "Students": MessageLookupByLibrary.simpleMessage("Students"),
     "Theme": MessageLookupByLibrary.simpleMessage("Theme"),
@@ -42,7 +44,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "account_not_available": MessageLookupByLibrary.simpleMessage(
       "This account is currently not available for viewing",
     ),
-    "askAI": MessageLookupByLibrary.simpleMessage("Ask AI"),
     "browse_school": MessageLookupByLibrary.simpleMessage(
       "Browse school information",
     ),

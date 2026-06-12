@@ -97,7 +97,6 @@ class AuthRemoteDataSourcesImp implements AuthRemoteDataSources {
 
         if (jsonBody['success'] == true) {
           final userData = jsonBody['data'];
-          // تمرير البيانات بصيغة متوافقة مع fromJson
           final user = AuthModel.fromJson(userData);
           print("🟢 [Remote] User model created: ${user.username}");
           return user;

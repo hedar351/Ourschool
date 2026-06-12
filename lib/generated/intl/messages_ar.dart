@@ -26,12 +26,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "Announcements": MessageLookupByLibrary.simpleMessage("الإعلانات"),
     "Cancel": MessageLookupByLibrary.simpleMessage("الغاء"),
     "Home": MessageLookupByLibrary.simpleMessage("الرئيسية"),
+    "Info": MessageLookupByLibrary.simpleMessage("السجل الأكاديمي"),
     "Language": MessageLookupByLibrary.simpleMessage("اللغة"),
     "Logout": MessageLookupByLibrary.simpleMessage("تسجيل الخروج"),
     "Ok": MessageLookupByLibrary.simpleMessage("حسناً"),
     "Password": MessageLookupByLibrary.simpleMessage(
       "الرجاء إدخال كلمة المرور",
     ),
+    "Payments": MessageLookupByLibrary.simpleMessage("المدفوعات"),
     "Settings": MessageLookupByLibrary.simpleMessage("الاعدادات"),
     "Students": MessageLookupByLibrary.simpleMessage("الطلاب"),
     "Theme": MessageLookupByLibrary.simpleMessage("السمة"),
@@ -42,7 +44,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "account_not_available": MessageLookupByLibrary.simpleMessage(
       "هذا الحساب غير متوفر للعرض حالياً",
     ),
-    "askAI": MessageLookupByLibrary.simpleMessage("اسأل الذكاء الاصطناعي"),
     "browse_school": MessageLookupByLibrary.simpleMessage(
       "تصفح معلومات المدرسة",
     ),

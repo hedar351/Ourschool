@@ -334,9 +334,14 @@ class S {
     return Intl.message('Cancel', name: 'Cancel', desc: '', args: []);
   }
 
-  /// `Ask AI`
-  String get askAI {
-    return Intl.message('Ask AI', name: 'askAI', desc: '', args: []);
+  /// `Payments`
+  String get Payments {
+    return Intl.message('Payments', name: 'Payments', desc: '', args: []);
+  }
+
+  /// `AcademicRecord`
+  String get Info {
+    return Intl.message('AcademicRecord', name: 'Info', desc: '', args: []);
   }
 }
 

@@ -121,7 +121,6 @@ class _AcademicRecordScreenState extends State<AcademicRecordScreen>
   late List<Animation<Offset>> _slideAnimations;
   late List<Animation<double>> _scaleAnimations;
 
-  // عدد الأقسام التي ستظهر بتأثير Staggered
   final int _totalSections = 4;
 
   @override
@@ -305,13 +304,11 @@ class _AcademicRecordScreenState extends State<AcademicRecordScreen>
       );
     });
 
-    // بدء الأنيميشن بعد الإطار الأول
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _mainAnimController.forward();
     });
   }
 
-  // ---------- الملخص الأكاديمي ----------
   Widget _buildAcademicSummaryCard(
     BuildContext context,
     Map<String, dynamic> summary,
