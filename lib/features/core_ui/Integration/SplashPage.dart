@@ -15,7 +15,7 @@ class SplashPage extends StatelessWidget {
       listener: (context, state) {
         if (state is AuthLoaded) {
           final role = state.user.role;
-          routing(role, context, state);
+          routing(role!, context, state);
         } else if (state is AuthInitial || state is AuthErorr) {
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (_) => const WelcomeScreen()),

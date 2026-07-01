@@ -103,7 +103,7 @@ class _LoginPageState extends State<LoginPage> {
       final message = _localizedErrorMessage(state.message, context);
       _snackBarMessage.errorMessage(message: message, context: context);
     } else if (state is AuthLoaded) {
-      routing(state.user.role, context, state);
+      routing(state.user.role!, context, state);
     }
   }
 }

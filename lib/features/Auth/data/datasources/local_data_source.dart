@@ -20,7 +20,7 @@ class AuthLocalDataSourceImp implements AuthLocalDataSource {
 
   @override
   Future<Unit> cacheUser(AuthModel user) {
-    print("🟡 [Local] cacheUser called for user: ${user.username}");
+    print("🟡 [Local] cacheUser called for user: ${user.name}");
     final Map<String, dynamic> userJson = user.toJson();
     final String jsonString = json.encode(userJson);
     sharedPreferences.setString(authCacheKey, jsonString);
@@ -44,7 +44,7 @@ class AuthLocalDataSourceImp implements AuthLocalDataSource {
       print("🟢 [Local] Cache found, decoding JSON");
       final Map<String, dynamic> jsonMap = json.decode(jsonString);
       final AuthModel user = AuthModel.fromJson(jsonMap);
-      print("🟢 [Local] User retrieved: ${user.username}");
+      print("🟢 [Local] User retrieved: ${user.name}");
       return Future.value(user);
     } else {
       print("🔴 [Local] No cache found, throwing EmptyCacheExp");

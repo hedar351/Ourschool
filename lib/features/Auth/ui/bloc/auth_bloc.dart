@@ -41,7 +41,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         print("🔴 [Bloc] No user found, emitting AuthInitial");
       },
       (user) {
-        print("🟢 [Bloc] User found: ${user.username}, emitting AuthLoaded");
+        print("🟢 [Bloc] User found: ${user.name}, emitting AuthLoaded");
         emit(AuthLoaded(user: user));
       },
     );

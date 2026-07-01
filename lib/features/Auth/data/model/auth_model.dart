@@ -2,32 +2,36 @@ import 'package:school/features/Auth/domain/entities/auth_entities.dart';
 
 class AuthModel extends AuthEntities {
   const AuthModel({
-    required super.username,
     required super.token,
     required super.role,
     required super.id,
+    required super.userType,
+    required super.name,
+    required super.schoolId,
+    required super.message,
   });
 
   factory AuthModel.fromJson(Map<String, dynamic> json) {
-    final tokenObj = json['data'] ?? json;
-    if (tokenObj is! Map<String, dynamic>) {
-      throw Exception("Invalid token structure");
-    }
     return AuthModel(
-      username: tokenObj['username'] as String,
-      token: tokenObj['token'] as String,
-      role: tokenObj['role'] as String,
-      id: tokenObj['userId'] as int?,
+      token: json['token'] ?? '',
+      role: json['role'] ?? '',
+      id: json['id'] ?? 0,
+      userType: json['userType'],
+      name: json['name'],
+      schoolId: json['schoolId'],
+      message: json['message'],
     );
   }
+
   Map<String, dynamic> toJson() {
     return {
-      'data': {
-        'username': username,
-        'token': token,
-        'role': role,
-        "userId": id,
-      },
+      'token': token,
+      'role': role,
+      'userId': id,
+      'userType': userType,
+      'name': name,
+      'schoolId': schoolId,
+      'message': message,
     };
   }
 }

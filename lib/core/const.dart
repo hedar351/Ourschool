@@ -1,20 +1,6 @@
-import 'dart:io';
-
-import 'package:flutter/foundation.dart';
-
 import 'error/failures.dart';
 
-String get baseUrl {
-  if (kIsWeb) {
-    return "https://localhost:7253/api";
-  } else if (Platform.isAndroid) {
-    return "https://10.0.2.2:7253/api";
-  } else if (Platform.isIOS) {
-    return "https://localhost:7253/api";
-  } else {
-    return "https://localhost:7253/api";
-  }
-}
+String baseUrl = "http://46.224.105.68:8080/api";
 
 //hi
 String mapFailureToMessage(Failures failure) {
