@@ -21,6 +21,7 @@ class SplashPage extends StatelessWidget {
             MaterialPageRoute(builder: (_) => const WelcomeScreen()),
           );
         }
+        //ffgg
       },
       child: const Scaffold(body: Center(child: Loadingwidget())),
     );
