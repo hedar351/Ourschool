@@ -8,7 +8,7 @@ plugins {
 android {
     namespace = "com.example.ourschool"
     
-    compileSdk = 36 
+    compileSdk = 35
     
     ndkVersion = "28.2.13676358" 
 
@@ -26,7 +26,7 @@ android {
         
         minSdk = flutter.minSdkVersion 
         
-        targetSdk = 36
+        targetSdk = 35
         versionCode = flutter.versionCode
         versionName = flutter.versionName
     }
