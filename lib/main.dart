@@ -19,7 +19,6 @@ void main() async {
   runApp(const MyApp());
 }
 
-// kl;kl;jhkl
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
