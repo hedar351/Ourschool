@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:school/features/core_ui/BulletinScreen/BulletinCard.dart';
-import 'package:school/features/core_ui/BulletinScreen/buildSectionHeader.dart';
+import 'package:school/features/BulletinScreen/BulletinCard.dart';
+import 'package:school/features/BulletinScreen/buildSectionHeader.dart';
 
-import '../../../generated/l10n.dart';
+import '../../generated/l10n.dart';
 
 class BulletinItem {
   final String title;

@@ -26,15 +26,6 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     final currentLocale = Localizations.localeOf(context).languageCode;
 
     return Scaffold(
-      // appBar: AppBar(
-      //   elevation: 0,
-      //   backgroundColor: Colors.transparent,
-      //   actions: [
-      //     PopupMenu(currentLocale: currentLocale, cubit: cubit),
-      //     const ThemeToggleButton(),
-      //     const SizedBox(width: 8),
-      //   ],
-      // ),
       body: Container(
         color: Theme.of(context).scaffoldBackgroundColor,
         child: SafeArea(

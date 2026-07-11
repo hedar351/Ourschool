@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:school/features/Auth/domain/entities/auth_entities.dart';
-import 'package:school/features/core_ui/BulletinScreen/bulletin_screen.dart';
-import 'package:school/features/core_ui/Setting/Settingscreen.dart';
+import 'package:school/features/BulletinScreen/bulletin_screen.dart';
+import 'package:school/features/Setting/Settingscreen.dart';
 import 'package:school/generated/l10n.dart';
 
-import '../../Student/ui/page/AcademicRecordScreen.dart';
-import '../../Student/ui/page/StudentPaymentsScreen.dart';
-import '../../Supervisor/UI/page/ClassScreen.dart';
-import '../../Teacher/ui/page/StudentData.dart';
+import '../Student/ui/page/AcademicRecordScreen.dart';
+import '../Student/ui/page/StudentPaymentsScreen.dart';
+import '../Supervisor/UI/page/ClassScreen.dart';
+import '../Teacher/ui/page/StudentData.dart';
 
 class NavHomePage extends StatefulWidget {
   final AuthEntities user;

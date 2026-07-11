@@ -54,9 +54,9 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
-  /// `Manarat Al-Uloom`
+  /// `Our School`
   String get title {
-    return Intl.message('Manarat Al-Uloom', name: 'title', desc: '', args: []);
+    return Intl.message('Our School', name: 'title', desc: '', args: []);
   }
 
   /// `Welcome Back`

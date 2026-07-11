@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school/core/widget/Loadingwidget.dart';
 import 'package:school/features/Auth/ui/bloc/auth_bloc.dart';
-import 'package:school/features/core_ui/Integration/onboarding/Ui/onboarding_screen.dart';
+import 'package:school/features/onboarding/Ui/onboarding_screen.dart';
 
 import 'Routing.dart';
 

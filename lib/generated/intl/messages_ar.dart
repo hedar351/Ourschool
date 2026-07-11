@@ -75,7 +75,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "sign_in_continue": MessageLookupByLibrary.simpleMessage(
       "سجل الدخول للمتابعة",
     ),
-    "title": MessageLookupByLibrary.simpleMessage("منارة العلوم"),
+    "title": MessageLookupByLibrary.simpleMessage("مدرستنا"),
     "unexpected_error": MessageLookupByLibrary.simpleMessage(
       "حدث خطأ غير متوقع، حاول لاحقاً",
     ),

@@ -73,7 +73,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "sign_in_continue": MessageLookupByLibrary.simpleMessage(
       "Sign in to continue",
     ),
-    "title": MessageLookupByLibrary.simpleMessage("Manarat Al-Uloom"),
+    "title": MessageLookupByLibrary.simpleMessage("Our School"),
     "unexpected_error": MessageLookupByLibrary.simpleMessage(
       "Unexpected error, please try again later",
     ),

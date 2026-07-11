@@ -4,10 +4,9 @@ import 'package:school/core/widget/SnackBar/Message.dart';
 import 'package:school/features/Auth/ui/bloc/auth_bloc.dart';
 import 'package:school/generated/l10n.dart';
 
-import '../../../core_ui/Integration/Routing.dart';
+import '../../../Integration/Routing.dart';
 import '../widget/login_footer.dart';
 import '../widget/login_form.dart';
-import '../widget/login_header.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -30,33 +29,33 @@ class _LoginPageState extends State<LoginPage> {
         listener: _onAuthStateChanged,
         builder: (context, state) {
           final isLoading = state is AuthLoading;
-          return Container(
-            color: Theme.of(context).scaffoldBackgroundColor,
-            child: SafeArea(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 28,
-                  vertical: 40,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    const LoginHeader(),
-                    const SizedBox(height: 48),
-                    LoginForm(
-                      formKey: _formKey,
-                      usernameController: _usernameController,
-                      passwordController: _passwordController,
-                      rememberMe: _rememberMe,
-                      isLoading: isLoading,
-                      onRememberMeChanged: (value) {
-                        setState(() => _rememberMe = value);
-                      },
-                      onLoginPressed: _dispatchLoginEvent,
-                    ),
-                    const SizedBox(height: 24),
-                    LoginFooter(isLoading: isLoading),
-                  ],
+          return Center(
+            child: Container(
+              color: Theme.of(context).scaffoldBackgroundColor,
+              child: SafeArea(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 28,
+                    vertical: 40,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      LoginForm(
+                        formKey: _formKey,
+                        usernameController: _usernameController,
+                        passwordController: _passwordController,
+                        rememberMe: _rememberMe,
+                        isLoading: isLoading,
+                        onRememberMeChanged: (value) {
+                          setState(() => _rememberMe = value);
+                        },
+                        onLoginPressed: _dispatchLoginEvent,
+                      ),
+                      const SizedBox(height: 24),
+                      LoginFooter(isLoading: isLoading),
+                    ],
+                  ),
                 ),
               ),
             ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:school/features/Auth/ui/bloc/auth_bloc.dart';
-import 'package:school/features/core_ui/Integration/NavHomePage.dart';
+import 'package:school/features/Integration/NavHomePage.dart';
 import 'package:school/generated/l10n.dart';
 
 void routing(String role, BuildContext context, AuthLoaded state) {
