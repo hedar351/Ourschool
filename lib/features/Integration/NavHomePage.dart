@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:school/features/Auth/domain/entities/auth_entities.dart';
-import 'package:school/features/BulletinScreen/bulletin_screen.dart';
+import 'package:school/features/BulletinScreen/ui/pages/bulletin_screen.dart';
 import 'package:school/features/Setting/Settingscreen.dart';
 import 'package:school/generated/l10n.dart';
 
