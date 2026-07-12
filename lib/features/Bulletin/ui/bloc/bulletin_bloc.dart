@@ -28,26 +28,41 @@ class BulletinBloc extends Bloc<BulletinEvent, BulletinState> {
     return super.close();
   }
 
+  // FutureOr<void> _onGetAll(
+  //   GetBulletinsEvent event,
+  //   Emitter<BulletinState> emit,
+  // ) async {
+  //   final cachedEither = await getbulletinsUseCase();
+  //   cachedEither.fold(
+  //     (ifLeft) async {
+  //       emit(BulletinLoading());
+  //       final networkEither = await bulletinRepo.getBulletins();
+  //       networkEither.fold(
+  //         (ifLeft) => emit(BulletinError(message: mapFailureToMessage(ifLeft))),
+  //         (ifRight) =>
+  //             emit(BulletinLoaded(bulletins: ifRight, isRevalidating: false)),
+  //       );
+  //     },
+  //     (ifRight) async {
+  //       emit(BulletinLoaded(bulletins: ifRight, isRevalidating: true));
+  //     },
+  //   );
+  //   add(RevalidateBulletinsEvent());
+  // }
+
   FutureOr<void> _onGetAll(
     GetBulletinsEvent event,
     Emitter<BulletinState> emit,
   ) async {
-    final cachedEither = await getbulletinsUseCase();
-    cachedEither.fold(
-      (ifLeft) async {
-        emit(BulletinLoading());
-        final networkEither = await bulletinRepo.getBulletins();
-        networkEither.fold(
-          (ifLeft) => emit(BulletinError(message: mapFailureToMessage(ifLeft))),
-          (ifRight) =>
-              emit(BulletinLoaded(bulletins: ifRight, isRevalidating: false)),
-        );
-      },
-      (ifRight) async {
-        emit(BulletinLoaded(bulletins: ifRight, isRevalidating: true));
+    emit(BulletinLoading());
+    final either = await getbulletinsUseCase();
+    either.fold(
+      (failure) => emit(BulletinError(message: mapFailureToMessage(failure))),
+      (bulletins) {
+        emit(BulletinLoaded(bulletins: bulletins, isRevalidating: false));
+        add(WatchCachedBulletinsEvent());
       },
     );
-    add(RevalidateBulletinsEvent());
   }
 
   FutureOr<void> _onRefresh(

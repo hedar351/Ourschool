@@ -2,6 +2,8 @@ import 'package:hive/hive.dart';
 import 'package:school/features/Bulletin/data/model/AnnouncementActivityModel.dart';
 import 'package:school/features/Bulletin/domain/Entities/BulletinEntity.dart';
 
+part 'BulletinModel.g.dart';
+
 @HiveType(typeId: 1)
 class Bulletinmodel extends HiveObject {
   @HiveField(0)

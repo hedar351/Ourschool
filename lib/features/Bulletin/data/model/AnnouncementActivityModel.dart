@@ -1,6 +1,8 @@
 import 'package:hive/hive.dart';
 import 'package:school/features/Bulletin/domain/Entities/AnnouncementActivityEntity.dart';
 
+part 'AnnouncementActivityModel.g.dart';
+
 @HiveType(typeId: 0)
 class AnnouncementActivityModel extends HiveObject {
   @HiveField(0)

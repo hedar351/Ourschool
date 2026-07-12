@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:hive/hive.dart';
 import 'package:school/core/cubit/locale_cubit.dart';
 import 'package:school/core/cubit/theme_cubit.dart';
 import 'package:school/core/injection.dart' as di;
 import 'package:school/core/theme/theme.dart';
 import 'package:school/features/Auth/data/datasources/local_data_source.dart';
 import 'package:school/features/Auth/ui/bloc/auth_bloc.dart';
+import 'package:school/features/Bulletin/data/model/AnnouncementActivityModel.dart';
+import 'package:school/features/Bulletin/data/model/BulletinModel.dart';
 import 'package:school/features/Integration/SplashPage.dart';
 import 'package:school/generated/l10n.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,6 +19,9 @@ void main() async {
   await di.init();
   final prefs = await SharedPreferences.getInstance();
   print("🔵 Stored cache key: ${prefs.getString(authCacheKey)}");
+  Hive.registerAdapter(AnnouncementActivityModelAdapter());
+  Hive.registerAdapter(BulletinmodelAdapter());
+  await Hive.openBox<Bulletinmodel>('bulletinBox');
   runApp(const MyApp());
 }
 
