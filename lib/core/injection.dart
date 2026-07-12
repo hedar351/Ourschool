@@ -28,7 +28,7 @@ Future<void> init() async {
   print('✅ Hive initialized');
   Hive.registerAdapter(AnnouncementActivityModelAdapter());
   Hive.registerAdapter(BulletinmodelAdapter());
-  final box = await Hive.openBox<Bulletinmodel>('postsCache');
+  final bulletinbox = await Hive.openBox<Bulletinmodel>('bulletinBox');
   print('✅ Hive box opened: postsCache');
   //!features Bulletin
   // Bloc
@@ -47,7 +47,9 @@ Future<void> init() async {
   sl.registerLazySingleton<RemotedataSource>(
     () => RemoteDataSourceImp(client: sl()),
   );
-  sl.registerLazySingleton<Cachedatasource>(() => CacheDataSourceImp(box: box));
+  sl.registerLazySingleton<Cachedatasource>(
+    () => CacheDataSourceImp(box: bulletinbox),
+  );
 
   //!featuresAuth
   //Bloc

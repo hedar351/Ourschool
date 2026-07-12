@@ -17,7 +17,7 @@ class RemoteDataSourceImp implements RemotedataSource {
   @override
   Future<List<Bulletinmodel>> getBulletins() async {
     final response = await client.get(
-      Uri.parse('$baseUrl/bulletins'),
+      Uri.parse('$baseUrl/api/feed'),
       headers: {"Content-Type": "application/json"},
     );
     if (response.statusCode == 200) {

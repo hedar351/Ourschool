@@ -4,7 +4,10 @@ import 'package:school/features/Integration/NavHomePage.dart';
 import 'package:school/generated/l10n.dart';
 
 void routing(String role, BuildContext context, AuthLoaded state) {
-  if (role != "Admin") {
+  if (role != "Admin" &&
+      role != "Librarian" &&
+      role != "Manager" &&
+      role != "Secretary") {
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(builder: (_) => NavHomePage(user: state.user)),
     );

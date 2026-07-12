@@ -1,8 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:hive/hive.dart';
 import 'package:school/core/const.dart';
 import 'package:school/features/Auth/domain/entities/auth_entities.dart';
+import 'package:school/features/Bulletin/data/model/BulletinModel.dart';
 
 import '../../domain/useCases/Log_out_UseCase.dart';
 import '../../domain/useCases/LoginUseCase.dart';
@@ -10,6 +12,18 @@ import '../../domain/useCases/get_user_usecase.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
+
+void clearHive() async {
+  try {
+    await Hive.box<Bulletinmodel>('bulletinBox').clear();
+
+    //  مسح باقي Boxes إذا كان لديك أخرى (مثلاً لـ Notifications، إلخ)
+    // await Hive.box<AnotherModel>('anotherBox').clear();
+    print("🟢 Boxs cleared");
+  } catch (e) {
+    print("🔴 [Bloc] Failed to clear Boxs: $e");
+  }
+}
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final LoginUseCase loginUseCase;
@@ -64,6 +78,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     print("🟡 [Bloc] LogoutEvent received");
 
     emit(AuthLoading());
+
+    clearHive();
+
     final result = await logoutUseCase();
     print("🟡 [Bloc] Usecase result: $result");
 
