@@ -38,7 +38,7 @@ class AnnouncementActivityModel extends HiveObject {
       id: json['id'],
       title: json['title'],
       description: json['description'],
-      date: json['date'],
+      date: DateTime.parse(json['date']),
     );
   }
 
