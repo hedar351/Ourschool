@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:school/core/error/failures.dart';
-import 'package:school/features/BulletinScreen/domain/Entities/BulletinEntity.dart';
+import 'package:school/features/Bulletin/domain/Entities/BulletinEntity.dart';
 
 abstract class BulletinRepo {
   Future<Either<Failures, List<BulletinEntity>>> getBulletins();

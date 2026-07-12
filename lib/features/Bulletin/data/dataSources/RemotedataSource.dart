@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:school/core/const.dart';
 import 'package:school/core/error/EXP.dart';
-import 'package:school/features/BulletinScreen/data/model/BulletinModel.dart';
+import 'package:school/features/Bulletin/data/model/BulletinModel.dart';
 
 abstract class RemotedataSource {
   Future<List<Bulletinmodel>> getBulletins();

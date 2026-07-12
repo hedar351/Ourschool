@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:school/core/error/failures.dart';
-import 'package:school/features/BulletinScreen/domain/Entities/BulletinEntity.dart';
-import 'package:school/features/BulletinScreen/domain/Repo/Bulletin_repo.dart';
+import 'package:school/features/Bulletin/domain/Entities/BulletinEntity.dart';
+import 'package:school/features/Bulletin/domain/Repo/Bulletin_repo.dart';
 
 class GetbulletinsUseCase {
   BulletinRepo bulletinRepo;

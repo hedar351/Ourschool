@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:school/features/BulletinScreen/ui/pages/bulletin_screen.dart';
+import 'package:school/features/Bulletin/ui/pages/bulletin_screen.dart';
 
 class BulletinCard extends StatelessWidget {
   final BulletinItem item;

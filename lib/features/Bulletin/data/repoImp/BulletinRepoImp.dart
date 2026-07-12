@@ -2,10 +2,10 @@ import 'package:dartz/dartz.dart';
 import 'package:school/core/error/EXP.dart';
 import 'package:school/core/error/failures.dart';
 import 'package:school/core/network.dart';
-import 'package:school/features/BulletinScreen/data/dataSources/RemotedataSource.dart';
-import 'package:school/features/BulletinScreen/data/dataSources/cachedataSource.dart';
-import 'package:school/features/BulletinScreen/domain/Entities/BulletinEntity.dart';
-import 'package:school/features/BulletinScreen/domain/Repo/Bulletin_repo.dart';
+import 'package:school/features/Bulletin/data/dataSources/RemotedataSource.dart';
+import 'package:school/features/Bulletin/data/dataSources/cachedataSource.dart';
+import 'package:school/features/Bulletin/domain/Entities/BulletinEntity.dart';
+import 'package:school/features/Bulletin/domain/Repo/Bulletin_repo.dart';
 
 class Bulletinrepoimp implements BulletinRepo {
   final RemotedataSource remote;

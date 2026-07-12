@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
-import 'package:school/features/BulletinScreen/data/model/AnnouncementActivityModel.dart';
-import 'package:school/features/BulletinScreen/domain/Entities/BulletinEntity.dart';
+import 'package:school/features/Bulletin/data/model/AnnouncementActivityModel.dart';
+import 'package:school/features/Bulletin/domain/Entities/BulletinEntity.dart';
 
 @HiveType(typeId: 1)
 class Bulletinmodel extends HiveObject {

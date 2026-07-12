@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:hive/hive.dart';
 import 'package:school/core/error/EXP.dart';
-import 'package:school/features/BulletinScreen/data/model/BulletinModel.dart';
+import 'package:school/features/Bulletin/data/model/BulletinModel.dart';
 
 abstract class Cachedatasource {
   Future<Unit> cacheBulletins(List<Bulletinmodel> bulletins);

@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:school/features/BulletinScreen/domain/Entities/AnnouncementActivityEntity.dart';
+import 'package:school/features/Bulletin/domain/Entities/AnnouncementActivityEntity.dart';
 
 class BulletinEntity extends Equatable {
   final String message;

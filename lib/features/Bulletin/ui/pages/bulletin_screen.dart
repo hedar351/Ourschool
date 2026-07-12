@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:school/features/BulletinScreen/ui/widget/BulletinCard.dart';
-import 'package:school/features/BulletinScreen/ui/widget/buildSectionHeader.dart';
+import 'package:school/features/Bulletin/ui/widget/BulletinCard.dart';
+import 'package:school/features/Bulletin/ui/widget/buildSectionHeader.dart';
 
 import '../../../../generated/l10n.dart';
 
