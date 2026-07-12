@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:school/features/Bulletin/ui/pages/bulletin_screen.dart';
+import 'package:school/features/Bulletin/domain/Entities/AnnouncementActivityEntity.dart';
 
-class BulletinCard extends StatelessWidget {
-  final BulletinItem item;
+class Bulletincard extends StatelessWidget {
+  final Announcementactivityentity entity;
   final Color color;
 
-  const BulletinCard({required this.item, required this.color, super.key});
+  const Bulletincard({super.key, required this.entity, required this.color});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final icon = _getIcon(entity.title);
+
     return RepaintBoundary(
       child: Container(
         width: 280,
@@ -46,11 +48,11 @@ class BulletinCard extends StatelessWidget {
                   ),
                   child: Row(
                     children: [
-                      Icon(item.icon, color: color, size: 24),
+                      Icon(icon, color: color, size: 24),
                       const SizedBox(width: 12),
                       Expanded(
                         child: Text(
-                          _formatDate(item.date),
+                          _formatDate(entity.date),
                           style: TextStyle(
                             color: color,
                             fontWeight: FontWeight.w600,
@@ -68,7 +70,7 @@ class BulletinCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        item.title,
+                        entity.title,
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -79,7 +81,7 @@ class BulletinCard extends StatelessWidget {
                       ),
                       const SizedBox(height: 10),
                       Text(
-                        item.description,
+                        entity.description,
                         style: TextStyle(
                           fontSize: 14,
                           color: theme.textTheme.bodyMedium?.color,
@@ -115,5 +117,22 @@ class BulletinCard extends StatelessWidget {
       'ديسمبر',
     ];
     return '${date.day} ${months[date.month - 1]} ${date.year}';
+  }
+
+  IconData _getIcon(String title) {
+    if (title.contains("رحلة")) return Icons.tour;
+    if (title.contains("علوم")) return Icons.science;
+    if (title.contains("فنية") || title.contains("رسم")) return Icons.palette;
+    if (title.contains("رياضة")) return Icons.sports_soccer;
+    if (title.contains("هام") || title.contains("تحذير")) {
+      return Icons.warning_amber_rounded;
+    }
+    if (title.contains("اجتماع") || title.contains("أولياء")) {
+      return Icons.people;
+    }
+    if (title.contains("تسجيل") || title.contains("موعد")) {
+      return Icons.edit_calendar;
+    }
+    return Icons.event;
   }
 }

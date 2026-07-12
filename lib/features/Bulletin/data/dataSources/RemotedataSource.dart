@@ -21,11 +21,14 @@ class RemoteDataSourceImp implements RemotedataSource {
       headers: {"Content-Type": "application/json"},
     );
     if (response.statusCode == 200) {
-      final List decodeJson = json.decode(response.body) as List;
-      final List<Bulletinmodel> models = decodeJson
-          .map<Bulletinmodel>((jsonModel) => Bulletinmodel.fromJson(jsonModel))
-          .toList();
-      return models;
+      // final List decodeJson = json.decode(response.body);
+      // final List<Bulletinmodel> models = decodeJson
+      //     .map<Bulletinmodel>((jsonModel) => Bulletinmodel.fromJson(jsonModel))
+      //     .toList();
+      // return models;
+      final Map<String, dynamic> decoded = json.decode(response.body);
+      final bulletin = Bulletinmodel.fromJson(decoded);
+      return [bulletin];
     } else {
       throw ServerExp();
     }

@@ -204,19 +204,17 @@ class _NavHomePageState extends State<NavHomePage>
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    // بناء قائمة الصفحات حسب الدور
     List<Widget> pages = [
       BulletinScreen(),
       widget.user.role == "Student"
           ? AcademicRecordScreen()
           : widget.user.role == "Teacher"
-          ? SchoolsScreen() // تأكد من الاسم الصحيح
+          ? SchoolsScreen()
           : ClassScreen(),
       if (widget.user.role == "Student") StudentPaymentsScreen(),
       SettingsScreen(),
     ];
 
-    // بناء قائمة الـ Navigation destinations حسب الدور (يجب أن تتطابق مع الصفحات)
     List<NavigationDestination> destinations = [
       _buildNavItem(
         index: 0,
@@ -236,15 +234,13 @@ class _NavHomePageState extends State<NavHomePage>
       ),
       if (widget.user.role == "Student")
         _buildNavItem(
-          index: 2, // سيكون الثالث في القائمة (لأنه بعد حذف عنصر قد يتغير)
+          index: 2,
           icon: Icons.money_outlined,
           activeIcon: Icons.money_rounded,
           label: S.of(context).Payments,
         ),
       _buildNavItem(
-        index: widget.user.role == "Student"
-            ? 3
-            : 2, // إذا كان طالب، الفهرس 3، وإلا 2
+        index: widget.user.role == "Student" ? 3 : 2,
         icon: Icons.settings_outlined,
         activeIcon: Icons.settings_rounded,
         label: S.of(context).Settings,

@@ -44,7 +44,7 @@ class AuthLocalDataSourceImp implements AuthLocalDataSource {
       print("🟢 [Local] Cache found, decoding JSON");
       final Map<String, dynamic> jsonMap = json.decode(jsonString);
       final AuthModel user = AuthModel.fromJson(jsonMap);
-      print("🟢 [Local] User retrieved: ${user.name}");
+      print("🟢 [Local] User retrieved: ${user.name}${user.schoolId}");
       return Future.value(user);
     } else {
       print("🔴 [Local] No cache found, throwing EmptyCacheExp");

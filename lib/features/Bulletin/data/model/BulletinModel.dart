@@ -36,8 +36,10 @@ class Bulletinmodel extends HiveObject {
   }
 
   factory Bulletinmodel.fromJson(Map<String, dynamic> json) {
-    var announcementsJson = json['announcements'] as List? ?? [];
-    var activitiesJson = json['activities'] as List? ?? [];
+    final data = json['data'] as Map<String, dynamic>? ?? {};
+
+    var announcementsJson = data['announcements'] as List? ?? [];
+    var activitiesJson = data['activities'] as List? ?? [];
 
     return Bulletinmodel(
       message: json['message'] ?? '',

@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school/core/const.dart';
 import 'package:school/features/Bulletin/domain/Entities/BulletinEntity.dart';
 import 'package:school/features/Bulletin/domain/Repo/Bulletin_repo.dart';
-import 'package:school/features/BulletinScreen/domain/Usecases/GetbulletinsUseCase.dart';
+import 'package:school/features/Bulletin/domain/Usecases/GetbulletinsUseCase.dart';
 
 part 'bulletin_event.dart';
 part 'bulletin_state.dart';
