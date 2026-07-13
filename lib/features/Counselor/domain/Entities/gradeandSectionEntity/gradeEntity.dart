@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:school/features/Counselor/domain/Entities/grade/SectionEntity.dart';
+import 'package:school/features/Counselor/domain/Entities/gradeandSectionEntity/SectionEntity.dart';
 
 class Gradeentity extends Equatable {
   final int? id;

@@ -3,7 +3,12 @@ import 'package:school/features/Auth/ui/bloc/auth_bloc.dart';
 import 'package:school/features/Integration/NavHomePage.dart';
 import 'package:school/generated/l10n.dart';
 
-void routing(String role, BuildContext context, AuthLoaded state) {
+void routing(
+  String role,
+  // String token,
+  BuildContext context,
+  AuthLoaded state,
+) {
   if (role != "Admin" &&
       role != "Librarian" &&
       role != "Manager" &&

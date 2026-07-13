@@ -37,6 +37,10 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => LocaleCubit()),
         BlocProvider(create: (context) => ThemeCubit()),
         BlocProvider(create: (context) => di.sl<BulletinBloc>()),
+        BlocProvider(
+          create: (context) =>
+              di.sl<BulletinBloc>()..add(RefreshBulletinsEvent()),
+        ),
       ],
       child: BlocBuilder<LocaleCubit, LocaleState>(
         builder: (context, localeState) {

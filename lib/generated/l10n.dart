@@ -343,6 +343,36 @@ class S {
   String get Info {
     return Intl.message('AcademicRecord', name: 'Info', desc: '', args: []);
   }
+
+  /// `There are no bulletins at the moment`
+  String get There_are_no_bulletins_at_the_moment {
+    return Intl.message(
+      'There are no bulletins at the moment',
+      name: 'There_are_no_bulletins_at_the_moment',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pull down to refresh.`
+  String get Pull_down_to_refresh {
+    return Intl.message(
+      'Pull down to refresh.',
+      name: 'Pull_down_to_refresh',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `There are no activities or announcements at the moment.`
+  String get There_are_no_activities_or_announcements_at_the_moment {
+    return Intl.message(
+      'There are no activities or announcements at the moment.',
+      name: 'There_are_no_activities_or_announcements_at_the_moment',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

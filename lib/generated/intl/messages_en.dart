@@ -34,9 +34,20 @@ class MessageLookup extends MessageLookupByLibrary {
       "Please enter your password",
     ),
     "Payments": MessageLookupByLibrary.simpleMessage("Payments"),
+    "Pull_down_to_refresh": MessageLookupByLibrary.simpleMessage(
+      "Pull down to refresh.",
+    ),
     "Settings": MessageLookupByLibrary.simpleMessage("Settings"),
     "Students": MessageLookupByLibrary.simpleMessage("Students"),
     "Theme": MessageLookupByLibrary.simpleMessage("Theme"),
+    "There_are_no_activities_or_announcements_at_the_moment":
+        MessageLookupByLibrary.simpleMessage(
+          "There are no activities or announcements at the moment.",
+        ),
+    "There_are_no_bulletins_at_the_moment":
+        MessageLookupByLibrary.simpleMessage(
+          "There are no bulletins at the moment",
+        ),
     "Unavailable": MessageLookupByLibrary.simpleMessage("Unavailable"),
     "Username": MessageLookupByLibrary.simpleMessage(
       "Please enter your username",

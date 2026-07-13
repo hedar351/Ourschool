@@ -1,10 +1,11 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'bulletin_bloc.dart';
 
 sealed class BulletinEvent extends Equatable {
   const BulletinEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class GetBulletinsEvent extends BulletinEvent {}

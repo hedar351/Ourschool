@@ -1,14 +1,16 @@
-// import 'dart:convert';
-// import 'dart:io';
+import 'dart:convert';
+import 'dart:io';
 
-// import 'package:http/http.dart' as http;
-// import 'package:school/features/Auth/data/model/auth_model.dart';
+import 'package:http/http.dart' as http;
+import 'package:http/io_client.dart';
+import 'package:school/features/Auth/data/model/auth_model.dart';
 
-// import '../../../../core/const.dart';
-// import '../../../../core/error/EXP.dart';
+import '../../../../core/const.dart';
+import '../../../../core/error/EXP.dart';
 
 // abstract class AuthRemoteDataSources {
 //   Future<AuthModel> remotelogin(String password, String username);
+//   // Future<Unit> remoteLogout();
 // }
 
 // class AuthRemoteDataSourcesImp implements AuthRemoteDataSources {
@@ -18,12 +20,18 @@
 //   @override
 //   Future<AuthModel> remotelogin(String password, String username) async {
 //     print("🔵 [Remote] remotelogin called with username: $username");
-//     final body = {"username": username, "password": password};
+//     final body = {"email": username, "password": password};
 
 //     try {
-//       print("🟡 [Remote] Sending POST request to $baseUrl/Auth/login");
+//       // final httpClient = HttpClient()
+//       //   ..badCertificateCallback =
+//       //       (X509Certificate cert, String host, int port) => true;
+//       // final ioClient = IOClient(httpClient);
+
+//       final url = Uri.parse("$baseUrl/auth/login");
+//       print("🟡 [Remote] Sending POST request to $url");
 //       final response = await client.post(
-//         Uri.parse("$baseUrl/Auth/login"),
+//         url,
 //         body: json.encode(body),
 //         headers: {"Content-Type": "application/json"},
 //       );
@@ -34,9 +42,18 @@
 //         print("🟢 [Remote] Status 200 OK, decoding JSON");
 //         final jsonBody = json.decode(response.body);
 //         print("🟢 [Remote] JSON body: $jsonBody");
+
+//         // if (jsonBody['success'] == true) {
+//         // final userData = jsonBody['data'];
 //         final user = AuthModel.fromJson(jsonBody);
-//         print("🟢 [Remote] User model created: ${user.username}");
+//         print("🟢 [Remote] User model created: ${user.name}");
 //         return user;
+//         // } else {
+//         //   print(
+//         //     "🔴 [Remote] API returned success=false: ${jsonBody['message']}",
+//         //   );
+//         //   throw ServerExp();
+//         // }
 //       } else {
 //         print("🔴 [Remote] Status code not 200: ${response.statusCode}");
 //         throw ServerExp();
@@ -50,78 +67,9 @@
 //     }
 //   }
 // }
-import 'dart:convert';
-import 'dart:io';
-
-import 'package:http/http.dart' as http;
-import 'package:http/io_client.dart';
-import 'package:school/features/Auth/data/model/auth_model.dart';
-
-import '../../../../core/const.dart';
-import '../../../../core/error/EXP.dart';
-
-@override
-Future<AuthModel> remotelogin(String password, String username) async {
-  print("🔵 [Remote] remotelogin called with username: $username");
-  final body = {"email": username, "password": password};
-
-  try {
-    final httpClient = HttpClient()
-      ..badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
-    final ioClient = IOClient(httpClient);
-
-    final url = Uri.parse("$baseUrl/auth/login");
-    print("🟡 [Remote] Sending POST request to $url");
-    final response = await ioClient.post(
-      url,
-      body: json.encode(body),
-      headers: {"Content-Type": "application/json"},
-    );
-
-    print("🟡 [Remote] Response status code: ${response.statusCode}");
-
-    if (response.statusCode == 200) {
-      print("🟢 [Remote] Status 200 OK, decoding JSON");
-      final jsonBody = json.decode(response.body);
-      print("🟢 [Remote] JSON body: $jsonBody");
-
-      if (jsonBody['token'] != null) {
-        final user = AuthModel.fromJson(jsonBody);
-        print("🟢 [Remote] User model created: ${user.name}");
-        return user;
-      } else {
-        // في حالة وجود رسالة خطأ من الـ API
-        print(
-          "🔴 [Remote] Token not found in response: ${jsonBody['message'] ?? 'Unknown error'}",
-        );
-        throw ServerExp();
-      }
-    } else {
-      // محاولة قراءة رسالة الخطأ
-      try {
-        final errorBody = json.decode(response.body);
-        print(
-          "🔴 [Remote] Error response: ${errorBody['message'] ?? errorBody}",
-        );
-      } catch (e) {
-        print("🔴 [Remote] Could not parse error body");
-      }
-      print("🔴 [Remote] Status code not 200: ${response.statusCode}");
-      throw ServerExp();
-    }
-  } on SocketException {
-    print("🔴 [Remote] SocketException - no internet or server unreachable");
-    throw OfflineExp();
-  } catch (e) {
-    print("🔴 [Remote] Unexpected error: $e");
-    throw ServerExp();
-  }
-}
 
 abstract class AuthRemoteDataSources {
   Future<AuthModel> remotelogin(String password, String username);
-  // Future<Unit> remoteLogout();
 }
 
 class AuthRemoteDataSourcesImp implements AuthRemoteDataSources {
@@ -153,18 +101,9 @@ class AuthRemoteDataSourcesImp implements AuthRemoteDataSources {
         print("🟢 [Remote] Status 200 OK, decoding JSON");
         final jsonBody = json.decode(response.body);
         print("🟢 [Remote] JSON body: $jsonBody");
-
-        // if (jsonBody['success'] == true) {
-        // final userData = jsonBody['data'];
         final user = AuthModel.fromJson(jsonBody);
         print("🟢 [Remote] User model created: ${user.name}");
         return user;
-        // } else {
-        //   print(
-        //     "🔴 [Remote] API returned success=false: ${jsonBody['message']}",
-        //   );
-        //   throw ServerExp();
-        // }
       } else {
         print("🔴 [Remote] Status code not 200: ${response.statusCode}");
         throw ServerExp();

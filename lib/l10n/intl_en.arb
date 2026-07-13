@@ -37,5 +37,8 @@
   "want_to_logout": "Are you sure you want to logout?",
   "Cancel": "Cancel",
   "Payments": "Payments",
-  "Info": "AcademicRecord"
+  "Info": "AcademicRecord",
+  "There_are_no_bulletins_at_the_moment": "There are no bulletins at the moment",
+  "Pull_down_to_refresh": "Pull down to refresh.",
+  "There_are_no_activities_or_announcements_at_the_moment": "There are no activities or announcements at the moment."
 }

@@ -14,6 +14,7 @@ class SplashPage extends StatelessWidget {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthLoaded) {
+          // final token = state.user.token;
           final role = state.user.role;
           routing(role!, context, state);
         } else if (state is AuthInitial || state is AuthErorr) {

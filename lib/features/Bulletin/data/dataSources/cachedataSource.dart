@@ -5,6 +5,7 @@ import 'package:school/features/Bulletin/data/model/BulletinModel.dart';
 
 abstract class Cachedatasource {
   Future<Unit> cacheBulletins(List<Bulletinmodel> bulletins);
+  Future<Unit> deleteBulletins();
   Future<List<Bulletinmodel>> getCachedBulletins();
   Stream<List<Bulletinmodel>> watchCachedBulletins();
 }
@@ -18,6 +19,12 @@ class CacheDataSourceImp implements Cachedatasource {
   Future<Unit> cacheBulletins(List<Bulletinmodel> bulletins) async {
     await box.clear();
     await box.addAll(bulletins);
+    return unit;
+  }
+
+  @override
+  Future<Unit> deleteBulletins() async {
+    await box.clear();
     return unit;
   }
 

@@ -34,9 +34,16 @@ class MessageLookup extends MessageLookupByLibrary {
       "الرجاء إدخال كلمة المرور",
     ),
     "Payments": MessageLookupByLibrary.simpleMessage("المدفوعات"),
+    "Pull_down_to_refresh": MessageLookupByLibrary.simpleMessage(
+      "اسحب للاسفل للتحديث",
+    ),
     "Settings": MessageLookupByLibrary.simpleMessage("الاعدادات"),
     "Students": MessageLookupByLibrary.simpleMessage("الطلاب"),
     "Theme": MessageLookupByLibrary.simpleMessage("السمة"),
+    "There_are_no_activities_or_announcements_at_the_moment":
+        MessageLookupByLibrary.simpleMessage("لا توجد انشطة او اعلانات حاليا"),
+    "There_are_no_bulletins_at_the_moment":
+        MessageLookupByLibrary.simpleMessage("لا توجد نشرات حاليا"),
     "Unavailable": MessageLookupByLibrary.simpleMessage("غير متوفر"),
     "Username": MessageLookupByLibrary.simpleMessage(
       "الرجاء إدخال اسم المستخدم",

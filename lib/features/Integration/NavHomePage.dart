@@ -203,9 +203,11 @@ class _NavHomePageState extends State<NavHomePage>
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-
+    print(widget.user.token);
     List<Widget> pages = [
-      BulletinScreen(),
+      BulletinScreen(
+        // widget.user.token
+      ),
       widget.user.role == "Student"
           ? AcademicRecordScreen()
           : widget.user.role == "Teacher"

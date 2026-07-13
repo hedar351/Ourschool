@@ -97,12 +97,27 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+  // void _onAuthStateChanged(BuildContext context, AuthState state) {
+  //   if (state is AuthErorr) {
+  //     final message = _localizedErrorMessage(state.message, context);
+  //     _snackBarMessage.errorMessage(message: message, context: context);
+  //   } else if (state is AuthLoaded) {
+  //     routing(state.user.role!, context, state);
+  //   }
+  // }
+
   void _onAuthStateChanged(BuildContext context, AuthState state) {
     if (state is AuthErorr) {
       final message = _localizedErrorMessage(state.message, context);
       _snackBarMessage.errorMessage(message: message, context: context);
     } else if (state is AuthLoaded) {
       routing(state.user.role!, context, state);
+    } else if (state is AuthInitial) {
+      _usernameController.clear();
+      _passwordController.clear();
+      setState(() {
+        _rememberMe = false;
+      });
     }
   }
 }

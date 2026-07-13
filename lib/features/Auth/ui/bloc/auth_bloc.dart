@@ -1,10 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:hive/hive.dart';
 import 'package:school/core/const.dart';
 import 'package:school/features/Auth/domain/entities/auth_entities.dart';
-import 'package:school/features/Bulletin/data/model/BulletinModel.dart';
+import 'package:school/features/Bulletin/data/dataSources/cachedataSource.dart';
 
 import '../../domain/useCases/Log_out_UseCase.dart';
 import '../../domain/useCases/LoginUseCase.dart';
@@ -13,23 +12,44 @@ import '../../domain/useCases/get_user_usecase.dart';
 part 'auth_event.dart';
 part 'auth_state.dart';
 
-void clearHive() async {
-  try {
-    await Hive.box<Bulletinmodel>('bulletinBox').clear();
+// Future<void> clearHive() async {
+//   try {
+//     // 1. التأكد من أن الصندوق مفتوح
+//     if (Hive.isBoxOpen('bulletinBox')) {
+//       final box = Hive.box('bulletinBox');
 
-    //  مسح باقي Boxes إذا كان لديك أخرى (مثلاً لـ Notifications، إلخ)
-    // await Hive.box<AnotherModel>('anotherBox').clear();
-    print("🟢 Boxs cleared");
-  } catch (e) {
-    print("🔴 [Bloc] Failed to clear Boxs: $e");
-  }
-}
+//       // 2. مسح الصندوق مع معالجة الأخطاء الداخلية
+//       try {
+//         await box.clear();
+//         print("🟢 [Bloc] Hive box cleared successfully");
+//       } catch (innerError) {
+//         print("🔴 [Bloc] Error while clearing Hive box: $innerError");
+//         // لا نعيد رمي الخطأ، فقط نسجل
+//       }
+//     } else {
+//       // 3. إذا كان الصندوق مغلقاً، نحاول فتحه ومسحه
+//       print("🟡 [Bloc] Hive box is not open, attempting to open and clear");
+//       try {
+//         final box = await Hive.openBox('bulletinBox');
+//         await box.clear();
+//         print("🟢 [Bloc] Hive box opened and cleared successfully");
+//       } catch (openError) {
+//         print("🔴 [Bloc] Failed to open and clear Hive box: $openError");
+//       }
+//     }
+//   } catch (e) {
+//     // 4. معالجة أي خطأ غير متوقع
+//     print("🔴 [Bloc] Unexpected error in clearHive: $e");
+//   }
+// }
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
+  Cachedatasource cachedatasource;
   final LoginUseCase loginUseCase;
   final GetUserUsecase getUserUsecase;
   final LogOutUseCase logoutUseCase;
   AuthBloc({
+    required this.cachedatasource,
     required this.loginUseCase,
     required this.getUserUsecase,
     required this.logoutUseCase,
@@ -79,7 +99,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     emit(AuthLoading());
 
-    clearHive();
+    await cachedatasource.deleteBulletins();
+    // await clearHive();
 
     final result = await logoutUseCase();
     print("🟡 [Bloc] Usecase result: $result");
@@ -89,9 +110,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(AuthErorr(message: mapFailureToMessage(failure)));
         print("🔴 [Bloc] No user found, emitting AuthInitial");
       },
-      (user) {
+      (_) {
         print("🟢 [Bloc] LogOut");
-        emit(AuthLogout());
+        emit(AuthInitial());
+        // AuthLogout
       },
     );
   }

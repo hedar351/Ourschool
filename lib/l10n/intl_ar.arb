@@ -37,5 +37,8 @@
   "want_to_logout": "هل أنت متأكد أنك تريد تسجيل الخروج؟",
   "Cancel": "الغاء",
   "Payments": "المدفوعات",
-  "Info": "السجل الأكاديمي"
+  "Info": "السجل الأكاديمي",
+  "There_are_no_bulletins_at_the_moment": "لا توجد نشرات حاليا",
+  "Pull_down_to_refresh": "اسحب للاسفل للتحديث",
+  "There_are_no_activities_or_announcements_at_the_moment": "لا توجد انشطة او اعلانات حاليا"
 }

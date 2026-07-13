@@ -45,7 +45,7 @@ Future<void> init() async {
 
   // DataSources
   sl.registerLazySingleton<RemotedataSource>(
-    () => RemoteDataSourceImp(client: sl()),
+    () => RemoteDataSourceImp(client: sl(), authLocalDataSource: sl()),
   );
   sl.registerLazySingleton<Cachedatasource>(
     () => CacheDataSourceImp(box: bulletinbox),
@@ -54,8 +54,12 @@ Future<void> init() async {
   //!featuresAuth
   //Bloc
   sl.registerFactory(
-    () =>
-        AuthBloc(getUserUsecase: sl(), loginUseCase: sl(), logoutUseCase: sl()),
+    () => AuthBloc(
+      getUserUsecase: sl(),
+      loginUseCase: sl(),
+      logoutUseCase: sl(),
+      cachedatasource: sl(),
+    ),
   );
 
   //UseCases
