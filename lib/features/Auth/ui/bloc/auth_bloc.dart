@@ -12,39 +12,8 @@ import '../../domain/useCases/get_user_usecase.dart';
 part 'auth_event.dart';
 part 'auth_state.dart';
 
-// Future<void> clearHive() async {
-//   try {
-//     // 1. التأكد من أن الصندوق مفتوح
-//     if (Hive.isBoxOpen('bulletinBox')) {
-//       final box = Hive.box('bulletinBox');
-
-//       // 2. مسح الصندوق مع معالجة الأخطاء الداخلية
-//       try {
-//         await box.clear();
-//         print("🟢 [Bloc] Hive box cleared successfully");
-//       } catch (innerError) {
-//         print("🔴 [Bloc] Error while clearing Hive box: $innerError");
-//         // لا نعيد رمي الخطأ، فقط نسجل
-//       }
-//     } else {
-//       // 3. إذا كان الصندوق مغلقاً، نحاول فتحه ومسحه
-//       print("🟡 [Bloc] Hive box is not open, attempting to open and clear");
-//       try {
-//         final box = await Hive.openBox('bulletinBox');
-//         await box.clear();
-//         print("🟢 [Bloc] Hive box opened and cleared successfully");
-//       } catch (openError) {
-//         print("🔴 [Bloc] Failed to open and clear Hive box: $openError");
-//       }
-//     }
-//   } catch (e) {
-//     // 4. معالجة أي خطأ غير متوقع
-//     print("🔴 [Bloc] Unexpected error in clearHive: $e");
-//   }
-// }
-
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
-  Cachedatasource cachedatasource;
+  CachedatasourceBulletin cachedatasource;
   final LoginUseCase loginUseCase;
   final GetUserUsecase getUserUsecase;
   final LogOutUseCase logoutUseCase;

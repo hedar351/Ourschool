@@ -91,37 +91,14 @@ class BulletinBloc extends Bloc<BulletinEvent, BulletinState> {
     );
   }
 
-  // FutureOr<void> _onGetAll(
-  //   GetBulletinsEvent event,
-  //   Emitter<BulletinState> emit,
-  // ) async {
-  //   final cachedEither = await getbulletinsUseCase();
-  //   cachedEither.fold(
-  //     (ifLeft) async {
-  //       emit(BulletinLoading());
-  //       final networkEither = await bulletinRepo.getBulletins();
-  //       networkEither.fold(
-  //         (ifLeft) => emit(BulletinError(message: mapFailureToMessage(ifLeft))),
-  //         (ifRight) =>
-  //             emit(BulletinLoaded(bulletins: ifRight, isRevalidating: false)),
-  //       );
-  //     },
-  //     (ifRight) async {
-  //       emit(BulletinLoaded(bulletins: ifRight, isRevalidating: true));
-  //     },
-  //   );
-  //   add(RevalidateBulletinsEvent());
-  // }
   FutureOr<void> _onUpdateCachedBulletins(
     UpdateCachedbulletinEvent event,
     Emitter<BulletinState> emit,
   ) {
-    // عند وصول تحديث من الكاش، نقوم بتحديث الحالة بالبيانات الجديدة
     if (state is BulletinLoaded) {
       final currentState = state as BulletinLoaded;
       emit(currentState.copyWith(bulletins: event.bulletins));
     } else {
-      // إذا لم تكن الحالة محملة، نبدأ بتحميلها
       emit(BulletinLoaded(bulletins: event.bulletins, isRevalidating: false));
     }
   }

@@ -6,15 +6,15 @@ import 'package:school/core/error/EXP.dart';
 import 'package:school/features/Auth/data/datasources/local_data_source.dart';
 import 'package:school/features/Counselor/data/Model/gradeandSectionModel/gradeModel.dart';
 
-abstract class Remotdatasource {
+abstract class RemotdatasourceGrade {
   Future<List<GradeModel>> getGardeAndSection();
 }
 
-class RemotedatasourceImp implements Remotdatasource {
+class RemotedatasourceImpGrade implements RemotdatasourceGrade {
   final http.Client client;
   final AuthLocalDataSource authLocalDataSource;
 
-  RemotedatasourceImp({
+  RemotedatasourceImpGrade({
     required this.client,
     required this.authLocalDataSource,
   });
@@ -27,7 +27,7 @@ class RemotedatasourceImp implements Remotdatasource {
       throw TokenNotFoundExp();
     }
     final response = await client.get(
-      Uri.parse("$baseUrl/sections"),
+      Uri.parse("$baseUrl/counselor/sections"),
       headers: {
         "Content-Type": "application/json",
         "Authorization": "Bearer $token",
@@ -37,10 +37,10 @@ class RemotedatasourceImp implements Remotdatasource {
     print("🟡 [Remote] Response body: ${response.body}");
 
     if (response.statusCode == 200) {
-      final Map<String, dynamic> decoded = json.decode(response.body);
+      final List<dynamic> decoded = json.decode(response.body);
 
-      final grade = GradeModel.fromJson(decoded);
-      return [grade];
+      final grades = decoded.map((e) => GradeModel.fromJson(e)).toList();
+      return grades;
     } else {
       throw ServerExp();
     }

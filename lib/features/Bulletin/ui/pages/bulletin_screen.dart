@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school/core/widget/Loadingwidget.dart';
+import 'package:school/core/widget/SnackBar/Message.dart';
 import 'package:school/features/Bulletin/ui/bloc/bulletin_bloc.dart';
 import 'package:school/features/Bulletin/ui/widget/ScaffoldWidget.dart';
 import 'package:school/generated/l10n.dart';
@@ -14,6 +15,7 @@ class BulletinScreen extends StatefulWidget {
 
 class _BulletinScreenState extends State<BulletinScreen>
     with AutomaticKeepAliveClientMixin, WidgetsBindingObserver {
+  late SnackBarMessage snackBarMessage;
   @override
   bool get wantKeepAlive => true;
 
@@ -23,7 +25,10 @@ class _BulletinScreenState extends State<BulletinScreen>
     return BlocConsumer<BulletinBloc, BulletinState>(
       listener: (context, state) {
         if (state is BulletinError) {
-          // يمكن عرض SnackBar هنا
+          snackBarMessage.errorMessage(
+            message: state.message,
+            context: context,
+          );
         }
       },
       builder: (context, state) {
@@ -45,12 +50,11 @@ class _BulletinScreenState extends State<BulletinScreen>
   }
 
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) {
-      _loadData();
-    }
-  }
-
+  // void didChangeAppLifecycleState(AppLifecycleState state) {
+  //   if (state == AppLifecycleState.resumed) {
+  //     _loadData();
+  //   }
+  // }
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);

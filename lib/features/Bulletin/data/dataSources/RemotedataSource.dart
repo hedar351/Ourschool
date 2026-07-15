@@ -6,15 +6,15 @@ import 'package:school/core/error/EXP.dart';
 import 'package:school/features/Auth/data/datasources/local_data_source.dart';
 import 'package:school/features/Bulletin/data/model/BulletinModel.dart';
 
-abstract class RemotedataSource {
+abstract class RemotedataSourceBulletin {
   Future<List<Bulletinmodel>> getBulletins();
 }
 
-class RemoteDataSourceImp implements RemotedataSource {
+class RemoteDataSourceImpBulletin implements RemotedataSourceBulletin {
   final http.Client client;
   final AuthLocalDataSource authLocalDataSource;
 
-  RemoteDataSourceImp({
+  RemoteDataSourceImpBulletin({
     required this.client,
     required this.authLocalDataSource,
   });

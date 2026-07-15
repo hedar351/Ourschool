@@ -3,17 +3,17 @@ import 'package:hive/hive.dart';
 import 'package:school/core/error/EXP.dart';
 import 'package:school/features/Counselor/data/Model/gradeandSectionModel/gradeModel.dart';
 
-abstract class Cachedatasource {
+abstract class CachedatasourceGrade {
   Future<Unit> cachegrades(List<GradeModel> grade);
   Future<Unit> deletegrades();
   Future<List<GradeModel>> getCachedgrades();
   Stream<List<GradeModel>> watchCachedgrades();
 }
 
-class CachedatasourceImp extends Cachedatasource {
+class CachedatasourceImpGrade extends CachedatasourceGrade {
   final Box<GradeModel> boxGrade;
 
-  CachedatasourceImp({required this.boxGrade});
+  CachedatasourceImpGrade({required this.boxGrade});
 
   @override
   Future<Unit> cachegrades(List<GradeModel> grade) async {

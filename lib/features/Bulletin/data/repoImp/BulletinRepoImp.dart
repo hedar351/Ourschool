@@ -8,8 +8,8 @@ import 'package:school/features/Bulletin/domain/Entities/BulletinEntity.dart';
 import 'package:school/features/Bulletin/domain/Repo/Bulletin_repo.dart';
 
 class Bulletinrepoimp implements BulletinRepo {
-  final RemotedataSource remote;
-  final Cachedatasource cache;
+  final RemotedataSourceBulletin remote;
+  final CachedatasourceBulletin cache;
   final NetworkInfo networkInfo;
 
   Bulletinrepoimp({

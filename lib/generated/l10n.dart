@@ -373,6 +373,21 @@ class S {
       args: [],
     );
   }
+
+  /// `Sections`
+  String get Sections {
+    return Intl.message('Sections', name: 'Sections', desc: '', args: []);
+  }
+
+  /// `There_are_no_sections_at_the_moment`
+  String get There_are_no_sections_at_the_moment {
+    return Intl.message(
+      'There_are_no_sections_at_the_moment',
+      name: 'There_are_no_sections_at_the_moment',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -37,6 +37,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "Pull_down_to_refresh": MessageLookupByLibrary.simpleMessage(
       "Pull down to refresh.",
     ),
+    "Sections": MessageLookupByLibrary.simpleMessage("Sections"),
     "Settings": MessageLookupByLibrary.simpleMessage("Settings"),
     "Students": MessageLookupByLibrary.simpleMessage("Students"),
     "Theme": MessageLookupByLibrary.simpleMessage("Theme"),
@@ -48,6 +49,9 @@ class MessageLookup extends MessageLookupByLibrary {
         MessageLookupByLibrary.simpleMessage(
           "There are no bulletins at the moment",
         ),
+    "There_are_no_sections_at_the_moment": MessageLookupByLibrary.simpleMessage(
+      "There_are_no_sections_at_the_moment",
+    ),
     "Unavailable": MessageLookupByLibrary.simpleMessage("Unavailable"),
     "Username": MessageLookupByLibrary.simpleMessage(
       "Please enter your username",

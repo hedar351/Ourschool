@@ -15,6 +15,14 @@ import 'package:school/features/Bulletin/data/repoImp/BulletinRepoImp.dart';
 import 'package:school/features/Bulletin/domain/Repo/Bulletin_repo.dart';
 import 'package:school/features/Bulletin/domain/Usecases/GetbulletinsUseCase.dart';
 import 'package:school/features/Bulletin/ui/bloc/bulletin_bloc.dart';
+import 'package:school/features/Counselor/UI/bloc/grade_bloc.dart';
+import 'package:school/features/Counselor/data/DataSources/cachedatasource.dart';
+import 'package:school/features/Counselor/data/DataSources/remotdatasource.dart';
+import 'package:school/features/Counselor/data/Model/gradeandSectionModel/gradeModel.dart';
+import 'package:school/features/Counselor/data/Model/gradeandSectionModel/sectionModel.dart';
+import 'package:school/features/Counselor/data/RepoImp/Counselor_Repo_Imp.dart';
+import 'package:school/features/Counselor/domain/Repo/CounselorRepo.dart';
+import 'package:school/features/Counselor/domain/UseCases/GradeAndSectionUseCase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../features/Auth/data/datasources/remote_data_source.dart';
@@ -26,10 +34,38 @@ final sl = GetIt.instance;
 Future<void> init() async {
   await Hive.initFlutter();
   print('✅ Hive initialized');
+
   Hive.registerAdapter(AnnouncementActivityModelAdapter());
   Hive.registerAdapter(BulletinmodelAdapter());
+  Hive.registerAdapter(GradeModelAdapter());
+  Hive.registerAdapter(SectionModelAdapter());
   final bulletinbox = await Hive.openBox<Bulletinmodel>('bulletinBox');
+
+  // await Hive.deleteBoxFromDisk('gradebox');
+
+  final gradebox = await Hive.openBox<GradeModel>('gradebox');
+
   print('✅ Hive box opened: postsCache');
+  //!features Counselor
+  // Bloc
+
+  sl.registerFactory(
+    () => GradeBloc(counselorRepo: sl(), gradeAndSectionUseCase: sl()),
+  );
+  // UseCases
+  sl.registerLazySingleton(() => GradeAndSectionUseCase(repository: sl()));
+  // Repo
+
+  sl.registerLazySingleton<CounselorRepo>(
+    () => CounselorRepoImp(networkInfo: sl(), remote: sl(), cache: sl()),
+  );
+
+  sl.registerLazySingleton<RemotdatasourceGrade>(
+    () => RemotedatasourceImpGrade(client: sl(), authLocalDataSource: sl()),
+  );
+  sl.registerLazySingleton<CachedatasourceGrade>(
+    () => CachedatasourceImpGrade(boxGrade: gradebox),
+  );
   //!features Bulletin
   // Bloc
 
@@ -44,11 +80,11 @@ Future<void> init() async {
   );
 
   // DataSources
-  sl.registerLazySingleton<RemotedataSource>(
-    () => RemoteDataSourceImp(client: sl(), authLocalDataSource: sl()),
+  sl.registerLazySingleton<RemotedataSourceBulletin>(
+    () => RemoteDataSourceImpBulletin(client: sl(), authLocalDataSource: sl()),
   );
-  sl.registerLazySingleton<Cachedatasource>(
-    () => CacheDataSourceImp(box: bulletinbox),
+  sl.registerLazySingleton<CachedatasourceBulletin>(
+    () => CacheDataSourceImpBulletin(box: bulletinbox),
   );
 
   //!featuresAuth

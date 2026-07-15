@@ -11,6 +11,16 @@ class SectionModelAdapter extends TypeAdapter<SectionModel> {
   final int typeId = 3;
 
   @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is SectionModelAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
+
+  @override
   SectionModel read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
@@ -18,7 +28,7 @@ class SectionModelAdapter extends TypeAdapter<SectionModel> {
     };
     return SectionModel(
       id: fields[0] as int?,
-      nameSection: fields[1] as String?,
+      name: fields[1] as String?,
       localSectionNumber: fields[2] as int?,
     );
   }
@@ -30,18 +40,8 @@ class SectionModelAdapter extends TypeAdapter<SectionModel> {
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.nameSection)
+      ..write(obj.name)
       ..writeByte(2)
       ..write(obj.localSectionNumber);
   }
-
-  @override
-  int get hashCode => typeId.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is SectionModelAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
 }

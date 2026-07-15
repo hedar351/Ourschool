@@ -3,17 +3,17 @@ import 'package:hive/hive.dart';
 import 'package:school/core/error/EXP.dart';
 import 'package:school/features/Bulletin/data/model/BulletinModel.dart';
 
-abstract class Cachedatasource {
+abstract class CachedatasourceBulletin {
   Future<Unit> cacheBulletins(List<Bulletinmodel> bulletins);
   Future<Unit> deleteBulletins();
   Future<List<Bulletinmodel>> getCachedBulletins();
   Stream<List<Bulletinmodel>> watchCachedBulletins();
 }
 
-class CacheDataSourceImp implements Cachedatasource {
+class CacheDataSourceImpBulletin implements CachedatasourceBulletin {
   final Box<Bulletinmodel> box;
 
-  CacheDataSourceImp({required this.box});
+  CacheDataSourceImpBulletin({required this.box});
 
   @override
   Future<Unit> cacheBulletins(List<Bulletinmodel> bulletins) async {

@@ -8,8 +8,8 @@ import 'package:school/features/Counselor/domain/Entities/gradeandSectionEntity/
 import 'package:school/features/Counselor/domain/Repo/CounselorRepo.dart';
 
 class CounselorRepoImp implements CounselorRepo {
-  final Remotdatasource remote;
-  final Cachedatasource cache;
+  final RemotdatasourceGrade remote;
+  final CachedatasourceGrade cache;
   final NetworkInfo networkInfo;
 
   CounselorRepoImp({
@@ -51,6 +51,8 @@ class CounselorRepoImp implements CounselorRepo {
       await cache.cachegrades(remoted);
       return Right(remoted.map((e) => e.toEntity()).toList());
     } catch (e) {
+      print("❌ Error in _fetchFromNetworkAndCache: $e");
+
       return Left(ServerFailure());
     }
   }

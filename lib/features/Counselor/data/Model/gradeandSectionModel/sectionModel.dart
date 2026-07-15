@@ -8,16 +8,16 @@ class SectionModel extends HiveObject {
   @HiveField(0)
   final int? id;
   @HiveField(1)
-  final String? nameSection;
+  final String? name;
   @HiveField(2)
   final int? localSectionNumber;
 
-  SectionModel({this.id, this.nameSection, this.localSectionNumber});
+  SectionModel({this.id, this.name, this.localSectionNumber});
 
   factory SectionModel.fromEntity(Sectionentity entity) {
     return SectionModel(
       id: entity.id,
-      nameSection: entity.nameSection,
+      name: entity.name,
       localSectionNumber: entity.localSectionNumber,
     );
   }
@@ -25,7 +25,7 @@ class SectionModel extends HiveObject {
   factory SectionModel.fromJson(Map<String, dynamic> json) {
     return SectionModel(
       id: json['id'],
-      nameSection: json['nameSection'],
+      name: json['name'],
       localSectionNumber: json['localSectionNumber'],
     );
   }
@@ -34,15 +34,11 @@ class SectionModel extends HiveObject {
     return Sectionentity(
       id: id,
       localSectionNumber: localSectionNumber,
-      nameSection: nameSection,
+      name: name,
     );
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'localSectionNumber': localSectionNumber,
-      'nameSection': nameSection,
-    };
+    return {'id': id, 'localSectionNumber': localSectionNumber, 'name': name};
   }
 }
