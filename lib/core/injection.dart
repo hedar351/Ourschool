@@ -15,14 +15,20 @@ import 'package:school/features/Bulletin/data/repoImp/BulletinRepoImp.dart';
 import 'package:school/features/Bulletin/domain/Repo/Bulletin_repo.dart';
 import 'package:school/features/Bulletin/domain/Usecases/GetbulletinsUseCase.dart';
 import 'package:school/features/Bulletin/ui/bloc/bulletin_bloc.dart';
-import 'package:school/features/Counselor/UI/bloc/grade_bloc.dart';
-import 'package:school/features/Counselor/data/DataSources/cachedatasource.dart';
-import 'package:school/features/Counselor/data/DataSources/remotdatasource.dart';
+import 'package:school/features/Counselor/UI/bloc/GradeBloc/grade_bloc.dart';
+import 'package:school/features/Counselor/UI/bloc/StudentListBLoc/student_list_bloc.dart';
+import 'package:school/features/Counselor/data/DataSources/Grade/cachedatasource.dart';
+import 'package:school/features/Counselor/data/DataSources/Grade/remotdatasource.dart';
+import 'package:school/features/Counselor/data/DataSources/StudentList/Cachedatasource.dart';
+import 'package:school/features/Counselor/data/DataSources/StudentList/RemotedataSource.dart';
+import 'package:school/features/Counselor/data/Model/StudentsBySectionModel/StudentsBySectionModel.dart';
+import 'package:school/features/Counselor/data/Model/StudentsBySectionModel/studentModel.dart';
 import 'package:school/features/Counselor/data/Model/gradeandSectionModel/gradeModel.dart';
 import 'package:school/features/Counselor/data/Model/gradeandSectionModel/sectionModel.dart';
 import 'package:school/features/Counselor/data/RepoImp/Counselor_Repo_Imp.dart';
 import 'package:school/features/Counselor/domain/Repo/CounselorRepo.dart';
 import 'package:school/features/Counselor/domain/UseCases/GradeAndSectionUseCase.dart';
+import 'package:school/features/Counselor/domain/UseCases/StudentBySectionUseCase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../features/Auth/data/datasources/remote_data_source.dart';
@@ -39,11 +45,13 @@ Future<void> init() async {
   Hive.registerAdapter(BulletinmodelAdapter());
   Hive.registerAdapter(GradeModelAdapter());
   Hive.registerAdapter(SectionModelAdapter());
+  Hive.registerAdapter(StudentmodelAdapter());
+  Hive.registerAdapter(StudentsbysectionmodelAdapter());
   final bulletinbox = await Hive.openBox<Bulletinmodel>('bulletinBox');
-
-  // await Hive.deleteBoxFromDisk('gradebox');
-
   final gradebox = await Hive.openBox<GradeModel>('gradebox');
+  final studentsBySectionBox = await Hive.openBox<Studentsbysectionmodel>(
+    'studentsBySectionBox',
+  );
 
   print('✅ Hive box opened: postsCache');
   //!features Counselor
@@ -57,7 +65,13 @@ Future<void> init() async {
   // Repo
 
   sl.registerLazySingleton<CounselorRepo>(
-    () => CounselorRepoImp(networkInfo: sl(), remote: sl(), cache: sl()),
+    () => CounselorRepoImp(
+      networkInfo: sl(),
+      remote: sl(),
+      cache: sl(),
+      remotedatasourceStudentList: sl(),
+      cachedatasourceStudentList: sl(),
+    ),
   );
 
   sl.registerLazySingleton<RemotdatasourceGrade>(
@@ -65,6 +79,28 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<CachedatasourceGrade>(
     () => CachedatasourceImpGrade(boxGrade: gradebox),
+  );
+
+  // ==============================
+  // 🧑‍🎓 Students feature
+  // ==============================
+
+  // Bloc
+  sl.registerFactory(
+    () => StudentsBloc(studentBySectionUseCase: sl(), counselorRepo: sl()),
+  );
+
+  // UseCase
+  sl.registerLazySingleton(() => StudentBySectionUseCase(repository: sl()));
+
+  // DataSources
+  sl.registerLazySingleton<RemotedatasourceStudentList>(
+    () =>
+        RemotedatasourceStudentListImp(client: sl(), authLocalDataSource: sl()),
+  );
+
+  sl.registerLazySingleton<CachedatasourceStudentList>(
+    () => CachedatasourceStudentListImp(box: studentsBySectionBox),
   );
   //!features Bulletin
   // Bloc
@@ -95,6 +131,8 @@ Future<void> init() async {
       loginUseCase: sl(),
       logoutUseCase: sl(),
       cachedatasource: sl(),
+      cachedatasourceGrade: sl(),
+      cachedatasourceStudentList: sl(),
     ),
   );
 

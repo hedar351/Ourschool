@@ -9,11 +9,17 @@ abstract class CounselorRepo {
 
   Future<Either<Failures, List<Gradeentity>>> getGradeAndSectionWithCache();
 
-  Future<Either<Failures, StudentsBySectionEntity>> getStudentsBySection();
+  Future<Either<Failures, StudentsBySectionEntity>> getStudentsBySection(
+    int localGradeNumber,
+    int localSectionNumber,
+  );
 
   Future<Either<Failures, StudentsBySectionEntity>>
-  getStudentsBySectionWithCache();
+  getStudentsBySectionWithCache(int localGradeNumber, int localSectionNumber);
 
   Stream<List<Gradeentity>> watchCachedgetGradeAndSection();
-  Stream<StudentsBySectionEntity> watchCachedgetStudentsBySection();
+  Stream<StudentsBySectionEntity> watchCachedgetStudentsBySection(
+    int localGradeNumber,
+    int localSectionNumber,
+  );
 }

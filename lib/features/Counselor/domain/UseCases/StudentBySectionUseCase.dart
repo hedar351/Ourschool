@@ -8,7 +8,13 @@ class StudentBySectionUseCase {
 
   StudentBySectionUseCase({required this.repository});
 
-  Future<Either<Failures, StudentsBySectionEntity>> call() async {
-    return await repository.getStudentsBySection();
+  Future<Either<Failures, StudentsBySectionEntity>> call(
+    int localGradeNumber,
+    int localSectionNumber,
+  ) async {
+    return await repository.getStudentsBySection(
+      localGradeNumber,
+      localSectionNumber,
+    );
   }
 }

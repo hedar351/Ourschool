@@ -38,18 +38,6 @@ class GradeBloc extends Bloc<GradeEvent, GradeState> {
     add(WatchCachedGradeEvent());
   }
 
-  // FutureOr<void> _refresh(
-  //   RefreshGradeEvent event,
-  //   Emitter<GradeState> emit,
-  // ) async {
-  //   emit(GradeLoading());
-  //   final either = await counselorRepo.getGradeAndSectionWithCache();
-  //   either.fold(
-  //     (ifLeft) => emit(GradeError(message: mapFailureToMessage(ifLeft))),
-  //     (ifRight) => emit(GradeLoaded(grade: ifRight, isRevalidating: false)),
-  //   );
-  // }
-
   FutureOr<void> _refresh(
     RefreshGradeEvent event,
     Emitter<GradeState> emit,

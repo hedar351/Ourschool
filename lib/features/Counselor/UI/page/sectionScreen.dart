@@ -32,19 +32,19 @@ class Sectionscreen extends StatelessWidget {
               child: InkWell(
                 borderRadius: BorderRadius.circular(20),
                 onTap: () {
-                  // مثال:
+                  print("localGradeNumber: ${grade.localGradeNumber}");
+                  print("localSectionNumber: ${section.localSectionNumber}");
+
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (_) => CounselorStudentsScreen(
-                        // className: ,
-                        // divisionName: section.nameSection ?? 'شعبة',
+                        sectionName: section.name ?? "",
+                        localGradeNumber: grade.localGradeNumber ?? 0,
+                        localSectionNumber: section.localSectionNumber ?? 0,
                       ),
                     ),
                   );
-                  // ScaffoldMessenger.of(context).showSnackBar(
-                  //   SnackBar(content: Text('انتقال إلى طلاب ${section.name}')),
-                  // );
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(16),

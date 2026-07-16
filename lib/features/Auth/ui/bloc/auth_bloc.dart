@@ -4,6 +4,8 @@ import 'package:equatable/equatable.dart';
 import 'package:school/core/const.dart';
 import 'package:school/features/Auth/domain/entities/auth_entities.dart';
 import 'package:school/features/Bulletin/data/dataSources/cachedataSource.dart';
+import 'package:school/features/Counselor/data/DataSources/Grade/cachedatasource.dart';
+import 'package:school/features/Counselor/data/DataSources/StudentList/Cachedatasource.dart';
 
 import '../../domain/useCases/Log_out_UseCase.dart';
 import '../../domain/useCases/LoginUseCase.dart';
@@ -17,8 +19,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final LoginUseCase loginUseCase;
   final GetUserUsecase getUserUsecase;
   final LogOutUseCase logoutUseCase;
+  CachedatasourceGrade cachedatasourceGrade;
+  CachedatasourceStudentList cachedatasourceStudentList;
   AuthBloc({
     required this.cachedatasource,
+    required this.cachedatasourceStudentList,
+    required this.cachedatasourceGrade,
     required this.loginUseCase,
     required this.getUserUsecase,
     required this.logoutUseCase,
@@ -69,7 +75,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(AuthLoading());
 
     await cachedatasource.deleteBulletins();
-    // await clearHive();
+    await cachedatasourceGrade.deletegrades();
+    await cachedatasourceStudentList.deleteStudentsBySection();
 
     final result = await logoutUseCase();
     print("🟡 [Bloc] Usecase result: $result");

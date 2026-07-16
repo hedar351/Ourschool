@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school/core/injection.dart' as di;
 import 'package:school/core/widget/Loadingwidget.dart';
-import 'package:school/features/Counselor/UI/bloc/grade_bloc.dart';
+import 'package:school/features/Counselor/UI/bloc/GradeBloc/grade_bloc.dart';
 import 'package:school/features/Counselor/UI/widget/GradesGrid.dart';
 import 'package:school/generated/l10n.dart';
 
