@@ -35,18 +35,58 @@ class GradeBloc extends Bloc<GradeEvent, GradeState> {
     either.fold((ifLeft) {
       emit(GradeError(message: mapFailureToMessage(ifLeft)));
     }, (ifRight) => emit(GradeLoaded(grade: ifRight, isRevalidating: false)));
+    add(WatchCachedGradeEvent());
   }
+
+  // FutureOr<void> _refresh(
+  //   RefreshGradeEvent event,
+  //   Emitter<GradeState> emit,
+  // ) async {
+  //   emit(GradeLoading());
+  //   final either = await counselorRepo.getGradeAndSectionWithCache();
+  //   either.fold(
+  //     (ifLeft) => emit(GradeError(message: mapFailureToMessage(ifLeft))),
+  //     (ifRight) => emit(GradeLoaded(grade: ifRight, isRevalidating: false)),
+  //   );
+  // }
 
   FutureOr<void> _refresh(
     RefreshGradeEvent event,
     Emitter<GradeState> emit,
   ) async {
-    emit(GradeLoading());
-    final either = await counselorRepo.getGradeAndSectionWithCache();
-    either.fold(
-      (ifLeft) => emit(GradeError(message: mapFailureToMessage(ifLeft))),
-      (ifRight) => emit(GradeLoaded(grade: ifRight, isRevalidating: false)),
-    );
+    if (state is GradeLoaded) {
+      final currentState = state as GradeLoaded;
+      emit(currentState.copyWith(isRevalidating: true));
+
+      final either = await counselorRepo.getGradeAndSectionWithCache();
+      either.fold(
+        (failure) {
+          emit(
+            currentState.copyWith(
+              isRevalidating: false,
+              errorMessage: mapFailureToMessage(failure),
+            ),
+          );
+        },
+        (newGrades) {
+          emit(
+            currentState.copyWith(
+              grade: newGrades,
+              isRevalidating: false,
+              errorMessage: null,
+            ),
+          );
+        },
+      );
+    } else {
+      emit(GradeLoading());
+      final either = await counselorRepo.getGradeAndSectionWithCache();
+      either.fold(
+        (failure) => emit(GradeError(message: mapFailureToMessage(failure))),
+        (newGrades) =>
+            emit(GradeLoaded(grade: newGrades, isRevalidating: false)),
+      );
+    }
   }
 
   FutureOr<void> _revalidateGrade(

@@ -11,16 +11,6 @@ class GradeModelAdapter extends TypeAdapter<GradeModel> {
   final int typeId = 2;
 
   @override
-  int get hashCode => typeId.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is GradeModelAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
-
-  @override
   GradeModel read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
@@ -50,4 +40,14 @@ class GradeModelAdapter extends TypeAdapter<GradeModel> {
       ..writeByte(4)
       ..write(obj.message);
   }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is GradeModelAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }

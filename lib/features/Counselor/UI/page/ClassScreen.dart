@@ -102,8 +102,35 @@ class _ClassScreenState extends State<ClassScreen>
     );
   }
 
+  // Widget _buildLoadedState(BuildContext context, GradeLoaded state) {
+  //   return GradesGrid(grade: state.grade, onRefresh: () => _onRefresh(context));
+  // }
+
   Widget _buildLoadedState(BuildContext context, GradeLoaded state) {
-    return GradesGrid(grade: state.grade, onRefresh: () => _onRefresh(context));
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        body: Stack(
+          children: [
+            GradesGrid(
+              grade: state.grade,
+              onRefresh: () => _onRefresh(context),
+            ),
+            if (state.isRevalidating)
+              const Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                child: LinearProgressIndicator(
+                  backgroundColor: Colors.transparent,
+                  color: Colors.blue,
+                  minHeight: 3,
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
   }
 
   Future<void> _onRefresh(BuildContext context) async {

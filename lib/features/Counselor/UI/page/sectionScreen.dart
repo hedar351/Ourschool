@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:school/features/Counselor/UI/page/CounselorStudentsScreen.dart';
 import 'package:school/features/Counselor/domain/Entities/gradeandSectionEntity/gradeEntity.dart';
 
 // import 'package:school/features/Counselor/UI/page/StudentsListScreen.dart';
@@ -32,19 +33,18 @@ class Sectionscreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
                 onTap: () {
                   // مثال:
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (_) => StudentsListScreen(
-                  //       className: 'اسم الصف', // يمكن تمريره من الخارج
-                  //       divisionName: section.nameSection ?? 'شعبة',
-                  //       students: [], // يجب جلب الطلاب من الـ API
-                  //     ),
-                  //   ),
-                  // );
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('انتقال إلى طلاب ${section.name}')),
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => CounselorStudentsScreen(
+                        // className: ,
+                        // divisionName: section.nameSection ?? 'شعبة',
+                      ),
+                    ),
                   );
+                  // ScaffoldMessenger.of(context).showSnackBar(
+                  //   SnackBar(content: Text('انتقال إلى طلاب ${section.name}')),
+                  // );
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(16),

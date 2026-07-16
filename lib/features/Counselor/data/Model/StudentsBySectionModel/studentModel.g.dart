@@ -1,38 +1,44 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'sectionModel.dart';
+part of 'studentModel.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class SectionModelAdapter extends TypeAdapter<SectionModel> {
+class StudentmodelAdapter extends TypeAdapter<Studentmodel> {
   @override
-  final int typeId = 3;
+  final int typeId = 4;
 
   @override
-  SectionModel read(BinaryReader reader) {
+  Studentmodel read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return SectionModel(
+    return Studentmodel(
       id: fields[0] as int?,
-      name: fields[1] as String?,
-      localSectionNumber: fields[2] as int?,
+      localStudentNumber: fields[1] as int?,
+      name: fields[2] as String?,
+      guardianName: fields[3] as String?,
+      guardianPhone: fields[4] as String?,
     );
   }
 
   @override
-  void write(BinaryWriter writer, SectionModel obj) {
+  void write(BinaryWriter writer, Studentmodel obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
-      ..write(obj.name)
+      ..write(obj.localStudentNumber)
       ..writeByte(2)
-      ..write(obj.localSectionNumber);
+      ..write(obj.name)
+      ..writeByte(3)
+      ..write(obj.guardianName)
+      ..writeByte(4)
+      ..write(obj.guardianPhone);
   }
 
   @override
@@ -41,7 +47,7 @@ class SectionModelAdapter extends TypeAdapter<SectionModel> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is SectionModelAdapter &&
+      other is StudentmodelAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

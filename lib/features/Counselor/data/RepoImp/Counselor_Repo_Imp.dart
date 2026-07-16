@@ -4,6 +4,7 @@ import 'package:school/core/error/failures.dart';
 import 'package:school/core/network.dart';
 import 'package:school/features/Counselor/data/DataSources/cachedatasource.dart';
 import 'package:school/features/Counselor/data/DataSources/remotdatasource.dart';
+import 'package:school/features/Counselor/domain/Entities/StudentsBySectionEntity/StudentsBySectionEntity.dart';
 import 'package:school/features/Counselor/domain/Entities/gradeandSectionEntity/gradeEntity.dart';
 import 'package:school/features/Counselor/domain/Repo/CounselorRepo.dart';
 
@@ -38,10 +39,26 @@ class CounselorRepoImp implements CounselorRepo {
   }
 
   @override
+  Future<Either<Failures, StudentsBySectionEntity>> getStudentsBySection() {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<Failures, StudentsBySectionEntity>>
+  getStudentsBySectionWithCache() {
+    throw UnimplementedError();
+  }
+
+  @override
   Stream<List<Gradeentity>> watchCachedgetGradeAndSection() {
     return cache.watchCachedgrades().map(
       (models) => models.map((e) => e.toEntity()).toList(),
     );
+  }
+
+  @override
+  Stream<StudentsBySectionEntity> watchCachedgetStudentsBySection() {
+    throw UnimplementedError();
   }
 
   Future<Either<Failures, List<Gradeentity>>>
@@ -56,4 +73,17 @@ class CounselorRepoImp implements CounselorRepo {
       return Left(ServerFailure());
     }
   }
+
+  // Future<Either<Failures, StudentsBySectionEntity>>
+  // _fetchFromNetworkAndCacheStudentsBySection() async {
+  //   try {
+  //     final remoted = await remote.getGardeAndSection();
+  //     await cache.cachegrades(remoted);
+  //     return Right(remoted.map((e) => e.toEntity()).toList());
+  //   } catch (e) {
+  //     print("❌ Error in _fetchFromNetworkAndCache: $e");
+
+  //     return Left(ServerFailure());
+  //   }
+  // }
 }
