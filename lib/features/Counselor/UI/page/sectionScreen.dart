@@ -34,7 +34,6 @@ class Sectionscreen extends StatelessWidget {
                 onTap: () {
                   print("localGradeNumber: ${grade.localGradeNumber}");
                   print("localSectionNumber: ${section.localSectionNumber}");
-
                   Navigator.push(
                     context,
                     MaterialPageRoute(

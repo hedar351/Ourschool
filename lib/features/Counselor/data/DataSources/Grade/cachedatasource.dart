@@ -10,7 +10,7 @@ abstract class CachedatasourceGrade {
   Stream<List<GradeModel>> watchCachedgrades();
 }
 
-class CachedatasourceImpGrade extends CachedatasourceGrade {
+class CachedatasourceImpGrade implements CachedatasourceGrade {
   final Box<GradeModel> boxGrade;
 
   CachedatasourceImpGrade({required this.boxGrade});

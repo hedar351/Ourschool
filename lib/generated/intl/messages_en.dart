@@ -62,19 +62,32 @@ class MessageLookup extends MessageLookupByLibrary {
     "browse_school": MessageLookupByLibrary.simpleMessage(
       "Browse school information",
     ),
+    "close": MessageLookupByLibrary.simpleMessage("Close"),
+    "date": MessageLookupByLibrary.simpleMessage("Date"),
+    "date_unknown": MessageLookupByLibrary.simpleMessage("Unknown date"),
     "empty_cache_failure": MessageLookupByLibrary.simpleMessage(
       "No cached user found",
     ),
     "explore_without_login": MessageLookupByLibrary.simpleMessage(
       "Browse school information",
     ),
+    "final_exam": MessageLookupByLibrary.simpleMessage("Final"),
+    "final_grade": MessageLookupByLibrary.simpleMessage("final grade"),
+    "guardianName": MessageLookupByLibrary.simpleMessage("guardian Name:"),
+    "homework": MessageLookupByLibrary.simpleMessage("Homework"),
     "login": MessageLookupByLibrary.simpleMessage("Login"),
     "login_success": MessageLookupByLibrary.simpleMessage("Login successful"),
+    "marks_title": MessageLookupByLibrary.simpleMessage(" Marks"),
+    "not_specified": MessageLookupByLibrary.simpleMessage("Not specified"),
     "offline_failure": MessageLookupByLibrary.simpleMessage(
       "No internet connection",
     ),
     "or_explore": MessageLookupByLibrary.simpleMessage("Or explore our school"),
+    "oral": MessageLookupByLibrary.simpleMessage("Oral"),
+    "oral_2": MessageLookupByLibrary.simpleMessage("Oral 2"),
     "password": MessageLookupByLibrary.simpleMessage("Password"),
+    "phone": MessageLookupByLibrary.simpleMessage("Phone"),
+    "reason": MessageLookupByLibrary.simpleMessage("Reason"),
     "remember_me": MessageLookupByLibrary.simpleMessage("Remember me"),
     "school_description": MessageLookupByLibrary.simpleMessage(
       "An integrated educational environment that aims to develop skills and build the student\'s personality in an atmosphere of values, respect, and excellence.",
@@ -82,21 +95,33 @@ class MessageLookup extends MessageLookupByLibrary {
     "school_management_system": MessageLookupByLibrary.simpleMessage(
       "School Management System",
     ),
+    "semester": MessageLookupByLibrary.simpleMessage("semester"),
+    "semester_1": MessageLookupByLibrary.simpleMessage("First Semester"),
+    "semester_2": MessageLookupByLibrary.simpleMessage("Second Semester"),
     "server_failure": MessageLookupByLibrary.simpleMessage(
       "Server error, please try again later",
     ),
     "sign_in_continue": MessageLookupByLibrary.simpleMessage(
       "Sign in to continue",
     ),
+    "subject": MessageLookupByLibrary.simpleMessage("Subject"),
+    "subjects_title": MessageLookupByLibrary.simpleMessage(" Subjects"),
+    "teacher_prefix": MessageLookupByLibrary.simpleMessage("Mr./Ms."),
     "title": MessageLookupByLibrary.simpleMessage("Our School"),
+    "type": MessageLookupByLibrary.simpleMessage("Type"),
+    "type_general": MessageLookupByLibrary.simpleMessage("General"),
     "unexpected_error": MessageLookupByLibrary.simpleMessage(
       "Unexpected error, please try again later",
     ),
+    "unknown_name": MessageLookupByLibrary.simpleMessage("Unknown"),
     "username": MessageLookupByLibrary.simpleMessage("Username"),
     "viewAll": MessageLookupByLibrary.simpleMessage("View All"),
     "want_to_logout": MessageLookupByLibrary.simpleMessage(
       "Are you sure you want to logout?",
     ),
+    "warning": MessageLookupByLibrary.simpleMessage("Warning"),
+    "warning_details": MessageLookupByLibrary.simpleMessage("Warning Details"),
+    "warnings_title": MessageLookupByLibrary.simpleMessage(" Warnings"),
     "we_build_leaders": MessageLookupByLibrary.simpleMessage(
       "We build leaders .. We inspire the future",
     ),

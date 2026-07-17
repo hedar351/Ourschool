@@ -6,6 +6,7 @@ import 'package:school/features/Auth/domain/entities/auth_entities.dart';
 import 'package:school/features/Bulletin/data/dataSources/cachedataSource.dart';
 import 'package:school/features/Counselor/data/DataSources/Grade/cachedatasource.dart';
 import 'package:school/features/Counselor/data/DataSources/StudentList/Cachedatasource.dart';
+import 'package:school/features/Counselor/data/DataSources/StudentProfile/cachDataStudentProfile.dart';
 
 import '../../domain/useCases/Log_out_UseCase.dart';
 import '../../domain/useCases/LoginUseCase.dart';
@@ -21,7 +22,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final LogOutUseCase logoutUseCase;
   CachedatasourceGrade cachedatasourceGrade;
   CachedatasourceStudentList cachedatasourceStudentList;
+  CacheDataStudentProfile cacheDataStudentProfile;
   AuthBloc({
+    required this.cacheDataStudentProfile,
     required this.cachedatasource,
     required this.cachedatasourceStudentList,
     required this.cachedatasourceGrade,
@@ -63,6 +66,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       event.password,
       event.rememberMe,
     );
+    // await cachedatasource.deleteBulletins();
+    await cachedatasourceGrade.deletegrades();
+    await cachedatasourceStudentList.deleteStudentsBySection();
+    await cacheDataStudentProfile.deleteStudentProfile();
+
     result.fold(
       (failure) => emit(AuthErorr(message: mapFailureToMessage(failure))),
       (user) => emit(AuthLoaded(user: user)),
@@ -77,6 +85,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     await cachedatasource.deleteBulletins();
     await cachedatasourceGrade.deletegrades();
     await cachedatasourceStudentList.deleteStudentsBySection();
+    await cacheDataStudentProfile.deleteStudentProfile();
 
     final result = await logoutUseCase();
     print("🟡 [Bloc] Usecase result: $result");

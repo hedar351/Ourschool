@@ -58,21 +58,34 @@ class MessageLookup extends MessageLookupByLibrary {
     "browse_school": MessageLookupByLibrary.simpleMessage(
       "تصفح معلومات المدرسة",
     ),
+    "close": MessageLookupByLibrary.simpleMessage("إغلاق"),
+    "date": MessageLookupByLibrary.simpleMessage("التاريخ"),
+    "date_unknown": MessageLookupByLibrary.simpleMessage("تاريخ غير محدد"),
     "empty_cache_failure": MessageLookupByLibrary.simpleMessage(
       "لا يوجد بيانات مخزنة",
     ),
     "explore_without_login": MessageLookupByLibrary.simpleMessage(
       "تصفح معلومات المدرسة",
     ),
+    "final_exam": MessageLookupByLibrary.simpleMessage("نهائي"),
+    "final_grade": MessageLookupByLibrary.simpleMessage("العلامة النهائية"),
+    "guardianName": MessageLookupByLibrary.simpleMessage("ولي الأمر:"),
+    "homework": MessageLookupByLibrary.simpleMessage("واجب"),
     "login": MessageLookupByLibrary.simpleMessage("دخول"),
     "login_success": MessageLookupByLibrary.simpleMessage(
       "تم تسجيل الدخول بنجاح",
     ),
+    "marks_title": MessageLookupByLibrary.simpleMessage(" العلامات"),
+    "not_specified": MessageLookupByLibrary.simpleMessage("غير محدد"),
     "offline_failure": MessageLookupByLibrary.simpleMessage(
       "لا يوجد اتصال بالإنترنت",
     ),
     "or_explore": MessageLookupByLibrary.simpleMessage("أو استكشف مدرستنا"),
+    "oral": MessageLookupByLibrary.simpleMessage("شفوي"),
+    "oral_2": MessageLookupByLibrary.simpleMessage("شفوي 2"),
     "password": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
+    "phone": MessageLookupByLibrary.simpleMessage("رقم الهاتف"),
+    "reason": MessageLookupByLibrary.simpleMessage("السبب"),
     "remember_me": MessageLookupByLibrary.simpleMessage("تذكرني"),
     "school_description": MessageLookupByLibrary.simpleMessage(
       "بيئة تعليمية متكاملة تهدف إلى تطوير المهارات وبناء شخصية الطالب في جو من القيم والاحترام والتميز.",
@@ -80,21 +93,33 @@ class MessageLookup extends MessageLookupByLibrary {
     "school_management_system": MessageLookupByLibrary.simpleMessage(
       "نظام إدارة المدارس",
     ),
+    "semester": MessageLookupByLibrary.simpleMessage("الفصل"),
+    "semester_1": MessageLookupByLibrary.simpleMessage("الفصل الأول"),
+    "semester_2": MessageLookupByLibrary.simpleMessage("الفصل الثاني"),
     "server_failure": MessageLookupByLibrary.simpleMessage(
       "خطأ في الخادم، حاول لاحقاً",
     ),
     "sign_in_continue": MessageLookupByLibrary.simpleMessage(
       "سجل الدخول للمتابعة",
     ),
+    "subject": MessageLookupByLibrary.simpleMessage("مادة"),
+    "subjects_title": MessageLookupByLibrary.simpleMessage(" المواد الدراسية"),
+    "teacher_prefix": MessageLookupByLibrary.simpleMessage("أ. "),
     "title": MessageLookupByLibrary.simpleMessage("مدرستنا"),
+    "type": MessageLookupByLibrary.simpleMessage("النوع"),
+    "type_general": MessageLookupByLibrary.simpleMessage("عام"),
     "unexpected_error": MessageLookupByLibrary.simpleMessage(
       "حدث خطأ غير متوقع، حاول لاحقاً",
     ),
+    "unknown_name": MessageLookupByLibrary.simpleMessage("غير معروف"),
     "username": MessageLookupByLibrary.simpleMessage("اسم المستخدم"),
     "viewAll": MessageLookupByLibrary.simpleMessage("عرض الكل"),
     "want_to_logout": MessageLookupByLibrary.simpleMessage(
       "هل أنت متأكد أنك تريد تسجيل الخروج؟",
     ),
+    "warning": MessageLookupByLibrary.simpleMessage("إنذار"),
+    "warning_details": MessageLookupByLibrary.simpleMessage("تفاصيل الإنذار"),
+    "warnings_title": MessageLookupByLibrary.simpleMessage(" الإنذارات"),
     "we_build_leaders": MessageLookupByLibrary.simpleMessage(
       "نحن نبني القادة .. ونلهم المستقبل",
     ),

@@ -6,7 +6,10 @@ import 'package:school/features/Counselor/data/DataSources/Grade/cachedatasource
 import 'package:school/features/Counselor/data/DataSources/Grade/remotdatasource.dart';
 import 'package:school/features/Counselor/data/DataSources/StudentList/Cachedatasource.dart';
 import 'package:school/features/Counselor/data/DataSources/StudentList/RemotedataSource.dart';
+import 'package:school/features/Counselor/data/DataSources/StudentProfile/RemoteDataStudentProfile.dart';
+import 'package:school/features/Counselor/data/DataSources/StudentProfile/cachDataStudentProfile.dart';
 import 'package:school/features/Counselor/domain/Entities/StudentsBySectionEntity/StudentsBySectionEntity.dart';
+import 'package:school/features/Counselor/domain/Entities/StudentsProfileEntity/Counselor_studentFullProfile.dart';
 import 'package:school/features/Counselor/domain/Entities/gradeandSectionEntity/gradeEntity.dart';
 import 'package:school/features/Counselor/domain/Repo/CounselorRepo.dart';
 
@@ -16,13 +19,40 @@ class CounselorRepoImp implements CounselorRepo {
   final NetworkInfo networkInfo;
   final RemotedatasourceStudentList remotedatasourceStudentList;
   final CachedatasourceStudentList cachedatasourceStudentList;
+  final RemoteDataStudentProfile remoteStudentProfile;
+  final CacheDataStudentProfile cacheStudentProfile;
   CounselorRepoImp({
     required this.remote,
     required this.cache,
     required this.networkInfo,
     required this.remotedatasourceStudentList,
     required this.cachedatasourceStudentList,
+    required this.remoteStudentProfile,
+    required this.cacheStudentProfile,
   });
+  @override
+  Future<Either<Failures, CounselorStudentfullprofile>>
+  getCounselorStudentfullProfile(int localStudentNumber) async {
+    try {
+      final cached = await cacheStudentProfile.getCachedStudentProfile(
+        localStudentNumber,
+      );
+      return Right(cached.toEntity());
+    } on EmptyCacheExp {
+      return await _fetchStudentProfileFromNetworkAndCache(localStudentNumber);
+    }
+  }
+
+  @override
+  Future<Either<Failures, CounselorStudentfullprofile>>
+  getCounselorStudentfullProfileWithCache(int localStudentNumber) async {
+    if (await networkInfo.isConnected) {
+      return await _fetchStudentProfileFromNetworkAndCache(localStudentNumber);
+    } else {
+      return Left(OfflineFailure());
+    }
+  }
+
   @override
   Future<Either<Failures, List<Gradeentity>>> getGradeAndSection() async {
     try {
@@ -77,6 +107,15 @@ class CounselorRepoImp implements CounselorRepo {
   }
 
   @override
+  Stream<CounselorStudentfullprofile> watchCachedgetCounselorStudentfullProfile(
+    int localStudentNumber,
+  ) {
+    return cacheStudentProfile
+        .watchCachedStudentProfile(localStudentNumber)
+        .map((model) => model.toEntity());
+  }
+
+  @override
   Stream<List<Gradeentity>> watchCachedgetGradeAndSection() {
     return cache.watchCachedgrades().map(
       (models) => models.map((e) => e.toEntity()).toList(),
@@ -119,6 +158,24 @@ class CounselorRepoImp implements CounselorRepo {
       await cachedatasourceStudentList.cacheStudentsBySection(remoted);
       return Right(remoted.toEntity());
     } catch (e) {
+      return Left(ServerFailure());
+    }
+  }
+
+  Future<Either<Failures, CounselorStudentfullprofile>>
+  _fetchStudentProfileFromNetworkAndCache(int localStudentNumber) async {
+    try {
+      final remoted = await remoteStudentProfile.getStudentProfile(
+        localStudentNumber,
+      );
+      print("🟢 [Repo] Remote model created: $remoted");
+      final entity = remoted.toEntity();
+      print("🟢 [Repo] Entity created: $entity");
+      await cacheStudentProfile.cacheStudentProfile(remoted);
+      return Right(entity);
+    } catch (e, stackTrace) {
+      print("🔴 [Repo] Error: $e");
+      print("🔴 [Repo] Stack trace: $stackTrace");
       return Left(ServerFailure());
     }
   }

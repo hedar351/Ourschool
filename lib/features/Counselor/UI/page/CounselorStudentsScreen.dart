@@ -5,6 +5,7 @@ import 'package:school/core/widget/Loadingwidget.dart';
 import 'package:school/features/Counselor/UI/bloc/StudentListBLoc/student_list_bloc.dart';
 import 'package:school/features/Counselor/UI/bloc/StudentListBLoc/student_list_event.dart';
 import 'package:school/features/Counselor/UI/bloc/StudentListBLoc/student_list_state.dart';
+import 'package:school/features/Counselor/UI/page/CounsolerStudentDetailScreen.dart';
 import 'package:school/features/Counselor/domain/Entities/StudentsBySectionEntity/studentEntity.dart';
 import 'package:school/generated/l10n.dart';
 
@@ -135,124 +136,139 @@ class _CounselorStudentsScreenState extends State<CounselorStudentsScreen>
     StudentsLoaded state,
     List<Studententity> students,
   ) {
-    return SafeArea(
-      child: SafeArea(
-        child: Scaffold(
-          appBar: AppBar(title: Text(widget.sectionName)),
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          body: Stack(
-            children: [
-              RefreshIndicator(
-                onRefresh: () async {
-                  context.read<StudentsBloc>().add(
-                    RefreshStudentsEvent(
-                      localGradeNumber: widget.localGradeNumber,
-                      localSectionNumber: widget.localSectionNumber,
-                    ),
-                  );
-                },
-                child: ListView.separated(
-                  padding: const EdgeInsets.all(16),
-                  itemCount: students.length,
-                  separatorBuilder: (_, _) => const SizedBox(height: 12),
-                  itemBuilder: (context, index) {
-                    final student = students[index];
-                    return _buildStudentCard(context, student);
-                  },
+    return Scaffold(
+      appBar: AppBar(title: Text(widget.sectionName)),
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      body: Stack(
+        children: [
+          RefreshIndicator(
+            onRefresh: () async {
+              context.read<StudentsBloc>().add(
+                RefreshStudentsEvent(
+                  localGradeNumber: widget.localGradeNumber,
+                  localSectionNumber: widget.localSectionNumber,
                 ),
-              ),
-              if (state.isRevalidating)
-                const Positioned(
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  child: LinearProgressIndicator(
-                    backgroundColor: Colors.transparent,
-                    color: Colors.blue,
-                    minHeight: 3,
-                  ),
-                ),
-            ],
+              );
+            },
+            child: ListView.separated(
+              padding: const EdgeInsets.all(16),
+              itemCount: students.length,
+              separatorBuilder: (_, _) => const SizedBox(height: 12),
+              itemBuilder: (context, index) {
+                final student = students[index];
+                return _buildStudentCard(context, student);
+              },
+            ),
           ),
-        ),
+          if (state.isRevalidating)
+            const Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              child: LinearProgressIndicator(
+                backgroundColor: Colors.transparent,
+                color: Colors.blue,
+                minHeight: 3,
+              ),
+            ),
+        ],
       ),
     );
   }
 
   Widget _buildStudentCard(BuildContext context, Studententity student) {
     final theme = Theme.of(context);
-    return Card(
-      elevation: 4,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Row(
-          children: [
-            Container(
-              width: 50,
-              height: 50,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    theme.colorScheme.primary,
-                    theme.colorScheme.primaryContainer,
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Center(
-                child: Text(
-                  student.name?.isNotEmpty == true ? student.name![0] : '?',
-                  style: const TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
+    return InkWell(
+      onTap: () {
+        print(student.localStudentNumber);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => CounsolerStudentDetailScreen(
+              localStudentNumber: student.localStudentNumber ?? 0,
             ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    student.name ?? 'طالب بدون اسم',
+          ),
+        );
+      },
+      child: Card(
+        elevation: 4,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Row(
+            children: [
+              Container(
+                width: 50,
+                height: 50,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      theme.colorScheme.primary,
+                      theme.colorScheme.primaryContainer,
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Center(
+                  child: Text(
+                    student.name?.isNotEmpty == true ? student.name![0] : '?',
                     style: const TextStyle(
-                      fontSize: 18,
+                      fontSize: 24,
                       fontWeight: FontWeight.bold,
+                      color: Colors.white,
                     ),
                   ),
-                  const SizedBox(height: 4),
-                  Row(
-                    children: [
-                      Icon(Icons.person, size: 14, color: Colors.grey[600]),
-                      const SizedBox(width: 4),
-                      Text(
-                        'ولي الأمر: ${student.guardianName ?? 'غير محدد'}',
-                        style: TextStyle(fontSize: 12, color: Colors.grey[600]),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 2),
-                  Row(
-                    children: [
-                      Icon(Icons.phone, size: 14, color: Colors.grey[600]),
-                      const SizedBox(width: 4),
-                      Text(
-                        student.guardianPhone ?? 'غير محدد',
-                        style: TextStyle(fontSize: 12, color: Colors.grey[600]),
-                      ),
-                    ],
-                  ),
-                ],
+                ),
               ),
-            ),
-            // سهم للتفاصيل (يمكن إضافة صفحة تفاصيل لاحقاً)
-            Icon(Icons.chevron_right, color: theme.colorScheme.primary),
-          ],
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      student.name ?? 'طالب بدون اسم',
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Row(
+                      children: [
+                        Icon(Icons.person, size: 14, color: Colors.grey[600]),
+                        const SizedBox(width: 4),
+                        Text(
+                          "${S.of(context).guardianName}  ${student.guardianName ?? 'غير محدد'}",
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey[600],
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 2),
+                    Row(
+                      children: [
+                        Icon(Icons.phone, size: 14, color: Colors.grey[600]),
+                        const SizedBox(width: 4),
+                        Text(
+                          student.guardianPhone ?? 'غير محدد',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey[600],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              // سهم للتفاصيل (يمكن إضافة صفحة تفاصيل لاحقاً)
+              Icon(Icons.chevron_right, color: theme.colorScheme.primary),
+            ],
+          ),
         ),
       ),
     );

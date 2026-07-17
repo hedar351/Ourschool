@@ -14,7 +14,10 @@ void routing(
       role != "Manager" &&
       role != "Secretary") {
     Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (_) => NavHomePage(user: state.user)),
+      MaterialPageRoute(
+        builder: (_) =>
+            NavHomePage(user: state.user, key: ValueKey(state.user.id)),
+      ),
     );
   } else {
     showUnavailableDialogAndRedirect(context);

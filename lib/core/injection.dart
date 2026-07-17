@@ -17,18 +17,26 @@ import 'package:school/features/Bulletin/domain/Usecases/GetbulletinsUseCase.dar
 import 'package:school/features/Bulletin/ui/bloc/bulletin_bloc.dart';
 import 'package:school/features/Counselor/UI/bloc/GradeBloc/grade_bloc.dart';
 import 'package:school/features/Counselor/UI/bloc/StudentListBLoc/student_list_bloc.dart';
+import 'package:school/features/Counselor/UI/bloc/Studentprofile/student_profile_bloc.dart';
 import 'package:school/features/Counselor/data/DataSources/Grade/cachedatasource.dart';
 import 'package:school/features/Counselor/data/DataSources/Grade/remotdatasource.dart';
 import 'package:school/features/Counselor/data/DataSources/StudentList/Cachedatasource.dart';
 import 'package:school/features/Counselor/data/DataSources/StudentList/RemotedataSource.dart';
+import 'package:school/features/Counselor/data/DataSources/StudentProfile/RemoteDataStudentProfile.dart';
+import 'package:school/features/Counselor/data/DataSources/StudentProfile/cachDataStudentProfile.dart';
 import 'package:school/features/Counselor/data/Model/StudentsBySectionModel/StudentsBySectionModel.dart';
 import 'package:school/features/Counselor/data/Model/StudentsBySectionModel/studentModel.dart';
+import 'package:school/features/Counselor/data/Model/StudentsProfileModel/Counselor_MarkModel.dart';
+import 'package:school/features/Counselor/data/Model/StudentsProfileModel/Counselor_SubjectsModel.dart';
+import 'package:school/features/Counselor/data/Model/StudentsProfileModel/Counselor_WarningsModel.dart';
+import 'package:school/features/Counselor/data/Model/StudentsProfileModel/Counselor_studentFullProfileModel.dart';
 import 'package:school/features/Counselor/data/Model/gradeandSectionModel/gradeModel.dart';
 import 'package:school/features/Counselor/data/Model/gradeandSectionModel/sectionModel.dart';
 import 'package:school/features/Counselor/data/RepoImp/Counselor_Repo_Imp.dart';
 import 'package:school/features/Counselor/domain/Repo/CounselorRepo.dart';
 import 'package:school/features/Counselor/domain/UseCases/GradeAndSectionUseCase.dart';
 import 'package:school/features/Counselor/domain/UseCases/StudentBySectionUseCase.dart';
+import 'package:school/features/Counselor/domain/UseCases/StudentProfileUseCase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../features/Auth/data/datasources/remote_data_source.dart';
@@ -47,6 +55,14 @@ Future<void> init() async {
   Hive.registerAdapter(SectionModelAdapter());
   Hive.registerAdapter(StudentmodelAdapter());
   Hive.registerAdapter(StudentsbysectionmodelAdapter());
+  Hive.registerAdapter(CounselorStudentFullProfileModelAdapter());
+  Hive.registerAdapter(CounselorSubjectModelAdapter());
+  Hive.registerAdapter(CounselorMarkModelAdapter());
+  Hive.registerAdapter(CounselorWarningModelAdapter());
+  final studentProfileBox =
+      await Hive.openBox<CounselorStudentFullProfileModel>(
+        'studentFullProfileBox',
+      );
   final bulletinbox = await Hive.openBox<Bulletinmodel>('bulletinBox');
   final gradebox = await Hive.openBox<GradeModel>('gradebox');
   final studentsBySectionBox = await Hive.openBox<Studentsbysectionmodel>(
@@ -54,6 +70,26 @@ Future<void> init() async {
   );
 
   print('✅ Hive box opened: postsCache');
+  sl.registerLazySingleton<CacheDataStudentProfile>(
+    () => CacheDataStudentProfileImp(box: studentProfileBox),
+  );
+
+  // Remote DataSource for Student Profile
+  sl.registerLazySingleton<RemoteDataStudentProfile>(
+    () => RemoteDataStudentProfileImp(client: sl(), authLocalDataSource: sl()),
+  );
+
+  sl.registerLazySingleton<CounselorRepo>(
+    () => CounselorRepoImp(
+      networkInfo: sl(),
+      remote: sl(),
+      cache: sl(),
+      remotedatasourceStudentList: sl(),
+      cachedatasourceStudentList: sl(),
+      remoteStudentProfile: sl(),
+      cacheStudentProfile: sl(),
+    ),
+  );
   //!features Counselor
   // Bloc
 
@@ -63,16 +99,6 @@ Future<void> init() async {
   // UseCases
   sl.registerLazySingleton(() => GradeAndSectionUseCase(repository: sl()));
   // Repo
-
-  sl.registerLazySingleton<CounselorRepo>(
-    () => CounselorRepoImp(
-      networkInfo: sl(),
-      remote: sl(),
-      cache: sl(),
-      remotedatasourceStudentList: sl(),
-      cachedatasourceStudentList: sl(),
-    ),
-  );
 
   sl.registerLazySingleton<RemotdatasourceGrade>(
     () => RemotedatasourceImpGrade(client: sl(), authLocalDataSource: sl()),
@@ -122,7 +148,17 @@ Future<void> init() async {
   sl.registerLazySingleton<CachedatasourceBulletin>(
     () => CacheDataSourceImpBulletin(box: bulletinbox),
   );
+  // ==============================
+  // 👤 Student Profile feature
+  // ==============================
 
+  // UseCase
+  sl.registerLazySingleton(() => Studentprofileusecase(repository: sl()));
+
+  // Bloc
+  sl.registerFactory(
+    () => StudentProfileBloc(studentProfileUseCase: sl(), counselorRepo: sl()),
+  );
   //!featuresAuth
   //Bloc
   sl.registerFactory(
@@ -133,6 +169,7 @@ Future<void> init() async {
       cachedatasource: sl(),
       cachedatasourceGrade: sl(),
       cachedatasourceStudentList: sl(),
+      cacheDataStudentProfile: sl(),
     ),
   );
 

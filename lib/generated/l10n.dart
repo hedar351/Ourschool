@@ -388,6 +388,171 @@ class S {
       args: [],
     );
   }
+
+  /// `guardian Name:`
+  String get guardianName {
+    return Intl.message(
+      'guardian Name:',
+      name: 'guardianName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `First Semester`
+  String get semester_1 {
+    return Intl.message(
+      'First Semester',
+      name: 'semester_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Second Semester`
+  String get semester_2 {
+    return Intl.message(
+      'Second Semester',
+      name: 'semester_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Oral`
+  String get oral {
+    return Intl.message('Oral', name: 'oral', desc: '', args: []);
+  }
+
+  /// `Oral 2`
+  String get oral_2 {
+    return Intl.message('Oral 2', name: 'oral_2', desc: '', args: []);
+  }
+
+  /// `Homework`
+  String get homework {
+    return Intl.message('Homework', name: 'homework', desc: '', args: []);
+  }
+
+  /// `Final`
+  String get final_exam {
+    return Intl.message('Final', name: 'final_exam', desc: '', args: []);
+  }
+
+  /// `Subject`
+  String get subject {
+    return Intl.message('Subject', name: 'subject', desc: '', args: []);
+  }
+
+  /// ` Subjects`
+  String get subjects_title {
+    return Intl.message(
+      ' Subjects',
+      name: 'subjects_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// ` Marks`
+  String get marks_title {
+    return Intl.message(' Marks', name: 'marks_title', desc: '', args: []);
+  }
+
+  /// ` Warnings`
+  String get warnings_title {
+    return Intl.message(
+      ' Warnings',
+      name: 'warnings_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unknown`
+  String get unknown_name {
+    return Intl.message('Unknown', name: 'unknown_name', desc: '', args: []);
+  }
+
+  /// `Not specified`
+  String get not_specified {
+    return Intl.message(
+      'Not specified',
+      name: 'not_specified',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Phone`
+  String get phone {
+    return Intl.message('Phone', name: 'phone', desc: '', args: []);
+  }
+
+  /// `Warning`
+  String get warning {
+    return Intl.message('Warning', name: 'warning', desc: '', args: []);
+  }
+
+  /// `General`
+  String get type_general {
+    return Intl.message('General', name: 'type_general', desc: '', args: []);
+  }
+
+  /// `Unknown date`
+  String get date_unknown {
+    return Intl.message(
+      'Unknown date',
+      name: 'date_unknown',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Warning Details`
+  String get warning_details {
+    return Intl.message(
+      'Warning Details',
+      name: 'warning_details',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reason`
+  String get reason {
+    return Intl.message('Reason', name: 'reason', desc: '', args: []);
+  }
+
+  /// `Type`
+  String get type {
+    return Intl.message('Type', name: 'type', desc: '', args: []);
+  }
+
+  /// `Date`
+  String get date {
+    return Intl.message('Date', name: 'date', desc: '', args: []);
+  }
+
+  /// `Close`
+  String get close {
+    return Intl.message('Close', name: 'close', desc: '', args: []);
+  }
+
+  /// `Mr./Ms.`
+  String get teacher_prefix {
+    return Intl.message('Mr./Ms.', name: 'teacher_prefix', desc: '', args: []);
+  }
+
+  /// `semester`
+  String get semester {
+    return Intl.message('semester', name: 'semester', desc: '', args: []);
+  }
+
+  /// `final grade`
+  String get final_grade {
+    return Intl.message('final grade', name: 'final_grade', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
