@@ -4,11 +4,13 @@ import 'package:school/core/error/failures.dart';
 import 'package:school/core/network.dart';
 import 'package:school/features/Counselor/data/DataSources/Grade/cachedatasource.dart';
 import 'package:school/features/Counselor/data/DataSources/Grade/remotdatasource.dart';
+import 'package:school/features/Counselor/data/DataSources/PostWarnings/RemotedataPostWarnings.dart';
 import 'package:school/features/Counselor/data/DataSources/StudentList/Cachedatasource.dart';
 import 'package:school/features/Counselor/data/DataSources/StudentList/RemotedataSource.dart';
 import 'package:school/features/Counselor/data/DataSources/StudentProfile/RemoteDataStudentProfile.dart';
 import 'package:school/features/Counselor/data/DataSources/StudentProfile/cachDataStudentProfile.dart';
 import 'package:school/features/Counselor/domain/Entities/StudentsBySectionEntity/StudentsBySectionEntity.dart';
+import 'package:school/features/Counselor/domain/Entities/StudentsProfileEntity/Counselor_WarningsEntity.dart';
 import 'package:school/features/Counselor/domain/Entities/StudentsProfileEntity/Counselor_studentFullProfile.dart';
 import 'package:school/features/Counselor/domain/Entities/gradeandSectionEntity/gradeEntity.dart';
 import 'package:school/features/Counselor/domain/Repo/CounselorRepo.dart';
@@ -21,6 +23,7 @@ class CounselorRepoImp implements CounselorRepo {
   final CachedatasourceStudentList cachedatasourceStudentList;
   final RemoteDataStudentProfile remoteStudentProfile;
   final CacheDataStudentProfile cacheStudentProfile;
+  final Remotedatapostwarnings remotedatapostwarnings;
   CounselorRepoImp({
     required this.remote,
     required this.cache,
@@ -29,6 +32,7 @@ class CounselorRepoImp implements CounselorRepo {
     required this.cachedatasourceStudentList,
     required this.remoteStudentProfile,
     required this.cacheStudentProfile,
+    required this.remotedatapostwarnings,
   });
   @override
   Future<Either<Failures, CounselorStudentfullprofile>>
@@ -80,7 +84,7 @@ class CounselorRepoImp implements CounselorRepo {
   ) async {
     try {
       final cached = await cachedatasourceStudentList
-          .getCachedStudentsBySection();
+          .getCachedStudentsBySection(localGradeNumber, localSectionNumber);
       return Right(cached.toEntity());
     } on EmptyCacheExp {
       return await _fetchFromNetworkAndCacheStudentsBySection(
@@ -107,6 +111,24 @@ class CounselorRepoImp implements CounselorRepo {
   }
 
   @override
+  Future<Either<Failures, CounselorWarningsentity>> postWarnings(
+    int localStudentNumber,
+    String type,
+    String reason,
+  ) async {
+    try {
+      final remote = await remotedatapostwarnings.warnings(
+        localStudentNumber,
+        type,
+        reason,
+      );
+      return Right(remote.toEntity());
+    } catch (e) {
+      return Left(ServerFailure());
+    }
+  }
+
+  @override
   Stream<CounselorStudentfullprofile> watchCachedgetCounselorStudentfullProfile(
     int localStudentNumber,
   ) {
@@ -127,9 +149,9 @@ class CounselorRepoImp implements CounselorRepo {
     int localGradeNumber,
     int localSectionNumber,
   ) {
-    return cachedatasourceStudentList.watchCachedStudentsBySection().map(
-      (model) => model.toEntity(),
-    );
+    return cachedatasourceStudentList
+        .watchCachedStudentsBySection(localGradeNumber, localSectionNumber)
+        .map((model) => model.toEntity());
   }
 
   Future<Either<Failures, List<Gradeentity>>>
@@ -155,7 +177,11 @@ class CounselorRepoImp implements CounselorRepo {
         localGradeNumber,
         localSectionNumber,
       );
-      await cachedatasourceStudentList.cacheStudentsBySection(remoted);
+      await cachedatasourceStudentList.cacheStudentsBySection(
+        localGradeNumber,
+        localSectionNumber,
+        remoted,
+      );
       return Right(remoted.toEntity());
     } catch (e) {
       return Left(ServerFailure());

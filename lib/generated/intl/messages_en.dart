@@ -59,9 +59,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "account_not_available": MessageLookupByLibrary.simpleMessage(
       "This account is currently not available for viewing",
     ),
+    "add": MessageLookupByLibrary.simpleMessage("Add"),
+    "add_warning_title": MessageLookupByLibrary.simpleMessage(
+      "Add New Warning",
+    ),
     "browse_school": MessageLookupByLibrary.simpleMessage(
       "Browse school information",
     ),
+    "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
     "close": MessageLookupByLibrary.simpleMessage("Close"),
     "date": MessageLookupByLibrary.simpleMessage("Date"),
     "date_unknown": MessageLookupByLibrary.simpleMessage("Unknown date"),
@@ -87,6 +92,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "oral_2": MessageLookupByLibrary.simpleMessage("Oral 2"),
     "password": MessageLookupByLibrary.simpleMessage("Password"),
     "phone": MessageLookupByLibrary.simpleMessage("Phone"),
+    "please_select_type_and_reason": MessageLookupByLibrary.simpleMessage(
+      "Please select a type and fill the reason",
+    ),
     "reason": MessageLookupByLibrary.simpleMessage("Reason"),
     "remember_me": MessageLookupByLibrary.simpleMessage("Remember me"),
     "school_description": MessageLookupByLibrary.simpleMessage(
@@ -94,6 +102,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "school_management_system": MessageLookupByLibrary.simpleMessage(
       "School Management System",
+    ),
+    "select_warning_type": MessageLookupByLibrary.simpleMessage(
+      "Select Warning Type",
     ),
     "semester": MessageLookupByLibrary.simpleMessage("semester"),
     "semester_1": MessageLookupByLibrary.simpleMessage("First Semester"),
@@ -109,6 +120,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "teacher_prefix": MessageLookupByLibrary.simpleMessage("Mr./Ms."),
     "title": MessageLookupByLibrary.simpleMessage("Our School"),
     "type": MessageLookupByLibrary.simpleMessage("Type"),
+    "type_behavior": MessageLookupByLibrary.simpleMessage("Behavior"),
+    "type_dismissal_warning": MessageLookupByLibrary.simpleMessage(
+      "Dismissal Warning",
+    ),
     "type_general": MessageLookupByLibrary.simpleMessage("General"),
     "unexpected_error": MessageLookupByLibrary.simpleMessage(
       "Unexpected error, please try again later",

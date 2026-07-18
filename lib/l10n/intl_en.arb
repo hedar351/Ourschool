@@ -67,5 +67,12 @@
   "close": "Close",
   "teacher_prefix": "Mr./Ms.",
   "semester": "semester",
-  "final_grade": "final grade"
+  "final_grade": "final grade",
+  "add_warning_title": "Add New Warning",
+  "select_warning_type": "Select Warning Type",
+  "type_behavior": "Behavior",
+  "type_dismissal_warning": "Dismissal Warning",
+  "cancel": "Cancel",
+  "add": "Add",
+  "please_select_type_and_reason": "Please select a type and fill the reason"
 }

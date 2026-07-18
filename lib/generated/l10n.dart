@@ -553,6 +553,61 @@ class S {
   String get final_grade {
     return Intl.message('final grade', name: 'final_grade', desc: '', args: []);
   }
+
+  /// `Add New Warning`
+  String get add_warning_title {
+    return Intl.message(
+      'Add New Warning',
+      name: 'add_warning_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select Warning Type`
+  String get select_warning_type {
+    return Intl.message(
+      'Select Warning Type',
+      name: 'select_warning_type',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Behavior`
+  String get type_behavior {
+    return Intl.message('Behavior', name: 'type_behavior', desc: '', args: []);
+  }
+
+  /// `Dismissal Warning`
+  String get type_dismissal_warning {
+    return Intl.message(
+      'Dismissal Warning',
+      name: 'type_dismissal_warning',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel`
+  String get cancel {
+    return Intl.message('Cancel', name: 'cancel', desc: '', args: []);
+  }
+
+  /// `Add`
+  String get add {
+    return Intl.message('Add', name: 'add', desc: '', args: []);
+  }
+
+  /// `Please select a type and fill the reason`
+  String get please_select_type_and_reason {
+    return Intl.message(
+      'Please select a type and fill the reason',
+      name: 'please_select_type_and_reason',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

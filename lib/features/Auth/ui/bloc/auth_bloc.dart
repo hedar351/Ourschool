@@ -66,7 +66,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       event.password,
       event.rememberMe,
     );
-    // await cachedatasource.deleteBulletins();
+    await cachedatasource.deleteBulletins();
     await cachedatasourceGrade.deletegrades();
     await cachedatasourceStudentList.deleteStudentsBySection();
     await cacheDataStudentProfile.deleteStudentProfile();

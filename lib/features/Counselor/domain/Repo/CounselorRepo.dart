@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:school/core/error/failures.dart';
 import 'package:school/features/Counselor/domain/Entities/StudentsBySectionEntity/StudentsBySectionEntity.dart';
+import 'package:school/features/Counselor/domain/Entities/StudentsProfileEntity/Counselor_WarningsEntity.dart';
 import 'package:school/features/Counselor/domain/Entities/StudentsProfileEntity/Counselor_studentFullProfile.dart';
 import 'package:school/features/Counselor/domain/Entities/gradeandSectionEntity/gradeEntity.dart';
 
@@ -23,6 +24,11 @@ abstract class CounselorRepo {
   Future<Either<Failures, StudentsBySectionEntity>>
   getStudentsBySectionWithCache(int localGradeNumber, int localSectionNumber);
 
+  Future<Either<Failures, CounselorWarningsentity>> postWarnings(
+    int localStudentNumber,
+    String type,
+    String reason,
+  );
   Stream<CounselorStudentfullprofile> watchCachedgetCounselorStudentfullProfile(
     int localStudentNumber,
   );

@@ -16,10 +16,12 @@ import 'package:school/features/Bulletin/domain/Repo/Bulletin_repo.dart';
 import 'package:school/features/Bulletin/domain/Usecases/GetbulletinsUseCase.dart';
 import 'package:school/features/Bulletin/ui/bloc/bulletin_bloc.dart';
 import 'package:school/features/Counselor/UI/bloc/GradeBloc/grade_bloc.dart';
+import 'package:school/features/Counselor/UI/bloc/PostWarnings/post_warnings_bloc.dart';
 import 'package:school/features/Counselor/UI/bloc/StudentListBLoc/student_list_bloc.dart';
 import 'package:school/features/Counselor/UI/bloc/Studentprofile/student_profile_bloc.dart';
 import 'package:school/features/Counselor/data/DataSources/Grade/cachedatasource.dart';
 import 'package:school/features/Counselor/data/DataSources/Grade/remotdatasource.dart';
+import 'package:school/features/Counselor/data/DataSources/PostWarnings/RemotedataPostWarnings.dart';
 import 'package:school/features/Counselor/data/DataSources/StudentList/Cachedatasource.dart';
 import 'package:school/features/Counselor/data/DataSources/StudentList/RemotedataSource.dart';
 import 'package:school/features/Counselor/data/DataSources/StudentProfile/RemoteDataStudentProfile.dart';
@@ -45,7 +47,9 @@ import '../features/Auth/domain/useCases/LoginUseCase.dart';
 import 'network.dart';
 
 final sl = GetIt.instance;
+
 Future<void> init() async {
+  // ==================== Hive Setup ====================
   await Hive.initFlutter();
   print('✅ Hive initialized');
 
@@ -59,6 +63,7 @@ Future<void> init() async {
   Hive.registerAdapter(CounselorSubjectModelAdapter());
   Hive.registerAdapter(CounselorMarkModelAdapter());
   Hive.registerAdapter(CounselorWarningModelAdapter());
+
   final studentProfileBox =
       await Hive.openBox<CounselorStudentFullProfileModel>(
         'studentFullProfileBox',
@@ -69,14 +74,66 @@ Future<void> init() async {
     'studentsBySectionBox',
   );
 
-  print('✅ Hive box opened: postsCache');
+  print('✅ All Hive boxes opened');
+
+  // ==================== Data Sources (All) ====================
+  // Auth
+  sl.registerLazySingleton<AuthRemoteDataSources>(
+    () => AuthRemoteDataSourcesImp(client: sl()),
+  );
+  sl.registerLazySingleton<AuthLocalDataSource>(
+    () => AuthLocalDataSourceImp(sharedPreferences: sl()),
+  );
+
+  // Bulletin
+  sl.registerLazySingleton<RemotedataSourceBulletin>(
+    () => RemoteDataSourceImpBulletin(client: sl(), authLocalDataSource: sl()),
+  );
+  sl.registerLazySingleton<CachedatasourceBulletin>(
+    () => CacheDataSourceImpBulletin(box: bulletinbox),
+  );
+
+  // Counselor - Grade
+  sl.registerLazySingleton<RemotdatasourceGrade>(
+    () => RemotedatasourceImpGrade(client: sl(), authLocalDataSource: sl()),
+  );
+  sl.registerLazySingleton<CachedatasourceGrade>(
+    () => CachedatasourceImpGrade(boxGrade: gradebox),
+  );
+
+  // Counselor - Student List (by section)
+  sl.registerLazySingleton<RemotedatasourceStudentList>(
+    () =>
+        RemotedatasourceStudentListImp(client: sl(), authLocalDataSource: sl()),
+  );
+  sl.registerLazySingleton<CachedatasourceStudentList>(
+    () => CachedatasourceStudentListImp(box: studentsBySectionBox),
+  );
+
+  // Counselor - Student Profile
+  sl.registerLazySingleton<RemoteDataStudentProfile>(
+    () => RemoteDataStudentProfileImp(client: sl(), authLocalDataSource: sl()),
+  );
   sl.registerLazySingleton<CacheDataStudentProfile>(
     () => CacheDataStudentProfileImp(box: studentProfileBox),
   );
 
-  // Remote DataSource for Student Profile
-  sl.registerLazySingleton<RemoteDataStudentProfile>(
-    () => RemoteDataStudentProfileImp(client: sl(), authLocalDataSource: sl()),
+  // Counselor - Post Warning
+  sl.registerLazySingleton<Remotedatapostwarnings>(
+    () => RemotedatapostwarningsImp(authLocalDataSource: sl(), client: sl()),
+  );
+
+  // ==================== Repositories ====================
+  sl.registerLazySingleton<AuthRepo>(
+    () => AuthRepoImp(
+      networkInfo: sl(),
+      authRemoteDataSources: sl(),
+      authLocalDataSource: sl(),
+    ),
+  );
+
+  sl.registerLazySingleton<BulletinRepo>(
+    () => Bulletinrepoimp(networkInfo: sl(), remote: sl(), cache: sl()),
   );
 
   sl.registerLazySingleton<CounselorRepo>(
@@ -88,79 +145,34 @@ Future<void> init() async {
       cachedatasourceStudentList: sl(),
       remoteStudentProfile: sl(),
       cacheStudentProfile: sl(),
+      remotedatapostwarnings: sl(),
     ),
   );
-  //!features Counselor
-  // Bloc
 
-  sl.registerFactory(
-    () => GradeBloc(counselorRepo: sl(), gradeAndSectionUseCase: sl()),
-  );
-  // UseCases
+  // ==================== Use Cases ====================
+  // Auth
+  sl.registerLazySingleton(() => LoginUseCase(repository: sl()));
+  sl.registerLazySingleton(() => GetUserUsecase(repository: sl()));
+  sl.registerLazySingleton(() => LogOutUseCase(repository: sl()));
+
+  // Bulletin
+  sl.registerLazySingleton(() => GetbulletinsUseCase(bulletinRepo: sl()));
+
+  // Counselor - Grade
   sl.registerLazySingleton(() => GradeAndSectionUseCase(repository: sl()));
-  // Repo
 
-  sl.registerLazySingleton<RemotdatasourceGrade>(
-    () => RemotedatasourceImpGrade(client: sl(), authLocalDataSource: sl()),
-  );
-  sl.registerLazySingleton<CachedatasourceGrade>(
-    () => CachedatasourceImpGrade(boxGrade: gradebox),
-  );
-
-  // ==============================
-  // 🧑‍🎓 Students feature
-  // ==============================
-
-  // Bloc
-  sl.registerFactory(
-    () => StudentsBloc(studentBySectionUseCase: sl(), counselorRepo: sl()),
-  );
-
-  // UseCase
+  // Counselor - Student List
   sl.registerLazySingleton(() => StudentBySectionUseCase(repository: sl()));
 
-  // DataSources
-  sl.registerLazySingleton<RemotedatasourceStudentList>(
-    () =>
-        RemotedatasourceStudentListImp(client: sl(), authLocalDataSource: sl()),
-  );
-
-  sl.registerLazySingleton<CachedatasourceStudentList>(
-    () => CachedatasourceStudentListImp(box: studentsBySectionBox),
-  );
-  //!features Bulletin
-  // Bloc
-
-  sl.registerFactory(
-    () => BulletinBloc(getbulletinsUseCase: sl(), bulletinRepo: sl()),
-  );
-  // UseCases
-  sl.registerLazySingleton(() => GetbulletinsUseCase(bulletinRepo: sl()));
-  // Repo
-  sl.registerLazySingleton<BulletinRepo>(
-    () => Bulletinrepoimp(networkInfo: sl(), remote: sl(), cache: sl()),
-  );
-
-  // DataSources
-  sl.registerLazySingleton<RemotedataSourceBulletin>(
-    () => RemoteDataSourceImpBulletin(client: sl(), authLocalDataSource: sl()),
-  );
-  sl.registerLazySingleton<CachedatasourceBulletin>(
-    () => CacheDataSourceImpBulletin(box: bulletinbox),
-  );
-  // ==============================
-  // 👤 Student Profile feature
-  // ==============================
-
-  // UseCase
+  // Counselor - Student Profile
   sl.registerLazySingleton(() => Studentprofileusecase(repository: sl()));
 
-  // Bloc
-  sl.registerFactory(
-    () => StudentProfileBloc(studentProfileUseCase: sl(), counselorRepo: sl()),
-  );
-  //!featuresAuth
-  //Bloc
+  // Counselor - Post Warning
+  // sl.registerLazySingleton(() => Postwarningsusecase(repository: sl()));
+  // print("🟢 [injection] Postwarningsusecase registered successfully");
+
+  // ==================== Blocs ====================
+  // Auth
   sl.registerFactory(
     () => AuthBloc(
       getUserUsecase: sl(),
@@ -173,30 +185,35 @@ Future<void> init() async {
     ),
   );
 
-  //UseCases
-  sl.registerLazySingleton(() => LoginUseCase(repository: sl()));
-  sl.registerLazySingleton(() => GetUserUsecase(repository: sl()));
-  sl.registerLazySingleton(() => LogOutUseCase(repository: sl()));
-
-  //repo
-  sl.registerLazySingleton<AuthRepo>(
-    () => AuthRepoImp(
-      networkInfo: sl(),
-      authRemoteDataSources: sl(),
-      authLocalDataSource: sl(),
-    ),
-  );
-  //datasource
-  sl.registerLazySingleton<AuthRemoteDataSources>(
-    () => AuthRemoteDataSourcesImp(client: sl()),
-  );
-  sl.registerLazySingleton<AuthLocalDataSource>(
-    () => AuthLocalDataSourceImp(sharedPreferences: sl()),
+  // Bulletin
+  sl.registerFactory(
+    () => BulletinBloc(getbulletinsUseCase: sl(), bulletinRepo: sl()),
   );
 
-  //core
+  // Counselor - Grade
+  sl.registerFactory(
+    () => GradeBloc(counselorRepo: sl(), gradeAndSectionUseCase: sl()),
+  );
+
+  // Counselor - Student List
+  sl.registerFactory(
+    () => StudentsBloc(studentBySectionUseCase: sl(), counselorRepo: sl()),
+  );
+
+  // Counselor - Student Profile
+  sl.registerFactory(
+    () => StudentProfileBloc(studentProfileUseCase: sl(), counselorRepo: sl()),
+  );
+
+  // Counselor - Post Warning
+  sl.registerFactory(
+    () => PostWarningBloc(postWarningsUseCase: sl(), counselorRepo: sl()),
+  );
+
+  // ==================== Core ====================
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
-  //external
+
+  // ==================== External ====================
   final sharedPreferences = await SharedPreferences.getInstance();
   sl.registerLazySingleton(() => sharedPreferences);
   sl.registerLazySingleton(() => http.Client());

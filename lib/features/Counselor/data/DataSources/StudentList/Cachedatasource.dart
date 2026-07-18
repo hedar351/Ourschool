@@ -3,11 +3,28 @@ import 'package:hive/hive.dart';
 import 'package:school/core/error/EXP.dart';
 import 'package:school/features/Counselor/data/Model/StudentsBySectionModel/StudentsBySectionModel.dart';
 
+// abstract class CachedatasourceStudentList {
+//   Future<Unit> cacheStudentsBySection(Studentsbysectionmodel model);
+//   Future<Unit> deleteStudentsBySection();
+//   Future<Studentsbysectionmodel> getCachedStudentsBySection();
+//   Stream<Studentsbysectionmodel> watchCachedStudentsBySection();
+// }
+
 abstract class CachedatasourceStudentList {
-  Future<Unit> cacheStudentsBySection(Studentsbysectionmodel model);
+  Future<Unit> cacheStudentsBySection(
+    int localGradeNumber,
+    int localSectionNumber,
+    Studentsbysectionmodel model,
+  );
   Future<Unit> deleteStudentsBySection();
-  Future<Studentsbysectionmodel> getCachedStudentsBySection();
-  Stream<Studentsbysectionmodel> watchCachedStudentsBySection();
+  Future<Studentsbysectionmodel> getCachedStudentsBySection(
+    int localGradeNumber,
+    int localSectionNumber,
+  );
+  Stream<Studentsbysectionmodel> watchCachedStudentsBySection(
+    int localGradeNumber,
+    int localSectionNumber,
+  );
 }
 
 class CachedatasourceStudentListImp implements CachedatasourceStudentList {
@@ -16,9 +33,13 @@ class CachedatasourceStudentListImp implements CachedatasourceStudentList {
   CachedatasourceStudentListImp({required this.box});
 
   @override
-  Future<Unit> cacheStudentsBySection(Studentsbysectionmodel model) async {
-    await box.clear();
-    await box.add(model);
+  Future<Unit> cacheStudentsBySection(
+    int localGradeNumber,
+    int localSectionNumber,
+    Studentsbysectionmodel model,
+  ) async {
+    final key = '${localGradeNumber}_$localSectionNumber';
+    await box.put(key, model);
     return unit;
   }
 
@@ -29,15 +50,24 @@ class CachedatasourceStudentListImp implements CachedatasourceStudentList {
   }
 
   @override
-  Future<Studentsbysectionmodel> getCachedStudentsBySection() async {
-    if (box.isEmpty) {
-      throw EmptyCacheExp();
-    }
-    return box.values.first;
+  Future<Studentsbysectionmodel> getCachedStudentsBySection(
+    int localGradeNumber,
+    int localSectionNumber,
+  ) async {
+    final key = '${localGradeNumber}_$localSectionNumber';
+    final model = box.get(key);
+    if (model == null) throw EmptyCacheExp();
+    return model;
   }
 
   @override
-  Stream<Studentsbysectionmodel> watchCachedStudentsBySection() {
-    return box.watch().map((event) => box.values.first);
+  Stream<Studentsbysectionmodel> watchCachedStudentsBySection(
+    int localGradeNumber,
+    int localSectionNumber,
+  ) {
+    final key = '${localGradeNumber}_$localSectionNumber';
+    return box
+        .watch(key: key)
+        .map((event) => event.value as Studentsbysectionmodel);
   }
 }

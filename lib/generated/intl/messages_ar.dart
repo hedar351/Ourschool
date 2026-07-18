@@ -55,9 +55,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "account_not_available": MessageLookupByLibrary.simpleMessage(
       "هذا الحساب غير متوفر للعرض حالياً",
     ),
+    "add": MessageLookupByLibrary.simpleMessage("إضافة"),
+    "add_warning_title": MessageLookupByLibrary.simpleMessage(
+      "إضافة إنذار جديد",
+    ),
     "browse_school": MessageLookupByLibrary.simpleMessage(
       "تصفح معلومات المدرسة",
     ),
+    "cancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
     "close": MessageLookupByLibrary.simpleMessage("إغلاق"),
     "date": MessageLookupByLibrary.simpleMessage("التاريخ"),
     "date_unknown": MessageLookupByLibrary.simpleMessage("تاريخ غير محدد"),
@@ -85,6 +90,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "oral_2": MessageLookupByLibrary.simpleMessage("شفوي 2"),
     "password": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
     "phone": MessageLookupByLibrary.simpleMessage("رقم الهاتف"),
+    "please_select_type_and_reason": MessageLookupByLibrary.simpleMessage(
+      "يرجى اختيار النوع وملء السبب",
+    ),
     "reason": MessageLookupByLibrary.simpleMessage("السبب"),
     "remember_me": MessageLookupByLibrary.simpleMessage("تذكرني"),
     "school_description": MessageLookupByLibrary.simpleMessage(
@@ -92,6 +100,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "school_management_system": MessageLookupByLibrary.simpleMessage(
       "نظام إدارة المدارس",
+    ),
+    "select_warning_type": MessageLookupByLibrary.simpleMessage(
+      "اختر نوع الإنذار",
     ),
     "semester": MessageLookupByLibrary.simpleMessage("الفصل"),
     "semester_1": MessageLookupByLibrary.simpleMessage("الفصل الأول"),
@@ -107,6 +118,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "teacher_prefix": MessageLookupByLibrary.simpleMessage("أ. "),
     "title": MessageLookupByLibrary.simpleMessage("مدرستنا"),
     "type": MessageLookupByLibrary.simpleMessage("النوع"),
+    "type_behavior": MessageLookupByLibrary.simpleMessage("سلوك"),
+    "type_dismissal_warning": MessageLookupByLibrary.simpleMessage("إنذار فصل"),
     "type_general": MessageLookupByLibrary.simpleMessage("عام"),
     "unexpected_error": MessageLookupByLibrary.simpleMessage(
       "حدث خطأ غير متوقع، حاول لاحقاً",
