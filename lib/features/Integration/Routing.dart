@@ -13,11 +13,12 @@ void routing(
       role != "Librarian" &&
       role != "Manager" &&
       role != "Secretary") {
-    Navigator.of(context).pushReplacement(
+    Navigator.of(context).pushAndRemoveUntil(
       MaterialPageRoute(
         builder: (_) =>
             NavHomePage(user: state.user, key: ValueKey(state.user.id)),
       ),
+      (route) => false,
     );
   } else {
     showUnavailableDialogAndRedirect(context);

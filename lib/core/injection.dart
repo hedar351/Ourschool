@@ -39,11 +39,25 @@ import 'package:school/features/Counselor/domain/Repo/CounselorRepo.dart';
 import 'package:school/features/Counselor/domain/UseCases/GradeAndSectionUseCase.dart';
 import 'package:school/features/Counselor/domain/UseCases/StudentBySectionUseCase.dart';
 import 'package:school/features/Counselor/domain/UseCases/StudentProfileUseCase.dart';
+import 'package:school/features/Teacher/data/Model/SchoolModel.dart';
+import 'package:school/features/Teacher/data/Model/SubjectModel.dart';
+import 'package:school/features/Teacher/data/Model/TeacherFullProfileModel.dart';
+import 'package:school/features/Teacher/data/Model/TeacherModel.dart';
+import 'package:school/features/Teacher/domain/Repo/TeacherRepo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../features/Auth/data/datasources/remote_data_source.dart';
 import '../features/Auth/domain/useCases/Log_out_UseCase.dart';
 import '../features/Auth/domain/useCases/LoginUseCase.dart';
+import '../features/Teacher/data/RepoImp/TeacherRepoImp.dart';
+import '../features/Teacher/data/dataSources/GetTeacherFullprofile/cacheDataGetTeacherFullprofile.dart';
+import '../features/Teacher/data/dataSources/GetTeacherFullprofile/remoteDataGetTeacherFullProfile.dart';
+import '../features/Teacher/data/dataSources/TeacherStudentsList/CacheTeacherStudentsList.dart';
+import '../features/Teacher/data/dataSources/TeacherStudentsList/RemotedataTeacherStudentsList.dart';
+import '../features/Teacher/domain/UseCases/GetStudentsUseCase.dart';
+import '../features/Teacher/domain/UseCases/GetTeacherFullProfile.dart';
+import '../features/Teacher/ui/bloc/StudentListBloc/teacher_student_list_bloc.dart';
+import '../features/Teacher/ui/bloc/TeacherBloc/teacher_bloc.dart';
 import 'network.dart';
 
 final sl = GetIt.instance;
@@ -63,7 +77,10 @@ Future<void> init() async {
   Hive.registerAdapter(CounselorSubjectModelAdapter());
   Hive.registerAdapter(CounselorMarkModelAdapter());
   Hive.registerAdapter(CounselorWarningModelAdapter());
-
+  Hive.registerAdapter(TeacherFullProfileModelAdapter());
+  Hive.registerAdapter(TeacherModelAdapter());
+  Hive.registerAdapter(SchoolsModelAdapter());
+  Hive.registerAdapter(SubjectModelAdapter());
   final studentProfileBox =
       await Hive.openBox<CounselorStudentFullProfileModel>(
         'studentFullProfileBox',
@@ -73,7 +90,9 @@ Future<void> init() async {
   final studentsBySectionBox = await Hive.openBox<Studentsbysectionmodel>(
     'studentsBySectionBox',
   );
-
+  final teacherFullProfileBox = await Hive.openBox<TeacherFullProfileModel>(
+    'teacherFullProfileBox',
+  );
   print('✅ All Hive boxes opened');
 
   // ==================== Data Sources (All) ====================
@@ -122,7 +141,27 @@ Future<void> init() async {
   sl.registerLazySingleton<Remotedatapostwarnings>(
     () => RemotedatapostwarningsImp(authLocalDataSource: sl(), client: sl()),
   );
+  // ==================== Teacher Data Sources ====================
+  sl.registerLazySingleton<RemoteDataTeacherFullProfile>(
+    () => RemoteDataTeacherFullProfileImp(
+      client: sl(),
+      authLocalDataSource: sl(),
+    ),
+  );
 
+  sl.registerLazySingleton<CacheDataTeacherFullProfile>(
+    () => CacheDataTeacherFullProfileImp(box: teacherFullProfileBox),
+  );
+  // ==================== Teacher Students Data Sources ====================
+  sl.registerLazySingleton<Remotedatateacherstudentslist>(
+    () => RemotedatateacherstudentslistImp(
+      client: sl(),
+      authLocalDataSource: sl(),
+    ),
+  );
+  sl.registerLazySingleton<CacheTeacherStudentsList>(
+    () => CacheTeacherStudentsListImp(box: studentsBySectionBox),
+  );
   // ==================== Repositories ====================
   sl.registerLazySingleton<AuthRepo>(
     () => AuthRepoImp(
@@ -148,7 +187,17 @@ Future<void> init() async {
       remotedatapostwarnings: sl(),
     ),
   );
+  // ==================== Teacher Repository ====================
 
+  sl.registerLazySingleton<Teacherrepo>(
+    () => Teacherrepoimp(
+      networkInfo: sl(),
+      remote: sl(),
+      cache: sl(),
+      remoteStudents: sl(),
+      cacheStudents: sl(),
+    ),
+  );
   // ==================== Use Cases ====================
   // Auth
   sl.registerLazySingleton(() => LoginUseCase(repository: sl()));
@@ -167,10 +216,13 @@ Future<void> init() async {
   // Counselor - Student Profile
   sl.registerLazySingleton(() => Studentprofileusecase(repository: sl()));
 
+  // ==================== Teacher Use Case ====================
+  sl.registerLazySingleton(() => Getteacherfullprofile(repository: sl()));
   // Counselor - Post Warning
   // sl.registerLazySingleton(() => Postwarningsusecase(repository: sl()));
   // print("🟢 [injection] Postwarningsusecase registered successfully");
 
+  sl.registerLazySingleton(() => Getstudentsusecase(repository: sl()));
   // ==================== Blocs ====================
   // Auth
   sl.registerFactory(
@@ -182,6 +234,8 @@ Future<void> init() async {
       cachedatasourceGrade: sl(),
       cachedatasourceStudentList: sl(),
       cacheDataStudentProfile: sl(),
+      cacheDataTeacherFullProfile: sl(),
+      cacheTeacherStudentsList: sl(),
     ),
   );
 
@@ -209,10 +263,12 @@ Future<void> init() async {
   sl.registerFactory(
     () => PostWarningBloc(postWarningsUseCase: sl(), counselorRepo: sl()),
   );
-
+  // ==================== Teacher Bloc ====================
+  sl.registerFactory(() => TeacherBloc(teacherRepo: sl()));
   // ==================== Core ====================
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
-
+  // ==================== Teacher Student List Bloc ====================
+  sl.registerFactory(() => TeacherStudentListBloc(teacherRepo: sl()));
   // ==================== External ====================
   final sharedPreferences = await SharedPreferences.getInstance();
   sl.registerLazySingleton(() => sharedPreferences);

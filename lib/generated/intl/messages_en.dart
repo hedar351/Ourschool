@@ -20,6 +20,12 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
+  static String m0(gradeName) => "Sections for ${gradeName}";
+
+  static String m1(schoolName) => "Subjects in ${schoolName}";
+
+  static String m2(subjectName) => "Grades for ${subjectName}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "Activities": MessageLookupByLibrary.simpleMessage("Activities"),
@@ -67,6 +73,8 @@ class MessageLookup extends MessageLookupByLibrary {
       "Browse school information",
     ),
     "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
+    "class_name": MessageLookupByLibrary.simpleMessage("Class"),
+    "classes": MessageLookupByLibrary.simpleMessage("Classes"),
     "close": MessageLookupByLibrary.simpleMessage("Close"),
     "date": MessageLookupByLibrary.simpleMessage("Date"),
     "date_unknown": MessageLookupByLibrary.simpleMessage("Unknown date"),
@@ -78,6 +86,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "final_exam": MessageLookupByLibrary.simpleMessage("Final"),
     "final_grade": MessageLookupByLibrary.simpleMessage("final grade"),
+    "grade_sections": m0,
     "guardianName": MessageLookupByLibrary.simpleMessage("guardian Name:"),
     "homework": MessageLookupByLibrary.simpleMessage("Homework"),
     "login": MessageLookupByLibrary.simpleMessage("Login"),
@@ -103,6 +112,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "school_management_system": MessageLookupByLibrary.simpleMessage(
       "School Management System",
     ),
+    "school_subjects": m1,
     "select_warning_type": MessageLookupByLibrary.simpleMessage(
       "Select Warning Type",
     ),
@@ -116,8 +126,11 @@ class MessageLookup extends MessageLookupByLibrary {
       "Sign in to continue",
     ),
     "subject": MessageLookupByLibrary.simpleMessage("Subject"),
+    "subject_grades": m2,
+    "subjects": MessageLookupByLibrary.simpleMessage("Subjects"),
     "subjects_title": MessageLookupByLibrary.simpleMessage(" Subjects"),
     "teacher_prefix": MessageLookupByLibrary.simpleMessage("Mr./Ms."),
+    "teacher_profile": MessageLookupByLibrary.simpleMessage("Teacher Profile"),
     "title": MessageLookupByLibrary.simpleMessage("Our School"),
     "type": MessageLookupByLibrary.simpleMessage("Type"),
     "type_behavior": MessageLookupByLibrary.simpleMessage("Behavior"),
@@ -129,6 +142,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Unexpected error, please try again later",
     ),
     "unknown_name": MessageLookupByLibrary.simpleMessage("Unknown"),
+    "unknown_school": MessageLookupByLibrary.simpleMessage("Unknown School"),
     "username": MessageLookupByLibrary.simpleMessage("Username"),
     "viewAll": MessageLookupByLibrary.simpleMessage("View All"),
     "want_to_logout": MessageLookupByLibrary.simpleMessage(

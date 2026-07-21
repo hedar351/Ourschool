@@ -74,5 +74,13 @@
   "type_dismissal_warning": "إنذار فصل",
   "cancel": "إلغاء",
   "add": "إضافة",
-  "please_select_type_and_reason": "يرجى اختيار النوع وملء السبب"
+  "please_select_type_and_reason": "يرجى اختيار النوع وملء السبب",
+  "teacher_profile": "الملف الشخصي للمعلم",
+  "unknown_school": "مدرسة غير معروفة",
+  "subjects": "المواد",
+  "classes": "الصفوف",
+  "school_subjects": "المواد في {schoolName}",
+  "subject_grades": "الصفوف لمادة {subjectName}",
+  "grade_sections": "الشعب لصف {gradeName}",
+  "class_name": "الصف"
 }

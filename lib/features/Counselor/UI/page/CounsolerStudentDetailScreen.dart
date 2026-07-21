@@ -328,7 +328,6 @@ class _CounsolerStudentDetailScreenState
           child: BlocConsumer<PostWarningBloc, PostWarningState>(
             listener: (context, state) {
               if (state is PostWarningSuccess) {
-                // لا داعي لـ Navigator.pop هنا لأننا سنغلق في builder
                 context.read<StudentProfileBloc>().add(
                   RefreshStudentProfileEvent(
                     localStudentNumber: widget.localStudentNumber,

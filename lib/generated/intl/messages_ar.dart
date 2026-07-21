@@ -20,6 +20,12 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'ar';
 
+  static String m0(gradeName) => "الشعب لصف ${gradeName}";
+
+  static String m1(schoolName) => "المواد في ${schoolName}";
+
+  static String m2(subjectName) => "الصفوف لمادة ${subjectName}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "Activities": MessageLookupByLibrary.simpleMessage("الأنشطة"),
@@ -63,6 +69,8 @@ class MessageLookup extends MessageLookupByLibrary {
       "تصفح معلومات المدرسة",
     ),
     "cancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
+    "class_name": MessageLookupByLibrary.simpleMessage("الصف"),
+    "classes": MessageLookupByLibrary.simpleMessage("الصفوف"),
     "close": MessageLookupByLibrary.simpleMessage("إغلاق"),
     "date": MessageLookupByLibrary.simpleMessage("التاريخ"),
     "date_unknown": MessageLookupByLibrary.simpleMessage("تاريخ غير محدد"),
@@ -74,6 +82,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "final_exam": MessageLookupByLibrary.simpleMessage("نهائي"),
     "final_grade": MessageLookupByLibrary.simpleMessage("العلامة النهائية"),
+    "grade_sections": m0,
     "guardianName": MessageLookupByLibrary.simpleMessage("ولي الأمر:"),
     "homework": MessageLookupByLibrary.simpleMessage("واجب"),
     "login": MessageLookupByLibrary.simpleMessage("دخول"),
@@ -101,6 +110,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "school_management_system": MessageLookupByLibrary.simpleMessage(
       "نظام إدارة المدارس",
     ),
+    "school_subjects": m1,
     "select_warning_type": MessageLookupByLibrary.simpleMessage(
       "اختر نوع الإنذار",
     ),
@@ -114,8 +124,13 @@ class MessageLookup extends MessageLookupByLibrary {
       "سجل الدخول للمتابعة",
     ),
     "subject": MessageLookupByLibrary.simpleMessage("مادة"),
+    "subject_grades": m2,
+    "subjects": MessageLookupByLibrary.simpleMessage("المواد"),
     "subjects_title": MessageLookupByLibrary.simpleMessage(" المواد الدراسية"),
     "teacher_prefix": MessageLookupByLibrary.simpleMessage("أ. "),
+    "teacher_profile": MessageLookupByLibrary.simpleMessage(
+      "الملف الشخصي للمعلم",
+    ),
     "title": MessageLookupByLibrary.simpleMessage("مدرستنا"),
     "type": MessageLookupByLibrary.simpleMessage("النوع"),
     "type_behavior": MessageLookupByLibrary.simpleMessage("سلوك"),
@@ -125,6 +140,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "حدث خطأ غير متوقع، حاول لاحقاً",
     ),
     "unknown_name": MessageLookupByLibrary.simpleMessage("غير معروف"),
+    "unknown_school": MessageLookupByLibrary.simpleMessage("مدرسة غير معروفة"),
     "username": MessageLookupByLibrary.simpleMessage("اسم المستخدم"),
     "viewAll": MessageLookupByLibrary.simpleMessage("عرض الكل"),
     "want_to_logout": MessageLookupByLibrary.simpleMessage(

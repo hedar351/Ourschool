@@ -608,6 +608,71 @@ class S {
       args: [],
     );
   }
+
+  /// `Teacher Profile`
+  String get teacher_profile {
+    return Intl.message(
+      'Teacher Profile',
+      name: 'teacher_profile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unknown School`
+  String get unknown_school {
+    return Intl.message(
+      'Unknown School',
+      name: 'unknown_school',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Subjects`
+  String get subjects {
+    return Intl.message('Subjects', name: 'subjects', desc: '', args: []);
+  }
+
+  /// `Classes`
+  String get classes {
+    return Intl.message('Classes', name: 'classes', desc: '', args: []);
+  }
+
+  /// `Subjects in {schoolName}`
+  String school_subjects(Object schoolName) {
+    return Intl.message(
+      'Subjects in $schoolName',
+      name: 'school_subjects',
+      desc: '',
+      args: [schoolName],
+    );
+  }
+
+  /// `Grades for {subjectName}`
+  String subject_grades(Object subjectName) {
+    return Intl.message(
+      'Grades for $subjectName',
+      name: 'subject_grades',
+      desc: '',
+      args: [subjectName],
+    );
+  }
+
+  /// `Sections for {gradeName}`
+  String grade_sections(Object gradeName) {
+    return Intl.message(
+      'Sections for $gradeName',
+      name: 'grade_sections',
+      desc: '',
+      args: [gradeName],
+    );
+  }
+
+  /// `Class`
+  String get class_name {
+    return Intl.message('Class', name: 'class_name', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

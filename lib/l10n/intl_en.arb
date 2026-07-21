@@ -74,5 +74,13 @@
   "type_dismissal_warning": "Dismissal Warning",
   "cancel": "Cancel",
   "add": "Add",
-  "please_select_type_and_reason": "Please select a type and fill the reason"
+  "please_select_type_and_reason": "Please select a type and fill the reason",
+  "teacher_profile": "Teacher Profile",
+  "unknown_school": "Unknown School",
+  "subjects": "Subjects",
+  "classes": "Classes",
+  "school_subjects": "Subjects in {schoolName}",
+  "subject_grades": "Grades for {subjectName}",
+  "grade_sections": "Sections for {gradeName}",
+  "class_name": "Class"
 }

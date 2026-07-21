@@ -3,62 +3,71 @@ import 'package:hive/hive.dart';
 import 'package:school/core/error/EXP.dart';
 import 'package:school/features/Counselor/data/Model/StudentsBySectionModel/StudentsBySectionModel.dart';
 
-abstract class CachedatasourceStudentList {
-  Future<Unit> cacheStudentsBySection(
+abstract class CacheTeacherStudentsList {
+  Future<Unit> cacheStudents(
     int localGradeNumber,
     int localSectionNumber,
+    int localSubjectId,
+
     Studentsbysectionmodel model,
   );
-  Future<Unit> deleteStudentsBySection();
-  Future<Studentsbysectionmodel> getCachedStudentsBySection(
+  Future<Unit> deleteStudents();
+  Future<Studentsbysectionmodel> getCachedStudents(
     int localGradeNumber,
     int localSectionNumber,
+    int localSubjectId,
   );
-  Stream<Studentsbysectionmodel> watchCachedStudentsBySection(
+  Stream<Studentsbysectionmodel> watchCachedStudents(
     int localGradeNumber,
     int localSectionNumber,
+    int localSubjectId,
   );
 }
 
-class CachedatasourceStudentListImp implements CachedatasourceStudentList {
+class CacheTeacherStudentsListImp implements CacheTeacherStudentsList {
   final Box<Studentsbysectionmodel> box;
 
-  CachedatasourceStudentListImp({required this.box});
+  CacheTeacherStudentsListImp({required this.box});
 
   @override
-  Future<Unit> cacheStudentsBySection(
+  Future<Unit> cacheStudents(
     int localGradeNumber,
     int localSectionNumber,
+    int localSubjectId,
+
     Studentsbysectionmodel model,
   ) async {
-    final key = '${localGradeNumber}_$localSectionNumber';
+    final key = '${localGradeNumber}_${localSectionNumber}_$localSubjectId';
     await box.put(key, model);
     return unit;
   }
 
   @override
-  Future<Unit> deleteStudentsBySection() async {
+  Future<Unit> deleteStudents() async {
     await box.clear();
     return unit;
   }
 
   @override
-  Future<Studentsbysectionmodel> getCachedStudentsBySection(
+  Future<Studentsbysectionmodel> getCachedStudents(
     int localGradeNumber,
     int localSectionNumber,
+    int localSubjectId,
   ) async {
-    final key = '${localGradeNumber}_$localSectionNumber';
+    final key = '${localGradeNumber}_${localSectionNumber}_$localSubjectId';
+
     final model = box.get(key);
     if (model == null) throw EmptyCacheExp();
     return model;
   }
 
   @override
-  Stream<Studentsbysectionmodel> watchCachedStudentsBySection(
+  Stream<Studentsbysectionmodel> watchCachedStudents(
     int localGradeNumber,
     int localSectionNumber,
+    int localSubjectId,
   ) {
-    final key = '${localGradeNumber}_$localSectionNumber';
+    final key = '${localGradeNumber}_${localSectionNumber}_$localSubjectId';
     return box
         .watch(key: key)
         .map((event) => event.value as Studentsbysectionmodel);

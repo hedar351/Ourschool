@@ -18,8 +18,9 @@ class SplashPage extends StatelessWidget {
           final role = state.user.role;
           routing(role!, context, state);
         } else if (state is AuthInitial || state is AuthErorr) {
-          Navigator.of(context).pushReplacement(
+          Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (_) => const WelcomeScreen()),
+            (route) => false,
           );
         }
         //ffgg
