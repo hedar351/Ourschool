@@ -27,16 +27,14 @@ class GradeCard extends StatelessWidget {
                   width: 56,
                   height: 56,
                   decoration: BoxDecoration(
-                    color:
-                        theme.colorScheme.tertiary.withOpacity(0.1) ??
-                        Colors.blue.withOpacity(0.1),
+                    color: theme.colorScheme.tertiary.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Center(
                     child: Text(
-                      (grade.name?.isNotEmpty == true) ? grade.name![0] : 'ص',
+                      (grade.name?.isNotEmpty == true) ? grade.name![0] : ' ',
                       style: TextStyle(
-                        color: theme.colorScheme.tertiary ?? Colors.blue,
+                        color: theme.colorScheme.tertiary,
                         fontWeight: FontWeight.bold,
                         fontSize: 24,
                       ),
@@ -65,10 +63,7 @@ class GradeCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                Icon(
-                  Icons.chevron_right,
-                  color: theme.colorScheme.tertiary ?? Colors.blue,
-                ),
+                Icon(Icons.chevron_right, color: theme.colorScheme.tertiary),
               ],
             ),
           ),
