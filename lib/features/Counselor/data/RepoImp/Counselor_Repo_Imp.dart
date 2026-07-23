@@ -1,3 +1,5 @@
+// import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 import 'package:school/core/error/EXP.dart';
 import 'package:school/core/error/failures.dart';
@@ -9,10 +11,12 @@ import 'package:school/features/Counselor/data/DataSources/StudentList/Cachedata
 import 'package:school/features/Counselor/data/DataSources/StudentList/RemotedataSource.dart';
 import 'package:school/features/Counselor/data/DataSources/StudentProfile/RemoteDataStudentProfile.dart';
 import 'package:school/features/Counselor/data/DataSources/StudentProfile/cachDataStudentProfile.dart';
+import 'package:school/features/Counselor/data/DataSources/scheduleImage/remoteDataScheduleImage.dart';
 import 'package:school/features/Counselor/domain/Entities/StudentsBySectionEntity/StudentsBySectionEntity.dart';
 import 'package:school/features/Counselor/domain/Entities/StudentsProfileEntity/Counselor_WarningsEntity.dart';
 import 'package:school/features/Counselor/domain/Entities/StudentsProfileEntity/Counselor_studentFullProfile.dart';
 import 'package:school/features/Counselor/domain/Entities/gradeandSectionEntity/gradeEntity.dart';
+import 'package:school/features/Counselor/domain/Entities/scheduleImageEntity/GetscheduleImageEntity.dart';
 import 'package:school/features/Counselor/domain/Repo/CounselorRepo.dart';
 
 class CounselorRepoImp implements CounselorRepo {
@@ -24,6 +28,8 @@ class CounselorRepoImp implements CounselorRepo {
   final RemoteDataStudentProfile remoteStudentProfile;
   final CacheDataStudentProfile cacheStudentProfile;
   final Remotedatapostwarnings remotedatapostwarnings;
+  final Remotedatascheduleimage remotedatascheduleimage;
+
   CounselorRepoImp({
     required this.remote,
     required this.cache,
@@ -33,7 +39,28 @@ class CounselorRepoImp implements CounselorRepo {
     required this.remoteStudentProfile,
     required this.cacheStudentProfile,
     required this.remotedatapostwarnings,
+    required this.remotedatascheduleimage,
   });
+
+  @override
+  // Future<Either<Failures, Unit>> deletescheduleImage(
+  //   int localGradeNumber,
+  //   int localSectionNumber,
+  // ) async {
+  //   try {
+  //     await remotedatascheduleimage.deleteScheduleImage(
+  //       localGradeNumber,
+  //       localSectionNumber,
+  //     );
+  //     return Right(unit);
+  //   } on ServerExp {
+  //     return Left(ServerFailure());
+  //   } on TokenNotFoundExp {
+  //     return Left(EmptyCacheFailure());
+  //   } catch (e) {
+  //     return Left(ServerFailure());
+  //   }
+  // }
   @override
   Future<Either<Failures, CounselorStudentfullprofile>>
   getCounselorStudentfullProfile(int localStudentNumber) async {
@@ -78,6 +105,26 @@ class CounselorRepoImp implements CounselorRepo {
   }
 
   @override
+  Future<Either<Failures, Getscheduleimageentity>> getscheduleImage(
+    int localGradeNumber,
+    int localSectionNumber,
+  ) async {
+    try {
+      final model = await remotedatascheduleimage.getscheduleImage(
+        localGradeNumber,
+        localSectionNumber,
+      );
+      return Right(model);
+    } on ServerExp {
+      return Left(ServerFailure());
+    } on TokenNotFoundExp {
+      return Left(EmptyCacheFailure());
+    } catch (e) {
+      return Left(ServerFailure());
+    }
+  }
+
+  @override
   Future<Either<Failures, StudentsBySectionEntity>> getStudentsBySection(
     int localGradeNumber,
     int localSectionNumber,
@@ -109,6 +156,33 @@ class CounselorRepoImp implements CounselorRepo {
       return Left(OfflineFailure());
     }
   }
+
+  // @override
+  // Future<Either<Failures, PostscheduleImageEntity>> postscheduleImage(
+  //   int localGradeNumber,
+  //   int localSectionNumber,
+  //   String image,
+  // ) async {
+  //   if (await networkInfo.isConnected) {
+  //     try {
+  //       final file = File(image);
+  //       final model = await remotedatascheduleimage.postScheduleImage(
+  //         localGradeNumber,
+  //         localSectionNumber,
+  //         file,
+  //       );
+  //       return Right(model);
+  //     } on ServerExp {
+  //       return Left(ServerFailure());
+  //     } on TokenNotFoundExp {
+  //       return Left(EmptyCacheFailure());
+  //     } catch (e) {
+  //       return Left(ServerFailure());
+  //     }
+  //   } else {
+  //     return Left(OfflineFailure());
+  //   }
+  // }
 
   @override
   Future<Either<Failures, CounselorWarningsentity>> postWarnings(

@@ -49,6 +49,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../features/Auth/data/datasources/remote_data_source.dart';
 import '../features/Auth/domain/useCases/Log_out_UseCase.dart';
 import '../features/Auth/domain/useCases/LoginUseCase.dart';
+import '../features/Counselor/UI/bloc/schedule-imagesBloc/schedule_images_bloc.dart';
+import '../features/Counselor/data/DataSources/scheduleImage/remoteDataScheduleImage.dart';
+import '../features/Counselor/domain/UseCases/GetScheduleImageUseCase.dart';
 import '../features/Teacher/data/RepoImp/TeacherRepoImp.dart';
 import '../features/Teacher/data/dataSources/GetTeacherFullprofile/cacheDataGetTeacherFullprofile.dart';
 import '../features/Teacher/data/dataSources/GetTeacherFullprofile/remoteDataGetTeacherFullProfile.dart';
@@ -102,6 +105,10 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<AuthLocalDataSource>(
     () => AuthLocalDataSourceImp(sharedPreferences: sl()),
+  );
+  // ==================== Schedule Image Data Source ====================
+  sl.registerLazySingleton<Remotedatascheduleimage>(
+    () => RemotedatascheduleimageImpl(client: sl(), authLocalDataSource: sl()),
   );
 
   // Bulletin
@@ -185,6 +192,7 @@ Future<void> init() async {
       remoteStudentProfile: sl(),
       cacheStudentProfile: sl(),
       remotedatapostwarnings: sl(),
+      remotedatascheduleimage: sl(),
     ),
   );
   // ==================== Teacher Repository ====================
@@ -223,6 +231,10 @@ Future<void> init() async {
   // print("🟢 [injection] Postwarningsusecase registered successfully");
 
   sl.registerLazySingleton(() => Getstudentsusecase(repository: sl()));
+  // ==================== Schedule Image Use Cases ====================
+  sl.registerLazySingleton(() => Getscheduleimageusecase(repository: sl()));
+  // sl.registerLazySingleton(() => Postscheduleimageusecase(repository: sl()));
+  // sl.registerLazySingleton(() => Deletescheduleimageusecase(repository: sl()));
   // ==================== Blocs ====================
   // Auth
   sl.registerFactory(
@@ -269,6 +281,14 @@ Future<void> init() async {
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
   // ==================== Teacher Student List Bloc ====================
   sl.registerFactory(() => TeacherStudentListBloc(teacherRepo: sl()));
+  // ==================== Schedule Images Bloc ====================
+  sl.registerFactory(
+    () => ScheduleImagesBloc(
+      getScheduleImageUseCase: sl(),
+      // uploadScheduleImageUseCase: sl(),
+      // deleteScheduleImageUseCase: sl(),
+    ),
+  );
   // ==================== External ====================
   final sharedPreferences = await SharedPreferences.getInstance();
   sl.registerLazySingleton(() => sharedPreferences);

@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:school/core/injection.dart' as di;
-import 'package:school/core/widget/Loadingwidget.dart';
+import 'package:school/core/widget/showImageViewer.dart';
 import 'package:school/features/Counselor/UI/bloc/StudentListBLoc/student_list_bloc.dart';
-import 'package:school/features/Counselor/UI/bloc/StudentListBLoc/student_list_event.dart';
-import 'package:school/features/Counselor/UI/bloc/StudentListBLoc/student_list_state.dart';
-import 'package:school/features/Counselor/UI/page/CounsolerStudentDetailScreen.dart';
-import 'package:school/features/Counselor/domain/Entities/StudentsBySectionEntity/studentEntity.dart';
-import 'package:school/generated/l10n.dart';
+
+import '../../../../core/injection.dart' as di;
+import '../../../../core/widget/Loadingwidget.dart';
+import '../../../../generated/l10n.dart';
+import '../../domain/Entities/StudentsBySectionEntity/studentEntity.dart';
+import '../bloc/StudentListBLoc/student_list_event.dart';
+import '../bloc/StudentListBLoc/student_list_state.dart';
+import '../bloc/schedule-imagesBloc/schedule_images_bloc.dart';
+import 'CounsolerStudentDetailScreen.dart';
 
 class CounselorStudentsScreen extends StatefulWidget {
   final int localGradeNumber;
   final int localSectionNumber;
   final String sectionName;
+
   const CounselorStudentsScreen({
     super.key,
     required this.sectionName,
@@ -36,41 +40,56 @@ class _CounselorStudentsScreenState extends State<CounselorStudentsScreen>
   Widget build(BuildContext context) {
     super.build(context);
 
-    return BlocProvider(
-      create: (context) => di.sl<StudentsBloc>(),
-      child: BlocBuilder<StudentsBloc, StudentsState>(
-        builder: (context, state) {
-          if (!_loaded && state is StudentsInitial) {
-            _loaded = true;
-            context.read<StudentsBloc>().add(
-              GetStudentsEvent(
-                localGradeNumber: widget.localGradeNumber,
-                localSectionNumber: widget.localSectionNumber,
-              ),
-            );
-            print(
-              "[bloc]: context.read<StudentsBloc>().add(GetStudentsEvent())",
-            );
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => di.sl<StudentsBloc>()),
+        BlocProvider(create: (context) => di.sl<ScheduleImagesBloc>()),
+      ],
+      child: BlocListener<ScheduleImagesBloc, ScheduleImagesState>(
+        listener: (context, state) {
+          if (state is ScheduleImagesLoaded) {
+            setState(() {});
+            showImageViewer(context, state.scheduleImage.imageUrl);
+          } else if (state is ScheduleImagesError) {
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(state.message)));
           }
-
-          if (state is StudentsLoading) {
-            return const Loadingwidget();
-          }
-
-          if (state is StudentsLoaded) {
-            final students = state.students.students ?? [];
-            if (students.isEmpty) {
-              return _buildEmptyState(context);
-            }
-            return _buildLoadedState(context, state, students);
-          }
-
-          if (state is StudentsError) {
-            return _buildErrorState(context, state.message);
-          }
-
-          return const Loadingwidget();
         },
+        child: BlocBuilder<StudentsBloc, StudentsState>(
+          builder: (context, state) {
+            if (!_loaded && state is StudentsInitial) {
+              _loaded = true;
+              context.read<StudentsBloc>().add(
+                GetStudentsEvent(
+                  localGradeNumber: widget.localGradeNumber,
+                  localSectionNumber: widget.localSectionNumber,
+                ),
+              );
+              print(
+                "[bloc]: context.read<StudentsBloc>().add(GetStudentsEvent())",
+              );
+            }
+
+            if (state is StudentsLoading) {
+              return const Loadingwidget();
+            }
+
+            if (state is StudentsLoaded) {
+              final students = state.students.students ?? [];
+              if (students.isEmpty) {
+                return _buildEmptyState(context);
+              }
+              return _buildLoadedState(context, state, students);
+            }
+
+            if (state is StudentsError) {
+              return _buildErrorState(context, state.message);
+            }
+
+            return const Loadingwidget();
+          },
+        ),
       ),
     );
   }
@@ -131,6 +150,21 @@ class _CounselorStudentsScreenState extends State<CounselorStudentsScreen>
     );
   }
 
+  Widget _buildFloatingActionButton(BuildContext context) {
+    return FloatingActionButton(
+      onPressed: () {
+        context.read<ScheduleImagesBloc>().add(
+          GetScheduleImageEvent(
+            localGradeNumber: widget.localGradeNumber,
+            localSectionNumber: widget.localSectionNumber,
+          ),
+        );
+      },
+      backgroundColor: Colors.green,
+      child: const Icon(Icons.image),
+    );
+  }
+
   Widget _buildLoadedState(
     BuildContext context,
     StudentsLoaded state,
@@ -139,6 +173,7 @@ class _CounselorStudentsScreenState extends State<CounselorStudentsScreen>
     return Scaffold(
       appBar: AppBar(title: Text(widget.sectionName)),
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      floatingActionButton: _buildFloatingActionButton(context),
       body: Stack(
         children: [
           RefreshIndicator(
@@ -265,7 +300,6 @@ class _CounselorStudentsScreenState extends State<CounselorStudentsScreen>
                   ],
                 ),
               ),
-              // سهم للتفاصيل (يمكن إضافة صفحة تفاصيل لاحقاً)
               Icon(Icons.chevron_right, color: theme.colorScheme.primary),
             ],
           ),

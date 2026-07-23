@@ -4,8 +4,14 @@ import 'package:school/features/Counselor/domain/Entities/StudentsBySectionEntit
 import 'package:school/features/Counselor/domain/Entities/StudentsProfileEntity/Counselor_WarningsEntity.dart';
 import 'package:school/features/Counselor/domain/Entities/StudentsProfileEntity/Counselor_studentFullProfile.dart';
 import 'package:school/features/Counselor/domain/Entities/gradeandSectionEntity/gradeEntity.dart';
+import 'package:school/features/Counselor/domain/Entities/scheduleImageEntity/GetscheduleImageEntity.dart';
 
 abstract class CounselorRepo {
+  // Future<Either<Failures, Unit>> deletescheduleImage(
+  //   int localGradeNumber,
+  //   int localSectionNumber,
+  // );
+
   // Student Full Profile
   Future<Either<Failures, CounselorStudentfullprofile>>
   getCounselorStudentfullProfile(int localStudentNumber);
@@ -15,8 +21,12 @@ abstract class CounselorRepo {
 
   // Grade & Section
   Future<Either<Failures, List<Gradeentity>>> getGradeAndSection();
-
   Future<Either<Failures, List<Gradeentity>>> getGradeAndSectionWithCache();
+  Future<Either<Failures, Getscheduleimageentity>> getscheduleImage(
+    int localGradeNumber,
+    int localSectionNumber,
+  );
+
   // Students by Section
   Future<Either<Failures, StudentsBySectionEntity>> getStudentsBySection(
     int localGradeNumber,
@@ -24,6 +34,13 @@ abstract class CounselorRepo {
   );
   Future<Either<Failures, StudentsBySectionEntity>>
   getStudentsBySectionWithCache(int localGradeNumber, int localSectionNumber);
+
+  // image
+  // Future<Either<Failures, PostscheduleImageEntity>> postscheduleImage(
+  //   int localGradeNumber,
+  //   int localSectionNumber,
+  //   String image,
+  // );
 
   // Actions
   Future<Either<Failures, CounselorWarningsentity>> postWarnings(
@@ -35,6 +52,7 @@ abstract class CounselorRepo {
   Stream<CounselorStudentfullprofile> watchCachedgetCounselorStudentfullProfile(
     int localStudentNumber,
   );
+
   Stream<List<Gradeentity>> watchCachedgetGradeAndSection();
 
   Stream<StudentsBySectionEntity> watchCachedgetStudentsBySection(
