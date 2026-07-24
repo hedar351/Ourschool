@@ -12,6 +12,8 @@ import 'package:school/features/Integration/SplashPage.dart';
 import 'package:school/generated/l10n.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'features/SchoolsInfo/UI/bloc/school_info_bloc.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await di.init();
@@ -28,6 +30,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider<SchoolInfoBloc>(
+          create: (context) => di.sl<SchoolInfoBloc>(),
+        ),
         BlocProvider(
           create: (context) => di.sl<AuthBloc>()..add(CheckAuthEvent()),
         ),

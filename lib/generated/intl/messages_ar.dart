@@ -65,13 +65,19 @@ class MessageLookup extends MessageLookupByLibrary {
     "add_warning_title": MessageLookupByLibrary.simpleMessage(
       "إضافة إنذار جديد",
     ),
+    "affiliatedSchools": MessageLookupByLibrary.simpleMessage(
+      "المدارس المنتسبة",
+    ),
     "browse_school": MessageLookupByLibrary.simpleMessage(
       "تصفح معلومات المدرسة",
     ),
+    "call": MessageLookupByLibrary.simpleMessage("اتصال"),
     "cancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
     "class_name": MessageLookupByLibrary.simpleMessage("الصف"),
     "classes": MessageLookupByLibrary.simpleMessage("الصفوف"),
+    "classesTaught": MessageLookupByLibrary.simpleMessage("الفصول الدراسية"),
     "close": MessageLookupByLibrary.simpleMessage("إغلاق"),
+    "contactInfo": MessageLookupByLibrary.simpleMessage("معلومات التواصل"),
     "date": MessageLookupByLibrary.simpleMessage("التاريخ"),
     "date_unknown": MessageLookupByLibrary.simpleMessage("تاريخ غير محدد"),
     "empty_cache_failure": MessageLookupByLibrary.simpleMessage(
@@ -82,6 +88,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "final_exam": MessageLookupByLibrary.simpleMessage("نهائي"),
     "final_grade": MessageLookupByLibrary.simpleMessage("العلامة النهائية"),
+    "fullName": MessageLookupByLibrary.simpleMessage("الاسم الكامل"),
     "grade_sections": m0,
     "guardianName": MessageLookupByLibrary.simpleMessage("ولي الأمر:"),
     "homework": MessageLookupByLibrary.simpleMessage("واجب"),
@@ -90,6 +97,16 @@ class MessageLookup extends MessageLookupByLibrary {
       "تم تسجيل الدخول بنجاح",
     ),
     "marks_title": MessageLookupByLibrary.simpleMessage(" العلامات"),
+    "moreTeachers": MessageLookupByLibrary.simpleMessage("معلمين آخرين"),
+    "noAdditionalInfo": MessageLookupByLibrary.simpleMessage(
+      "لا توجد معلومات إضافية",
+    ),
+    "noSchools": MessageLookupByLibrary.simpleMessage(
+      "لا توجد مدارس متاحة حالياً",
+    ),
+    "noTeachers": MessageLookupByLibrary.simpleMessage(
+      "لا يوجد معلمين في هذه المدرسة",
+    ),
     "not_specified": MessageLookupByLibrary.simpleMessage("غير محدد"),
     "offline_failure": MessageLookupByLibrary.simpleMessage(
       "لا يوجد اتصال بالإنترنت",
@@ -102,8 +119,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "please_select_type_and_reason": MessageLookupByLibrary.simpleMessage(
       "يرجى اختيار النوع وملء السبب",
     ),
+    "pullToRefresh": MessageLookupByLibrary.simpleMessage(
+      "اسحب للأسفل للتحديث",
+    ),
     "reason": MessageLookupByLibrary.simpleMessage("السبب"),
     "remember_me": MessageLookupByLibrary.simpleMessage("تذكرني"),
+    "retry": MessageLookupByLibrary.simpleMessage("إعادة المحاولة"),
     "school_description": MessageLookupByLibrary.simpleMessage(
       "بيئة تعليمية متكاملة تهدف إلى تطوير المهارات وبناء شخصية الطالب في جو من القيم والاحترام والتميز.",
     ),
@@ -111,6 +132,8 @@ class MessageLookup extends MessageLookupByLibrary {
       "نظام إدارة المدارس",
     ),
     "school_subjects": m1,
+    "schools": MessageLookupByLibrary.simpleMessage("المدارس"),
+    "schoolsCount": MessageLookupByLibrary.simpleMessage("مدرسة"),
     "select_warning_type": MessageLookupByLibrary.simpleMessage(
       "اختر نوع الإنذار",
     ),
@@ -123,14 +146,24 @@ class MessageLookup extends MessageLookupByLibrary {
     "sign_in_continue": MessageLookupByLibrary.simpleMessage(
       "سجل الدخول للمتابعة",
     ),
+    "students": MessageLookupByLibrary.simpleMessage("طلاب"),
+    "studentsCount": MessageLookupByLibrary.simpleMessage("طالب"),
     "subject": MessageLookupByLibrary.simpleMessage("مادة"),
     "subject_grades": m2,
     "subjects": MessageLookupByLibrary.simpleMessage("المواد"),
+    "subjectsTaught": MessageLookupByLibrary.simpleMessage(
+      "المواد التي يدرسها",
+    ),
     "subjects_title": MessageLookupByLibrary.simpleMessage(" المواد الدراسية"),
+    "teacherDetails": MessageLookupByLibrary.simpleMessage("تفاصيل المعلم"),
     "teacher_prefix": MessageLookupByLibrary.simpleMessage("أ. "),
     "teacher_profile": MessageLookupByLibrary.simpleMessage(
       "الملف الشخصي للمعلم",
     ),
+    "teachers": MessageLookupByLibrary.simpleMessage("معلمين"),
+    "teachersCount": MessageLookupByLibrary.simpleMessage("معلمين"),
+    "teachersOf": MessageLookupByLibrary.simpleMessage("معلمي"),
+    "teachingStaff": MessageLookupByLibrary.simpleMessage("الكادر التدريسي"),
     "title": MessageLookupByLibrary.simpleMessage("مدرستنا"),
     "type": MessageLookupByLibrary.simpleMessage("النوع"),
     "type_behavior": MessageLookupByLibrary.simpleMessage("سلوك"),

@@ -52,6 +52,17 @@ import '../features/Auth/domain/useCases/LoginUseCase.dart';
 import '../features/Counselor/UI/bloc/schedule-imagesBloc/schedule_images_bloc.dart';
 import '../features/Counselor/data/DataSources/scheduleImage/remoteDataScheduleImage.dart';
 import '../features/Counselor/domain/UseCases/GetScheduleImageUseCase.dart';
+import '../features/SchoolsInfo/UI/bloc/school_info_bloc.dart';
+import '../features/SchoolsInfo/data/DataSource/SchoolCacheDataSource.dart';
+import '../features/SchoolsInfo/data/DataSource/SchoolRemoteDataSource.dart';
+import '../features/SchoolsInfo/data/RepoImp/SchoolRepositoryImpl.dart';
+import '../features/SchoolsInfo/data/models/SchoolInfoModel.dart';
+import '../features/SchoolsInfo/data/models/SchoolWithTeacherModel.dart';
+import '../features/SchoolsInfo/data/models/SectionsModel.dart';
+import '../features/SchoolsInfo/data/models/SubjectsModel.dart';
+import '../features/SchoolsInfo/data/models/TeacherInfoModel.dart';
+import '../features/SchoolsInfo/domain/Repo/SchoolRepository.dart';
+import '../features/SchoolsInfo/domain/UseCase/SchoolwithTeacherUseCase.dart';
 import '../features/Teacher/data/RepoImp/TeacherRepoImp.dart';
 import '../features/Teacher/data/dataSources/GetTeacherFullprofile/cacheDataGetTeacherFullprofile.dart';
 import '../features/Teacher/data/dataSources/GetTeacherFullprofile/remoteDataGetTeacherFullProfile.dart';
@@ -84,6 +95,12 @@ Future<void> init() async {
   Hive.registerAdapter(TeacherModelAdapter());
   Hive.registerAdapter(SchoolsModelAdapter());
   Hive.registerAdapter(SubjectModelAdapter());
+  Hive.registerAdapter(SubjectsModelAdapter()); // typeId: 14
+  Hive.registerAdapter(SectionsModelAdapter()); // typeId: 15
+  Hive.registerAdapter(TeacherInfoModelAdapter()); // typeId: 16
+  Hive.registerAdapter(SchoolInfoModelAdapter()); // typeId: 17
+  Hive.registerAdapter(SchoolWithTeacherModelAdapter()); // typeId: 18
+
   final studentProfileBox =
       await Hive.openBox<CounselorStudentFullProfileModel>(
         'studentFullProfileBox',
@@ -96,6 +113,9 @@ Future<void> init() async {
   final teacherFullProfileBox = await Hive.openBox<TeacherFullProfileModel>(
     'teacherFullProfileBox',
   );
+
+  final schoolBox = await Hive.openBox<SchoolWithTeacherModel>('schoolBox');
+
   print('✅ All Hive boxes opened');
 
   // ==================== Data Sources (All) ====================
@@ -143,6 +163,8 @@ Future<void> init() async {
   sl.registerLazySingleton<CacheDataStudentProfile>(
     () => CacheDataStudentProfileImp(box: studentProfileBox),
   );
+
+  sl.registerLazySingleton(() => schoolBox);
 
   // Counselor - Post Warning
   sl.registerLazySingleton<Remotedatapostwarnings>(
@@ -294,4 +316,30 @@ Future<void> init() async {
   sl.registerLazySingleton(() => sharedPreferences);
   sl.registerLazySingleton(() => http.Client());
   sl.registerLazySingleton(() => InternetConnectionChecker.instance);
+
+  // ======================================================================
+  // ======== 3. SCHOOLS INFO ========
+  // ======================================================================
+
+  // ----- 3.1 Data Sources -----
+  sl.registerLazySingleton<SchoolRemoteDataSource>(
+    () => SchoolRemoteDataSourceImpl(client: sl()),
+  );
+
+  sl.registerLazySingleton<SchoolCacheDataSource>(
+    () => SchoolCacheDataSourceImpl(box: schoolBox),
+  );
+
+  // ----- 3.2 Repository -----
+  sl.registerLazySingleton<SchoolRepository>(
+    () => SchoolRepositoryImpl(remote: sl(), cache: sl(), networkInfo: sl()),
+  );
+
+  // ----- 3.3 UseCase -----
+  sl.registerLazySingleton(() => SchoolwithTeacherUseCase(repo: sl()));
+
+  // ----- 3.4 Bloc -----
+  sl.registerFactory(
+    () => SchoolInfoBloc(getSchoolsUseCase: sl(), repository: sl()),
+  );
 }

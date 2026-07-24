@@ -25,7 +25,7 @@ class SectionModel extends HiveObject {
   factory SectionModel.fromJson(Map<String, dynamic> json) {
     return SectionModel(
       id: json['id'],
-      name: json['name'],
+      name: json['sectionName'],
       localSectionNumber: json['localSectionNumber'],
     );
   }

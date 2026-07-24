@@ -1,38 +1,44 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'TeacherModel.dart';
+part of 'SectionsModel.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class TeacherModelAdapter extends TypeAdapter<TeacherModel> {
+class SectionsModelAdapter extends TypeAdapter<SectionsModel> {
   @override
-  final int typeId = 11;
+  final int typeId = 15;
 
   @override
-  TeacherModel read(BinaryReader reader) {
+  SectionsModel read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return TeacherModel(
-      id: fields[0] as int?,
-      localEmployeeNumber: fields[1] as int?,
-      name: fields[2] as String?,
+    return SectionsModel(
+      sectionId: fields[0] as int?,
+      sectionName: fields[1] as String?,
+      localSectionNumber: fields[2] as int?,
+      gradeName: fields[3] as String?,
+      localGradeNumber: fields[4] as int?,
     );
   }
 
   @override
-  void write(BinaryWriter writer, TeacherModel obj) {
+  void write(BinaryWriter writer, SectionsModel obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(5)
       ..writeByte(0)
-      ..write(obj.id)
+      ..write(obj.sectionId)
       ..writeByte(1)
-      ..write(obj.localEmployeeNumber)
+      ..write(obj.sectionName)
       ..writeByte(2)
-      ..write(obj.name);
+      ..write(obj.localSectionNumber)
+      ..writeByte(3)
+      ..write(obj.gradeName)
+      ..writeByte(4)
+      ..write(obj.localGradeNumber);
   }
 
   @override
@@ -41,7 +47,7 @@ class TeacherModelAdapter extends TypeAdapter<TeacherModel> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is TeacherModelAdapter &&
+      other is SectionsModelAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

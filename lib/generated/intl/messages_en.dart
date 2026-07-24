@@ -56,7 +56,7 @@ class MessageLookup extends MessageLookupByLibrary {
           "There are no bulletins at the moment",
         ),
     "There_are_no_sections_at_the_moment": MessageLookupByLibrary.simpleMessage(
-      "There_are_no_sections_at_the_moment",
+      "There are no sections at the moment",
     ),
     "Unavailable": MessageLookupByLibrary.simpleMessage("Unavailable"),
     "Username": MessageLookupByLibrary.simpleMessage(
@@ -69,13 +69,19 @@ class MessageLookup extends MessageLookupByLibrary {
     "add_warning_title": MessageLookupByLibrary.simpleMessage(
       "Add New Warning",
     ),
+    "affiliatedSchools": MessageLookupByLibrary.simpleMessage(
+      "Affiliated Schools",
+    ),
     "browse_school": MessageLookupByLibrary.simpleMessage(
       "Browse school information",
     ),
+    "call": MessageLookupByLibrary.simpleMessage("Call"),
     "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
     "class_name": MessageLookupByLibrary.simpleMessage("Class"),
     "classes": MessageLookupByLibrary.simpleMessage("Classes"),
+    "classesTaught": MessageLookupByLibrary.simpleMessage("Classes Taught"),
     "close": MessageLookupByLibrary.simpleMessage("Close"),
+    "contactInfo": MessageLookupByLibrary.simpleMessage("Contact Info"),
     "date": MessageLookupByLibrary.simpleMessage("Date"),
     "date_unknown": MessageLookupByLibrary.simpleMessage("Unknown date"),
     "empty_cache_failure": MessageLookupByLibrary.simpleMessage(
@@ -85,13 +91,22 @@ class MessageLookup extends MessageLookupByLibrary {
       "Browse school information",
     ),
     "final_exam": MessageLookupByLibrary.simpleMessage("Final"),
-    "final_grade": MessageLookupByLibrary.simpleMessage("final grade"),
+    "final_grade": MessageLookupByLibrary.simpleMessage("Final Grade"),
+    "fullName": MessageLookupByLibrary.simpleMessage("Full Name"),
     "grade_sections": m0,
-    "guardianName": MessageLookupByLibrary.simpleMessage("guardian Name:"),
+    "guardianName": MessageLookupByLibrary.simpleMessage("Guardian Name:"),
     "homework": MessageLookupByLibrary.simpleMessage("Homework"),
     "login": MessageLookupByLibrary.simpleMessage("Login"),
     "login_success": MessageLookupByLibrary.simpleMessage("Login successful"),
     "marks_title": MessageLookupByLibrary.simpleMessage(" Marks"),
+    "moreTeachers": MessageLookupByLibrary.simpleMessage("more teachers"),
+    "noAdditionalInfo": MessageLookupByLibrary.simpleMessage(
+      "No additional information",
+    ),
+    "noSchools": MessageLookupByLibrary.simpleMessage("No schools available"),
+    "noTeachers": MessageLookupByLibrary.simpleMessage(
+      "No teachers in this school",
+    ),
     "not_specified": MessageLookupByLibrary.simpleMessage("Not specified"),
     "offline_failure": MessageLookupByLibrary.simpleMessage(
       "No internet connection",
@@ -104,8 +119,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "please_select_type_and_reason": MessageLookupByLibrary.simpleMessage(
       "Please select a type and fill the reason",
     ),
+    "pullToRefresh": MessageLookupByLibrary.simpleMessage(
+      "Pull down to refresh",
+    ),
     "reason": MessageLookupByLibrary.simpleMessage("Reason"),
     "remember_me": MessageLookupByLibrary.simpleMessage("Remember me"),
+    "retry": MessageLookupByLibrary.simpleMessage("Retry"),
     "school_description": MessageLookupByLibrary.simpleMessage(
       "An integrated educational environment that aims to develop skills and build the student\'s personality in an atmosphere of values, respect, and excellence.",
     ),
@@ -113,10 +132,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "School Management System",
     ),
     "school_subjects": m1,
+    "schools": MessageLookupByLibrary.simpleMessage("Schools"),
+    "schoolsCount": MessageLookupByLibrary.simpleMessage("school"),
     "select_warning_type": MessageLookupByLibrary.simpleMessage(
       "Select Warning Type",
     ),
-    "semester": MessageLookupByLibrary.simpleMessage("semester"),
+    "semester": MessageLookupByLibrary.simpleMessage("Semester"),
     "semester_1": MessageLookupByLibrary.simpleMessage("First Semester"),
     "semester_2": MessageLookupByLibrary.simpleMessage("Second Semester"),
     "server_failure": MessageLookupByLibrary.simpleMessage(
@@ -125,12 +146,20 @@ class MessageLookup extends MessageLookupByLibrary {
     "sign_in_continue": MessageLookupByLibrary.simpleMessage(
       "Sign in to continue",
     ),
+    "students": MessageLookupByLibrary.simpleMessage("Students"),
+    "studentsCount": MessageLookupByLibrary.simpleMessage("student"),
     "subject": MessageLookupByLibrary.simpleMessage("Subject"),
     "subject_grades": m2,
     "subjects": MessageLookupByLibrary.simpleMessage("Subjects"),
+    "subjectsTaught": MessageLookupByLibrary.simpleMessage("Subjects Taught"),
     "subjects_title": MessageLookupByLibrary.simpleMessage(" Subjects"),
+    "teacherDetails": MessageLookupByLibrary.simpleMessage("Teacher Details"),
     "teacher_prefix": MessageLookupByLibrary.simpleMessage("Mr./Ms."),
     "teacher_profile": MessageLookupByLibrary.simpleMessage("Teacher Profile"),
+    "teachers": MessageLookupByLibrary.simpleMessage("Teachers"),
+    "teachersCount": MessageLookupByLibrary.simpleMessage("teachers"),
+    "teachersOf": MessageLookupByLibrary.simpleMessage("Teachers of"),
+    "teachingStaff": MessageLookupByLibrary.simpleMessage("Teaching Staff"),
     "title": MessageLookupByLibrary.simpleMessage("Our School"),
     "type": MessageLookupByLibrary.simpleMessage("Type"),
     "type_behavior": MessageLookupByLibrary.simpleMessage("Behavior"),

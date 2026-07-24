@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:school/features/SchoolsInfo/UI/page/schools_screen.dart';
 import 'package:school/generated/l10n.dart';
 
 class LoginFooter extends StatelessWidget {
@@ -27,7 +28,16 @@ class LoginFooter extends StatelessWidget {
         ),
         const SizedBox(height: 24),
         OutlinedButton.icon(
-          onPressed: isLoading ? null : () {},
+          onPressed: isLoading
+              ? null
+              : () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SchoolsScreen(),
+                    ),
+                  );
+                },
           icon: Icon(
             Icons.school_outlined,
             color: Theme.of(context).colorScheme.primary,

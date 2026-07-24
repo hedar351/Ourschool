@@ -379,20 +379,20 @@ class S {
     return Intl.message('Sections', name: 'Sections', desc: '', args: []);
   }
 
-  /// `There_are_no_sections_at_the_moment`
+  /// `There are no sections at the moment`
   String get There_are_no_sections_at_the_moment {
     return Intl.message(
-      'There_are_no_sections_at_the_moment',
+      'There are no sections at the moment',
       name: 'There_are_no_sections_at_the_moment',
       desc: '',
       args: [],
     );
   }
 
-  /// `guardian Name:`
+  /// `Guardian Name:`
   String get guardianName {
     return Intl.message(
-      'guardian Name:',
+      'Guardian Name:',
       name: 'guardianName',
       desc: '',
       args: [],
@@ -544,14 +544,14 @@ class S {
     return Intl.message('Mr./Ms.', name: 'teacher_prefix', desc: '', args: []);
   }
 
-  /// `semester`
+  /// `Semester`
   String get semester {
-    return Intl.message('semester', name: 'semester', desc: '', args: []);
+    return Intl.message('Semester', name: 'semester', desc: '', args: []);
   }
 
-  /// `final grade`
+  /// `Final Grade`
   String get final_grade {
-    return Intl.message('final grade', name: 'final_grade', desc: '', args: []);
+    return Intl.message('Final Grade', name: 'final_grade', desc: '', args: []);
   }
 
   /// `Add New Warning`
@@ -672,6 +672,168 @@ class S {
   /// `Class`
   String get class_name {
     return Intl.message('Class', name: 'class_name', desc: '', args: []);
+  }
+
+  /// `Schools`
+  String get schools {
+    return Intl.message('Schools', name: 'schools', desc: '', args: []);
+  }
+
+  /// `No schools available`
+  String get noSchools {
+    return Intl.message(
+      'No schools available',
+      name: 'noSchools',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pull down to refresh`
+  String get pullToRefresh {
+    return Intl.message(
+      'Pull down to refresh',
+      name: 'pullToRefresh',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Retry`
+  String get retry {
+    return Intl.message('Retry', name: 'retry', desc: '', args: []);
+  }
+
+  /// `Teachers`
+  String get teachers {
+    return Intl.message('Teachers', name: 'teachers', desc: '', args: []);
+  }
+
+  /// `Students`
+  String get students {
+    return Intl.message('Students', name: 'students', desc: '', args: []);
+  }
+
+  /// `Teaching Staff`
+  String get teachingStaff {
+    return Intl.message(
+      'Teaching Staff',
+      name: 'teachingStaff',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `more teachers`
+  String get moreTeachers {
+    return Intl.message(
+      'more teachers',
+      name: 'moreTeachers',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Teachers of`
+  String get teachersOf {
+    return Intl.message('Teachers of', name: 'teachersOf', desc: '', args: []);
+  }
+
+  /// `No teachers in this school`
+  String get noTeachers {
+    return Intl.message(
+      'No teachers in this school',
+      name: 'noTeachers',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Teacher Details`
+  String get teacherDetails {
+    return Intl.message(
+      'Teacher Details',
+      name: 'teacherDetails',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Contact Info`
+  String get contactInfo {
+    return Intl.message(
+      'Contact Info',
+      name: 'contactInfo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Full Name`
+  String get fullName {
+    return Intl.message('Full Name', name: 'fullName', desc: '', args: []);
+  }
+
+  /// `Call`
+  String get call {
+    return Intl.message('Call', name: 'call', desc: '', args: []);
+  }
+
+  /// `Subjects Taught`
+  String get subjectsTaught {
+    return Intl.message(
+      'Subjects Taught',
+      name: 'subjectsTaught',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No additional information`
+  String get noAdditionalInfo {
+    return Intl.message(
+      'No additional information',
+      name: 'noAdditionalInfo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Affiliated Schools`
+  String get affiliatedSchools {
+    return Intl.message(
+      'Affiliated Schools',
+      name: 'affiliatedSchools',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `school`
+  String get schoolsCount {
+    return Intl.message('school', name: 'schoolsCount', desc: '', args: []);
+  }
+
+  /// `teachers`
+  String get teachersCount {
+    return Intl.message('teachers', name: 'teachersCount', desc: '', args: []);
+  }
+
+  /// `student`
+  String get studentsCount {
+    return Intl.message('student', name: 'studentsCount', desc: '', args: []);
+  }
+
+  // skipped getter for the 'full name' key
+
+  /// `Classes Taught`
+  String get classesTaught {
+    return Intl.message(
+      'Classes Taught',
+      name: 'classesTaught',
+      desc: '',
+      args: [],
+    );
   }
 }
 

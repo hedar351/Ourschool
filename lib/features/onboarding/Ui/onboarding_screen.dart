@@ -4,6 +4,7 @@ import 'package:school/core/cubit/locale_cubit.dart';
 import 'package:school/core/widget/PopupMenu.dart';
 import 'package:school/core/widget/theme_toggle_button.dart';
 import 'package:school/features/Auth/ui/page/login_page.dart';
+import 'package:school/features/SchoolsInfo/UI/page/schools_screen.dart';
 
 import 'welcome_content_card.dart';
 import 'welcome_header.dart';
@@ -28,46 +29,50 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     return Scaffold(
       body: Container(
         color: Theme.of(context).scaffoldBackgroundColor,
-        child: SafeArea(
-          child: FadeTransition(
-            opacity: _fadeAnimation,
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 24,
-                  vertical: 20,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    const WelcomeHeader(),
-                    const SizedBox(height: 48),
-                    WelcomeContentCard(
-                      onLoginPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const LoginPage(),
-                          ),
-                        );
-                      },
-                      onExplorePressed: () {},
-                    ),
-                    const SizedBox(height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const ThemeToggleButton(),
-                        PopupMenu(currentLocale: currentLocale, cubit: cubit),
-                      ],
-                    ),
-                  ],
-                ),
+        // child: SafeArea(
+        child: FadeTransition(
+          opacity: _fadeAnimation,
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const WelcomeHeader(),
+                  const SizedBox(height: 48),
+                  WelcomeContentCard(
+                    onLoginPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const LoginPage(),
+                        ),
+                      );
+                    },
+                    onExplorePressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SchoolsScreen(),
+                        ),
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const ThemeToggleButton(),
+                      PopupMenu(currentLocale: currentLocale, cubit: cubit),
+                    ],
+                  ),
+                ],
               ),
             ),
           ),
         ),
+        // ),
       ),
     );
   }
