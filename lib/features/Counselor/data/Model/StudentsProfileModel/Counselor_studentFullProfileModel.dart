@@ -3,6 +3,7 @@ import 'package:school/features/Counselor/data/Model/StudentsBySectionModel/stud
 import 'package:school/features/Counselor/data/Model/StudentsProfileModel/Counselor_MarkModel.dart';
 import 'package:school/features/Counselor/data/Model/StudentsProfileModel/Counselor_SubjectsModel.dart';
 import 'package:school/features/Counselor/data/Model/StudentsProfileModel/Counselor_WarningsModel.dart';
+import 'package:school/features/Counselor/data/Model/attendanceModel/attendanceModel.dart';
 import 'package:school/features/Counselor/domain/Entities/StudentsProfileEntity/Counselor_studentFullProfile.dart';
 
 part 'Counselor_studentFullProfileModel.g.dart';
@@ -23,13 +24,15 @@ class CounselorStudentFullProfileModel extends HiveObject {
 
   @HiveField(4)
   final List<CounselorWarningModel>? warnings;
-
+  @HiveField(5)
+  final List<Attendancemodel>? attendance;
   CounselorStudentFullProfileModel({
     required this.message,
     required this.student,
     required this.subjects,
     required this.marks,
     required this.warnings,
+    required this.attendance,
   });
 
   factory CounselorStudentFullProfileModel.fromEntity(
@@ -49,28 +52,12 @@ class CounselorStudentFullProfileModel extends HiveObject {
       warnings: entity.warningsentity
           ?.map((e) => CounselorWarningModel.fromEntity(e))
           .toList(),
+      attendance: entity.attendance
+          ?.map((e) => Attendancemodel.fromEntity(e))
+          .toList(),
     );
   }
 
-  // factory CounselorStudentFullProfileModel.fromJson(Map<String, dynamic> json) {
-  //   final data = json['data'] as Map<String, dynamic>? ?? {};
-
-  //   return CounselorStudentFullProfileModel(
-  //     message: json['message'],
-  //     student: data['student'] != null
-  //         ? Studentmodel.fromJson(data['student'])
-  //         : null,
-  //     subjects: (data['subjects'] as List? ?? [])
-  //         .map((e) => CounselorSubjectModel.fromJson(e))
-  //         .toList(),
-  //     marks: (data['marks'] as List? ?? [])
-  //         .map((e) => CounselorMarkModel.fromJson(e))
-  //         .toList(),
-  //     warnings: (data['warnings'] as List? ?? [])
-  //         .map((e) => CounselorWarningModel.fromJson(e))
-  //         .toList(),
-  //   );
-  // }
   factory CounselorStudentFullProfileModel.fromJson(Map<String, dynamic> json) {
     final data = json['data'] as Map<String, dynamic>? ?? {};
     return CounselorStudentFullProfileModel(
@@ -87,6 +74,9 @@ class CounselorStudentFullProfileModel extends HiveObject {
       warnings: (data['warnings'] as List? ?? [])
           .map((e) => CounselorWarningModel.fromJson(e))
           .toList(),
+      attendance: (data['attendance'] as List? ?? [])
+          .map((e) => Attendancemodel.fromJson(e))
+          .toList(),
     );
   }
   CounselorStudentfullprofile toEntity() {
@@ -96,6 +86,7 @@ class CounselorStudentFullProfileModel extends HiveObject {
       subjectsentity: subjects?.map((e) => e.toEntity()).toList(),
       makrentity: marks?.map((e) => e.toEntity()).toList() ?? [],
       warningsentity: warnings?.map((e) => e.toEntity()).toList(),
+      attendance: attendance?.map((e) => e.toEntity()).toList(),
     );
   }
 
@@ -107,6 +98,7 @@ class CounselorStudentFullProfileModel extends HiveObject {
         'subjects': subjects?.map((e) => e.toJson()).toList(),
         'marks': marks?.map((e) => e.toJson()).toList(),
         'warnings': warnings?.map((e) => e.toJson()).toList(),
+        "attendance": attendance?.map((e) => e.toJson()).toList(),
       },
     };
   }

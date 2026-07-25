@@ -11,16 +11,6 @@ class SchoolInfoModelAdapter extends TypeAdapter<SchoolInfoModel> {
   final int typeId = 17;
 
   @override
-  int get hashCode => typeId.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is SchoolInfoModelAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
-
-  @override
   SchoolInfoModel read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
@@ -53,4 +43,14 @@ class SchoolInfoModelAdapter extends TypeAdapter<SchoolInfoModel> {
       ..writeByte(5)
       ..write(obj.teacherInfo);
   }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is SchoolInfoModelAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }

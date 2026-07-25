@@ -13,7 +13,7 @@ class SchoolCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final teachers = school.teacherInfo ?? [];
+    // final teachers = school.teacherInfo ?? [];
     final isDark = theme.brightness == Brightness.dark;
 
     return Card(
@@ -167,134 +167,6 @@ class SchoolCardWidget extends StatelessWidget {
                     ],
                   ),
                 ),
-
-              // const SizedBox(height: 14),
-
-              // // ====== الإحصائيات ======
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //   children: [
-              //     Expanded(
-              //       child: StatItemWidget(
-              //         icon: Icons.people_outline,
-              //         value: teachers.length.toString(),
-              //         label: 'معلمين',
-              //         color: theme.colorScheme.primary,
-              //       ),
-              //     ),
-              //     SizedBox(width: 10),
-              //     Expanded(
-              //       child: StatItemWidget(
-              //         icon: Icons.school_outlined,
-              //         value: '${teachers.length * 2}',
-              //         label: 'طلاب',
-              //         color: theme.colorScheme.secondary,
-              //       ),
-              //     ),
-
-              //     // Expanded(
-              //     //   child: StatItemWidget(
-              //     //     icon: Icons.book_outlined,
-              //     //     value: '${teachers.length * 3}',
-              //     //     label: 'مواد',
-              //     //     color: Colors.orange.shade600,
-              //     //   ),
-              //     // ),
-              //   ],
-              // ),
-
-              // // const SizedBox(height: 16),
-
-              // // ====== عرض المعلمين ======
-              // if (teachers.isNotEmpty) ...[
-              //   Row(
-              //     children: [
-              //       Container(
-              //         width: 3,
-              //         height: 18,
-              //         decoration: BoxDecoration(
-              //           color: theme.colorScheme.primary,
-              //           borderRadius: BorderRadius.circular(2),
-              //         ),
-              //       ),
-              //       const SizedBox(width: 10),
-              //       Text(
-              //         'الكادر التدريسي',
-              //         style: TextStyle(
-              //           fontSize: 15,
-              //           fontWeight: FontWeight.w600,
-              //           color: theme.colorScheme.onSurface,
-              //         ),
-              //       ),
-              //       const Spacer(),
-              //       InkWell(
-              //         onTap: () {
-              //           Navigator.push(
-              //             context,
-              //             MaterialPageRoute(
-              //               builder: (context) =>
-              //                   SchoolTeachersScreen(school: school),
-              //             ),
-              //           );
-              //         },
-              //         child: Row(
-              //           children: [
-              //             Text(
-              //               'عرض الكل',
-              //               style: TextStyle(
-              //                 fontSize: 12,
-              //                 color: theme.colorScheme.primary,
-              //                 fontWeight: FontWeight.w500,
-              //               ),
-              //             ),
-              //             Icon(
-              //               Icons.chevron_right,
-              //               size: 18,
-              //               color: theme.colorScheme.primary,
-              //             ),
-              //           ],
-              //         ),
-              //       ),
-              //     ],
-              //   ),
-              //   const SizedBox(height: 12),
-
-              //   // ...teachers
-              //   //     .take(2)
-              //   //     .map(
-              //   //       (teacher) => Padding(
-              //   //         padding: const EdgeInsets.only(bottom: 8),
-              //   //         child: TeacherCardWidget(
-              //   //           teacher: teacher,
-              //   //           onTap: () {
-              //   //             Navigator.push(
-              //   //               context,
-              //   //               MaterialPageRoute(
-              //   //                 builder: (context) => TeacherDetailsScreen(
-              //   //                   teacher: teacher,
-              //   //                   schoolName: school.name ?? '',
-              //   //                 ),
-              //   //               ),
-              //   //             );
-              //   //           },
-              //   //         ),
-              //   //       ),
-              //   // ),
-              //   if (teachers.length > 2)
-              //     Padding(
-              //       padding: const EdgeInsets.only(top: 4),
-              //       child: Center(
-              //         child: Text(
-              //           '+${teachers.length - 2} معلمين آخرين',
-              //           style: TextStyle(
-              //             fontSize: 12,
-              //             color: Colors.grey.shade500,
-              //             fontWeight: FontWeight.w500,
-              //           ),
-              //         ),
-              //       ),
-              //     ),
-              // ],
             ],
           ),
         ),

@@ -30,6 +30,10 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "Activities": MessageLookupByLibrary.simpleMessage("Activities"),
     "Announcements": MessageLookupByLibrary.simpleMessage("Announcements"),
+    "Attendance": MessageLookupByLibrary.simpleMessage("Attendances"),
+    "Attendance_Record": MessageLookupByLibrary.simpleMessage(
+      "Attendance Record",
+    ),
     "Cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
     "Home": MessageLookupByLibrary.simpleMessage("Home"),
     "Info": MessageLookupByLibrary.simpleMessage("AcademicRecord"),
@@ -47,6 +51,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "Settings": MessageLookupByLibrary.simpleMessage("Settings"),
     "Students": MessageLookupByLibrary.simpleMessage("Students"),
     "Theme": MessageLookupByLibrary.simpleMessage("Theme"),
+    "There_are_no_Marks_at_the_moment": MessageLookupByLibrary.simpleMessage(
+      "There are no Marks at the moment",
+    ),
+    "There_are_no_Warings_at_the_moment": MessageLookupByLibrary.simpleMessage(
+      "There are no Warings at the moment",
+    ),
     "There_are_no_activities_or_announcements_at_the_moment":
         MessageLookupByLibrary.simpleMessage(
           "There are no activities or announcements at the moment.",

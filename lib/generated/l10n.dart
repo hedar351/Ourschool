@@ -835,6 +835,41 @@ class S {
       args: [],
     );
   }
+
+  /// `There are no Marks at the moment`
+  String get There_are_no_Marks_at_the_moment {
+    return Intl.message(
+      'There are no Marks at the moment',
+      name: 'There_are_no_Marks_at_the_moment',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `There are no Warings at the moment`
+  String get There_are_no_Warings_at_the_moment {
+    return Intl.message(
+      'There are no Warings at the moment',
+      name: 'There_are_no_Warings_at_the_moment',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Attendances`
+  String get Attendance {
+    return Intl.message('Attendances', name: 'Attendance', desc: '', args: []);
+  }
+
+  /// `Attendance Record`
+  String get Attendance_Record {
+    return Intl.message(
+      'Attendance Record',
+      name: 'Attendance_Record',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

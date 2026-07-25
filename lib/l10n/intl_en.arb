@@ -104,5 +104,9 @@
   "teachersCount": "teachers",
   "studentsCount": "student",
   "full name": "full name",
-  "classesTaught": "Classes Taught"
+  "classesTaught": "Classes Taught",
+  "There_are_no_Marks_at_the_moment": "There are no Marks at the moment",
+  "There_are_no_Warings_at_the_moment": "There are no Warings at the moment",
+  "Attendance": "Attendances",
+  "Attendance_Record": "Attendance Record"
 }

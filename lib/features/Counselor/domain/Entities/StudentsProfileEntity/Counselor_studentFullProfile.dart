@@ -3,6 +3,7 @@ import 'package:school/features/Counselor/domain/Entities/StudentsBySectionEntit
 import 'package:school/features/Counselor/domain/Entities/StudentsProfileEntity/Counselor_MarkEntity.dart';
 import 'package:school/features/Counselor/domain/Entities/StudentsProfileEntity/Counselor_SubjectsEntity.dart';
 import 'package:school/features/Counselor/domain/Entities/StudentsProfileEntity/Counselor_WarningsEntity.dart';
+import 'package:school/features/Counselor/domain/Entities/attendanceEntity/attendanceEntity.dart';
 
 class CounselorStudentfullprofile extends Equatable {
   final String? message;
@@ -10,13 +11,14 @@ class CounselorStudentfullprofile extends Equatable {
   final List<CounselorSubjectsentity>? subjectsentity;
   final List<CounselorMarkentity>? makrentity;
   final List<CounselorWarningsentity>? warningsentity;
-
+  final List<AttendanceEntity>? attendance;
   const CounselorStudentfullprofile({
     required this.message,
     required this.studententity,
     required this.subjectsentity,
     required this.makrentity,
     required this.warningsentity,
+    required this.attendance,
   });
   @override
   List<Object?> get props => [
@@ -25,5 +27,6 @@ class CounselorStudentfullprofile extends Equatable {
     subjectsentity,
     makrentity,
     warningsentity,
+    attendance,
   ];
 }

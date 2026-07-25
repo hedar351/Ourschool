@@ -32,6 +32,7 @@ import 'package:school/features/Counselor/data/Model/StudentsProfileModel/Counse
 import 'package:school/features/Counselor/data/Model/StudentsProfileModel/Counselor_SubjectsModel.dart';
 import 'package:school/features/Counselor/data/Model/StudentsProfileModel/Counselor_WarningsModel.dart';
 import 'package:school/features/Counselor/data/Model/StudentsProfileModel/Counselor_studentFullProfileModel.dart';
+import 'package:school/features/Counselor/data/Model/attendanceModel/attendanceModel.dart';
 import 'package:school/features/Counselor/data/Model/gradeandSectionModel/gradeModel.dart';
 import 'package:school/features/Counselor/data/Model/gradeandSectionModel/sectionModel.dart';
 import 'package:school/features/Counselor/data/RepoImp/Counselor_Repo_Imp.dart';
@@ -100,6 +101,7 @@ Future<void> init() async {
   Hive.registerAdapter(TeacherInfoModelAdapter()); // typeId: 16
   Hive.registerAdapter(SchoolInfoModelAdapter()); // typeId: 17
   Hive.registerAdapter(SchoolWithTeacherModelAdapter()); // typeId: 18
+  Hive.registerAdapter(AttendancemodelAdapter()); // typeId: 18
 
   final studentProfileBox =
       await Hive.openBox<CounselorStudentFullProfileModel>(
@@ -255,8 +257,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => Getstudentsusecase(repository: sl()));
   // ==================== Schedule Image Use Cases ====================
   sl.registerLazySingleton(() => Getscheduleimageusecase(repository: sl()));
-  // sl.registerLazySingleton(() => Postscheduleimageusecase(repository: sl()));
-  // sl.registerLazySingleton(() => Deletescheduleimageusecase(repository: sl()));
+
   // ==================== Blocs ====================
   // Auth
   sl.registerFactory(

@@ -106,5 +106,9 @@
   "teachersCount": "معلمين",
   "studentsCount": "طالب",
   "full name": "الاسم الكامل",
-  "classesTaught": "الفصول الدراسية"
+  "classesTaught": "الفصول الدراسية",
+  "There_are_no_Marks_at_the_moment": " لا يوجد علامات للعرض",
+  "There_are_no_Warings_at_the_moment": "لا يوجد تنبيهات",
+  "Attendance": "الغيابات",
+  "Attendance_Record": "سجل الغيابات"
 }

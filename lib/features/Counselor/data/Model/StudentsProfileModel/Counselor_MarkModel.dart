@@ -58,19 +58,6 @@ class CounselorMarkModel extends HiveObject {
     );
   }
 
-  // factory CounselorMarkModel.fromJson(Map<String, dynamic> json) {
-  //   return CounselorMarkModel(
-  //     subjectId: json['subjectId'],
-  //     localSubjectId: json['localSubjectId'],
-  //     subjectName: json['subjectName'],
-  //     semester: json['semester'],
-  //     quiz1: json['quiz1'],
-  //     quiz2: json['quiz2'],
-  //     homework: json['homework'],
-  //     finalExam: json['finalExam'],
-  //     total: json['total'],
-  //   );
-  // }
   factory CounselorMarkModel.fromJson(Map<String, dynamic> json) {
     return CounselorMarkModel(
       subjectId: json['subjectId'] as int?,

@@ -1,14 +1,5 @@
 part of 'schedule_images_bloc.dart';
 
-// final class ScheduleImagesDeleted extends ScheduleImagesState {
-//   final String message;
-
-//   const ScheduleImagesDeleted({required this.message});
-
-//   @override
-//   List<Object?> get props => [message];
-// }
-
 final class ScheduleImagesError extends ScheduleImagesState {
   final String message;
 
@@ -37,12 +28,3 @@ sealed class ScheduleImagesState extends Equatable {
   @override
   List<Object?> get props => [];
 }
-
-// final class ScheduleImagesUploaded extends ScheduleImagesState {
-//   final String message;
-
-//   const ScheduleImagesUploaded({required this.message});
-
-//   @override
-//   List<Object?> get props => [message];
-// }

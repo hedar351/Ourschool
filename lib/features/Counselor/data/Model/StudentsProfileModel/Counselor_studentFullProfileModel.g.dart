@@ -23,13 +23,14 @@ class CounselorStudentFullProfileModelAdapter
       subjects: (fields[2] as List?)?.cast<CounselorSubjectModel>(),
       marks: (fields[3] as List?)?.cast<CounselorMarkModel>(),
       warnings: (fields[4] as List?)?.cast<CounselorWarningModel>(),
+      attendance: (fields[5] as List?)?.cast<Attendancemodel>(),
     );
   }
 
   @override
   void write(BinaryWriter writer, CounselorStudentFullProfileModel obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.message)
       ..writeByte(1)
@@ -39,7 +40,9 @@ class CounselorStudentFullProfileModelAdapter
       ..writeByte(3)
       ..write(obj.marks)
       ..writeByte(4)
-      ..write(obj.warnings);
+      ..write(obj.warnings)
+      ..writeByte(5)
+      ..write(obj.attendance);
   }
 
   @override
