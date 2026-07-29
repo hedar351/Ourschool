@@ -33,7 +33,6 @@ class Bulletincard extends StatelessWidget {
           child: InkWell(
             borderRadius: BorderRadius.circular(28),
             onTap: () {
-              // ✅ إضافة حدث النقر لتفاصيل البطاقة
               // Navigator.push(context, ...);
             },
             child: Column(
@@ -58,14 +57,28 @@ class Bulletincard extends StatelessWidget {
                       Icon(iconData, color: color, size: 24),
                       const SizedBox(width: 12),
                       Expanded(
-                        child: Text(
-                          _formatDate(entity.date),
-                          style: TextStyle(
-                            color: color,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 13,
-                            letterSpacing: 0.3,
-                          ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              _formatDate(entity.date),
+                              style: TextStyle(
+                                color: color,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 13,
+                                letterSpacing: 0.3,
+                              ),
+                            ),
+                            Text(
+                              entity.schoolName,
+                              style: TextStyle(
+                                color: color,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 13,
+                                letterSpacing: 0.3,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],

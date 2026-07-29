@@ -36,6 +36,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "Home": MessageLookupByLibrary.simpleMessage("الرئيسية"),
     "Info": MessageLookupByLibrary.simpleMessage("السجل الأكاديمي"),
     "Language": MessageLookupByLibrary.simpleMessage("اللغة"),
+    "Log": MessageLookupByLibrary.simpleMessage("تسجيل"),
     "Logout": MessageLookupByLibrary.simpleMessage("تسجيل الخروج"),
     "Ok": MessageLookupByLibrary.simpleMessage("حسناً"),
     "Password": MessageLookupByLibrary.simpleMessage(

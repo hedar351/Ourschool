@@ -11,6 +11,7 @@ abstract class Remotedatateacherstudentslist {
     int localGradeNumber,
     int localSectionNumber,
     int localSubjectId,
+    int schoolId,
   );
 }
 
@@ -29,6 +30,7 @@ class RemotedatateacherstudentslistImp
     int localGradeNumber,
     int localSectionNumber,
     int localSubjectId,
+    int schoolId,
   ) async {
     final token = await authLocalDataSource.getToken();
     if (token.isEmpty) {
@@ -39,7 +41,7 @@ class RemotedatateacherstudentslistImp
     final response = await client.get(
       Uri.parse(
         // "$baseUrl/teacher/sections/$localGradeNumber/$localSectionNumber/$localSubjectId/students",
-        "$baseUrl/teacher/sections/$localGradeNumber/$localSectionNumber/students?localSubjectId=$localSubjectId",
+        "$baseUrl/teacher/sections/$localGradeNumber/$localSectionNumber/students?localSubjectId=$localSubjectId&schoolId=$schoolId",
       ),
       headers: {
         "Content-Type": "application/json",

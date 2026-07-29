@@ -7,7 +7,7 @@ import 'package:school/generated/l10n.dart';
 
 import '../Counselor/UI/page/ClassScreen.dart';
 import '../Student/ui/page/AcademicRecordScreen.dart';
-import '../Student/ui/page/StudentPaymentsScreen.dart';
+// import '../Student/ui/page/StudentPaymentsScreen.dart';
 
 class NavHomePage extends StatefulWidget {
   final AuthEntities user;
@@ -33,7 +33,7 @@ class _NavHomePageState extends State<NavHomePage>
           : widget.user.role == "Teacher"
           ? TeacherProfileScreen()
           : ClassScreen(),
-      if (widget.user.role == "Student") StudentPaymentsScreen(),
+      // if (widget.user.role == "Student") StudentPaymentsScreen(),
       SettingsScreen(),
     ];
 
@@ -54,13 +54,14 @@ class _NavHomePageState extends State<NavHomePage>
             ? S.of(context).Info
             : S.of(context).Students,
       ),
-      if (widget.user.role == "Student")
-        _buildNavItem(
-          index: 2,
-          icon: Icons.money_outlined,
-          activeIcon: Icons.money_rounded,
-          label: S.of(context).Payments,
-        ),
+
+      // if (widget.user.role == "Student")
+      //   _buildNavItem(
+      //     index: 2,
+      //     icon: Icons.money_outlined,
+      //     activeIcon: Icons.money_rounded,
+      //     label: S.of(context).Payments,
+      //   ),
       _buildNavItem(
         index: widget.user.role == "Student" ? 3 : 2,
         icon: Icons.settings_outlined,

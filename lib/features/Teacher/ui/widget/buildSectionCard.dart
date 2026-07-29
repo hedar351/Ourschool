@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:school/features/Counselor/domain/Entities/gradeandSectionEntity/SectionEntity.dart';
 import 'package:school/features/Counselor/domain/Entities/gradeandSectionEntity/gradeEntity.dart';
+import 'package:school/features/Teacher/domain/Entities/TeacherProfileEntities/schoolsEntity.dart';
 import 'package:school/features/Teacher/ui/page/teacher_students_list_screen.dart';
 import 'package:school/generated/l10n.dart';
 
@@ -10,6 +11,7 @@ Widget buildSectionCard({
   required Gradeentity grade,
   required int localSubjectId,
   required String subjectName,
+  required Schoolsentity school,
 }) {
   final theme = Theme.of(context);
 
@@ -31,6 +33,7 @@ Widget buildSectionCard({
               gradeName: grade.name ?? '',
               sectionName: section.name ?? '',
               subjectName: subjectName,
+              school: school,
             ),
           ),
         );

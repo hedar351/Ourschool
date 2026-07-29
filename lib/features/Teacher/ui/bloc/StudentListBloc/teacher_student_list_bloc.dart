@@ -40,6 +40,7 @@ class TeacherStudentListBloc
       event.localGradeNumber,
       event.localSectionNumber,
       event.localSubjectId,
+      event.schoolId,
     );
     either.fold(
       (failure) =>
@@ -53,6 +54,7 @@ class TeacherStudentListBloc
             localGradeNumber: event.localGradeNumber,
             localSectionNumber: event.localSectionNumber,
             localSubjectId: event.localSubjectId,
+            schoolId: event.schoolId,
           ),
         );
       },
@@ -72,6 +74,7 @@ class TeacherStudentListBloc
         event.localGradeNumber,
         event.localSectionNumber,
         event.localSubjectId,
+        event.schoolId,
       );
       either.fold(
         (failure) {
@@ -99,6 +102,7 @@ class TeacherStudentListBloc
           localGradeNumber: event.localGradeNumber,
           localSectionNumber: event.localSectionNumber,
           localSubjectId: event.localSubjectId,
+          schoolId: event.schoolId,
         ),
       );
     }
@@ -117,6 +121,7 @@ class TeacherStudentListBloc
       event.localGradeNumber,
       event.localSectionNumber,
       event.localSubjectId,
+      event.schoolId,
     );
     networkEither.fold(
       (failure) {
@@ -169,6 +174,7 @@ class TeacherStudentListBloc
       event.localGradeNumber,
       event.localSectionNumber,
       event.localSubjectId,
+      event.schoolId,
     );
     _subscription = _cachedStream?.listen((students) {
       if (state is TeacherStudentListLoaded) {

@@ -8,7 +8,7 @@ abstract class CacheTeacherStudentsList {
     int localGradeNumber,
     int localSectionNumber,
     int localSubjectId,
-
+    int schoolId,
     Studentsbysectionmodel model,
   );
   Future<Unit> deleteStudents();
@@ -16,11 +16,13 @@ abstract class CacheTeacherStudentsList {
     int localGradeNumber,
     int localSectionNumber,
     int localSubjectId,
+    int schoolId,
   );
   Stream<Studentsbysectionmodel> watchCachedStudents(
     int localGradeNumber,
     int localSectionNumber,
     int localSubjectId,
+    int schoolId,
   );
 }
 
@@ -34,10 +36,12 @@ class CacheTeacherStudentsListImp implements CacheTeacherStudentsList {
     int localGradeNumber,
     int localSectionNumber,
     int localSubjectId,
+    int schoolId,
 
     Studentsbysectionmodel model,
   ) async {
-    final key = '${localGradeNumber}_${localSectionNumber}_$localSubjectId';
+    final key =
+        '${localGradeNumber}_${localSectionNumber}_${localSubjectId}_$schoolId';
     await box.put(key, model);
     return unit;
   }
@@ -53,9 +57,10 @@ class CacheTeacherStudentsListImp implements CacheTeacherStudentsList {
     int localGradeNumber,
     int localSectionNumber,
     int localSubjectId,
+    int schoolId,
   ) async {
-    final key = '${localGradeNumber}_${localSectionNumber}_$localSubjectId';
-
+    final key =
+        '${localGradeNumber}_${localSectionNumber}_${localSubjectId}_$schoolId';
     final model = box.get(key);
     if (model == null) throw EmptyCacheExp();
     return model;
@@ -66,8 +71,10 @@ class CacheTeacherStudentsListImp implements CacheTeacherStudentsList {
     int localGradeNumber,
     int localSectionNumber,
     int localSubjectId,
+    int schoolId,
   ) {
-    final key = '${localGradeNumber}_${localSectionNumber}_$localSubjectId';
+    final key =
+        '${localGradeNumber}_${localSectionNumber}_${localSubjectId}_$schoolId';
     return box
         .watch(key: key)
         .map((event) => event.value as Studentsbysectionmodel);

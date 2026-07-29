@@ -12,11 +12,13 @@ class Getstudentsusecase {
     int localGradeNumber,
     int localSectionNumber,
     int localSubjectId,
+    int schoolId,
   ) async {
     return await repository.getStudents(
       localGradeNumber,
       localSectionNumber,
       localSubjectId,
+      schoolId,
     );
   }
 }

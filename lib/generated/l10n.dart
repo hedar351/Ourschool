@@ -870,6 +870,11 @@ class S {
       args: [],
     );
   }
+
+  /// `Log`
+  String get Log {
+    return Intl.message('Log', name: 'Log', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

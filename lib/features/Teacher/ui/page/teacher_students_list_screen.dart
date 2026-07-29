@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:school/core/injection.dart' as di;
 import 'package:school/core/widget/Loadingwidget.dart';
 import 'package:school/features/Counselor/domain/Entities/StudentsBySectionEntity/studentEntity.dart';
+import 'package:school/features/Teacher/domain/Entities/TeacherProfileEntities/schoolsEntity.dart';
 import 'package:school/features/Teacher/ui/bloc/StudentListBloc/teacher_student_list_bloc.dart';
+import 'package:school/features/Teacher/ui/page/teacher_student_profile_screen.dart';
 import 'package:school/generated/l10n.dart';
 
 class TeacherStudentsListScreen extends StatefulWidget {
@@ -13,7 +15,7 @@ class TeacherStudentsListScreen extends StatefulWidget {
   final String gradeName;
   final String sectionName;
   final String subjectName;
-
+  final Schoolsentity school;
   const TeacherStudentsListScreen({
     super.key,
     required this.localGradeNumber,
@@ -22,6 +24,7 @@ class TeacherStudentsListScreen extends StatefulWidget {
     required this.gradeName,
     required this.sectionName,
     required this.subjectName,
+    required this.school,
   });
 
   @override
@@ -51,6 +54,7 @@ class _TeacherStudentsListScreenState extends State<TeacherStudentsListScreen> {
                 localGradeNumber: widget.localGradeNumber,
                 localSectionNumber: widget.localSectionNumber,
                 localSubjectId: widget.localSubjectId,
+                schoolId: widget.school.schoolId!,
               ),
             );
             context.read<TeacherStudentListBloc>().add(
@@ -58,6 +62,7 @@ class _TeacherStudentsListScreenState extends State<TeacherStudentsListScreen> {
                 localGradeNumber: widget.localGradeNumber,
                 localSectionNumber: widget.localSectionNumber,
                 localSubjectId: widget.localSubjectId,
+                schoolId: widget.school.schoolId!,
               ),
             );
           }
@@ -89,6 +94,7 @@ class _TeacherStudentsListScreenState extends State<TeacherStudentsListScreen> {
                           localGradeNumber: widget.localGradeNumber,
                           localSectionNumber: widget.localSectionNumber,
                           localSubjectId: widget.localSubjectId,
+                          schoolId: widget.school.schoolId!,
                         ),
                       );
                     },
@@ -167,6 +173,7 @@ class _TeacherStudentsListScreenState extends State<TeacherStudentsListScreen> {
                   localGradeNumber: widget.localGradeNumber,
                   localSectionNumber: widget.localSectionNumber,
                   localSubjectId: widget.localSubjectId,
+                  schoolId: widget.school.schoolId!,
                 ),
               );
             },
@@ -206,7 +213,15 @@ class _TeacherStudentsListScreenState extends State<TeacherStudentsListScreen> {
         ),
         trailing: const Icon(Icons.chevron_right, color: Colors.grey),
         onTap: () {
-          // يمكن فتح صفحة تفاصيل الطالب هنا
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => TeacherStudentProfileScreen(
+                localStudentNumber: student.localStudentNumber!,
+                schoolId: widget.school.schoolId!,
+              ),
+            ),
+          );
         },
       ),
     );

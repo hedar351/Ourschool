@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:school/features/Teacher/domain/Entities/TeacherProfileEntities/SubjectEntity.dart';
+import 'package:school/features/Teacher/domain/Entities/TeacherProfileEntities/schoolsEntity.dart';
 import 'package:school/features/Teacher/ui/page/grade_sections_screen.dart';
 import 'package:school/features/Teacher/ui/widget/GradeCard%20.dart';
 
 class SubjectGradesScreen extends StatelessWidget {
   final Subjectentity subject;
   final String schoolName;
-
+  final Schoolsentity school;
   const SubjectGradesScreen({
     super.key,
     required this.subject,
     required this.schoolName,
+    required this.school,
   });
 
   @override
@@ -37,6 +39,7 @@ class SubjectGradesScreen extends StatelessWidget {
                     schoolName: schoolName,
                     subjectName: subject.subjectName ?? '',
                     subjectEntity: subject,
+                    school: school,
                   ),
                 ),
               );

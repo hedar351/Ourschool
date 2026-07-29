@@ -1,5 +1,3 @@
-// import 'dart:io';
-
 import 'package:dartz/dartz.dart';
 import 'package:school/core/error/EXP.dart';
 import 'package:school/core/error/failures.dart';
@@ -11,6 +9,7 @@ import 'package:school/features/Counselor/data/DataSources/StudentList/Cachedata
 import 'package:school/features/Counselor/data/DataSources/StudentList/RemotedataSource.dart';
 import 'package:school/features/Counselor/data/DataSources/StudentProfile/RemoteDataStudentProfile.dart';
 import 'package:school/features/Counselor/data/DataSources/StudentProfile/cachDataStudentProfile.dart';
+import 'package:school/features/Counselor/data/DataSources/attendance/attendanceRemoteData.dart';
 import 'package:school/features/Counselor/data/DataSources/scheduleImage/remoteDataScheduleImage.dart';
 import 'package:school/features/Counselor/domain/Entities/StudentsBySectionEntity/StudentsBySectionEntity.dart';
 import 'package:school/features/Counselor/domain/Entities/StudentsProfileEntity/Counselor_WarningsEntity.dart';
@@ -29,7 +28,7 @@ class CounselorRepoImp implements CounselorRepo {
   final CacheDataStudentProfile cacheStudentProfile;
   final Remotedatapostwarnings remotedatapostwarnings;
   final Remotedatascheduleimage remotedatascheduleimage;
-
+  final AttendanceRemoteDataSource attendanceremotedata;
   CounselorRepoImp({
     required this.remote,
     required this.cache,
@@ -40,27 +39,70 @@ class CounselorRepoImp implements CounselorRepo {
     required this.cacheStudentProfile,
     required this.remotedatapostwarnings,
     required this.remotedatascheduleimage,
+    required this.attendanceremotedata,
   });
 
   @override
-  // Future<Either<Failures, Unit>> deletescheduleImage(
-  //   int localGradeNumber,
-  //   int localSectionNumber,
-  // ) async {
-  //   try {
-  //     await remotedatascheduleimage.deleteScheduleImage(
-  //       localGradeNumber,
-  //       localSectionNumber,
-  //     );
-  //     return Right(unit);
-  //   } on ServerExp {
-  //     return Left(ServerFailure());
-  //   } on TokenNotFoundExp {
-  //     return Left(EmptyCacheFailure());
-  //   } catch (e) {
-  //     return Left(ServerFailure());
-  //   }
-  // }
+  Future<Either<Failures, Unit>> addAttendance(
+    int localStudentNumber,
+    String date,
+  ) async {
+    if (!await networkInfo.isConnected) {
+      print('❌ [Repo] No internet connection');
+      return Left(OfflineFailure());
+    }
+    print(
+      '🟡 [Repo] Adding attendance for student: $localStudentNumber on $date',
+    );
+    final result = await attendanceremotedata.addAttendance(
+      localStudentNumber,
+      date,
+    );
+    return result.fold(
+      (failure) {
+        print('❌ [Repo] Failed to add attendance');
+        return Left(failure);
+      },
+      (_) async {
+        print('✅ [Repo] Attendance added successfully');
+
+        _fetchStudentProfileFromNetworkAndCache(localStudentNumber);
+        return const Right(unit);
+      },
+    );
+  }
+
+  @override
+  Future<Either<Failures, Unit>> deleteAttendance(
+    int localStudentNumber,
+    String date,
+  ) async {
+    if (!await networkInfo.isConnected) {
+      print(' [Repo] No internet connection');
+      return Left(OfflineFailure());
+    }
+
+    print(
+      ' [Repo] Deleting attendance for student: $localStudentNumber on $date',
+    );
+    final result = await attendanceremotedata.deleteAttendance(
+      localStudentNumber,
+      date,
+    );
+
+    return result.fold(
+      (failure) {
+        print(' [Repo] Failed to delete attendance');
+        return Left(failure);
+      },
+      (_) async {
+        print('✅ [Repo] Attendance deleted successfully from remote');
+        _fetchStudentProfileFromNetworkAndCache(localStudentNumber);
+        return Right(unit);
+      },
+    );
+  }
+
   @override
   Future<Either<Failures, CounselorStudentfullprofile>>
   getCounselorStudentfullProfile(int localStudentNumber) async {

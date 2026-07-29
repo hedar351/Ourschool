@@ -5,14 +5,15 @@ class Announcementactivityentity extends Equatable {
   final String title;
   final String description;
   final DateTime date;
-
+  final String schoolName;
   const Announcementactivityentity({
     required this.id,
     required this.title,
     required this.description,
     required this.date,
+    required this.schoolName,
   });
 
   @override
-  List<Object?> get props => [id, title, description, date];
+  List<Object?> get props => [id, title, description, date, schoolName];
 }

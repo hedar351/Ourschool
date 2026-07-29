@@ -1,70 +1,75 @@
 part of 'teacher_student_list_bloc.dart';
 
-sealed class TeacherStudentListEvent extends Equatable {
-  const TeacherStudentListEvent();
-
-  @override
-  List<Object?> get props => [];
-}
-
 class GetTeacherStudentsEvent extends TeacherStudentListEvent {
   final int localGradeNumber;
   final int localSectionNumber;
   final int localSubjectId;
-
+  final int schoolId;
   const GetTeacherStudentsEvent({
     required this.localGradeNumber,
     required this.localSectionNumber,
     required this.localSubjectId,
+    required this.schoolId,
   });
 
   @override
-  List<Object?> get props => [localGradeNumber, localSectionNumber, localSubjectId];
+  List<Object?> get props => [
+    localGradeNumber,
+    localSectionNumber,
+    localSubjectId,
+    schoolId,
+  ];
 }
 
 class RefreshTeacherStudentsEvent extends TeacherStudentListEvent {
   final int localGradeNumber;
   final int localSectionNumber;
   final int localSubjectId;
+  final int schoolId;
 
   const RefreshTeacherStudentsEvent({
     required this.localGradeNumber,
     required this.localSectionNumber,
     required this.localSubjectId,
+    required this.schoolId,
   });
 
   @override
-  List<Object?> get props => [localGradeNumber, localSectionNumber, localSubjectId];
+  List<Object?> get props => [
+    localGradeNumber,
+    localSectionNumber,
+    localSubjectId,
+    schoolId,
+  ];
 }
 
 class RevalidateTeacherStudentsEvent extends TeacherStudentListEvent {
   final int localGradeNumber;
   final int localSectionNumber;
   final int localSubjectId;
+  final int schoolId;
 
   const RevalidateTeacherStudentsEvent({
     required this.localGradeNumber,
     required this.localSectionNumber,
     required this.localSubjectId,
+    required this.schoolId,
   });
 
   @override
-  List<Object?> get props => [localGradeNumber, localSectionNumber, localSubjectId];
+  List<Object?> get props => [
+    localGradeNumber,
+    localSectionNumber,
+    localSubjectId,
+    schoolId,
+  ];
 }
 
-class WatchCachedTeacherStudentsEvent extends TeacherStudentListEvent {
-  final int localGradeNumber;
-  final int localSectionNumber;
-  final int localSubjectId;
-
-  const WatchCachedTeacherStudentsEvent({
-    required this.localGradeNumber,
-    required this.localSectionNumber,
-    required this.localSubjectId,
-  });
+sealed class TeacherStudentListEvent extends Equatable {
+  const TeacherStudentListEvent();
 
   @override
-  List<Object?> get props => [localGradeNumber, localSectionNumber, localSubjectId];
+  List<Object?> get props => [];
 }
 
 class UpdateCachedTeacherStudentsEvent extends TeacherStudentListEvent {
@@ -74,4 +79,26 @@ class UpdateCachedTeacherStudentsEvent extends TeacherStudentListEvent {
 
   @override
   List<Object?> get props => [students];
+}
+
+class WatchCachedTeacherStudentsEvent extends TeacherStudentListEvent {
+  final int localGradeNumber;
+  final int localSectionNumber;
+  final int localSubjectId;
+  final int schoolId;
+
+  const WatchCachedTeacherStudentsEvent({
+    required this.localGradeNumber,
+    required this.localSectionNumber,
+    required this.localSubjectId,
+    required this.schoolId,
+  });
+
+  @override
+  List<Object?> get props => [
+    localGradeNumber,
+    localSectionNumber,
+    localSubjectId,
+    schoolId,
+  ];
 }

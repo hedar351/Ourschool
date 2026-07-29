@@ -26,6 +26,8 @@ class SchoolRemoteDataSourceImpl implements SchoolRemoteDataSource {
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> decoded = json.decode(response.body);
+      print(" $decoded");
+
       return SchoolWithTeacherModel.fromJson(decoded);
     } else {
       print("🔴 [Remote] Error: ${response.body}");

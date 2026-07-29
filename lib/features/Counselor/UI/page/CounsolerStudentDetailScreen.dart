@@ -4,13 +4,15 @@ import 'package:school/core/injection.dart' as di;
 import 'package:school/core/widget/Loadingwidget.dart';
 import 'package:school/features/Counselor/UI/bloc/PostWarnings/post_warnings_bloc.dart';
 import 'package:school/features/Counselor/UI/bloc/Studentprofile/student_profile_bloc.dart';
+import 'package:school/features/Counselor/UI/bloc/attendance/attendance_bloc.dart';
 import 'package:school/features/Counselor/UI/widget/MarkCard.dart';
 import 'package:school/features/Counselor/UI/widget/SectionHeader.dart';
-import 'package:school/features/Counselor/UI/widget/ShowAttendanceDialog.dart';
+import 'package:school/features/Counselor/UI/widget/ShowDialog/ShowAttendanceDialog.dart';
+import 'package:school/features/Counselor/UI/widget/ShowDialog/showAddAttendanceDialog.dart';
+import 'package:school/features/Counselor/UI/widget/ShowDialog/showAddWarningDialog.dart';
 import 'package:school/features/Counselor/UI/widget/StudentInfoCard.dart';
 import 'package:school/features/Counselor/UI/widget/SubjectCard.dart';
 import 'package:school/features/Counselor/UI/widget/WarningCard.dart';
-import 'package:school/features/Counselor/UI/widget/showAddWarningDialog.dart';
 import 'package:school/features/Counselor/domain/Entities/StudentsProfileEntity/Counselor_MarkEntity.dart';
 import 'package:school/features/Counselor/domain/Entities/StudentsProfileEntity/Counselor_studentFullProfile.dart';
 import 'package:school/features/Counselor/domain/Repo/CounselorRepo.dart';
@@ -57,41 +59,67 @@ class _CounsolerStudentDetailScreenState
             return bloc;
           },
         ),
+        BlocProvider(create: (_) => di.sl<AttendanceBloc>()),
       ],
-      child: BlocConsumer<StudentProfileBloc, StudentProfileState>(
+      child: BlocListener<AttendanceBloc, AttendanceState>(
         listener: (context, state) {
-          if (state is StudentProfileLoaded) {
-            _controller.forward();
-          }
-        },
-        builder: (context, state) {
-          if (!_loaded && state is StudentProfileInitial) {
-            _loaded = true;
+          if (state is AttendanceSuccess) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.message),
+                backgroundColor: Colors.green,
+              ),
+            );
             context.read<StudentProfileBloc>().add(
-              GetStudentProfileEvent(
+              RefreshStudentProfileEvent(
                 localStudentNumber: widget.localStudentNumber,
               ),
             );
           }
-
-          if (state is StudentProfileLoading) {
-            return const Loadingwidget();
-          }
-
-          if (state is StudentProfileLoaded) {
-            return _buildProfileContent(
-              context,
-              state.profile,
-              state.isRevalidating,
+          if (state is AttendanceError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.message),
+                backgroundColor: Colors.red,
+              ),
             );
           }
-
-          if (state is StudentProfileError) {
-            return _buildErrorState(context, state.message);
-          }
-
-          return const Loadingwidget();
         },
+        child: BlocConsumer<StudentProfileBloc, StudentProfileState>(
+          listener: (context, state) {
+            if (state is StudentProfileLoaded) {
+              _controller.forward();
+            }
+          },
+          builder: (context, state) {
+            if (!_loaded && state is StudentProfileInitial) {
+              _loaded = true;
+              context.read<StudentProfileBloc>().add(
+                GetStudentProfileEvent(
+                  localStudentNumber: widget.localStudentNumber,
+                ),
+              );
+            }
+
+            if (state is StudentProfileLoading) {
+              return const Loadingwidget();
+            }
+
+            if (state is StudentProfileLoaded) {
+              return _buildProfileContent(
+                context,
+                state.profile,
+                state.isRevalidating,
+              );
+            }
+
+            if (state is StudentProfileError) {
+              return _buildErrorState(context, state.message);
+            }
+
+            return const Loadingwidget();
+          },
+        ),
       ),
     );
   }
@@ -200,21 +228,22 @@ class _CounsolerStudentDetailScreenState
           children: [
             Text(student?.name ?? S.of(context).unknown_name),
             const SizedBox(width: 12),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-              decoration: BoxDecoration(
-                color: Colors.red.withOpacity(0.8),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Text(
-                '${warnings.length} ⚠️',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
-                ),
-              ),
-            ),
+
+            // Container(
+            //   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+            //   decoration: BoxDecoration(
+            //     color: Colors.red.withOpacity(0.8),
+            //     borderRadius: BorderRadius.circular(12),
+            //   ),
+            //   child: Text(
+            //     '${warnings.length} ⚠️',
+            //     style: const TextStyle(
+            //       color: Colors.white,
+            //       fontWeight: FontWeight.bold,
+            //       fontSize: 14,
+            //     ),
+            //   ),
+            // ),
           ],
         ),
         centerTitle: true,
@@ -255,6 +284,7 @@ class _CounsolerStudentDetailScreenState
                                 return showAttendanceDialog(
                                   context,
                                   attendance,
+                                  student,
                                 );
                               },
                               borderRadius: BorderRadius.circular(16),
@@ -381,8 +411,10 @@ class _CounsolerStudentDetailScreenState
                         IconButton(
                           // iconSize: 15,
                           icon: const Icon(Icons.add_circle, color: Colors.red),
-                          onPressed: () =>
-                              showAddWarningDialog(context, student),
+                          onPressed: () => showAddAttendanceDialog(
+                            context,
+                            student?.localStudentNumber,
+                          ),
                           tooltip: 'إضافة إنذار',
                         ),
                       ],

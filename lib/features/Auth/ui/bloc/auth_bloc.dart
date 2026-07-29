@@ -8,6 +8,7 @@ import 'package:school/features/Counselor/data/DataSources/Grade/cachedatasource
 import 'package:school/features/Counselor/data/DataSources/StudentList/Cachedatasource.dart';
 import 'package:school/features/Counselor/data/DataSources/StudentProfile/cachDataStudentProfile.dart';
 import 'package:school/features/Teacher/data/dataSources/GetTeacherFullprofile/cacheDataGetTeacherFullprofile.dart';
+import 'package:school/features/Teacher/data/dataSources/TeacherStudentProfile/CacheTeacherStudentProfile.dart';
 import 'package:school/features/Teacher/data/dataSources/TeacherStudentsList/CacheTeacherStudentsList.dart';
 
 import '../../domain/useCases/Log_out_UseCase.dart';
@@ -27,6 +28,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   CacheDataStudentProfile cacheDataStudentProfile;
   CacheDataTeacherFullProfile cacheDataTeacherFullProfile;
   CacheTeacherStudentsList cacheTeacherStudentsList;
+  CacheTeacherStudentProfile cacheTeacherStudentProfile;
   AuthBloc({
     required this.cacheTeacherStudentsList,
     required this.cacheDataStudentProfile,
@@ -34,6 +36,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     required this.cachedatasourceStudentList,
     required this.cachedatasourceGrade,
     required this.cacheDataTeacherFullProfile,
+    required this.cacheTeacherStudentProfile,
     required this.loginUseCase,
     required this.getUserUsecase,
     required this.logoutUseCase,
@@ -78,6 +81,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     await cacheDataStudentProfile.deleteStudentProfile();
     await cacheDataTeacherFullProfile.deleteTeacherFullProfile();
     await cacheTeacherStudentsList.deleteStudents();
+    await cacheDataStudentProfile.deleteStudentProfile();
     result.fold(
       (failure) => emit(AuthErorr(message: mapFailureToMessage(failure))),
       (user) => emit(AuthLoaded(user: user)),
@@ -95,6 +99,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     await cacheDataStudentProfile.deleteStudentProfile();
     await cacheDataTeacherFullProfile.deleteTeacherFullProfile();
     await cacheTeacherStudentsList.deleteStudents();
+    await cacheDataStudentProfile.deleteStudentProfile();
 
     final result = await logoutUseCase();
     print("🟡 [Bloc] Usecase result: $result");

@@ -16,12 +16,14 @@ class AnnouncementActivityModel extends HiveObject {
 
   @HiveField(3)
   final DateTime date;
-
+  @HiveField(4)
+  final String schoolName;
   AnnouncementActivityModel({
     required this.id,
     required this.title,
     required this.description,
     required this.date,
+    required this.schoolName,
   });
 
   factory AnnouncementActivityModel.fromEntity(
@@ -32,6 +34,7 @@ class AnnouncementActivityModel extends HiveObject {
       title: entity.title,
       description: entity.description,
       date: entity.date,
+      schoolName: entity.schoolName,
     );
   }
 
@@ -41,6 +44,7 @@ class AnnouncementActivityModel extends HiveObject {
       title: json['title'],
       description: json['description'],
       date: DateTime.parse(json['date']),
+      schoolName: json['schoolName'],
     );
   }
 
@@ -50,10 +54,17 @@ class AnnouncementActivityModel extends HiveObject {
       title: title,
       description: description,
       date: date,
+      schoolName: schoolName,
     );
   }
 
   Map<String, dynamic> toJson() {
-    return {'id': id, 'title': title, 'description': description, 'date': date};
+    return {
+      'id': id,
+      'title': title,
+      'description': description,
+      'date': date,
+      'schoolName': schoolName,
+    };
   }
 }

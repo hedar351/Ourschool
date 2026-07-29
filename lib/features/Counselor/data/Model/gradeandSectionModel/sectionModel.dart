@@ -39,6 +39,10 @@ class SectionModel extends HiveObject {
   }
 
   Map<String, dynamic> toJson() {
-    return {'id': id, 'localSectionNumber': localSectionNumber, 'name': name};
+    return {
+      'id': id,
+      'localSectionNumber': localSectionNumber,
+      'sectionName': name,
+    };
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:school/features/Counselor/domain/Entities/gradeandSectionEntity/gradeEntity.dart';
 import 'package:school/features/Teacher/domain/Entities/TeacherProfileEntities/SubjectEntity.dart';
+import 'package:school/features/Teacher/domain/Entities/TeacherProfileEntities/schoolsEntity.dart';
 import 'package:school/features/Teacher/ui/widget/buildSectionCard.dart';
 
 class GradeSectionsScreen extends StatelessWidget {
@@ -8,13 +9,14 @@ class GradeSectionsScreen extends StatelessWidget {
   final String schoolName;
   final String subjectName;
   final Subjectentity subjectEntity;
-
+  final Schoolsentity school;
   const GradeSectionsScreen({
     super.key,
     required this.grade,
     required this.schoolName,
     required this.subjectName,
     required this.subjectEntity,
+    required this.school,
   });
 
   @override
@@ -36,6 +38,7 @@ class GradeSectionsScreen extends StatelessWidget {
             grade: grade,
             localSubjectId: subjectEntity.localSubjectId ?? 0,
             subjectName: subjectEntity.subjectName ?? '',
+            school: school,
           );
         },
       ),

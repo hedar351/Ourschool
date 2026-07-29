@@ -7,11 +7,14 @@ import 'package:school/features/Counselor/domain/Entities/gradeandSectionEntity/
 import 'package:school/features/Counselor/domain/Entities/scheduleImageEntity/GetscheduleImageEntity.dart';
 
 abstract class CounselorRepo {
-  // Future<Either<Failures, Unit>> deletescheduleImage(
-  //   int localGradeNumber,
-  //   int localSectionNumber,
-  // );
-
+  Future<Either<Failures, Unit>> addAttendance(
+    int localStudentNumber,
+    String date,
+  );
+  Future<Either<Failures, Unit>> deleteAttendance(
+    int localStudentNumber,
+    String date,
+  );
   // Student Full Profile
   Future<Either<Failures, CounselorStudentfullprofile>>
   getCounselorStudentfullProfile(int localStudentNumber);

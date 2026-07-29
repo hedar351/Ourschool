@@ -6,7 +6,7 @@ import 'package:school/features/SchoolsInfo/domain/Entities/SchoolWithTeacherEnt
 
 part 'SchoolWithTeacherModel.g.dart';
 
-@HiveType(typeId: 18) 
+@HiveType(typeId: 18)
 class SchoolWithTeacherModel extends HiveObject {
   @HiveField(0)
   final String? message;

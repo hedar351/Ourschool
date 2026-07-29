@@ -32,6 +32,7 @@ class SchoolSubjectsScreen extends StatelessWidget {
                   builder: (_) => SubjectGradesScreen(
                     subject: subject,
                     schoolName: schoolName,
+                    school: school,
                   ),
                 ),
               );
