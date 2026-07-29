@@ -16,6 +16,7 @@ class TeacherStudentsListScreen extends StatefulWidget {
   final String sectionName;
   final String subjectName;
   final Schoolsentity school;
+
   const TeacherStudentsListScreen({
     super.key,
     required this.localGradeNumber,
@@ -34,6 +35,19 @@ class TeacherStudentsListScreen extends StatefulWidget {
 
 class _TeacherStudentsListScreenState extends State<TeacherStudentsListScreen> {
   List<Studententity> _students = [];
+  final TextEditingController _searchController = TextEditingController();
+  String _searchQuery = '';
+
+  // ====== قائمة الطلاب المفلترة ======
+  List<Studententity> get _filteredStudents {
+    if (_searchQuery.isEmpty) {
+      return _students;
+    }
+    return _students.where((student) {
+      final name = student.name?.toLowerCase() ?? '';
+      return name.contains(_searchQuery.toLowerCase());
+    }).toList();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,50 +94,7 @@ class _TeacherStudentsListScreenState extends State<TeacherStudentsListScreen> {
               return _buildEmptyState(context);
             }
 
-            return Scaffold(
-              appBar: AppBar(
-                title: Text('${widget.gradeName} - ${widget.sectionName}'),
-                centerTitle: true,
-              ),
-              body: Stack(
-                children: [
-                  RefreshIndicator(
-                    onRefresh: () async {
-                      context.read<TeacherStudentListBloc>().add(
-                        RefreshTeacherStudentsEvent(
-                          localGradeNumber: widget.localGradeNumber,
-                          localSectionNumber: widget.localSectionNumber,
-                          localSubjectId: widget.localSubjectId,
-                          schoolId: widget.school.schoolId!,
-                        ),
-                      );
-                    },
-                    child: ListView.builder(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 16,
-                      ),
-                      itemCount: _students.length,
-                      itemBuilder: (context, index) {
-                        final student = _students[index];
-                        return _buildStudentCard(context, student);
-                      },
-                    ),
-                  ),
-                  if (state.isRevalidating)
-                    const Positioned(
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      child: LinearProgressIndicator(
-                        backgroundColor: Colors.transparent,
-                        color: Colors.blue,
-                        minHeight: 3,
-                      ),
-                    ),
-                ],
-              ),
-            );
+            return _buildLoadedState(context, state);
           }
 
           return const Loadingwidget();
@@ -132,86 +103,320 @@ class _TeacherStudentsListScreenState extends State<TeacherStudentsListScreen> {
     );
   }
 
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  // ====================================================================
+  // ====== AppBar ======
+  // ====================================================================
+
+  AppBar _buildAppBar(BuildContext context) {
+    final theme = Theme.of(context);
+    return AppBar(
+      title: Text('${widget.gradeName} - ${widget.sectionName}'),
+      centerTitle: true,
+      elevation: 0,
+      backgroundColor: theme.scaffoldBackgroundColor,
+      foregroundColor: theme.colorScheme.onSurface,
+    );
+  }
+
+  // ====================================================================
+  // ====== حالة فارغة ======
+  // ====================================================================
+
   Widget _buildEmptyState(BuildContext context) {
+    final theme = Theme.of(context);
+    return Scaffold(
+      appBar: _buildAppBar(context),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.inbox_outlined,
+              size: 80,
+              color: theme.colorScheme.outline,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'لا يوجد طلاب في هذه الشعبة',
+              style: theme.textTheme.titleMedium?.copyWith(
+                color: theme.colorScheme.onSurface,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              S.of(context).Pull_down_to_refresh,
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.outline,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // ====================================================================
+  // ====== حالة الخطأ ======
+  // ====================================================================
+
+  Widget _buildErrorState(BuildContext context, String message) {
+    final theme = Theme.of(context);
+    return Scaffold(
+      appBar: _buildAppBar(context),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.error_outline, size: 80, color: theme.colorScheme.error),
+            const SizedBox(height: 16),
+            Text(
+              message,
+              textAlign: TextAlign.center,
+              style: theme.textTheme.titleMedium?.copyWith(
+                color: theme.colorScheme.error,
+              ),
+            ),
+            const SizedBox(height: 16),
+            TextButton.icon(
+              onPressed: () {
+                context.read<TeacherStudentListBloc>().add(
+                  RefreshTeacherStudentsEvent(
+                    localGradeNumber: widget.localGradeNumber,
+                    localSectionNumber: widget.localSectionNumber,
+                    localSubjectId: widget.localSubjectId,
+                    schoolId: widget.school.schoolId!,
+                  ),
+                );
+              },
+              icon: Icon(Icons.refresh, color: theme.colorScheme.primary),
+              label: Text(
+                'إعادة المحاولة',
+                style: TextStyle(color: theme.colorScheme.primary),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // ====================================================================
+  // ====== الحالة المحملة (مع البحث) ======
+  // ====================================================================
+
+  Widget _buildLoadedState(
+    BuildContext context,
+    TeacherStudentListLoaded state,
+  ) {
+    final theme = Theme.of(context);
+    final filtered = _filteredStudents;
+
+    return Scaffold(
+      appBar: _buildAppBar(context),
+      body: Stack(
+        children: [
+          SafeArea(
+            child: RefreshIndicator(
+              onRefresh: () async {
+                context.read<TeacherStudentListBloc>().add(
+                  RefreshTeacherStudentsEvent(
+                    localGradeNumber: widget.localGradeNumber,
+                    localSectionNumber: widget.localSectionNumber,
+                    localSubjectId: widget.localSubjectId,
+                    schoolId: widget.school.schoolId!,
+                  ),
+                );
+              },
+              color: Colors.transparent,
+              backgroundColor: Colors.transparent,
+              strokeWidth: 0,
+              child: Column(
+                children: [
+                  // ====== شريط البحث ======
+                  _buildSearchBar(context),
+                  const SizedBox(height: 8),
+
+                  // ====== قائمة الطلاب ======
+                  Expanded(
+                    child: filtered.isEmpty
+                        ? _buildNoSearchResult(context)
+                        : ListView.builder(
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 8,
+                            ),
+                            itemCount: filtered.length,
+                            itemBuilder: (context, index) {
+                              final student = filtered[index];
+                              return _buildStudentCard(context, student);
+                            },
+                          ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          // ====== شريط التحميل العلوي ======
+          if (state.isRevalidating)
+            const Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              child: LinearProgressIndicator(
+                backgroundColor: Colors.transparent,
+                color: Colors.blue,
+                minHeight: 3,
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+
+  // ====================================================================
+  // ====== رسالة عدم وجود نتائج بحث ======
+  // ====================================================================
+
+  Widget _buildNoSearchResult(BuildContext context) {
+    final theme = Theme.of(context);
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.inbox_outlined, size: 80, color: Colors.grey.shade400),
-          const SizedBox(height: 16),
+          Icon(Icons.search_off, size: 64, color: theme.colorScheme.outline),
+          const SizedBox(height: 12),
           Text(
-            'لا يوجد طلاب في هذه الشعبة',
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
-          const SizedBox(height: 8),
-          Text(
-            S.of(context).Pull_down_to_refresh,
-            style: Theme.of(context).textTheme.bodySmall,
+            'لا يوجد طلاب تطابق البحث',
+            style: TextStyle(fontSize: 16, color: theme.colorScheme.outline),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildErrorState(BuildContext context, String message) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(Icons.error_outline, size: 80, color: Colors.red.shade300),
-          const SizedBox(height: 16),
-          Text(
-            message,
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.titleMedium,
+  // ====================================================================
+  // ====== شريط البحث ======
+  // ====================================================================
+
+  Widget _buildSearchBar(BuildContext context) {
+    final theme = Theme.of(context);
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Container(
+        decoration: BoxDecoration(
+          color: theme.brightness == Brightness.dark
+              ? Colors.grey.shade800.withOpacity(0.6)
+              : Colors.grey.shade100,
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(
+            color: theme.colorScheme.outline.withOpacity(0.2),
+            width: 0.5,
           ),
-          const SizedBox(height: 8),
-          TextButton.icon(
-            onPressed: () {
-              context.read<TeacherStudentListBloc>().add(
-                RefreshTeacherStudentsEvent(
-                  localGradeNumber: widget.localGradeNumber,
-                  localSectionNumber: widget.localSectionNumber,
-                  localSubjectId: widget.localSubjectId,
-                  schoolId: widget.school.schoolId!,
-                ),
-              );
-            },
-            icon: const Icon(Icons.refresh),
-            label: const Text('إعادة المحاولة'),
+        ),
+        child: TextField(
+          controller: _searchController,
+          onChanged: (value) {
+            setState(() {
+              _searchQuery = value;
+            });
+          },
+          decoration: InputDecoration(
+            hintText: 'ابحث عن طالب بالاسم...',
+            hintStyle: TextStyle(
+              color: theme.colorScheme.outline,
+              fontSize: 14,
+            ),
+            prefixIcon: Icon(
+              Icons.search,
+              color: theme.colorScheme.outline,
+              size: 22,
+            ),
+            suffixIcon: _searchQuery.isNotEmpty
+                ? IconButton(
+                    icon: Icon(
+                      Icons.clear,
+                      color: theme.colorScheme.outline,
+                      size: 20,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _searchQuery = '';
+                        _searchController.clear();
+                      });
+                    },
+                  )
+                : null,
+            border: InputBorder.none,
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 12,
+            ),
           ),
-        ],
+          textAlign: TextAlign.right,
+        ),
       ),
     );
   }
+
+  // ====================================================================
+  // ====== بطاقة الطالب ======
+  // ====================================================================
 
   Widget _buildStudentCard(BuildContext context, Studententity student) {
     final theme = Theme.of(context);
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+        side: BorderSide(
+          color: theme.brightness == Brightness.dark
+              ? Colors.grey.shade700.withOpacity(0.3)
+              : Colors.grey.shade200,
+          width: 0.5,
+        ),
+      ),
+      color: theme.cardColor,
       child: ListTile(
         leading: CircleAvatar(
           backgroundColor: theme.colorScheme.primary,
           child: Text(
             student.name?.isNotEmpty == true ? student.name![0] : '?',
-            style: const TextStyle(color: Colors.white),
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
         title: Text(
           student.name ?? S.of(context).unknown_name,
-          style: const TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: theme.colorScheme.onSurface,
+          ),
         ),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (student.guardianName != null)
-              Text('${S.of(context).guardianName}: ${student.guardianName}'),
+              Text(
+                '${S.of(context).guardianName}: ${student.guardianName}',
+                style: TextStyle(color: theme.colorScheme.outline),
+              ),
             if (student.guardianPhone != null)
-              Text('${S.of(context).phone}: ${student.guardianPhone}'),
+              Text(
+                '${S.of(context).phone}: ${student.guardianPhone}',
+                style: TextStyle(color: theme.colorScheme.outline),
+              ),
           ],
         ),
-        trailing: const Icon(Icons.chevron_right, color: Colors.grey),
+        trailing: Icon(Icons.chevron_right, color: theme.colorScheme.outline),
         onTap: () {
           Navigator.push(
             context,

@@ -6,13 +6,13 @@ import 'package:school/features/Counselor/UI/bloc/PostWarnings/post_warnings_blo
 import 'package:school/features/Counselor/UI/bloc/Studentprofile/student_profile_bloc.dart';
 import 'package:school/features/Counselor/UI/bloc/attendance/attendance_bloc.dart';
 import 'package:school/features/Counselor/UI/widget/MarkCard.dart';
-import 'package:school/features/Counselor/UI/widget/SectionHeader.dart';
 import 'package:school/features/Counselor/UI/widget/ShowDialog/ShowAttendanceDialog.dart';
 import 'package:school/features/Counselor/UI/widget/ShowDialog/showAddAttendanceDialog.dart';
 import 'package:school/features/Counselor/UI/widget/ShowDialog/showAddWarningDialog.dart';
+import 'package:school/features/Counselor/UI/widget/ShowDialog/show_subjects_dialog.dart';
+import 'package:school/features/Counselor/UI/widget/ShowDialog/show_warnings_dialog.dart';
 import 'package:school/features/Counselor/UI/widget/StudentInfoCard.dart';
-import 'package:school/features/Counselor/UI/widget/SubjectCard.dart';
-import 'package:school/features/Counselor/UI/widget/WarningCard.dart';
+import 'package:school/features/Counselor/UI/widget/section_card_widget.dart';
 import 'package:school/features/Counselor/domain/Entities/StudentsProfileEntity/Counselor_MarkEntity.dart';
 import 'package:school/features/Counselor/domain/Entities/StudentsProfileEntity/Counselor_studentFullProfile.dart';
 import 'package:school/features/Counselor/domain/Repo/CounselorRepo.dart';
@@ -46,17 +46,12 @@ class _CounsolerStudentDetailScreenState
         BlocProvider(create: (_) => di.sl<StudentProfileBloc>()),
         BlocProvider(
           create: (_) {
-            print("🟡 [DetailScreen] Creating PostWarningBloc manually");
             final repo = di.sl<CounselorRepo>();
-            print("🟡 [DetailScreen] CounselorRepo resolved: $repo");
             final useCase = Postwarningsusecase(repository: repo);
-            print("🟡 [DetailScreen] Postwarningsusecase created: $useCase");
-            final bloc = PostWarningBloc(
+            return PostWarningBloc(
               postWarningsUseCase: useCase,
               counselorRepo: repo,
             );
-            print("🟡 [DetailScreen] PostWarningBloc created: $bloc");
-            return bloc;
           },
         ),
         BlocProvider(create: (_) => di.sl<AttendanceBloc>()),
@@ -179,7 +174,8 @@ class _CounsolerStudentDetailScreenState
     final marks = profile.makrentity;
     final warnings = profile.warningsentity ?? [];
     final attendance = profile.attendance ?? [];
-    // تجميع العلامات حسب الفصل
+
+    // بناء واجهة العلامات المباشرة (كما كانت سابقاً)
     List<Widget> marksWidgets = [];
     if (marks != null && marks.isNotEmpty) {
       final marksBySemester = <int, List<CounselorMarkentity>>{};
@@ -223,29 +219,7 @@ class _CounsolerStudentDetailScreenState
 
     return Scaffold(
       appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(student?.name ?? S.of(context).unknown_name),
-            const SizedBox(width: 12),
-
-            // Container(
-            //   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-            //   decoration: BoxDecoration(
-            //     color: Colors.red.withOpacity(0.8),
-            //     borderRadius: BorderRadius.circular(12),
-            //   ),
-            //   child: Text(
-            //     '${warnings.length} ⚠️',
-            //     style: const TextStyle(
-            //       color: Colors.white,
-            //       fontWeight: FontWeight.bold,
-            //       fontSize: 14,
-            //     ),
-            //   ),
-            // ),
-          ],
-        ),
+        title: Text(student?.name ?? S.of(context).unknown_name),
         centerTitle: true,
         elevation: 0,
       ),
@@ -259,205 +233,56 @@ class _CounsolerStudentDetailScreenState
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    // ====== بطاقة معلومات الطالب ======
                     StudentInfoCard(student: student),
                     const SizedBox(height: 24),
+
+                    // ====== بطاقة الغيابات ======
                     Row(
                       children: [
                         Expanded(
-                          child: Card(
-                            elevation: 3,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
-                              side: BorderSide(
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.primary.withOpacity(0.15),
-                                width: 1,
-                              ),
-                            ),
-                            color:
-                                Theme.of(context).brightness == Brightness.dark
-                                ? Colors.grey.shade800.withOpacity(0.6)
-                                : Colors.white,
-                            child: InkWell(
-                              onTap: () {
-                                return showAttendanceDialog(
-                                  context,
-                                  attendance,
-                                  student,
-                                );
-                              },
-                              borderRadius: BorderRadius.circular(16),
-                              splashColor: Theme.of(
-                                context,
-                              ).colorScheme.primary.withOpacity(0.15),
-                              highlightColor: Theme.of(
-                                context,
-                              ).colorScheme.primary.withOpacity(0.05),
-                              child: Padding(
-                                padding: const EdgeInsets.all(16.0),
-                                child: Row(
-                                  children: [
-                                    Container(
-                                      padding: const EdgeInsets.all(10),
-                                      decoration: BoxDecoration(
-                                        gradient: LinearGradient(
-                                          colors: [
-                                            Theme.of(
-                                              context,
-                                            ).colorScheme.primary,
-                                            Theme.of(context)
-                                                .colorScheme
-                                                .primary
-                                                .withOpacity(0.7),
-                                          ],
-                                        ),
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                      child: Icon(
-                                        Icons.event_available,
-                                        color: Colors.white,
-                                        size: 24,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 14),
-
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            S.of(context).Attendance,
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w600,
-                                              color: Theme.of(
-                                                context,
-                                              ).colorScheme.onSurface,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 14,
-                                        vertical: 8,
-                                      ),
-                                      decoration: BoxDecoration(
-                                        color: attendance.isNotEmpty
-                                            ? Theme.of(context)
-                                                  .colorScheme
-                                                  .primary
-                                                  .withOpacity(0.12)
-                                            : Colors.grey.shade200,
-                                        borderRadius: BorderRadius.circular(20),
-                                        border: Border.all(
-                                          color: attendance.isNotEmpty
-                                              ? Theme.of(context)
-                                                    .colorScheme
-                                                    .primary
-                                                    .withOpacity(0.2)
-                                              : Colors.grey.shade300,
-                                          width: 0.5,
-                                        ),
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          Icon(
-                                            attendance.isNotEmpty
-                                                ? Icons.check_circle
-                                                : Icons.remove_circle,
-                                            size: 16,
-                                            color: attendance.isNotEmpty
-                                                ? Theme.of(
-                                                    context,
-                                                  ).colorScheme.primary
-                                                : Colors.grey.shade500,
-                                          ),
-                                          const SizedBox(width: 6),
-                                          Text(
-                                            '${attendance.length}',
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold,
-                                              color: attendance.isNotEmpty
-                                                  ? Theme.of(
-                                                      context,
-                                                    ).colorScheme.primary
-                                                  : Colors.grey.shade500,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-
-                                    const SizedBox(width: 4),
-                                    Icon(
-                                      Icons.chevron_right,
-                                      color: Theme.of(
-                                        context,
-                                      ).colorScheme.outline,
-                                      size: 20,
-                                    ),
-                                  ],
-                                ),
-                              ),
+                          child: SectionCard(
+                            icon: Icons.event_available,
+                            title: S.of(context).Attendance,
+                            count: attendance.length,
+                            onTap: () => showAttendanceDialog(
+                              context,
+                              attendance,
+                              student,
                             ),
                           ),
                         ),
                         IconButton(
-                          // iconSize: 15,
                           icon: const Icon(Icons.add_circle, color: Colors.red),
                           onPressed: () => showAddAttendanceDialog(
                             context,
                             student?.localStudentNumber,
                           ),
-                          tooltip: 'إضافة إنذار',
+                          tooltip: 'إضافة غياب',
                         ),
                       ],
                     ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 16),
 
-                    // المواد الدراسية
-                    SectionHeader(
-                      title: S.of(context).subjects_title,
+                    // ====== بطاقة المواد ======
+                    SectionCard(
                       icon: Icons.book,
+                      title: S.of(context).subjects_title.trim(),
+                      count: subjects.length,
+                      onTap: () => showSubjectsDialog(context, subjects),
                     ),
-                    const SizedBox(height: 12),
-                    if (subjects.isNotEmpty)
-                      ...subjects.map((s) => SubjectCard(subject: s))
-                    else
-                      Text(
-                        S.of(context).There_are_no_bulletins_at_the_moment,
-                        style: theme.textTheme.bodySmall,
-                      ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 16),
 
-                    // العلامات (مجمعة حسب الفصل)
-                    SectionHeader(
-                      title: S.of(context).marks_title,
-                      icon: Icons.bar_chart,
-                    ),
-                    const SizedBox(height: 12),
-                    if (marks != null && marks.isNotEmpty)
-                      ...marksWidgets
-                    else
-                      Text(
-                        S.of(context).There_are_no_Marks_at_the_moment,
-                        style: theme.textTheme.bodySmall,
-                      ),
-                    const SizedBox(height: 24),
-
-                    // الإنذارات
+                    // ====== بطاقة الإنذارات ======
                     Row(
                       children: [
                         Expanded(
-                          child: SectionHeader(
-                            title: S.of(context).warnings_title,
+                          child: SectionCard(
                             icon: Icons.warning_amber,
+                            title: S.of(context).warnings_title.trim(),
+                            count: warnings.length,
+                            onTap: () => showWarningsDialog(context, warnings),
+                            iconBackgroundColor: Colors.red,
                           ),
                         ),
                         IconButton(
@@ -468,14 +293,32 @@ class _CounsolerStudentDetailScreenState
                         ),
                       ],
                     ),
+
+                    // ====== العلامات (عرض مباشر) ======
+                    const SizedBox(height: 16),
+                    Row(
+                      children: [
+                        Icon(Icons.bar_chart, color: theme.colorScheme.primary),
+                        const SizedBox(width: 8),
+                        Text(
+                          S.of(context).marks_title,
+                          style: theme.textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: theme.colorScheme.primary,
+                          ),
+                        ),
+                      ],
+                    ),
+
                     const SizedBox(height: 12),
-                    if (warnings.isNotEmpty)
-                      ...warnings.map((w) => WarningCard(warning: w))
+                    if (marks != null && marks.isNotEmpty)
+                      ...marksWidgets
                     else
                       Text(
-                        S.of(context).There_are_no_Warings_at_the_moment,
+                        S.of(context).There_are_no_Marks_at_the_moment,
                         style: theme.textTheme.bodySmall,
                       ),
+
                     const SizedBox(height: 24),
                   ],
                 ),

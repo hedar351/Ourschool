@@ -73,6 +73,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "Username": MessageLookupByLibrary.simpleMessage(
       "Please enter your username",
     ),
+    "about_app": MessageLookupByLibrary.simpleMessage("About App"),
     "account_not_available": MessageLookupByLibrary.simpleMessage(
       "This account is currently not available for viewing",
     ),
@@ -83,6 +84,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "affiliatedSchools": MessageLookupByLibrary.simpleMessage(
       "Affiliated Schools",
     ),
+    "app_description": MessageLookupByLibrary.simpleMessage(
+      "An integrated application for managing schools, students, and teachers.",
+    ),
+    "app_title": MessageLookupByLibrary.simpleMessage(
+      "Our School - School Management System",
+    ),
+    "app_version": MessageLookupByLibrary.simpleMessage("1.0.0"),
+    "app_version_info": MessageLookupByLibrary.simpleMessage("Version: 1.0.0"),
     "browse_school": MessageLookupByLibrary.simpleMessage(
       "Browse school information",
     ),
@@ -93,6 +102,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "classesTaught": MessageLookupByLibrary.simpleMessage("Classes Taught"),
     "close": MessageLookupByLibrary.simpleMessage("Close"),
     "contactInfo": MessageLookupByLibrary.simpleMessage("Contact Info"),
+    "contact_email": MessageLookupByLibrary.simpleMessage(
+      " Email: support@ourschool.com",
+    ),
+    "contact_phone": MessageLookupByLibrary.simpleMessage(
+      " Phone: +963 11 123 4567",
+    ),
+    "contact_us": MessageLookupByLibrary.simpleMessage("Contact Us"),
     "date": MessageLookupByLibrary.simpleMessage("Date"),
     "date_unknown": MessageLookupByLibrary.simpleMessage("Unknown date"),
     "empty_cache_failure": MessageLookupByLibrary.simpleMessage(
@@ -119,6 +135,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "No teachers in this school",
     ),
     "not_specified": MessageLookupByLibrary.simpleMessage("Not specified"),
+    "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
     "offline_failure": MessageLookupByLibrary.simpleMessage(
       "No internet connection",
     ),
@@ -130,12 +147,20 @@ class MessageLookup extends MessageLookupByLibrary {
     "please_select_type_and_reason": MessageLookupByLibrary.simpleMessage(
       "Please select a type and fill the reason",
     ),
+    "privacy_policy": MessageLookupByLibrary.simpleMessage("Privacy Policy"),
+    "privacy_policy_text": MessageLookupByLibrary.simpleMessage(
+      "We are committed to protecting your personal data. We do not share your information with any third party without your consent.",
+    ),
     "pullToRefresh": MessageLookupByLibrary.simpleMessage(
       "Pull down to refresh",
     ),
     "reason": MessageLookupByLibrary.simpleMessage("Reason"),
     "remember_me": MessageLookupByLibrary.simpleMessage("Remember me"),
     "retry": MessageLookupByLibrary.simpleMessage("Retry"),
+    "role_admin": MessageLookupByLibrary.simpleMessage("Admin"),
+    "role_counselor": MessageLookupByLibrary.simpleMessage("Counselor"),
+    "role_student": MessageLookupByLibrary.simpleMessage("Student"),
+    "role_teacher": MessageLookupByLibrary.simpleMessage("Teacher"),
     "school_description": MessageLookupByLibrary.simpleMessage(
       "An integrated educational environment that aims to develop skills and build the student\'s personality in an atmosphere of values, respect, and excellence.",
     ),
@@ -184,6 +209,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "unknown_name": MessageLookupByLibrary.simpleMessage("Unknown"),
     "unknown_school": MessageLookupByLibrary.simpleMessage("Unknown School"),
     "username": MessageLookupByLibrary.simpleMessage("Username"),
+    "version": MessageLookupByLibrary.simpleMessage("Version"),
     "viewAll": MessageLookupByLibrary.simpleMessage("View All"),
     "want_to_logout": MessageLookupByLibrary.simpleMessage(
       "Are you sure you want to logout?",

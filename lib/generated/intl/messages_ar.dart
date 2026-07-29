@@ -36,7 +36,6 @@ class MessageLookup extends MessageLookupByLibrary {
     "Home": MessageLookupByLibrary.simpleMessage("الرئيسية"),
     "Info": MessageLookupByLibrary.simpleMessage("السجل الأكاديمي"),
     "Language": MessageLookupByLibrary.simpleMessage("اللغة"),
-    "Log": MessageLookupByLibrary.simpleMessage("تسجيل"),
     "Logout": MessageLookupByLibrary.simpleMessage("تسجيل الخروج"),
     "Ok": MessageLookupByLibrary.simpleMessage("حسناً"),
     "Password": MessageLookupByLibrary.simpleMessage(
@@ -67,6 +66,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "Username": MessageLookupByLibrary.simpleMessage(
       "الرجاء إدخال اسم المستخدم",
     ),
+    "about_app": MessageLookupByLibrary.simpleMessage("حول التطبيق"),
     "account_not_available": MessageLookupByLibrary.simpleMessage(
       "هذا الحساب غير متوفر للعرض حالياً",
     ),
@@ -77,6 +77,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "affiliatedSchools": MessageLookupByLibrary.simpleMessage(
       "المدارس المنتسبة",
     ),
+    "app_description": MessageLookupByLibrary.simpleMessage(
+      "تطبيق متكامل لإدارة المدارس والطلاب والمعلمين.",
+    ),
+    "app_title": MessageLookupByLibrary.simpleMessage(
+      "مدرستنا - نظام إدارة المدارس",
+    ),
+    "app_version": MessageLookupByLibrary.simpleMessage("1.0.0"),
+    "app_version_info": MessageLookupByLibrary.simpleMessage("الإصدار: 1.0.0"),
     "browse_school": MessageLookupByLibrary.simpleMessage(
       "تصفح معلومات المدرسة",
     ),
@@ -87,6 +95,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "classesTaught": MessageLookupByLibrary.simpleMessage("الفصول الدراسية"),
     "close": MessageLookupByLibrary.simpleMessage("إغلاق"),
     "contactInfo": MessageLookupByLibrary.simpleMessage("معلومات التواصل"),
+    "contact_email": MessageLookupByLibrary.simpleMessage(
+      " البريد الإلكتروني: support@ourschool.com",
+    ),
+    "contact_phone": MessageLookupByLibrary.simpleMessage(
+      " الهاتف: +963 11 123 4567",
+    ),
+    "contact_us": MessageLookupByLibrary.simpleMessage("اتصل بنا"),
     "date": MessageLookupByLibrary.simpleMessage("التاريخ"),
     "date_unknown": MessageLookupByLibrary.simpleMessage("تاريخ غير محدد"),
     "empty_cache_failure": MessageLookupByLibrary.simpleMessage(
@@ -117,6 +132,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "لا يوجد معلمين في هذه المدرسة",
     ),
     "not_specified": MessageLookupByLibrary.simpleMessage("غير محدد"),
+    "notifications": MessageLookupByLibrary.simpleMessage("الإشعارات"),
     "offline_failure": MessageLookupByLibrary.simpleMessage(
       "لا يوجد اتصال بالإنترنت",
     ),
@@ -128,12 +144,19 @@ class MessageLookup extends MessageLookupByLibrary {
     "please_select_type_and_reason": MessageLookupByLibrary.simpleMessage(
       "يرجى اختيار النوع وملء السبب",
     ),
+    "privacy_policy": MessageLookupByLibrary.simpleMessage("سياسة الخصوصية"),
+    "privacy_policy_text": MessageLookupByLibrary.simpleMessage(
+      "نحن نلتزم بحماية بياناتك الشخصية. لا نقوم بمشاركة معلوماتك مع أي طرف ثالث دون موافقتك.",
+    ),
     "pullToRefresh": MessageLookupByLibrary.simpleMessage(
       "اسحب للأسفل للتحديث",
     ),
     "reason": MessageLookupByLibrary.simpleMessage("السبب"),
     "remember_me": MessageLookupByLibrary.simpleMessage("تذكرني"),
     "retry": MessageLookupByLibrary.simpleMessage("إعادة المحاولة"),
+    "role_counselor": MessageLookupByLibrary.simpleMessage("موجه"),
+    "role_student": MessageLookupByLibrary.simpleMessage("طالب"),
+    "role_teacher": MessageLookupByLibrary.simpleMessage("معلم"),
     "school_description": MessageLookupByLibrary.simpleMessage(
       "بيئة تعليمية متكاملة تهدف إلى تطوير المهارات وبناء شخصية الطالب في جو من القيم والاحترام والتميز.",
     ),
@@ -184,6 +207,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "unknown_name": MessageLookupByLibrary.simpleMessage("غير معروف"),
     "unknown_school": MessageLookupByLibrary.simpleMessage("مدرسة غير معروفة"),
     "username": MessageLookupByLibrary.simpleMessage("اسم المستخدم"),
+    "version": MessageLookupByLibrary.simpleMessage("الإصدار"),
     "viewAll": MessageLookupByLibrary.simpleMessage("عرض الكل"),
     "want_to_logout": MessageLookupByLibrary.simpleMessage(
       "هل أنت متأكد أنك تريد تسجيل الخروج؟",

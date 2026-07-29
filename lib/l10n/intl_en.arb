@@ -109,5 +109,21 @@
   "There_are_no_Warings_at_the_moment": "There are no Warings at the moment",
   "Attendance": "Attendances",
   "Attendance_Record": "Attendance Record",
-  "Log": "Log"
+  "Log": "Log",
+  "notifications": "Notifications",
+  "about_app": "About App",
+  "privacy_policy": "Privacy Policy",
+  "contact_us": "Contact Us",
+  "version": "Version",
+  "app_version": "1.0.0",
+  "app_title": "Our School - School Management System",
+  "app_version_info": "Version: 1.0.0",
+  "app_description": "An integrated application for managing schools, students, and teachers.",
+  "privacy_policy_text": "We are committed to protecting your personal data. We do not share your information with any third party without your consent.",
+  "contact_email": " Email: support@ourschool.com",
+  "contact_phone": " Phone: +963 11 123 4567",
+  "role_teacher": "Teacher",
+  "role_counselor": "Counselor",
+  "role_student": "Student",
+  "role_admin": "Admin"
 }

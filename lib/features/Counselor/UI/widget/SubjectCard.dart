@@ -19,36 +19,6 @@ class SubjectCard extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Row(
           children: [
-            // Container(
-            //   width: 56,
-            //   height: 56,
-            //   decoration: BoxDecoration(
-            //     gradient: LinearGradient(
-            //       colors: [
-            //         theme.colorScheme.primary,
-            //         theme.colorScheme.primary.withOpacity(0.6),
-            //       ],
-            //       begin: Alignment.topLeft,
-            //       end: Alignment.bottomRight,
-            //     ),
-            //     shape: BoxShape.circle,
-            //   ),
-            //   child: Center(
-            //     child: Text(
-            //       subject.subjectName?.isNotEmpty == true
-            //           ? subject.subjectName![0].toUpperCase()
-            //           : 'م',
-            //       style: const TextStyle(
-            //         color: Colors.white,
-            //         fontWeight: FontWeight.bold,
-            //         fontSize: 22,
-            //       ),
-            //     ),
-            //   ),
-            // ),
-            // const SizedBox(width: 16),
-
-            // معلومات المادة
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

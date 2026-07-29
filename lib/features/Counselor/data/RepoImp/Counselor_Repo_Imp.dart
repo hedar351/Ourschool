@@ -199,47 +199,34 @@ class CounselorRepoImp implements CounselorRepo {
     }
   }
 
-  // @override
-  // Future<Either<Failures, PostscheduleImageEntity>> postscheduleImage(
-  //   int localGradeNumber,
-  //   int localSectionNumber,
-  //   String image,
-  // ) async {
-  //   if (await networkInfo.isConnected) {
-  //     try {
-  //       final file = File(image);
-  //       final model = await remotedatascheduleimage.postScheduleImage(
-  //         localGradeNumber,
-  //         localSectionNumber,
-  //         file,
-  //       );
-  //       return Right(model);
-  //     } on ServerExp {
-  //       return Left(ServerFailure());
-  //     } on TokenNotFoundExp {
-  //       return Left(EmptyCacheFailure());
-  //     } catch (e) {
-  //       return Left(ServerFailure());
-  //     }
-  //   } else {
-  //     return Left(OfflineFailure());
-  //   }
-  // }
-
   @override
   Future<Either<Failures, CounselorWarningsentity>> postWarnings(
     int localStudentNumber,
     String type,
     String reason,
   ) async {
+    // 1. التحقق من الاتصال
+    if (!await networkInfo.isConnected) {
+      print('❌ [Repo] No internet connection');
+      return Left(OfflineFailure());
+    }
+
+    print('🟡 [Repo] Adding warning for student: $localStudentNumber');
+
     try {
-      final remote = await remotedatapostwarnings.warnings(
+      final warningModel = await remotedatapostwarnings.warnings(
         localStudentNumber,
         type,
         reason,
       );
-      return Right(remote.toEntity());
+
+      print('✅ [Repo] Warning added successfully');
+
+      _fetchStudentProfileFromNetworkAndCache(localStudentNumber);
+
+      return Right(warningModel.toEntity());
     } catch (e) {
+      print('❌ [Repo] Failed to add warning: $e');
       return Left(ServerFailure());
     }
   }

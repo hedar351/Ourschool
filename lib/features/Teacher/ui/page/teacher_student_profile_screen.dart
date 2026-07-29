@@ -108,10 +108,6 @@ class _TeacherStudentProfileScreenState
     );
   }
 
-  // ====================================================================
-  // باقي الدوال كما هي (بدون تغيير)
-  // ====================================================================
-
   Widget _buildErrorState(BuildContext context, String message) {
     return Scaffold(
       appBar: AppBar(
@@ -171,7 +167,6 @@ class _TeacherStudentProfileScreenState
             child: RefreshIndicator(
               onRefresh: () => _onRefresh(context),
               child: SingleChildScrollView(
-                // ✅ هذا يحل المشكلة
                 physics: const AlwaysScrollableScrollPhysics(),
                 padding: const EdgeInsets.all(16),
                 child: Column(

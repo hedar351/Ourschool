@@ -875,6 +875,131 @@ class S {
   String get Log {
     return Intl.message('Log', name: 'Log', desc: '', args: []);
   }
+
+  /// `Notifications`
+  String get notifications {
+    return Intl.message(
+      'Notifications',
+      name: 'notifications',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `About App`
+  String get about_app {
+    return Intl.message('About App', name: 'about_app', desc: '', args: []);
+  }
+
+  /// `Privacy Policy`
+  String get privacy_policy {
+    return Intl.message(
+      'Privacy Policy',
+      name: 'privacy_policy',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Contact Us`
+  String get contact_us {
+    return Intl.message('Contact Us', name: 'contact_us', desc: '', args: []);
+  }
+
+  /// `Version`
+  String get version {
+    return Intl.message('Version', name: 'version', desc: '', args: []);
+  }
+
+  /// `1.0.0`
+  String get app_version {
+    return Intl.message('1.0.0', name: 'app_version', desc: '', args: []);
+  }
+
+  /// `Our School - School Management System`
+  String get app_title {
+    return Intl.message(
+      'Our School - School Management System',
+      name: 'app_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Version: 1.0.0`
+  String get app_version_info {
+    return Intl.message(
+      'Version: 1.0.0',
+      name: 'app_version_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `An integrated application for managing schools, students, and teachers.`
+  String get app_description {
+    return Intl.message(
+      'An integrated application for managing schools, students, and teachers.',
+      name: 'app_description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We are committed to protecting your personal data. We do not share your information with any third party without your consent.`
+  String get privacy_policy_text {
+    return Intl.message(
+      'We are committed to protecting your personal data. We do not share your information with any third party without your consent.',
+      name: 'privacy_policy_text',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// ` Email: support@ourschool.com`
+  String get contact_email {
+    return Intl.message(
+      ' Email: support@ourschool.com',
+      name: 'contact_email',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// ` Phone: +963 11 123 4567`
+  String get contact_phone {
+    return Intl.message(
+      ' Phone: +963 11 123 4567',
+      name: 'contact_phone',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Teacher`
+  String get role_teacher {
+    return Intl.message('Teacher', name: 'role_teacher', desc: '', args: []);
+  }
+
+  /// `Counselor`
+  String get role_counselor {
+    return Intl.message(
+      'Counselor',
+      name: 'role_counselor',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Student`
+  String get role_student {
+    return Intl.message('Student', name: 'role_student', desc: '', args: []);
+  }
+
+  /// `Admin`
+  String get role_admin {
+    return Intl.message('Admin', name: 'role_admin', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -73,7 +73,8 @@ class WarningCard extends StatelessWidget {
                         ),
                         const SizedBox(width: 4),
                         Text(
-                          warning.createdAt ?? S.of(context).date_unknown,
+                          // ✅ استخدام دالة التنسيق
+                          _formatDate(warning.createdAt, context),
                           style: const TextStyle(
                             fontSize: 13,
                             color: Colors.white70,
@@ -116,6 +117,19 @@ class WarningCard extends StatelessWidget {
     );
   }
 
+  // ====== دالة تنسيق التاريخ ======
+  String _formatDate(String? dateString, BuildContext context) {
+    if (dateString == null || dateString.isEmpty) {
+      return S.of(context).date_unknown;
+    }
+    try {
+      final date = DateTime.parse(dateString);
+      return '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
+    } catch (e) {
+      return dateString;
+    }
+  }
+
   void _showWarningDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -155,7 +169,7 @@ class WarningCard extends StatelessWidget {
               const SizedBox(height: 8),
               _buildDetailRow(
                 S.of(context).date,
-                warning.createdAt ?? S.of(context).date_unknown,
+                _formatDate(warning.createdAt, context),
               ),
             ],
           ),

@@ -111,5 +111,19 @@
   "There_are_no_Warings_at_the_moment": "لا يوجد تنبيهات",
   "Attendance": "الغيابات",
   "Attendance_Record": "سجل الغيابات",
-  "Log": "تسجيل"
+  "notifications": "الإشعارات",
+  "about_app": "حول التطبيق",
+  "privacy_policy": "سياسة الخصوصية",
+  "contact_us": "اتصل بنا",
+  "version": "الإصدار",
+  "app_version": "1.0.0",
+  "app_title": "مدرستنا - نظام إدارة المدارس",
+  "app_version_info": "الإصدار: 1.0.0",
+  "app_description": "تطبيق متكامل لإدارة المدارس والطلاب والمعلمين.",
+  "privacy_policy_text": "نحن نلتزم بحماية بياناتك الشخصية. لا نقوم بمشاركة معلوماتك مع أي طرف ثالث دون موافقتك.",
+  "contact_email": " البريد الإلكتروني: support@ourschool.com",
+  "contact_phone": " الهاتف: +963 11 123 4567",
+  "role_teacher": "معلم",
+  "role_counselor": "موجه",
+  "role_student": "طالب"
 }
