@@ -1,4 +1,7 @@
+// lib/features/SchoolsInfo/presentation/pages/teacher_details_screen.dart
+
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school/features/SchoolsInfo/UI/widget/teacher_details_widget.dart';
 import 'package:school/features/SchoolsInfo/domain/Entities/TeacherInfoEntity.dart';
 import 'package:school/generated/l10n.dart';
@@ -7,7 +10,10 @@ class TeacherDetailsScreen extends StatelessWidget {
   final TeacherInfoEntity teacher;
   final String schoolName;
 
-  const TeacherDetailsScreen({
+  // ✅ حسابات القيم الثابتة خارج build
+  final double contentPadding = 16.w;
+
+  TeacherDetailsScreen({
     super.key,
     required this.teacher,
     required this.schoolName,
@@ -20,7 +26,7 @@ class TeacherDetailsScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           S.of(context).teacherDetails,
-          style: TextStyle(color: theme.colorScheme.onSurface),
+          style: TextStyle(color: theme.colorScheme.onSurface, fontSize: 18.sp),
         ),
         centerTitle: true,
         elevation: 0,
@@ -29,7 +35,7 @@ class TeacherDetailsScreen extends StatelessWidget {
         iconTheme: IconThemeData(color: theme.colorScheme.onSurface),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(contentPadding),
         child: TeacherDetailsWidget(teacher: teacher, schoolName: schoolName),
       ),
     );

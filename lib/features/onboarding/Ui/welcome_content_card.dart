@@ -1,11 +1,18 @@
+// lib/features/onboarding/Ui/welcome_content_card.dart
+
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school/generated/l10n.dart';
 
 class WelcomeContentCard extends StatelessWidget {
   final VoidCallback onLoginPressed;
   final VoidCallback onExplorePressed;
 
-  const WelcomeContentCard({
+  final double _cardPadding = 28.w;
+
+  final double _buttonHeight = 52.h;
+  final double _iconSize = 22.w;
+  WelcomeContentCard({
     super.key,
     required this.onLoginPressed,
     required this.onExplorePressed,
@@ -13,79 +20,75 @@ class WelcomeContentCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Card(
       elevation: 8,
-      shadowColor: Theme.of(context).colorScheme.primary.withOpacity(0.3),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
+      shadowColor: theme.colorScheme.primary.withOpacity(0.3),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32.r)),
       child: Padding(
-        padding: const EdgeInsets.all(28),
+        padding: EdgeInsets.all(_cardPadding),
         child: Column(
           children: [
             Text(
               S.of(context).welcome_school,
               style: TextStyle(
-                fontSize: 24,
+                fontSize: 24.sp,
                 fontWeight: FontWeight.bold,
-                color: Theme.of(context).colorScheme.primary,
+                color: theme.colorScheme.primary,
               ),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20.h),
             Text(
               S.of(context).school_description,
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 16,
-                color: Theme.of(context).textTheme.bodyMedium?.color,
+                fontSize: 16.sp,
+                color: theme.textTheme.bodyMedium?.color,
                 height: 1.6,
               ),
             ),
-            const SizedBox(height: 40),
+            SizedBox(height: 40.h),
             ElevatedButton(
               onPressed: onLoginPressed,
               style: ElevatedButton.styleFrom(
-                backgroundColor: Theme.of(context).colorScheme.primary,
-                foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                padding: const EdgeInsets.symmetric(vertical: 16),
+                backgroundColor: theme.colorScheme.primary,
+                foregroundColor: theme.colorScheme.onPrimary,
+                padding: EdgeInsets.symmetric(vertical: 16.h),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(20.r),
                 ),
                 elevation: 3,
-                minimumSize: const Size(double.infinity, 52),
+                minimumSize: Size(double.infinity, _buttonHeight),
               ),
               child: Text(
                 S.of(context).login,
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                ),
+                style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600),
               ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
             OutlinedButton.icon(
               onPressed: onExplorePressed,
               icon: Icon(
                 Icons.explore_outlined,
-                color: Theme.of(context).colorScheme.primary,
-                size: 22,
+                color: theme.colorScheme.primary,
+                size: _iconSize,
               ),
               label: Text(
                 S.of(context).browse_school,
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 18.sp,
                   fontWeight: FontWeight.w600,
-                  color: Theme.of(context).colorScheme.primary,
+                  color: theme.colorScheme.primary,
                 ),
               ),
               style: OutlinedButton.styleFrom(
-                side: BorderSide(
-                  color: Theme.of(context).colorScheme.primary,
-                  width: 1.8,
-                ),
-                padding: const EdgeInsets.symmetric(vertical: 16),
+                side: BorderSide(color: theme.colorScheme.primary, width: 1.8),
+                padding: EdgeInsets.symmetric(vertical: 16.h),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(20.r),
                 ),
-                minimumSize: const Size(double.infinity, 52),
+                minimumSize: Size(double.infinity, _buttonHeight),
               ),
             ),
           ],

@@ -1,13 +1,24 @@
-// lib/features/Teacher/ui/widgets/teacher_student_info_card.dart
+// lib/features/Teacher/ui/widget/teacher_student_info_card.dart
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school/features/Teacher/domain/Entities/TeacherStudentProfile/TeacherStudentProfileEntity.dart';
 import 'package:school/generated/l10n.dart';
 
 class TeacherStudentInfoCard extends StatelessWidget {
   final Teacherstudentprofileentity? profile;
 
-  const TeacherStudentInfoCard({super.key, required this.profile});
+  // ✅ حسابات القيم الثابتة خارج build
+  final double cardPadding = 16.w;
+
+  final double avatarSize = 60.w;
+  final double avatarFontSize = 24.sp;
+  final double nameFontSize = 20.sp;
+  final double infoLabelFontSize = 12.sp;
+  final double infoValueFontSize = 14.sp;
+  final double iconSize = 14.w;
+  final double gap = 16.w;
+  TeacherStudentInfoCard({super.key, required this.profile});
 
   @override
   Widget build(BuildContext context) {
@@ -16,19 +27,18 @@ class TeacherStudentInfoCard extends StatelessWidget {
 
     return Card(
       elevation: 4,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.r)),
       color: isDark ? Colors.grey.shade800.withOpacity(0.6) : Colors.white,
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(cardPadding),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ====== الصورة الرمزية + الاسم ======
             Row(
               children: [
                 Container(
-                  width: 60,
-                  height: 60,
+                  width: avatarSize,
+                  height: avatarSize,
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
@@ -43,15 +53,15 @@ class TeacherStudentInfoCard extends StatelessWidget {
                       profile?.name?.isNotEmpty == true
                           ? profile!.name![0].toUpperCase()
                           : '?',
-                      style: const TextStyle(
-                        fontSize: 24,
+                      style: TextStyle(
+                        fontSize: avatarFontSize,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),
                     ),
                   ),
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: gap),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -59,7 +69,7 @@ class TeacherStudentInfoCard extends StatelessWidget {
                       Text(
                         profile?.name ?? 'غير معروف',
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: nameFontSize,
                           fontWeight: FontWeight.bold,
                           color: theme.colorScheme.onSurface,
                         ),
@@ -69,23 +79,20 @@ class TeacherStudentInfoCard extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
             Divider(color: theme.dividerColor),
-            const SizedBox(height: 12),
-
-            // ====== معلومات ولي الأمر ======
+            SizedBox(height: 12.h),
             Row(
               children: [
                 Expanded(
                   child: _buildInfoItem(
                     context,
                     label: S.of(context).guardianName,
-
                     value: profile?.guardianName ?? 'غير محدد',
                     icon: Icons.person_outline,
                   ),
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: gap),
                 Expanded(
                   child: _buildInfoItem(
                     context,
@@ -114,23 +121,23 @@ class TeacherStudentInfoCard extends StatelessWidget {
       children: [
         Row(
           children: [
-            Icon(icon, size: 14, color: theme.colorScheme.outline),
-            const SizedBox(width: 6),
+            Icon(icon, size: iconSize, color: theme.colorScheme.outline),
+            SizedBox(width: 6.w),
             Text(
               label,
               style: TextStyle(
-                fontSize: 12,
+                fontSize: infoLabelFontSize,
                 color: theme.colorScheme.outline,
                 fontWeight: FontWeight.w500,
               ),
             ),
           ],
         ),
-        const SizedBox(height: 4),
+        SizedBox(height: 4.h),
         Text(
           value,
           style: TextStyle(
-            fontSize: 14,
+            fontSize: infoValueFontSize,
             fontWeight: FontWeight.w500,
             color: theme.colorScheme.onSurface,
           ),

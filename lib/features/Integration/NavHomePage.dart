@@ -1,4 +1,7 @@
+// lib/features/Navigation/NavHomePage.dart
+
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school/features/Auth/domain/entities/auth_entities.dart';
 import 'package:school/features/Bulletin/ui/pages/bulletin_screen.dart';
 import 'package:school/features/Setting/Settingscreen.dart';
@@ -7,7 +10,6 @@ import 'package:school/generated/l10n.dart';
 
 import '../Counselor/UI/page/ClassScreen.dart';
 import '../Student/ui/page/AcademicRecordScreen.dart';
-// import '../Student/ui/page/StudentPaymentsScreen.dart';
 
 class NavHomePage extends StatefulWidget {
   final AuthEntities user;
@@ -22,19 +24,31 @@ class _NavHomePageState extends State<NavHomePage>
   late final PageController _pageController;
   int _currentIndex = 0;
 
+  // ✅ حسابات القيم الثابتة خارج build
+  final double _navPaddingLeft = 20.w;
+  final double _navPaddingRight = 20.w;
+  final double _navPaddingBottom = 16.h;
+  final double _navHeight = 65.h;
+  final double _navRadius = 30.r;
+  final double _blurRadius = 20.w;
+  final double _spreadRadius = 5.w;
+  final double _selectedFontSize = 13.sp;
+  final double _unselectedFontSize = 12.sp;
+  final double _scaleMultiplier = 1.2;
+  final double _offsetY = 8.h;
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    // print(widget.user.token);
+
     List<Widget> pages = [
-      BulletinScreen(),
+      const BulletinScreen(),
       widget.user.role == "Student"
-          ? AcademicRecordScreen()
+          ? const AcademicRecordScreen()
           : widget.user.role == "Teacher"
-          ? TeacherProfileScreen()
-          : ClassScreen(),
-      // if (widget.user.role == "Student") StudentPaymentsScreen(),
-      SettingsScreen(),
+          ? const TeacherProfileScreen()
+          : const ClassScreen(),
+      const SettingsScreen(),
     ];
 
     List<NavigationDestination> destinations = [
@@ -54,14 +68,6 @@ class _NavHomePageState extends State<NavHomePage>
             ? S.of(context).Info
             : S.of(context).Students,
       ),
-
-      // if (widget.user.role == "Student")
-      //   _buildNavItem(
-      //     index: 2,
-      //     icon: Icons.money_outlined,
-      //     activeIcon: Icons.money_rounded,
-      //     label: S.of(context).Payments,
-      //   ),
       _buildNavItem(
         index: widget.user.role == "Student" ? 3 : 2,
         icon: Icons.settings_outlined,
@@ -79,21 +85,26 @@ class _NavHomePageState extends State<NavHomePage>
       ),
       bottomNavigationBar: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
+          padding: EdgeInsets.fromLTRB(
+            _navPaddingLeft,
+            0,
+            _navPaddingRight,
+            _navPaddingBottom,
+          ),
           child: Container(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(30),
+              borderRadius: BorderRadius.circular(_navRadius),
               boxShadow: [
                 BoxShadow(
                   color: theme.shadowColor.withOpacity(0.1),
-                  blurRadius: 20,
-                  spreadRadius: 5,
-                  offset: const Offset(0, 8),
+                  blurRadius: _blurRadius,
+                  spreadRadius: _spreadRadius,
+                  offset: Offset(0, _offsetY),
                 ),
               ],
             ),
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(30),
+              borderRadius: BorderRadius.circular(_navRadius),
               child: NavigationBarTheme(
                 data: NavigationBarThemeData(
                   indicatorColor: theme.colorScheme.primary.withOpacity(0.15),
@@ -101,19 +112,19 @@ class _NavHomePageState extends State<NavHomePage>
                     if (states.contains(WidgetState.selected)) {
                       return TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 13,
+                        fontSize: _selectedFontSize,
                         color: theme.colorScheme.primary,
                       );
                     }
                     return TextStyle(
                       fontWeight: FontWeight.w500,
-                      fontSize: 12,
+                      fontSize: _unselectedFontSize,
                       color: theme.unselectedWidgetColor,
                     );
                   }),
                 ),
                 child: NavigationBar(
-                  height: 65,
+                  height: _navHeight,
                   backgroundColor: theme.cardColor,
                   surfaceTintColor: Colors.transparent,
                   elevation: 0,
@@ -151,16 +162,16 @@ class _NavHomePageState extends State<NavHomePage>
 
     return NavigationDestination(
       icon: AnimatedScale(
-        scale: isSelected ? 1.2 : 1.0,
+        scale: isSelected ? _scaleMultiplier : 1.0,
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeOutBack,
-        child: Icon(icon),
+        child: Icon(icon, size: 24.w),
       ),
       selectedIcon: AnimatedScale(
-        scale: 1.2,
+        scale: _scaleMultiplier,
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeOutBack,
-        child: Icon(activeIcon),
+        child: Icon(activeIcon, size: 24.w),
       ),
       label: label,
     );

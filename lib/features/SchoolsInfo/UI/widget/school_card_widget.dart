@@ -1,6 +1,7 @@
 // lib/features/SchoolsInfo/presentation/widgets/school_card_widget.dart
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school/features/SchoolsInfo/domain/Entities/SchoolInfoEntity.dart';
 
 import '../page/school_teachers_screen.dart';
@@ -8,22 +9,38 @@ import '../page/school_teachers_screen.dart';
 class SchoolCardWidget extends StatelessWidget {
   final SchoolInfoEntity school;
 
-  const SchoolCardWidget({super.key, required this.school});
+  // ✅ حسابات القيم الثابتة خارج build
+  final double cardMarginBottom = 16.h;
+
+  final double cardPadding = 16.w;
+  final double cardRadius = 20.r;
+  final double sideBorderWidth = 0.5.w;
+  final double containerSize = 50.w;
+  final double containerRadius = 14.r;
+  final double iconSize = 26.w;
+  final double gapSmall = 14.w;
+  final double titleFontSize = 18.sp;
+  final double typeFontSize = 12.sp;
+  final double typeIconSize = 14.w;
+  final double infoFontSize = 13.sp;
+  final double infoIconSize = 16.w;
+  final double infoGap = 8.w;
+  final double infoVerticalPadding = 6.h;
+  SchoolCardWidget({super.key, required this.school});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    // final teachers = school.teacherInfo ?? [];
     final isDark = theme.brightness == Brightness.dark;
 
     return Card(
-      margin: const EdgeInsets.only(bottom: 16),
+      margin: EdgeInsets.only(bottom: cardMarginBottom),
       elevation: 2,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(cardRadius),
         side: BorderSide(
           color: isDark ? Colors.grey.shade800 : Colors.grey.shade200,
-          width: 0.5,
+          width: sideBorderWidth,
         ),
       ),
       child: InkWell(
@@ -36,7 +53,7 @@ class SchoolCardWidget extends StatelessWidget {
           );
         },
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(cardPadding),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -44,8 +61,8 @@ class SchoolCardWidget extends StatelessWidget {
               Row(
                 children: [
                   Container(
-                    width: 50,
-                    height: 50,
+                    width: containerSize,
+                    height: containerSize,
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
@@ -53,41 +70,41 @@ class SchoolCardWidget extends StatelessWidget {
                           theme.colorScheme.primary.withOpacity(0.7),
                         ],
                       ),
-                      borderRadius: BorderRadius.circular(14),
+                      borderRadius: BorderRadius.circular(containerRadius),
                     ),
                     child: Icon(
                       Icons.school,
                       color: theme.colorScheme.onPrimary,
-                      size: 26,
+                      size: iconSize,
                     ),
                   ),
-                  const SizedBox(width: 14),
+                  SizedBox(width: gapSmall),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           school.name ?? 'مدرسة غير معروفة',
-                          style: const TextStyle(
-                            fontSize: 18,
+                          style: TextStyle(
+                            fontSize: titleFontSize,
                             fontWeight: FontWeight.bold,
                           ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
-                        const SizedBox(height: 2),
+                        SizedBox(height: 2.h),
                         Row(
                           children: [
                             Icon(
                               Icons.verified,
-                              size: 14,
+                              size: typeIconSize,
                               color: theme.colorScheme.primary,
                             ),
-                            const SizedBox(width: 4),
+                            SizedBox(width: 4.w),
                             Text(
                               school.typename ?? 'مدرسة',
                               style: TextStyle(
-                                fontSize: 12,
+                                fontSize: typeFontSize,
                                 color: theme.colorScheme.primary,
                                 fontWeight: FontWeight.w500,
                               ),
@@ -97,47 +114,28 @@ class SchoolCardWidget extends StatelessWidget {
                       ],
                     ),
                   ),
-
-                  // Container(
-                  //   padding: const EdgeInsets.symmetric(
-                  //     horizontal: 12,
-                  //     vertical: 6,
-                  //   ),
-                  //   decoration: BoxDecoration(
-                  //     color: theme.colorScheme.primary.withOpacity(0.1),
-                  //     borderRadius: BorderRadius.circular(20),
-                  //   ),
-                  //   child: Text(
-                  //     teachers.length.toString(),
-                  //     style: TextStyle(
-                  //       fontSize: 14,
-                  //       fontWeight: FontWeight.bold,
-                  //       color: theme.colorScheme.primary,
-                  //     ),
-                  //   ),
-                  // ),
                 ],
               ),
 
-              const SizedBox(height: 14),
+              SizedBox(height: 14.h),
 
               // ====== معلومات المدرسة ======
               if (school.address != null && school.address!.isNotEmpty)
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 6),
+                  padding: EdgeInsets.only(bottom: infoVerticalPadding),
                   child: Row(
                     children: [
                       Icon(
                         Icons.location_on_outlined,
-                        size: 16,
+                        size: infoIconSize,
                         color: Colors.grey.shade500,
                       ),
-                      const SizedBox(width: 8),
+                      SizedBox(width: infoGap),
                       Expanded(
                         child: Text(
                           school.address!,
                           style: TextStyle(
-                            fontSize: 13,
+                            fontSize: infoFontSize,
                             color: Colors.grey.shade600,
                           ),
                         ),
@@ -148,19 +146,19 @@ class SchoolCardWidget extends StatelessWidget {
 
               if (school.phone != null && school.phone!.isNotEmpty)
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 6),
+                  padding: EdgeInsets.only(bottom: infoVerticalPadding),
                   child: Row(
                     children: [
                       Icon(
                         Icons.phone_outlined,
-                        size: 16,
+                        size: infoIconSize,
                         color: Colors.grey.shade500,
                       ),
-                      const SizedBox(width: 8),
+                      SizedBox(width: infoGap),
                       Text(
                         school.phone!,
                         style: TextStyle(
-                          fontSize: 13,
+                          fontSize: infoFontSize,
                           color: Colors.grey.shade600,
                         ),
                       ),

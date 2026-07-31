@@ -1,6 +1,7 @@
-// lib/features/Counselor/UI/widget/ShowDialog/showWarningsDialog.dart
+// lib/features/Counselor/UI/widget/ShowDialog/show_warnings_dialog.dart
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school/features/Counselor/UI/widget/WarningCard.dart';
 import 'package:school/features/Counselor/domain/Entities/StudentsProfileEntity/Counselor_WarningsEntity.dart';
 import 'package:school/generated/l10n.dart';
@@ -9,15 +10,29 @@ void showWarningsDialog(
   BuildContext context,
   List<CounselorWarningsentity> warnings,
 ) {
+  // ✅ قيم ثابتة
+  final double dialogPadding = 20.w;
+  final double maxWidth = 520.w;
+  final double maxHeight = 550.h;
+  final double iconContainerPadding = 10.w;
+  final double iconSize = 22.w;
+  final double titleFontSize = 18.sp;
+  final double closeIconSize = 22.w;
+  final double emptyIconSize = 56.w;
+  final double emptyFontSize = 15.sp;
+  final double closeButtonSize = 36.w;
+
   showDialog(
     context: context,
     barrierDismissible: true,
     builder: (dialogContext) {
       return Dialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(24.r),
+        ),
         child: Container(
-          padding: const EdgeInsets.all(20),
-          constraints: const BoxConstraints(maxWidth: 520, maxHeight: 550),
+          padding: EdgeInsets.all(dialogPadding),
+          constraints: BoxConstraints(maxWidth: maxWidth, maxHeight: maxHeight),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -25,23 +40,23 @@ void showWarningsDialog(
               Row(
                 children: [
                   Container(
-                    padding: const EdgeInsets.all(10),
+                    padding: EdgeInsets.all(iconContainerPadding),
                     decoration: BoxDecoration(
                       color: Colors.red.withOpacity(0.12),
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(12.r),
                     ),
                     child: Icon(
                       Icons.warning_amber,
                       color: Colors.red,
-                      size: 22,
+                      size: iconSize,
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  SizedBox(width: 12.w),
                   Expanded(
                     child: Text(
                       S.of(context).warnings_title,
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: titleFontSize,
                         fontWeight: FontWeight.bold,
                         color: Theme.of(context).colorScheme.onSurface,
                       ),
@@ -52,18 +67,18 @@ void showWarningsDialog(
                     icon: Icon(
                       Icons.close,
                       color: Theme.of(context).colorScheme.outline,
-                      size: 22,
+                      size: closeIconSize,
                     ),
-                    splashRadius: 24,
+                    splashRadius: 24.r,
                     padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(
-                      minWidth: 36,
-                      minHeight: 36,
+                    constraints: BoxConstraints(
+                      minWidth: closeButtonSize,
+                      minHeight: closeButtonSize,
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 14),
+              SizedBox(height: 14.h),
 
               // ====== المحتوى ======
               Expanded(
@@ -74,15 +89,15 @@ void showWarningsDialog(
                           children: [
                             Icon(
                               Icons.inbox_outlined,
-                              size: 56,
+                              size: emptyIconSize,
                               color: Colors.grey.shade400,
                             ),
-                            const SizedBox(height: 12),
+                            SizedBox(height: 12.h),
                             Text(
                               'لا توجد إنذارات',
                               style: TextStyle(
                                 color: Colors.grey.shade500,
-                                fontSize: 15,
+                                fontSize: emptyFontSize,
                               ),
                             ),
                           ],
@@ -92,13 +107,13 @@ void showWarningsDialog(
                         physics: const BouncingScrollPhysics(),
                         itemCount: warnings.length,
                         separatorBuilder: (_, _) =>
-                            const Divider(height: 4, thickness: 0.3),
+                            Divider(height: 4.h, thickness: 0.3.w),
                         itemBuilder: (context, index) {
                           return WarningCard(warning: warnings[index]);
                         },
                       ),
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: 12.h),
 
               // ====== زر الإغلاق ======
               Row(
@@ -107,12 +122,12 @@ void showWarningsDialog(
                   TextButton(
                     onPressed: () => Navigator.pop(dialogContext),
                     style: TextButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 20,
-                        vertical: 8,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 20.w,
+                        vertical: 8.h,
                       ),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(8.r),
                       ),
                     ),
                     child: Text(
@@ -120,7 +135,7 @@ void showWarningsDialog(
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.primary,
                         fontWeight: FontWeight.w600,
-                        fontSize: 14,
+                        fontSize: 14.sp,
                       ),
                     ),
                   ),

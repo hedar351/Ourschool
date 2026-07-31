@@ -71,6 +71,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "هذا الحساب غير متوفر للعرض حالياً",
     ),
     "add": MessageLookupByLibrary.simpleMessage("إضافة"),
+    "add_mark": MessageLookupByLibrary.simpleMessage("إضافة علامة"),
     "add_warning_title": MessageLookupByLibrary.simpleMessage(
       "إضافة إنذار جديد",
     ),
@@ -104,6 +105,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "contact_us": MessageLookupByLibrary.simpleMessage("اتصل بنا"),
     "date": MessageLookupByLibrary.simpleMessage("التاريخ"),
     "date_unknown": MessageLookupByLibrary.simpleMessage("تاريخ غير محدد"),
+    "delete": MessageLookupByLibrary.simpleMessage("حذف"),
+    "edit": MessageLookupByLibrary.simpleMessage("تعديل"),
+    "edit_mark": MessageLookupByLibrary.simpleMessage("تعديل علامة"),
     "empty_cache_failure": MessageLookupByLibrary.simpleMessage(
       "لا يوجد بيانات مخزنة",
     ),
@@ -121,6 +125,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "تم تسجيل الدخول بنجاح",
     ),
     "marks_title": MessageLookupByLibrary.simpleMessage(" العلامات"),
+    "max_score": MessageLookupByLibrary.simpleMessage("العلامة الكاملة"),
     "moreTeachers": MessageLookupByLibrary.simpleMessage("معلمين آخرين"),
     "noAdditionalInfo": MessageLookupByLibrary.simpleMessage(
       "لا توجد معلومات إضافية",
@@ -131,6 +136,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "noTeachers": MessageLookupByLibrary.simpleMessage(
       "لا يوجد معلمين في هذه المدرسة",
     ),
+    "no_marks_semester_1": MessageLookupByLibrary.simpleMessage(
+      "لا توجد علامات للفصل الأول",
+    ),
+    "no_marks_semester_2": MessageLookupByLibrary.simpleMessage(
+      "لا توجد علامات للفصل الثاني",
+    ),
     "not_specified": MessageLookupByLibrary.simpleMessage("غير محدد"),
     "notifications": MessageLookupByLibrary.simpleMessage("الإشعارات"),
     "offline_failure": MessageLookupByLibrary.simpleMessage(
@@ -139,8 +150,27 @@ class MessageLookup extends MessageLookupByLibrary {
     "or_explore": MessageLookupByLibrary.simpleMessage("أو استكشف مدرستنا"),
     "oral": MessageLookupByLibrary.simpleMessage("شفوي"),
     "oral_2": MessageLookupByLibrary.simpleMessage("شفوي 2"),
+    "out_of": MessageLookupByLibrary.simpleMessage("من"),
     "password": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
+    "password_min_length": MessageLookupByLibrary.simpleMessage(
+      "كلمة المرور يجب أن تكون 6 أحرف على الأقل",
+    ),
     "phone": MessageLookupByLibrary.simpleMessage("رقم الهاتف"),
+    "please_enter_max_score": MessageLookupByLibrary.simpleMessage(
+      "يرجى إدخال العلامة الكاملة",
+    ),
+    "please_enter_score": MessageLookupByLibrary.simpleMessage(
+      "يرجى إدخال العلامة",
+    ),
+    "please_enter_valid_number": MessageLookupByLibrary.simpleMessage(
+      "يرجى إدخال رقم صحيح",
+    ),
+    "please_select_quiz_type": MessageLookupByLibrary.simpleMessage(
+      "يرجى اختيار نوع الاختبار",
+    ),
+    "please_select_semester": MessageLookupByLibrary.simpleMessage(
+      "يرجى اختيار الفصل الدراسي",
+    ),
     "please_select_type_and_reason": MessageLookupByLibrary.simpleMessage(
       "يرجى اختيار النوع وملء السبب",
     ),
@@ -151,6 +181,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "pullToRefresh": MessageLookupByLibrary.simpleMessage(
       "اسحب للأسفل للتحديث",
     ),
+    "quiz_type": MessageLookupByLibrary.simpleMessage("نوع الاختبار"),
+    "quiz_type_1": MessageLookupByLibrary.simpleMessage("اختبار أول"),
+    "quiz_type_2": MessageLookupByLibrary.simpleMessage("اختبار ثاني"),
+    "quiz_type_3": MessageLookupByLibrary.simpleMessage("واجب"),
+    "quiz_type_5": MessageLookupByLibrary.simpleMessage("نهائي"),
     "reason": MessageLookupByLibrary.simpleMessage("السبب"),
     "remember_me": MessageLookupByLibrary.simpleMessage("تذكرني"),
     "retry": MessageLookupByLibrary.simpleMessage("إعادة المحاولة"),
@@ -166,6 +201,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "school_subjects": m1,
     "schools": MessageLookupByLibrary.simpleMessage("المدارس"),
     "schoolsCount": MessageLookupByLibrary.simpleMessage("مدرسة"),
+    "score": MessageLookupByLibrary.simpleMessage("العلامة"),
     "select_warning_type": MessageLookupByLibrary.simpleMessage(
       "اختر نوع الإنذار",
     ),

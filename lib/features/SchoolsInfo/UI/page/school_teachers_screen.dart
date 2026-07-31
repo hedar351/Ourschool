@@ -1,4 +1,7 @@
+// lib/features/SchoolsInfo/presentation/pages/school_teachers_screen.dart
+
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school/features/SchoolsInfo/UI/page/teacher_details_screen.dart';
 import 'package:school/features/SchoolsInfo/UI/widget/teacher_card_widget.dart';
 import 'package:school/generated/l10n.dart';
@@ -9,17 +12,24 @@ import '../../domain/Entities/TeacherInfoEntity.dart';
 class SchoolTeachersScreen extends StatelessWidget {
   final SchoolInfoEntity school;
 
-  const SchoolTeachersScreen({super.key, required this.school});
+  // ✅ حسابات القيم الثابتة خارج build
+  final double emptyIconSize = 80.w;
+
+  final double emptyGap = 16.h;
+  final double listPadding = 16.w;
+  final double listItemGap = 12.h;
+  SchoolTeachersScreen({super.key, required this.school});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final teachers = school.teacherInfo ?? [];
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
           school.name ?? '',
-          style: TextStyle(color: theme.colorScheme.onSurface),
+          style: TextStyle(color: theme.colorScheme.onSurface, fontSize: 18.sp),
         ),
         centerTitle: true,
         elevation: 0,
@@ -41,14 +51,15 @@ class SchoolTeachersScreen extends StatelessWidget {
         children: [
           Icon(
             Icons.person_off_outlined,
-            size: 80,
+            size: emptyIconSize,
             color: theme.colorScheme.outline,
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: emptyGap),
           Text(
             S.of(context).noTeachers,
             style: theme.textTheme.titleMedium?.copyWith(
               color: theme.colorScheme.onSurface,
+              fontSize: 16.sp,
             ),
           ),
         ],
@@ -64,9 +75,9 @@ class SchoolTeachersScreen extends StatelessWidget {
       children: [
         Expanded(
           child: ListView.separated(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(listPadding),
             itemCount: teachers.length,
-            separatorBuilder: (_, _) => const SizedBox(height: 12),
+            separatorBuilder: (_, _) => SizedBox(height: listItemGap),
             itemBuilder: (context, index) {
               final teacher = teachers[index];
               return TeacherCardWidget(

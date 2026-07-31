@@ -1,4 +1,7 @@
+// lib/features/Bulletin/ui/widget/ScaffoldWidget.dart
+
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school/features/Bulletin/domain/Entities/AnnouncementActivityEntity.dart';
 import 'package:school/features/Bulletin/domain/Entities/BulletinEntity.dart';
 import 'package:school/features/Bulletin/ui/widget/BulletinCard.dart';
@@ -8,6 +11,7 @@ import 'package:school/generated/l10n.dart';
 class Scaffoldwidget extends StatefulWidget {
   final List<BulletinEntity> bulletins;
   final Future<void> Function() onRefresh;
+
   const Scaffoldwidget({
     super.key,
     required this.bulletins,
@@ -23,6 +27,16 @@ class _ScaffoldwidgetState extends State<Scaffoldwidget> {
   late List<Announcementactivityentity> _activities;
   late List<Announcementactivityentity> _announcements;
 
+  // ✅ حسابات القيم الثابتة خارج build
+  final double _paddingHorizontal = 16.w;
+  final double _paddingVertical = 12.h;
+  final double _gapSmall = 8.h;
+  final double _gapMedium = 16.h;
+  final double _gapLarge = 40.h;
+  final double _verticalListGap = 16.h;
+  final double _listHeight = 220.h;
+  final double _emptyPadding = 40.h;
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -36,14 +50,14 @@ class _ScaffoldwidgetState extends State<Scaffoldwidget> {
             slivers: [
               SliverToBoxAdapter(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 12,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: _paddingHorizontal,
+                    vertical: _paddingVertical,
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(height: 8),
+                      SizedBox(height: _gapSmall),
                       if (_activities.isNotEmpty)
                         _buildSection(
                           title: S.of(context).Activities,
@@ -52,7 +66,7 @@ class _ScaffoldwidgetState extends State<Scaffoldwidget> {
                           color: theme.colorScheme.primary,
                         ),
                       if (_activities.isNotEmpty && _announcements.isNotEmpty)
-                        const SizedBox(height: 40),
+                        SizedBox(height: _gapLarge),
                       if (_announcements.isNotEmpty)
                         _buildSection(
                           title: S.of(context).Announcements,
@@ -62,7 +76,7 @@ class _ScaffoldwidgetState extends State<Scaffoldwidget> {
                         ),
                       if (_activities.isEmpty && _announcements.isEmpty)
                         _buildEmptySection(context),
-                      const SizedBox(height: 20),
+                      SizedBox(height: 20.h),
                     ],
                   ),
                 ),
@@ -89,12 +103,14 @@ class _ScaffoldwidgetState extends State<Scaffoldwidget> {
   }
 
   Widget _buildEmptySection(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Center(
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 40),
+        padding: EdgeInsets.symmetric(vertical: _emptyPadding),
         child: Text(
           'لا توجد أنشطة أو إعلانات حالياً',
-          style: Theme.of(context).textTheme.bodyMedium,
+          style: theme.textTheme.bodyMedium?.copyWith(fontSize: 14.sp),
         ),
       ),
     );
@@ -105,12 +121,12 @@ class _ScaffoldwidgetState extends State<Scaffoldwidget> {
     Color color,
   ) {
     return SizedBox(
-      height: 220,
+      height: _listHeight,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         physics: const BouncingScrollPhysics(),
         itemCount: items.length,
-        cacheExtent: 200,
+        cacheExtent: 200.w,
         itemBuilder: (context, index) {
           final entity = items[index];
           return Bulletincard(
@@ -133,7 +149,7 @@ class _ScaffoldwidgetState extends State<Scaffoldwidget> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Buildsectionheader(title: title, color: color, onPressed: () {}),
-        const SizedBox(height: 16),
+        SizedBox(height: _gapMedium),
         isHorizontal
             ? _buildHorizontalList(items, color)
             : _buildVerticalList(items, color),
@@ -149,7 +165,7 @@ class _ScaffoldwidgetState extends State<Scaffoldwidget> {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: items.length,
-      separatorBuilder: (_, _) => const SizedBox(height: 16),
+      separatorBuilder: (_, _) => SizedBox(height: _verticalListGap),
       itemBuilder: (context, index) {
         final entity = items[index];
         return Bulletincard(

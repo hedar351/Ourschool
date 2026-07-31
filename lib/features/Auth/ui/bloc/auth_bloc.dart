@@ -81,7 +81,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     await cacheDataStudentProfile.deleteStudentProfile();
     await cacheDataTeacherFullProfile.deleteTeacherFullProfile();
     await cacheTeacherStudentsList.deleteStudents();
-    await cacheDataStudentProfile.deleteStudentProfile();
+    await cacheTeacherStudentProfile.deleteCachedTeacherStudentProfile();
     result.fold(
       (failure) => emit(AuthErorr(message: mapFailureToMessage(failure))),
       (user) => emit(AuthLoaded(user: user)),

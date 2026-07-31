@@ -1,5 +1,8 @@
+// lib/features/Counselor/UI/widget/ShowDialog/ShowAttendanceDialog.dart
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school/features/Counselor/UI/bloc/attendance/attendance_bloc.dart';
 import 'package:school/features/Counselor/domain/Entities/StudentsBySectionEntity/studentEntity.dart';
 import 'package:school/features/Counselor/domain/Entities/attendanceEntity/attendanceEntity.dart';
@@ -13,6 +16,28 @@ void showAttendanceDialog(
   final attendanceBloc = context.read<AttendanceBloc>();
   final studentId = student?.localStudentNumber;
 
+  // ✅ حسابات القيم الثابتة
+  final double dialogPadding = 20.w;
+  final double maxWidth = 480.w;
+  final double maxHeight = 580.h;
+  final double iconContainerPadding = 10.w;
+  final double iconSize = 22.w;
+  final double titleFontSize = 18.sp;
+  final double closeIconSize = 22.w;
+  final double headerPaddingHorizontal = 14.w;
+  final double headerPaddingVertical = 10.h;
+  final double headerIconSize = 15.w;
+  final double headerFontSize = 13.sp;
+  // final double itemPaddingHorizontal = 4.w;
+  // final double itemPaddingVertical = 4.h;
+  // final double dateIconSize = 11.w;
+  // final double dateFontSize = 14.sp;
+  // final double deleteIconSize = 20.w;
+  final double buttonFontSize = 14.sp;
+  final double borderRadius = 10.r;
+  final double dialogBorderRadius = 24.r;
+  final double closeButtonSize = 36.w;
+
   showDialog(
     context: context,
     barrierDismissible: true,
@@ -21,36 +46,40 @@ void showAttendanceDialog(
         value: attendanceBloc,
         child: Dialog(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(24),
+            borderRadius: BorderRadius.circular(dialogBorderRadius),
           ),
           child: Container(
-            padding: const EdgeInsets.all(20),
-            constraints: const BoxConstraints(maxWidth: 480, maxHeight: 580),
+            padding: EdgeInsets.all(dialogPadding),
+            constraints: BoxConstraints(
+              maxWidth: maxWidth,
+              maxHeight: maxHeight,
+            ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
+                // ====== العنوان ======
                 Row(
                   children: [
                     Container(
-                      padding: const EdgeInsets.all(10),
+                      padding: EdgeInsets.all(iconContainerPadding),
                       decoration: BoxDecoration(
                         color: Theme.of(
                           context,
                         ).colorScheme.primary.withOpacity(0.12),
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(12.r),
                       ),
                       child: Icon(
                         Icons.event_available,
                         color: Theme.of(context).colorScheme.primary,
-                        size: 22,
+                        size: iconSize,
                       ),
                     ),
-                    const SizedBox(width: 12),
+                    SizedBox(width: 12.w),
                     Expanded(
                       child: Text(
                         '${S.of(context).Attendance_Record} ',
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: titleFontSize,
                           fontWeight: FontWeight.bold,
                           color: Theme.of(context).colorScheme.onSurface,
                         ),
@@ -61,19 +90,20 @@ void showAttendanceDialog(
                       icon: Icon(
                         Icons.close,
                         color: Theme.of(context).colorScheme.outline,
-                        size: 22,
+                        size: closeIconSize,
                       ),
-                      splashRadius: 24,
+                      splashRadius: 24.r,
                       padding: EdgeInsets.zero,
-                      constraints: const BoxConstraints(
-                        minWidth: 36,
-                        minHeight: 36,
+                      constraints: BoxConstraints(
+                        minWidth: closeButtonSize,
+                        minHeight: closeButtonSize,
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 14),
+                SizedBox(height: 14.h),
 
+                // ====== المحتوى ======
                 Expanded(
                   child: attendance.isEmpty
                       ? Center(
@@ -82,15 +112,15 @@ void showAttendanceDialog(
                             children: [
                               Icon(
                                 Icons.inbox_outlined,
-                                size: 56,
+                                size: 56.w,
                                 color: Colors.grey.shade400,
                               ),
-                              const SizedBox(height: 12),
+                              SizedBox(height: 12.h),
                               Text(
                                 'لا توجد سجلات غياب',
                                 style: TextStyle(
                                   color: Colors.grey.shade500,
-                                  fontSize: 15,
+                                  fontSize: 15.sp,
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
@@ -99,16 +129,19 @@ void showAttendanceDialog(
                         )
                       : Column(
                           children: [
+                            // ====== رأس الجدول ======
                             Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 14,
-                                vertical: 10,
+                              padding: EdgeInsets.symmetric(
+                                horizontal: headerPaddingHorizontal,
+                                vertical: headerPaddingVertical,
                               ),
                               decoration: BoxDecoration(
                                 color: Theme.of(
                                   context,
                                 ).colorScheme.primary.withOpacity(0.08),
-                                borderRadius: BorderRadius.circular(10),
+                                borderRadius: BorderRadius.circular(
+                                  borderRadius,
+                                ),
                               ),
                               child: Row(
                                 children: [
@@ -118,17 +151,17 @@ void showAttendanceDialog(
                                       children: [
                                         Icon(
                                           Icons.calendar_today,
-                                          size: 15,
+                                          size: headerIconSize,
                                           color: Theme.of(
                                             context,
                                           ).colorScheme.primary,
                                         ),
-                                        const SizedBox(width: 6),
+                                        SizedBox(width: 6.w),
                                         Text(
                                           S.of(context).date,
                                           style: TextStyle(
                                             fontWeight: FontWeight.w600,
-                                            fontSize: 13,
+                                            fontSize: headerFontSize,
                                             color: Theme.of(
                                               context,
                                             ).colorScheme.primary,
@@ -137,18 +170,19 @@ void showAttendanceDialog(
                                       ],
                                     ),
                                   ),
-                                  const SizedBox(width: 60),
+                                  SizedBox(width: 60.w),
                                 ],
                               ),
                             ),
-                            const SizedBox(height: 8),
+                            SizedBox(height: 8.h),
 
+                            // ====== القائمة ======
                             Expanded(
                               child: ListView.separated(
                                 physics: const BouncingScrollPhysics(),
                                 itemCount: attendance.length,
                                 separatorBuilder: (_, _) =>
-                                    const Divider(height: 2, thickness: 0.3),
+                                    Divider(height: 2.h, thickness: 0.3.w),
                                 itemBuilder: (context, index) {
                                   final record = attendance[index];
                                   return _buildAttendanceItem(
@@ -163,20 +197,21 @@ void showAttendanceDialog(
                           ],
                         ),
                 ),
-                const SizedBox(height: 12),
+                SizedBox(height: 12.h),
 
+                // ====== زر الإغلاق ======
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     TextButton(
                       onPressed: () => Navigator.pop(dialogContext),
                       style: TextButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 20,
-                          vertical: 8,
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 20.w,
+                          vertical: 8.h,
                         ),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: BorderRadius.circular(8.r),
                         ),
                       ),
                       child: Text(
@@ -184,7 +219,7 @@ void showAttendanceDialog(
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.primary,
                           fontWeight: FontWeight.w600,
-                          fontSize: 14,
+                          fontSize: buttonFontSize,
                         ),
                       ),
                     ),
@@ -207,42 +242,54 @@ Widget _buildAttendanceItem(
 ) {
   final isDark = Theme.of(context).brightness == Brightness.dark;
 
+  // ✅ قيم ثابتة
+  final double itemPaddingHorizontal = 4.w;
+  final double itemPaddingVertical = 4.h;
+  final double dateIconSize = 11.w;
+  final double dateFontSize = 14.sp;
+  final double deleteIconSize = 20.w;
+  final double borderRadius = 8.r;
+
   return Container(
-    padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+    padding: EdgeInsets.symmetric(
+      horizontal: itemPaddingHorizontal,
+      vertical: itemPaddingVertical,
+    ),
     decoration: BoxDecoration(
       color: index.isEven
           ? (isDark
                 ? Colors.grey.shade800.withOpacity(0.15)
                 : Colors.grey.shade50)
           : Colors.transparent,
-      borderRadius: BorderRadius.circular(8),
+      borderRadius: BorderRadius.circular(borderRadius),
     ),
     child: Row(
       children: [
+        // ====== التاريخ ======
         Expanded(
           flex: 3,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 4),
+            padding: EdgeInsets.symmetric(horizontal: 4.w),
             child: Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.all(3),
+                  padding: EdgeInsets.all(3.w),
                   decoration: BoxDecoration(
                     color: Colors.grey.shade200.withOpacity(isDark ? 0.2 : 0.5),
-                    borderRadius: BorderRadius.circular(4),
+                    borderRadius: BorderRadius.circular(4.r),
                   ),
                   child: Icon(
                     Icons.calendar_today,
-                    size: 11,
+                    size: dateIconSize,
                     color: Colors.grey.shade600,
                   ),
                 ),
-                const SizedBox(width: 10),
+                SizedBox(width: 10.w),
                 Expanded(
                   child: Text(
                     record.date ?? 'غير محدد',
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: dateFontSize,
                       fontWeight: FontWeight.w500,
                       color: Theme.of(context).colorScheme.onSurface,
                     ),
@@ -254,8 +301,9 @@ Widget _buildAttendanceItem(
           ),
         ),
 
+        // ====== زر الحذف ======
         SizedBox(
-          width: 68,
+          width: 68.w,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -269,16 +317,16 @@ Widget _buildAttendanceItem(
                   );
                   Navigator.pop(context);
                 },
-                borderRadius: BorderRadius.circular(6),
+                borderRadius: BorderRadius.circular(6.r),
                 child: Container(
-                  padding: const EdgeInsets.all(6),
+                  padding: EdgeInsets.all(6.w),
                   decoration: BoxDecoration(
                     color: Colors.red.withOpacity(0.06),
-                    borderRadius: BorderRadius.circular(6),
+                    borderRadius: BorderRadius.circular(6.r),
                   ),
                   child: Icon(
                     Icons.delete_outline,
-                    size: 20,
+                    size: deleteIconSize,
                     color: Colors.red.shade500,
                   ),
                 ),

@@ -1,11 +1,26 @@
-// lib/features/Counselor/UI/widget/ShowDialog/showMarksDialog.dart
+// lib/features/Counselor/UI/widget/ShowDialog/show_marks_dialog.dart
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school/features/Counselor/UI/widget/MarkCard.dart';
 import 'package:school/features/Counselor/domain/Entities/StudentsProfileEntity/Counselor_MarkEntity.dart';
 import 'package:school/generated/l10n.dart';
 
 void showMarksDialog(BuildContext context, List<CounselorMarkentity> marks) {
+  // ✅ قيم ثابتة
+  final double dialogPadding = 20.w;
+  final double maxWidth = 520.w;
+  final double maxHeight = 550.h;
+  final double iconContainerPadding = 10.w;
+  final double iconSize = 22.w;
+  final double titleFontSize = 18.sp;
+  final double closeIconSize = 22.w;
+  final double emptyIconSize = 56.w;
+  final double emptyFontSize = 15.sp;
+  final double sectionIconSize = 22.w;
+  final double sectionFontSize = 16.sp;
+  final double closeButtonSize = 36.w;
+
   showDialog(
     context: context,
     barrierDismissible: true,
@@ -17,7 +32,6 @@ void showMarksDialog(BuildContext context, List<CounselorMarkentity> marks) {
         marksBySemester.putIfAbsent(semester, () => []).add(mark);
       }
 
-      // بناء واجهة العلامات
       List<Widget> marksWidgets = [];
       for (final entry in marksBySemester.entries) {
         final semester = entry.key;
@@ -31,19 +45,21 @@ void showMarksDialog(BuildContext context, List<CounselorMarkentity> marks) {
 
         marksWidgets.add(
           Padding(
-            padding: const EdgeInsets.only(top: 8, bottom: 8),
+            padding: EdgeInsets.only(top: 8.h, bottom: 8.h),
             child: Row(
               children: [
                 Icon(
                   Icons.bookmark,
                   color: Theme.of(context).colorScheme.primary,
+                  size: sectionIconSize,
                 ),
-                const SizedBox(width: 8),
+                SizedBox(width: 8.w),
                 Text(
                   semesterTitle,
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                     color: Theme.of(context).colorScheme.primary,
+                    fontSize: sectionFontSize,
                   ),
                 ),
               ],
@@ -51,14 +67,16 @@ void showMarksDialog(BuildContext context, List<CounselorMarkentity> marks) {
           ),
         );
         marksWidgets.addAll(semesterMarks.map((m) => MarkCard(mark: m)));
-        marksWidgets.add(const SizedBox(height: 8));
+        marksWidgets.add(SizedBox(height: 8.h));
       }
 
       return Dialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(24.r),
+        ),
         child: Container(
-          padding: const EdgeInsets.all(20),
-          constraints: const BoxConstraints(maxWidth: 520, maxHeight: 550),
+          padding: EdgeInsets.all(dialogPadding),
+          constraints: BoxConstraints(maxWidth: maxWidth, maxHeight: maxHeight),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -66,25 +84,25 @@ void showMarksDialog(BuildContext context, List<CounselorMarkentity> marks) {
               Row(
                 children: [
                   Container(
-                    padding: const EdgeInsets.all(10),
+                    padding: EdgeInsets.all(iconContainerPadding),
                     decoration: BoxDecoration(
                       color: Theme.of(
                         context,
                       ).colorScheme.primary.withOpacity(0.12),
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(12.r),
                     ),
                     child: Icon(
                       Icons.bar_chart,
                       color: Theme.of(context).colorScheme.primary,
-                      size: 22,
+                      size: iconSize,
                     ),
                   ),
-                  const SizedBox(width: 12),
+                  SizedBox(width: 12.w),
                   Expanded(
                     child: Text(
                       S.of(context).marks_title,
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: titleFontSize,
                         fontWeight: FontWeight.bold,
                         color: Theme.of(context).colorScheme.onSurface,
                       ),
@@ -95,18 +113,18 @@ void showMarksDialog(BuildContext context, List<CounselorMarkentity> marks) {
                     icon: Icon(
                       Icons.close,
                       color: Theme.of(context).colorScheme.outline,
-                      size: 22,
+                      size: closeIconSize,
                     ),
-                    splashRadius: 24,
+                    splashRadius: 24.r,
                     padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(
-                      minWidth: 36,
-                      minHeight: 36,
+                    constraints: BoxConstraints(
+                      minWidth: closeButtonSize,
+                      minHeight: closeButtonSize,
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 14),
+              SizedBox(height: 14.h),
 
               // ====== المحتوى ======
               Expanded(
@@ -117,15 +135,15 @@ void showMarksDialog(BuildContext context, List<CounselorMarkentity> marks) {
                           children: [
                             Icon(
                               Icons.inbox_outlined,
-                              size: 56,
+                              size: emptyIconSize,
                               color: Colors.grey.shade400,
                             ),
-                            const SizedBox(height: 12),
+                            SizedBox(height: 12.h),
                             Text(
                               'لا توجد علامات',
                               style: TextStyle(
                                 color: Colors.grey.shade500,
-                                fontSize: 15,
+                                fontSize: emptyFontSize,
                               ),
                             ),
                           ],
@@ -136,7 +154,7 @@ void showMarksDialog(BuildContext context, List<CounselorMarkentity> marks) {
                         children: marksWidgets,
                       ),
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: 12.h),
 
               // ====== زر الإغلاق ======
               Row(
@@ -145,12 +163,12 @@ void showMarksDialog(BuildContext context, List<CounselorMarkentity> marks) {
                   TextButton(
                     onPressed: () => Navigator.pop(dialogContext),
                     style: TextButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 20,
-                        vertical: 8,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 20.w,
+                        vertical: 8.h,
                       ),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(8.r),
                       ),
                     ),
                     child: Text(
@@ -158,7 +176,7 @@ void showMarksDialog(BuildContext context, List<CounselorMarkentity> marks) {
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.primary,
                         fontWeight: FontWeight.w600,
-                        fontSize: 14,
+                        fontSize: 14.sp,
                       ),
                     ),
                   ),

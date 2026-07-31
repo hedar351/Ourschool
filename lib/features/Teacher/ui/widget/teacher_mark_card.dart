@@ -1,13 +1,27 @@
-// lib/features/Teacher/ui/widgets/teacher_mark_card.dart
+// lib/features/Teacher/ui/widget/teacher_mark_card.dart
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school/features/Teacher/domain/Entities/TeacherStudentProfile/SemesterMarks.dart';
 import 'package:school/generated/l10n.dart';
 
 class TeacherMarkCard extends StatelessWidget {
   final SemesterMarks mark;
 
-  const TeacherMarkCard({super.key, required this.mark});
+  // ✅ حسابات القيم الثابتة خارج build
+  final double cardPadding = 14.w;
+
+  final double chipPaddingHorizontal = 8.w;
+  final double chipPaddingVertical = 4.h;
+  final double titleFontSize = 16.sp;
+  final double avgFontSize = 13.sp;
+  final double chipLabelFontSize = 11.sp;
+  final double chipValueFontSize = 12.sp;
+  final double gapSmall = 8.w;
+  final double gapMedium = 10.h;
+  final double borderWidth = 0.5.w;
+  // late final double avg = mark.totle!/4;
+  TeacherMarkCard({super.key, required this.mark});
 
   @override
   Widget build(BuildContext context) {
@@ -15,60 +29,58 @@ class TeacherMarkCard extends StatelessWidget {
     final isDark = theme.brightness == Brightness.dark;
 
     return Card(
-      margin: const EdgeInsets.only(bottom: 8),
+      margin: EdgeInsets.only(bottom: 8.h),
       elevation: 0,
       color: isDark
           ? Colors.grey.shade800.withOpacity(0.3)
           : Colors.grey.shade50,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(14.r),
         side: BorderSide(
           color: isDark
               ? Colors.grey.shade700.withOpacity(0.3)
               : Colors.grey.shade200,
-          width: 0.5,
+          width: borderWidth,
         ),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(14),
+        padding: EdgeInsets.all(cardPadding),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ====== اسم المادة ======
             Row(
               children: [
                 Container(
-                  width: 4,
-                  height: 20,
+                  width: 4.w,
+                  height: 20.h,
                   decoration: BoxDecoration(
                     color: theme.colorScheme.primary,
-                    borderRadius: BorderRadius.circular(4),
+                    borderRadius: BorderRadius.circular(4.r),
                   ),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: gapSmall),
                 Text(
                   mark.subjectName ?? 'مادة غير معروفة',
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: titleFontSize,
                     fontWeight: FontWeight.w600,
                     color: theme.colorScheme.onSurface,
                   ),
                 ),
                 const Spacer(),
-                // ====== المجموع ======
                 Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                    vertical: 4,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 12.w,
+                    vertical: 4.h,
                   ),
                   decoration: BoxDecoration(
                     color: theme.colorScheme.primary.withOpacity(0.12),
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                   ),
                   child: Text(
-                    'AVG: ${mark.totle?.toStringAsFixed(0) ?? '0'}',
+                    'total: ${mark.totle ?? 0}',
                     style: TextStyle(
-                      fontSize: 13,
+                      fontSize: avgFontSize,
                       fontWeight: FontWeight.bold,
                       color: theme.colorScheme.primary,
                     ),
@@ -76,9 +88,7 @@ class TeacherMarkCard extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 10),
-
-            // ====== تفاصيل العلامات ======
+            SizedBox(height: gapMedium),
             Row(
               children: [
                 _buildMarkChip(
@@ -86,19 +96,19 @@ class TeacherMarkCard extends StatelessWidget {
                   label: S.of(context).oral,
                   value: mark.quiz1,
                 ),
-                const SizedBox(width: 8),
+                SizedBox(width: gapSmall),
                 _buildMarkChip(
                   context,
                   label: S.of(context).oral_2,
                   value: mark.quiz2,
                 ),
-                const SizedBox(width: 8),
+                SizedBox(width: gapSmall),
                 _buildMarkChip(
                   context,
                   label: S.of(context).homework,
                   value: mark.homework,
                 ),
-                const SizedBox(width: 8),
+                SizedBox(width: gapSmall),
                 _buildMarkChip(
                   context,
                   label: S.of(context).final_exam,
@@ -119,13 +129,16 @@ class TeacherMarkCard extends StatelessWidget {
   }) {
     final theme = Theme.of(context);
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: EdgeInsets.symmetric(
+        horizontal: chipPaddingHorizontal,
+        vertical: chipPaddingVertical,
+      ),
       decoration: BoxDecoration(
         color: theme.colorScheme.primary.withOpacity(0.06),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(8.r),
         border: Border.all(
           color: theme.colorScheme.primary.withOpacity(0.1),
-          width: 0.3,
+          width: 0.3.w,
         ),
       ),
       child: Row(
@@ -133,12 +146,15 @@ class TeacherMarkCard extends StatelessWidget {
         children: [
           Text(
             '$label: ',
-            style: TextStyle(fontSize: 11, color: theme.colorScheme.outline),
+            style: TextStyle(
+              fontSize: chipLabelFontSize,
+              color: theme.colorScheme.outline,
+            ),
           ),
           Text(
             value?.toStringAsFixed(0) ?? '0',
             style: TextStyle(
-              fontSize: 12,
+              fontSize: chipValueFontSize,
               fontWeight: FontWeight.w600,
               color: theme.colorScheme.primary,
             ),

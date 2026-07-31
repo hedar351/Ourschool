@@ -1,5 +1,8 @@
+// lib/features/Teacher/ui/page/teacher_students_list_screen.dart
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school/core/injection.dart' as di;
 import 'package:school/core/widget/Loadingwidget.dart';
 import 'package:school/features/Counselor/domain/Entities/StudentsBySectionEntity/studentEntity.dart';
@@ -38,11 +41,25 @@ class _TeacherStudentsListScreenState extends State<TeacherStudentsListScreen> {
   final TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
 
-  // ====== قائمة الطلاب المفلترة ======
+  // ✅ حسابات القيم الثابتة خارج build
+  final double emptyIconSize = 80.w;
+  final double emptyGap = 16.h;
+  final double searchBarHorizontalPadding = 16.w;
+  final double searchBarVerticalPadding = 8.h;
+  final double searchBarRadius = 14.r;
+  final double searchIconSize = 22.w;
+  final double clearIconSize = 20.w;
+  final double searchContentPaddingHorizontal = 16.w;
+  final double searchContentPaddingVertical = 12.h;
+  final double listHorizontalPadding = 16.w;
+  final double listVerticalPadding = 8.h;
+  final double cardMarginBottom = 12.h;
+  final double noResultIconSize = 64.w;
+  final double noResultFontSize = 16.sp;
+  final double errorIconSize = 80.w;
+
   List<Studententity> get _filteredStudents {
-    if (_searchQuery.isEmpty) {
-      return _students;
-    }
+    if (_searchQuery.isEmpty) return _students;
     return _students.where((student) {
       final name = student.name?.toLowerCase() ?? '';
       return name.contains(_searchQuery.toLowerCase());
@@ -56,9 +73,7 @@ class _TeacherStudentsListScreenState extends State<TeacherStudentsListScreen> {
       child: BlocConsumer<TeacherStudentListBloc, TeacherStudentListState>(
         listener: (context, state) {
           if (state is TeacherStudentListLoaded) {
-            setState(() {
-              _students = state.students.students ?? [];
-            });
+            setState(() => _students = state.students.students ?? []);
           }
         },
         builder: (context, state) {
@@ -81,22 +96,14 @@ class _TeacherStudentsListScreenState extends State<TeacherStudentsListScreen> {
             );
           }
 
-          if (state is TeacherStudentListLoading) {
-            return const Loadingwidget();
-          }
-
+          if (state is TeacherStudentListLoading) return const Loadingwidget();
           if (state is TeacherStudentListError) {
             return _buildErrorState(context, state.message);
           }
-
           if (state is TeacherStudentListLoaded) {
-            if (_students.isEmpty) {
-              return _buildEmptyState(context);
-            }
-
+            if (_students.isEmpty) return _buildEmptyState(context);
             return _buildLoadedState(context, state);
           }
-
           return const Loadingwidget();
         },
       ),
@@ -109,24 +116,19 @@ class _TeacherStudentsListScreenState extends State<TeacherStudentsListScreen> {
     super.dispose();
   }
 
-  // ====================================================================
-  // ====== AppBar ======
-  // ====================================================================
-
   AppBar _buildAppBar(BuildContext context) {
     final theme = Theme.of(context);
     return AppBar(
-      title: Text('${widget.gradeName} - ${widget.sectionName}'),
+      title: Text(
+        '${widget.gradeName} - ${widget.sectionName}',
+        style: TextStyle(fontSize: 18.sp),
+      ),
       centerTitle: true,
       elevation: 0,
       backgroundColor: theme.scaffoldBackgroundColor,
       foregroundColor: theme.colorScheme.onSurface,
     );
   }
-
-  // ====================================================================
-  // ====== حالة فارغة ======
-  // ====================================================================
 
   Widget _buildEmptyState(BuildContext context) {
     final theme = Theme.of(context);
@@ -138,21 +140,23 @@ class _TeacherStudentsListScreenState extends State<TeacherStudentsListScreen> {
           children: [
             Icon(
               Icons.inbox_outlined,
-              size: 80,
+              size: emptyIconSize,
               color: theme.colorScheme.outline,
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: emptyGap),
             Text(
               'لا يوجد طلاب في هذه الشعبة',
               style: theme.textTheme.titleMedium?.copyWith(
                 color: theme.colorScheme.onSurface,
+                fontSize: 16.sp,
               ),
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: 8.h),
             Text(
               S.of(context).Pull_down_to_refresh,
               style: theme.textTheme.bodySmall?.copyWith(
                 color: theme.colorScheme.outline,
+                fontSize: 12.sp,
               ),
             ),
           ],
@@ -160,10 +164,6 @@ class _TeacherStudentsListScreenState extends State<TeacherStudentsListScreen> {
       ),
     );
   }
-
-  // ====================================================================
-  // ====== حالة الخطأ ======
-  // ====================================================================
 
   Widget _buildErrorState(BuildContext context, String message) {
     final theme = Theme.of(context);
@@ -173,16 +173,21 @@ class _TeacherStudentsListScreenState extends State<TeacherStudentsListScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.error_outline, size: 80, color: theme.colorScheme.error),
-            const SizedBox(height: 16),
+            Icon(
+              Icons.error_outline,
+              size: errorIconSize,
+              color: theme.colorScheme.error,
+            ),
+            SizedBox(height: 16.h),
             Text(
               message,
               textAlign: TextAlign.center,
               style: theme.textTheme.titleMedium?.copyWith(
                 color: theme.colorScheme.error,
+                fontSize: 16.sp,
               ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
             TextButton.icon(
               onPressed: () {
                 context.read<TeacherStudentListBloc>().add(
@@ -194,10 +199,17 @@ class _TeacherStudentsListScreenState extends State<TeacherStudentsListScreen> {
                   ),
                 );
               },
-              icon: Icon(Icons.refresh, color: theme.colorScheme.primary),
+              icon: Icon(
+                Icons.refresh,
+                color: theme.colorScheme.primary,
+                size: 20.w,
+              ),
               label: Text(
                 'إعادة المحاولة',
-                style: TextStyle(color: theme.colorScheme.primary),
+                style: TextStyle(
+                  color: theme.colorScheme.primary,
+                  fontSize: 14.sp,
+                ),
               ),
             ),
           ],
@@ -206,17 +218,11 @@ class _TeacherStudentsListScreenState extends State<TeacherStudentsListScreen> {
     );
   }
 
-  // ====================================================================
-  // ====== الحالة المحملة (مع البحث) ======
-  // ====================================================================
-
   Widget _buildLoadedState(
     BuildContext context,
     TeacherStudentListLoaded state,
   ) {
-    final theme = Theme.of(context);
     final filtered = _filteredStudents;
-
     return Scaffold(
       appBar: _buildAppBar(context),
       body: Stack(
@@ -238,19 +244,16 @@ class _TeacherStudentsListScreenState extends State<TeacherStudentsListScreen> {
               strokeWidth: 0,
               child: Column(
                 children: [
-                  // ====== شريط البحث ======
                   _buildSearchBar(context),
-                  const SizedBox(height: 8),
-
-                  // ====== قائمة الطلاب ======
+                  SizedBox(height: 8.h),
                   Expanded(
                     child: filtered.isEmpty
                         ? _buildNoSearchResult(context)
                         : ListView.builder(
                             physics: const AlwaysScrollableScrollPhysics(),
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 8,
+                            padding: EdgeInsets.symmetric(
+                              horizontal: listHorizontalPadding,
+                              vertical: listVerticalPadding,
                             ),
                             itemCount: filtered.length,
                             itemBuilder: (context, index) {
@@ -263,16 +266,15 @@ class _TeacherStudentsListScreenState extends State<TeacherStudentsListScreen> {
               ),
             ),
           ),
-          // ====== شريط التحميل العلوي ======
           if (state.isRevalidating)
-            const Positioned(
+            Positioned(
               top: 0,
               left: 0,
               right: 0,
               child: LinearProgressIndicator(
                 backgroundColor: Colors.transparent,
                 color: Colors.blue,
-                minHeight: 3,
+                minHeight: 3.h,
               ),
             ),
         ],
@@ -280,83 +282,79 @@ class _TeacherStudentsListScreenState extends State<TeacherStudentsListScreen> {
     );
   }
 
-  // ====================================================================
-  // ====== رسالة عدم وجود نتائج بحث ======
-  // ====================================================================
-
   Widget _buildNoSearchResult(BuildContext context) {
     final theme = Theme.of(context);
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.search_off, size: 64, color: theme.colorScheme.outline),
-          const SizedBox(height: 12),
+          Icon(
+            Icons.search_off,
+            size: noResultIconSize,
+            color: theme.colorScheme.outline,
+          ),
+          SizedBox(height: 12.h),
           Text(
             'لا يوجد طلاب تطابق البحث',
-            style: TextStyle(fontSize: 16, color: theme.colorScheme.outline),
+            style: TextStyle(
+              fontSize: noResultFontSize,
+              color: theme.colorScheme.outline,
+            ),
           ),
         ],
       ),
     );
   }
 
-  // ====================================================================
-  // ====== شريط البحث ======
-  // ====================================================================
-
   Widget _buildSearchBar(BuildContext context) {
     final theme = Theme.of(context);
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: EdgeInsets.symmetric(
+        horizontal: searchBarHorizontalPadding,
+        vertical: searchBarVerticalPadding,
+      ),
       child: Container(
         decoration: BoxDecoration(
           color: theme.brightness == Brightness.dark
               ? Colors.grey.shade800.withOpacity(0.6)
               : Colors.grey.shade100,
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(searchBarRadius),
           border: Border.all(
             color: theme.colorScheme.outline.withOpacity(0.2),
-            width: 0.5,
+            width: 0.5.w,
           ),
         ),
         child: TextField(
           controller: _searchController,
-          onChanged: (value) {
-            setState(() {
-              _searchQuery = value;
-            });
-          },
+          onChanged: (value) => setState(() => _searchQuery = value),
           decoration: InputDecoration(
             hintText: 'ابحث عن طالب بالاسم...',
             hintStyle: TextStyle(
               color: theme.colorScheme.outline,
-              fontSize: 14,
+              fontSize: 14.sp,
             ),
             prefixIcon: Icon(
               Icons.search,
               color: theme.colorScheme.outline,
-              size: 22,
+              size: searchIconSize,
             ),
             suffixIcon: _searchQuery.isNotEmpty
                 ? IconButton(
                     icon: Icon(
                       Icons.clear,
                       color: theme.colorScheme.outline,
-                      size: 20,
+                      size: clearIconSize,
                     ),
-                    onPressed: () {
-                      setState(() {
-                        _searchQuery = '';
-                        _searchController.clear();
-                      });
-                    },
+                    onPressed: () => setState(() {
+                      _searchQuery = '';
+                      _searchController.clear();
+                    }),
                   )
                 : null,
             border: InputBorder.none,
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 12,
+            contentPadding: EdgeInsets.symmetric(
+              horizontal: searchContentPaddingHorizontal,
+              vertical: searchContentPaddingVertical,
             ),
           ),
           textAlign: TextAlign.right,
@@ -365,21 +363,17 @@ class _TeacherStudentsListScreenState extends State<TeacherStudentsListScreen> {
     );
   }
 
-  // ====================================================================
-  // ====== بطاقة الطالب ======
-  // ====================================================================
-
   Widget _buildStudentCard(BuildContext context, Studententity student) {
     final theme = Theme.of(context);
     return Card(
-      margin: const EdgeInsets.only(bottom: 12),
+      margin: EdgeInsets.only(bottom: cardMarginBottom),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
         side: BorderSide(
           color: theme.brightness == Brightness.dark
               ? Colors.grey.shade700.withOpacity(0.3)
               : Colors.grey.shade200,
-          width: 0.5,
+          width: 0.5.w,
         ),
       ),
       color: theme.cardColor,
@@ -388,8 +382,9 @@ class _TeacherStudentsListScreenState extends State<TeacherStudentsListScreen> {
           backgroundColor: theme.colorScheme.primary,
           child: Text(
             student.name?.isNotEmpty == true ? student.name![0] : '?',
-            style: const TextStyle(
+            style: TextStyle(
               color: Colors.white,
+              fontSize: 16.sp,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -398,6 +393,7 @@ class _TeacherStudentsListScreenState extends State<TeacherStudentsListScreen> {
           student.name ?? S.of(context).unknown_name,
           style: TextStyle(
             fontWeight: FontWeight.bold,
+            fontSize: 16.sp,
             color: theme.colorScheme.onSurface,
           ),
         ),
@@ -407,16 +403,26 @@ class _TeacherStudentsListScreenState extends State<TeacherStudentsListScreen> {
             if (student.guardianName != null)
               Text(
                 '${S.of(context).guardianName}: ${student.guardianName}',
-                style: TextStyle(color: theme.colorScheme.outline),
+                style: TextStyle(
+                  fontSize: 12.sp,
+                  color: theme.colorScheme.outline,
+                ),
               ),
             if (student.guardianPhone != null)
               Text(
                 '${S.of(context).phone}: ${student.guardianPhone}',
-                style: TextStyle(color: theme.colorScheme.outline),
+                style: TextStyle(
+                  fontSize: 12.sp,
+                  color: theme.colorScheme.outline,
+                ),
               ),
           ],
         ),
-        trailing: Icon(Icons.chevron_right, color: theme.colorScheme.outline),
+        trailing: Icon(
+          Icons.chevron_right,
+          color: theme.colorScheme.outline,
+          size: 20.w,
+        ),
         onTap: () {
           Navigator.push(
             context,

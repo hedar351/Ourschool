@@ -1,32 +1,46 @@
+// lib/features/Auth/ui/widget/login_footer.dart
+
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school/features/SchoolsInfo/UI/page/schools_screen.dart';
 import 'package:school/generated/l10n.dart';
 
 class LoginFooter extends StatelessWidget {
   final bool isLoading;
 
-  const LoginFooter({super.key, required this.isLoading});
+  // ✅ حسابات القيم الثابتة خارج build
+  final double _dividerPadding = 12.w;
+
+  final double _gap = 24.h;
+  final double _buttonPaddingVertical = 14.h;
+  final double _buttonPaddingHorizontal = 25.w;
+  final double _iconSize = 22.w;
+  final double _fontSize = 16.sp;
+  LoginFooter({super.key, required this.isLoading});
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Column(
       children: [
         Row(
           children: [
-            Expanded(child: Divider(color: Theme.of(context).dividerColor)),
+            Expanded(child: Divider(color: theme.dividerColor)),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
+              padding: EdgeInsets.symmetric(horizontal: _dividerPadding),
               child: Text(
                 S.of(context).or_explore,
                 style: TextStyle(
-                  color: Theme.of(context).textTheme.bodySmall?.color,
+                  color: theme.textTheme.bodySmall?.color,
+                  fontSize: 14.sp,
                 ),
               ),
             ),
-            Expanded(child: Divider(color: Theme.of(context).dividerColor)),
+            Expanded(child: Divider(color: theme.dividerColor)),
           ],
         ),
-        const SizedBox(height: 24),
+        SizedBox(height: _gap),
         OutlinedButton.icon(
           onPressed: isLoading
               ? null
@@ -40,24 +54,26 @@ class LoginFooter extends StatelessWidget {
                 },
           icon: Icon(
             Icons.school_outlined,
-            color: Theme.of(context).colorScheme.primary,
+            color: theme.colorScheme.primary,
+            size: _iconSize,
           ),
           label: Text(
             S.of(context).browse_school,
             style: TextStyle(
-              color: Theme.of(context).colorScheme.primary,
-              fontSize: 16,
+              color: theme.colorScheme.primary,
+              fontSize: _fontSize,
             ),
           ),
           style: OutlinedButton.styleFrom(
-            padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 25),
-            side: BorderSide(
-              color: Theme.of(context).colorScheme.primary,
-              width: 1.5,
+            padding: EdgeInsets.symmetric(
+              vertical: _buttonPaddingVertical,
+              horizontal: _buttonPaddingHorizontal,
             ),
+            side: BorderSide(color: theme.colorScheme.primary, width: 1.5.w),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(16.r),
             ),
+            minimumSize: Size(double.infinity, 48.h),
           ),
         ),
       ],

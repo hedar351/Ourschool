@@ -1,5 +1,8 @@
+// lib/features/SchoolsInfo/presentation/pages/schools_screen.dart
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school/core/injection.dart' as di;
 import 'package:school/core/widget/Loadingwidget.dart';
 import 'package:school/core/widget/SnackBar/Message.dart';
@@ -30,6 +33,16 @@ class SchoolsScreenView extends StatefulWidget {
 class _SchoolsScreenViewState extends State<SchoolsScreenView>
     with AutomaticKeepAliveClientMixin, WidgetsBindingObserver {
   late SnackBarMessage snackBarMessage;
+
+  // ✅ حسابات القيم الثابتة خارج build
+  final double emptyIconSize = 80.w;
+  final double emptyGap = 16.h;
+  final double emptyGapSmall = 8.h;
+  final double errorIconSize = 80.w;
+  final double errorGap = 16.h;
+  final double errorPaddingHorizontal = 32.w;
+  final double listPaddingHorizontal = 16.w;
+  final double bottomSpacing = 80.h;
 
   @override
   bool get wantKeepAlive => true;
@@ -98,9 +111,9 @@ class _SchoolsScreenViewState extends State<SchoolsScreenView>
         style: theme.textTheme.headlineMedium?.copyWith(
           fontWeight: FontWeight.bold,
           color: theme.colorScheme.onSurface,
+          fontSize: 20.sp,
         ),
       ),
-
       centerTitle: true,
       elevation: 0,
       backgroundColor: theme.scaffoldBackgroundColor,
@@ -118,21 +131,23 @@ class _SchoolsScreenViewState extends State<SchoolsScreenView>
           children: [
             Icon(
               Icons.school_outlined,
-              size: 80,
+              size: emptyIconSize,
               color: theme.colorScheme.primary.withOpacity(0.3),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: emptyGap),
             Text(
               S.of(context).noSchools,
               style: theme.textTheme.titleMedium?.copyWith(
                 color: theme.colorScheme.onSurface,
+                fontSize: 16.sp,
               ),
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: emptyGapSmall),
             Text(
               S.of(context).pullToRefresh,
               style: theme.textTheme.bodySmall?.copyWith(
                 color: theme.colorScheme.outline,
+                fontSize: 12.sp,
               ),
             ),
           ],
@@ -149,27 +164,39 @@ class _SchoolsScreenViewState extends State<SchoolsScreenView>
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.error_outline, size: 80, color: theme.colorScheme.error),
-            const SizedBox(height: 16),
+            Icon(
+              Icons.error_outline,
+              size: errorIconSize,
+              color: theme.colorScheme.error,
+            ),
+            SizedBox(height: errorGap),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 32),
+              padding: EdgeInsets.symmetric(horizontal: errorPaddingHorizontal),
               child: Text(
                 message,
                 textAlign: TextAlign.center,
                 style: theme.textTheme.titleMedium?.copyWith(
                   color: theme.colorScheme.error,
+                  fontSize: 16.sp,
                 ),
               ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: errorGap),
             TextButton.icon(
               onPressed: () {
                 context.read<SchoolInfoBloc>().add(RefreshSchoolsEvent());
               },
-              icon: Icon(Icons.refresh, color: theme.colorScheme.primary),
+              icon: Icon(
+                Icons.refresh,
+                color: theme.colorScheme.primary,
+                size: 20.w,
+              ),
               label: Text(
                 S.of(context).retry,
-                style: TextStyle(color: theme.colorScheme.primary),
+                style: TextStyle(
+                  color: theme.colorScheme.primary,
+                  fontSize: 14.sp,
+                ),
               ),
             ),
           ],
@@ -190,7 +217,7 @@ class _SchoolsScreenViewState extends State<SchoolsScreenView>
         child: CustomScrollView(
           slivers: [
             SliverPadding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: EdgeInsets.symmetric(horizontal: listPaddingHorizontal),
               sliver: SliverList(
                 delegate: SliverChildBuilderDelegate((context, index) {
                   final school = schools[index];
@@ -198,7 +225,7 @@ class _SchoolsScreenViewState extends State<SchoolsScreenView>
                 }, childCount: schools.length),
               ),
             ),
-            const SliverToBoxAdapter(child: SizedBox(height: 80)),
+            SliverToBoxAdapter(child: SizedBox(height: bottomSpacing)),
           ],
         ),
       ),

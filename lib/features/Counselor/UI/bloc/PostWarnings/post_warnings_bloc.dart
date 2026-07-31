@@ -25,20 +25,21 @@ class PostWarningBloc extends Bloc<PostWarningEvent, PostWarningState> {
     Emitter<PostWarningState> emit,
   ) async {
     emit(PostWarningLoading());
+
     final either = await postWarningsUseCase(
       event.localStudentNumber,
       event.type,
       event.reason,
     );
-    either.fold(
-      (failure) =>
-          emit(PostWarningError(message: mapFailureToMessage(failure))),
+
+    await either.fold(
+      (failure) {
+        emit(PostWarningError(message: mapFailureToMessage(failure)));
+      },
       (warning) async {
         await _updateStudentProfileCache(event.localStudentNumber);
-        if (!emit.isDone) {
-          print("🟡 emit.isDone: ${emit.isDone}");
-          emit(PostWarningSuccess(warning: warning));
-        }
+        print("🟡 [PostWarningBloc] Emitting PostWarningSuccess");
+        emit(PostWarningSuccess(warning: warning));
       },
     );
   }

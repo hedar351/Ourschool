@@ -1,6 +1,7 @@
 // lib/features/SchoolsInfo/presentation/widgets/teacher_details_widget.dart
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school/features/SchoolsInfo/domain/Entities/TeacherInfoEntity.dart';
 import 'package:school/generated/l10n.dart';
 
@@ -8,7 +9,39 @@ class TeacherDetailsWidget extends StatelessWidget {
   final TeacherInfoEntity teacher;
   final String schoolName;
 
-  const TeacherDetailsWidget({
+  // ✅ حسابات القيم الثابتة خارج build
+  final double cardPadding = 24.w;
+
+  final double avatarSize = 100.w;
+  final double avatarFontSize = 40.sp;
+  final double nameFontSize = 22.sp;
+  final double schoolChipPaddingHorizontal = 16.w;
+  final double schoolChipPaddingVertical = 6.h;
+  final double schoolChipRadius = 20.r;
+  final double contactButtonPaddingHorizontal = 20.w;
+  final double contactButtonPaddingVertical = 10.h;
+  final double contactButtonRadius = 12.r;
+  final double contactIconSize = 18.w;
+  final double infoLabelFontSize = 11.sp;
+  final double infoValueFontSize = 14.sp;
+  final double sectionTitleFontSize = 18.sp;
+  final double sectionIconSize = 22.w;
+  final double sectionHeaderHeight = 24.h;
+  final double sectionHeaderGap = 12.w;
+  final double sectionHeaderIconGap = 10.w;
+  final double sectionItemPaddingHorizontal = 16.w;
+  final double sectionItemPaddingVertical = 12.h;
+  final double sectionItemGap = 8.h;
+  final double sectionItemRadius = 12.r;
+  final double borderWidth = 0.5.w;
+  final double subjectPaddingHorizontal = 16.w;
+  final double subjectPaddingVertical = 10.h;
+  final double subjectRadius = 14.r;
+  final double subjectSpacing = 10.w;
+  final double subjectRunSpacing = 10.h;
+  final double subjectIconSize = 18.w;
+  final double subjectFontSize = 14.sp;
+  TeacherDetailsWidget({
     super.key,
     required this.teacher,
     required this.schoolName,
@@ -27,16 +60,15 @@ class TeacherDetailsWidget extends StatelessWidget {
         Card(
           elevation: 4,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(24),
+            borderRadius: BorderRadius.circular(24.r),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(24),
+            padding: EdgeInsets.all(cardPadding),
             child: Column(
               children: [
-                // ====== الصورة الرمزية ======
                 Container(
-                  width: 100,
-                  height: 100,
+                  width: avatarSize,
+                  height: avatarSize,
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
@@ -51,58 +83,56 @@ class TeacherDetailsWidget extends StatelessWidget {
                       teacher.name?.isNotEmpty == true
                           ? teacher.name![0].toUpperCase()
                           : '?',
-                      style: const TextStyle(
-                        fontSize: 40,
+                      style: TextStyle(
+                        fontSize: avatarFontSize,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),
                     ),
                   ),
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16.h),
 
-                // ====== الاسم ======
                 Text(
                   teacher.name ?? 'معلم غير معروف',
-                  style: const TextStyle(
-                    fontSize: 22,
+                  style: TextStyle(
+                    fontSize: nameFontSize,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: 4),
+                SizedBox(height: 4.h),
 
-                // ====== المدرسة ======
                 Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 6,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: schoolChipPaddingHorizontal,
+                    vertical: schoolChipPaddingVertical,
                   ),
                   decoration: BoxDecoration(
                     color: theme.colorScheme.primary.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(schoolChipRadius),
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Icon(
                         Icons.school,
-                        size: 16,
+                        size: 16.w,
                         color: theme.colorScheme.primary,
                       ),
-                      const SizedBox(width: 6),
+                      SizedBox(width: 6.w),
                       Text(
                         schoolName,
                         style: TextStyle(
                           color: theme.colorScheme.primary,
                           fontWeight: FontWeight.w500,
+                          fontSize: 14.sp,
                         ),
                       ),
                     ],
                   ),
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16.h),
 
-                // ====== أزرار التواصل ======
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -115,11 +145,10 @@ class TeacherDetailsWidget extends StatelessWidget {
                   ],
                 ),
 
-                const SizedBox(height: 16),
+                SizedBox(height: 16.h),
                 Divider(color: theme.dividerColor),
-                const SizedBox(height: 16),
+                SizedBox(height: 16.h),
 
-                // ====== معلومات التواصل ======
                 Row(
                   children: [
                     Expanded(
@@ -131,7 +160,7 @@ class TeacherDetailsWidget extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 12),
+                SizedBox(height: 12.h),
                 Row(
                   children: [
                     Expanded(
@@ -148,9 +177,8 @@ class TeacherDetailsWidget extends StatelessWidget {
           ),
         ),
 
-        const SizedBox(height: 24),
+        SizedBox(height: 24.h),
 
-        // ====== الفصول الدراسية ======
         if (sections.isNotEmpty) ...[
           _buildSectionHeader(
             context,
@@ -158,35 +186,38 @@ class TeacherDetailsWidget extends StatelessWidget {
             icon: Icons.class_outlined,
             color: Colors.green,
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12.h),
           ...sections.map(
             (section) => Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              margin: const EdgeInsets.only(bottom: 8),
+              padding: EdgeInsets.symmetric(
+                horizontal: sectionItemPaddingHorizontal,
+                vertical: sectionItemPaddingVertical,
+              ),
+              margin: EdgeInsets.only(bottom: sectionItemGap),
               decoration: BoxDecoration(
                 color: isDark
                     ? Colors.grey.shade800.withOpacity(0.3)
                     : Colors.grey.shade50,
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(sectionItemRadius),
                 border: Border.all(
                   color: isDark
                       ? Colors.grey.shade700.withOpacity(0.3)
                       : Colors.grey.shade200,
-                  width: 0.5,
+                  width: borderWidth,
                 ),
               ),
               child: Row(
                 children: [
                   Icon(
                     Icons.class_outlined,
-                    size: 20,
+                    size: 20.w,
                     color: Colors.green.shade600,
                   ),
-                  const SizedBox(width: 10),
+                  SizedBox(width: 10.w),
                   Text(
                     '${section.gradeName ?? ''} - ${section.sectionName ?? ''}',
-                    style: const TextStyle(
-                      fontSize: 14,
+                    style: TextStyle(
+                      fontSize: 14.sp,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -194,10 +225,9 @@ class TeacherDetailsWidget extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16.h),
         ],
 
-        // ====== المواد التي يدرسها ======
         if (subjects.isNotEmpty) ...[
           _buildSectionHeader(
             context,
@@ -205,16 +235,15 @@ class TeacherDetailsWidget extends StatelessWidget {
             icon: Icons.book,
             color: Colors.blue,
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12.h),
           Wrap(
-            spacing: 10,
-            runSpacing: 10,
-
+            spacing: subjectSpacing,
+            runSpacing: subjectRunSpacing,
             children: subjects.map((subject) {
               return Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 10,
+                padding: EdgeInsets.symmetric(
+                  horizontal: subjectPaddingHorizontal,
+                  vertical: subjectPaddingVertical,
                 ),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
@@ -227,12 +256,12 @@ class TeacherDetailsWidget extends StatelessWidget {
                       ),
                     ],
                   ),
-                  borderRadius: BorderRadius.circular(14),
+                  borderRadius: BorderRadius.circular(subjectRadius),
                   border: Border.all(
                     color: theme.colorScheme.primary.withOpacity(
                       isDark ? 0.3 : 0.15,
                     ),
-                    width: 0.5,
+                    width: borderWidth,
                   ),
                 ),
                 child: Row(
@@ -240,16 +269,16 @@ class TeacherDetailsWidget extends StatelessWidget {
                   children: [
                     Icon(
                       Icons.menu_book,
-                      size: 18,
+                      size: subjectIconSize,
                       color: isDark
                           ? theme.colorScheme.primary.withOpacity(0.9)
                           : theme.colorScheme.primary,
                     ),
-                    const SizedBox(width: 8),
+                    SizedBox(width: 8.w),
                     Text(
                       subject.subjectName ?? 'مادة غير معروفة',
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: subjectFontSize,
                         fontWeight: FontWeight.w500,
                         color: isDark
                             ? theme.colorScheme.primary.withOpacity(0.9)
@@ -275,26 +304,30 @@ class TeacherDetailsWidget extends StatelessWidget {
     final theme = Theme.of(context);
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius.circular(12),
+      borderRadius: BorderRadius.circular(contactButtonRadius),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        padding: EdgeInsets.symmetric(
+          horizontal: contactButtonPaddingHorizontal,
+          vertical: contactButtonPaddingVertical,
+        ),
         decoration: BoxDecoration(
           color: theme.colorScheme.primary.withOpacity(0.08),
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(contactButtonRadius),
           border: Border.all(
             color: theme.colorScheme.primary.withOpacity(0.2),
-            width: 0.5,
+            width: 0.5.w,
           ),
         ),
         child: Row(
           children: [
-            Icon(icon, size: 18, color: theme.colorScheme.primary),
-            const SizedBox(width: 8),
+            Icon(icon, size: contactIconSize, color: theme.colorScheme.primary),
+            SizedBox(width: 8.w),
             Text(
               label,
               style: TextStyle(
                 color: theme.colorScheme.primary,
                 fontWeight: FontWeight.w500,
+                fontSize: 14.sp,
               ),
             ),
           ],
@@ -314,15 +347,18 @@ class TeacherDetailsWidget extends StatelessWidget {
         Text(
           label,
           style: TextStyle(
-            fontSize: 11,
+            fontSize: infoLabelFontSize,
             color: Colors.grey.shade500,
             fontWeight: FontWeight.w500,
           ),
         ),
-        const SizedBox(height: 4),
+        SizedBox(height: 4.h),
         Text(
           value,
-          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+          style: TextStyle(
+            fontSize: infoValueFontSize,
+            fontWeight: FontWeight.w500,
+          ),
         ),
       ],
     );
@@ -337,19 +373,22 @@ class TeacherDetailsWidget extends StatelessWidget {
     return Row(
       children: [
         Container(
-          width: 4,
-          height: 24,
+          width: 4.w,
+          height: sectionHeaderHeight,
           decoration: BoxDecoration(
             color: color,
-            borderRadius: BorderRadius.circular(4),
+            borderRadius: BorderRadius.circular(4.r),
           ),
         ),
-        const SizedBox(width: 12),
-        Icon(icon, color: color, size: 22),
-        const SizedBox(width: 10),
+        SizedBox(width: sectionHeaderGap),
+        Icon(icon, color: color, size: sectionIconSize),
+        SizedBox(width: sectionHeaderIconGap),
         Text(
           title,
-          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          style: TextStyle(
+            fontSize: sectionTitleFontSize,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ],
     );

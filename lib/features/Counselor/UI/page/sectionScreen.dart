@@ -1,18 +1,33 @@
+// lib/features/Counselor/UI/page/sectionScreen.dart
+
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school/features/Counselor/UI/page/CounselorStudentsScreen.dart';
 import 'package:school/features/Counselor/domain/Entities/gradeandSectionEntity/gradeEntity.dart';
-
-// import 'package:school/features/Counselor/UI/page/StudentsListScreen.dart';
 
 class Sectionscreen extends StatelessWidget {
   final Gradeentity grade;
 
-  const Sectionscreen({super.key, required this.grade});
+  // ✅ حسابات القيم الثابتة خارج build
+  final double listPadding = 16.w;
+
+  final double cardMarginBottom = 16.h;
+  final double cardPadding = 16.w;
+  final double containerSize = 60.w;
+  final double containerRadius = 16.r;
+  final double iconSize = 40.w;
+  final double titleFontSize = 18.sp;
+  final double arrowPadding = 8.w;
+  final double arrowSize = 16.w;
+  final double arrowRadius = 12.r;
+  final double gap = 16.w;
+  Sectionscreen({super.key, required this.grade});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final sections = grade.sections;
+
     return Scaffold(
       appBar: AppBar(
         title: Text("${grade.name}"),
@@ -20,7 +35,7 @@ class Sectionscreen extends StatelessWidget {
         elevation: 0,
       ),
       body: ListView.builder(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(listPadding),
         itemCount: sections?.length ?? 0,
         itemBuilder: (context, index) {
           final section = sections![index];
@@ -28,9 +43,9 @@ class Sectionscreen extends StatelessWidget {
           return Hero(
             tag: 'section_${section.id}',
             child: Card(
-              margin: const EdgeInsets.only(bottom: 16),
+              margin: EdgeInsets.only(bottom: cardMarginBottom),
               child: InkWell(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(20.r),
                 onTap: () {
                   print("localGradeNumber: ${grade.localGradeNumber}");
                   print("localSectionNumber: ${section.localSectionNumber}");
@@ -46,12 +61,12 @@ class Sectionscreen extends StatelessWidget {
                   );
                 },
                 child: Padding(
-                  padding: const EdgeInsets.all(16),
+                  padding: EdgeInsets.all(cardPadding),
                   child: Row(
                     children: [
                       Container(
-                        width: 60,
-                        height: 60,
+                        width: containerSize,
+                        height: containerSize,
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             colors: [
@@ -61,41 +76,41 @@ class Sectionscreen extends StatelessWidget {
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
                           ),
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius: BorderRadius.circular(containerRadius),
                         ),
                         child: Center(
                           child: Icon(
                             Icons.school_rounded,
-                            size: 40,
+                            size: iconSize,
                             color: Colors.white.withOpacity(0.9),
                           ),
                         ),
                       ),
-                      const SizedBox(width: 16),
+                      SizedBox(width: gap),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               section.name ?? 'شعبة بدون اسم',
-                              style: const TextStyle(
-                                fontSize: 18,
+                              style: TextStyle(
+                                fontSize: titleFontSize,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            const SizedBox(height: 4),
+                            SizedBox(height: 4.h),
                           ],
                         ),
                       ),
                       Container(
-                        padding: const EdgeInsets.all(8),
+                        padding: EdgeInsets.all(arrowPadding),
                         decoration: BoxDecoration(
                           color: theme.colorScheme.primary.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(arrowRadius),
                         ),
                         child: Icon(
                           Icons.arrow_forward_ios,
-                          size: 16,
+                          size: arrowSize,
                           color: theme.colorScheme.primary,
                         ),
                       ),

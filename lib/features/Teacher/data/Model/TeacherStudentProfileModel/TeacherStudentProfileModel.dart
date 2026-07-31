@@ -75,16 +75,18 @@ class TeacherStudentProfileModel extends HiveObject {
 
   factory TeacherStudentProfileModel.fromJson(Map<String, dynamic> json) {
     final data = json['data'] as Map<String, dynamic>? ?? {};
+    final student = data['student'] as Map<String, dynamic>? ?? {};
+
     print('🟢 [Model] data keys: ${data.keys}');
     print('🟢 [Model] name: ${data['name']}');
     print('🟢 [Model] id: ${data['id']}');
 
     return TeacherStudentProfileModel(
       id: data['id'] as int?,
-      name: data['name'] as String?,
-      localStudentNumber: data['localStudentNumber'] as int?,
-      guardianName: data['guardianName'] as String?,
-      guardianPhone: data['guardianPhone'] as String?,
+      name: student['name'] as String?,
+      localStudentNumber: student['localStudentNumber'] as int?,
+      guardianName: student['guardianName'] as String?,
+      guardianPhone: student['guardianPhone'] as String?,
       semester1Marks: (data['semester1Marks'] as List? ?? [])
           .map((e) => SemesterMarksModel.fromJson(e as Map<String, dynamic>))
           .toList(),

@@ -1,4 +1,7 @@
+// lib/features/Teacher/ui/page/school_subjects_screen.dart
+
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school/features/Teacher/domain/Entities/TeacherProfileEntities/schoolsEntity.dart';
 import 'package:school/features/Teacher/ui/page/subject_grades_screen.dart';
 import 'package:school/features/Teacher/ui/widget/TeacherSubjectCard%20.dart';
@@ -7,7 +10,10 @@ class SchoolSubjectsScreen extends StatelessWidget {
   final Schoolsentity school;
   final String schoolName;
 
-  const SchoolSubjectsScreen({
+  // ✅ حسابات القيم الثابتة خارج build
+  final double listPadding = 16.w;
+
+  SchoolSubjectsScreen({
     super.key,
     required this.school,
     required this.schoolName,
@@ -17,9 +23,13 @@ class SchoolSubjectsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final subjects = school.subjects ?? [];
     return Scaffold(
-      appBar: AppBar(title: Text(schoolName), centerTitle: true),
+      appBar: AppBar(
+        title: Text(schoolName, style: TextStyle(fontSize: 18.sp)),
+        centerTitle: true,
+        elevation: 0,
+      ),
       body: ListView.builder(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(listPadding),
         itemCount: subjects.length,
         itemBuilder: (context, index) {
           final subject = subjects[index];

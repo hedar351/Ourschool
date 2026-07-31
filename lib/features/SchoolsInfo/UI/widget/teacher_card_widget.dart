@@ -1,4 +1,7 @@
+// lib/features/SchoolsInfo/presentation/widgets/teacher_card_widget.dart
+
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../domain/Entities/TeacherInfoEntity.dart';
 
@@ -6,12 +9,25 @@ class TeacherCardWidget extends StatelessWidget {
   final TeacherInfoEntity teacher;
   final VoidCallback? onTap;
 
-  const TeacherCardWidget({super.key, required this.teacher, this.onTap});
+  // ✅ حسابات القيم الثابتة خارج build
+  final double containerPadding = 16.w;
+
+  final double containerRadius = 14.r;
+  final double borderWidth = 0.5.w;
+  final double avatarSize = 56.w;
+  final double avatarGap = 16.w;
+  final double nameFontSize = 16.sp;
+  final double subjectFontSize = 11.sp;
+  final double subjectPaddingHorizontal = 10.w;
+  final double subjectPaddingVertical = 4.h;
+  final double subjectGap = 6.w;
+  final double subjectRunSpacing = 4.h;
+  final double chevronSize = 20.w;
+  TeacherCardWidget({super.key, required this.teacher, this.onTap});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    // final sections = teacher.sections ?? [];
     final subjects = teacher.subjects ?? [];
     final isDark = theme.brightness == Brightness.dark;
 
@@ -19,30 +35,29 @@ class TeacherCardWidget extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(containerRadius),
         splashColor: theme.colorScheme.primary.withOpacity(0.1),
         highlightColor: theme.colorScheme.primary.withOpacity(0.05),
-
         child: Container(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(containerPadding),
           decoration: BoxDecoration(
             color: isDark
                 ? theme.colorScheme.surface.withOpacity(0.3)
                 : theme.colorScheme.surface,
-            borderRadius: BorderRadius.circular(14),
+            borderRadius: BorderRadius.circular(containerRadius),
             border: Border.all(
               color: isDark
                   ? theme.colorScheme.outline.withOpacity(0.3)
                   : theme.colorScheme.outline.withOpacity(0.15),
-              width: 0.5,
+              width: borderWidth,
             ),
           ),
           child: Row(
             children: [
               // ====== الصورة الرمزية ======
               Container(
-                width: 56,
-                height: 56,
+                width: avatarSize,
+                height: avatarSize,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
@@ -53,10 +68,14 @@ class TeacherCardWidget extends StatelessWidget {
                   shape: BoxShape.circle,
                 ),
                 child: Center(
-                  child: Icon(Icons.person, color: theme.colorScheme.onPrimary),
+                  child: Icon(
+                    Icons.person,
+                    color: theme.colorScheme.onPrimary,
+                    size: 28.w,
+                  ),
                 ),
               ),
-              const SizedBox(width: 16),
+              SizedBox(width: avatarGap),
 
               // ====== معلومات المعلم ======
               Expanded(
@@ -66,40 +85,40 @@ class TeacherCardWidget extends StatelessWidget {
                     Text(
                       teacher.name ?? 'معلم غير معروف',
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: nameFontSize,
                         fontWeight: FontWeight.w600,
                         color: theme.colorScheme.onSurface,
                       ),
                     ),
-                    const SizedBox(height: 6),
+                    SizedBox(height: 6.h),
 
                     // ====== المواد ======
                     if (subjects.isNotEmpty) ...[
                       Wrap(
-                        spacing: 6,
-                        runSpacing: 4,
+                        spacing: subjectGap,
+                        runSpacing: subjectRunSpacing,
                         children: subjects.map((subject) {
                           return Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 10,
-                              vertical: 4,
+                            padding: EdgeInsets.symmetric(
+                              horizontal: subjectPaddingHorizontal,
+                              vertical: subjectPaddingVertical,
                             ),
                             decoration: BoxDecoration(
                               color: theme.colorScheme.primary.withOpacity(
                                 isDark ? 0.2 : 0.12,
                               ),
-                              borderRadius: BorderRadius.circular(10),
+                              borderRadius: BorderRadius.circular(10.r),
                               border: Border.all(
                                 color: theme.colorScheme.primary.withOpacity(
                                   isDark ? 0.3 : 0.15,
                                 ),
-                                width: 0.5,
+                                width: 0.5.w,
                               ),
                             ),
                             child: Text(
                               subject.subjectName ?? '',
                               style: TextStyle(
-                                fontSize: 11,
+                                fontSize: subjectFontSize,
                                 color: isDark
                                     ? theme.colorScheme.primary.withOpacity(0.9)
                                     : theme.colorScheme.primary,
@@ -109,17 +128,15 @@ class TeacherCardWidget extends StatelessWidget {
                           );
                         }).toList(),
                       ),
-                      const SizedBox(height: 4),
+                      SizedBox(height: 4.h),
                     ],
-
-                    // ====== الشعب ======
                   ],
                 ),
               ),
 
               // ====== أيقونة السهم ======
               Container(
-                padding: const EdgeInsets.all(4),
+                padding: EdgeInsets.all(4.w),
                 decoration: BoxDecoration(
                   color: theme.colorScheme.primary.withOpacity(0.08),
                   shape: BoxShape.circle,
@@ -127,7 +144,7 @@ class TeacherCardWidget extends StatelessWidget {
                 child: Icon(
                   Icons.chevron_right,
                   color: theme.colorScheme.primary,
-                  size: 20,
+                  size: chevronSize,
                 ),
               ),
             ],

@@ -1,4 +1,7 @@
+// lib/features/Teacher/ui/page/grade_sections_screen.dart
+
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school/features/Counselor/domain/Entities/gradeandSectionEntity/gradeEntity.dart';
 import 'package:school/features/Teacher/domain/Entities/TeacherProfileEntities/SubjectEntity.dart';
 import 'package:school/features/Teacher/domain/Entities/TeacherProfileEntities/schoolsEntity.dart';
@@ -10,7 +13,11 @@ class GradeSectionsScreen extends StatelessWidget {
   final String subjectName;
   final Subjectentity subjectEntity;
   final Schoolsentity school;
-  const GradeSectionsScreen({
+
+  // ✅ حسابات القيم الثابتة خارج build
+  final double listPadding = 16.w;
+
+  GradeSectionsScreen({
     super.key,
     required this.grade,
     required this.schoolName,
@@ -24,11 +31,15 @@ class GradeSectionsScreen extends StatelessWidget {
     final sections = grade.sections ?? [];
     return Scaffold(
       appBar: AppBar(
-        title: Text('$schoolName - ${grade.name}'),
+        title: Text(
+          '$schoolName - ${grade.name}',
+          style: TextStyle(fontSize: 18.sp),
+        ),
         centerTitle: true,
+        elevation: 0,
       ),
       body: ListView.builder(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(listPadding),
         itemCount: sections.length,
         itemBuilder: (context, index) {
           final section = sections[index];

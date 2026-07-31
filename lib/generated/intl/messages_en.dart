@@ -78,6 +78,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "This account is currently not available for viewing",
     ),
     "add": MessageLookupByLibrary.simpleMessage("Add"),
+    "add_mark": MessageLookupByLibrary.simpleMessage("Add Mark"),
     "add_warning_title": MessageLookupByLibrary.simpleMessage(
       "Add New Warning",
     ),
@@ -111,6 +112,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "contact_us": MessageLookupByLibrary.simpleMessage("Contact Us"),
     "date": MessageLookupByLibrary.simpleMessage("Date"),
     "date_unknown": MessageLookupByLibrary.simpleMessage("Unknown date"),
+    "delete": MessageLookupByLibrary.simpleMessage("Delete"),
+    "edit": MessageLookupByLibrary.simpleMessage("Edit"),
+    "edit_mark": MessageLookupByLibrary.simpleMessage("Edit Mark"),
     "empty_cache_failure": MessageLookupByLibrary.simpleMessage(
       "No cached user found",
     ),
@@ -126,6 +130,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "login": MessageLookupByLibrary.simpleMessage("Login"),
     "login_success": MessageLookupByLibrary.simpleMessage("Login successful"),
     "marks_title": MessageLookupByLibrary.simpleMessage(" Marks"),
+    "max_score": MessageLookupByLibrary.simpleMessage("Max Score"),
     "moreTeachers": MessageLookupByLibrary.simpleMessage("more teachers"),
     "noAdditionalInfo": MessageLookupByLibrary.simpleMessage(
       "No additional information",
@@ -133,6 +138,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "noSchools": MessageLookupByLibrary.simpleMessage("No schools available"),
     "noTeachers": MessageLookupByLibrary.simpleMessage(
       "No teachers in this school",
+    ),
+    "no_marks_semester_1": MessageLookupByLibrary.simpleMessage(
+      "No marks for semester 1",
+    ),
+    "no_marks_semester_2": MessageLookupByLibrary.simpleMessage(
+      "No marks for semester 2",
     ),
     "not_specified": MessageLookupByLibrary.simpleMessage("Not specified"),
     "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
@@ -142,8 +153,27 @@ class MessageLookup extends MessageLookupByLibrary {
     "or_explore": MessageLookupByLibrary.simpleMessage("Or explore our school"),
     "oral": MessageLookupByLibrary.simpleMessage("Oral"),
     "oral_2": MessageLookupByLibrary.simpleMessage("Oral 2"),
+    "out_of": MessageLookupByLibrary.simpleMessage("out of"),
     "password": MessageLookupByLibrary.simpleMessage("Password"),
+    "password_min_length": MessageLookupByLibrary.simpleMessage(
+      "Password must be at least 6 characters",
+    ),
     "phone": MessageLookupByLibrary.simpleMessage("Phone"),
+    "please_enter_max_score": MessageLookupByLibrary.simpleMessage(
+      "Please enter the max score",
+    ),
+    "please_enter_score": MessageLookupByLibrary.simpleMessage(
+      "Please enter the score",
+    ),
+    "please_enter_valid_number": MessageLookupByLibrary.simpleMessage(
+      "Please enter a valid number",
+    ),
+    "please_select_quiz_type": MessageLookupByLibrary.simpleMessage(
+      "Please select a quiz type",
+    ),
+    "please_select_semester": MessageLookupByLibrary.simpleMessage(
+      "Please select a semester",
+    ),
     "please_select_type_and_reason": MessageLookupByLibrary.simpleMessage(
       "Please select a type and fill the reason",
     ),
@@ -154,6 +184,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "pullToRefresh": MessageLookupByLibrary.simpleMessage(
       "Pull down to refresh",
     ),
+    "quiz_type": MessageLookupByLibrary.simpleMessage("Quiz Type"),
+    "quiz_type_1": MessageLookupByLibrary.simpleMessage("Quiz 1"),
+    "quiz_type_2": MessageLookupByLibrary.simpleMessage("Quiz 2"),
+    "quiz_type_3": MessageLookupByLibrary.simpleMessage("Homework"),
+    "quiz_type_5": MessageLookupByLibrary.simpleMessage("Final Exam"),
     "reason": MessageLookupByLibrary.simpleMessage("Reason"),
     "remember_me": MessageLookupByLibrary.simpleMessage("Remember me"),
     "retry": MessageLookupByLibrary.simpleMessage("Retry"),
@@ -170,6 +205,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "school_subjects": m1,
     "schools": MessageLookupByLibrary.simpleMessage("Schools"),
     "schoolsCount": MessageLookupByLibrary.simpleMessage("school"),
+    "score": MessageLookupByLibrary.simpleMessage("Score"),
     "select_warning_type": MessageLookupByLibrary.simpleMessage(
       "Select Warning Type",
     ),

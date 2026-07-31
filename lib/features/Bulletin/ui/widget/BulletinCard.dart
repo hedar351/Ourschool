@@ -1,11 +1,28 @@
+// lib/features/Bulletin/ui/widget/BulletinCard.dart
+
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school/features/Bulletin/domain/Entities/AnnouncementActivityEntity.dart';
 
 class Bulletincard extends StatelessWidget {
   final Announcementactivityentity entity;
   final Color color;
 
-  const Bulletincard({super.key, required this.entity, required this.color});
+  final double _cardWidth = 280.w;
+
+  final double _marginRight = 16.w;
+  final double _borderRadius = 28.r;
+  final double _headerPaddingHorizontal = 16.w;
+  final double _headerPaddingVertical = 14.h;
+  final double _iconSize = 24.w;
+  final double _iconGap = 12.w;
+  final double _contentPadding = 18.w;
+  final double _titleFontSize = 18.sp;
+  final double _descFontSize = 14.sp;
+  final double _dateFontSize = 13.sp;
+  final double _gap = 10.h;
+  final double _blurRadius = 12.w;
+  Bulletincard({super.key, required this.entity, required this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -14,48 +31,46 @@ class Bulletincard extends StatelessWidget {
 
     return RepaintBoundary(
       child: Container(
-        width: 280,
-        margin: const EdgeInsets.only(right: 16),
+        width: _cardWidth,
+        margin: EdgeInsets.only(right: _marginRight),
         decoration: BoxDecoration(
           color: theme.cardColor,
-          borderRadius: BorderRadius.circular(28),
-          boxShadow: const [
+          borderRadius: BorderRadius.circular(_borderRadius),
+          boxShadow: [
             BoxShadow(
               color: Colors.black12,
-              blurRadius: 12,
-              offset: Offset(0, 4),
+              blurRadius: _blurRadius,
+              offset: Offset(0, 4.h),
             ),
           ],
         ),
         child: Material(
           color: Colors.transparent,
-          borderRadius: BorderRadius.circular(28),
+          borderRadius: BorderRadius.circular(_borderRadius),
           child: InkWell(
-            borderRadius: BorderRadius.circular(28),
-            onTap: () {
-              // Navigator.push(context, ...);
-            },
+            borderRadius: BorderRadius.circular(_borderRadius),
+            onTap: () {},
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
                 // ---- رأس البطاقة ----
                 Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 14,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: _headerPaddingHorizontal,
+                    vertical: _headerPaddingVertical,
                   ),
                   decoration: BoxDecoration(
                     color: color.withOpacity(0.12),
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(28),
-                      topRight: Radius.circular(28),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(_borderRadius),
+                      topRight: Radius.circular(_borderRadius),
                     ),
                   ),
                   child: Row(
                     children: [
-                      Icon(iconData, color: color, size: 24),
-                      const SizedBox(width: 12),
+                      Icon(iconData, color: color, size: _iconSize),
+                      SizedBox(width: _iconGap),
                       Expanded(
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -65,16 +80,16 @@ class Bulletincard extends StatelessWidget {
                               style: TextStyle(
                                 color: color,
                                 fontWeight: FontWeight.w600,
-                                fontSize: 13,
+                                fontSize: _dateFontSize,
                                 letterSpacing: 0.3,
                               ),
                             ),
                             Text(
-                              entity.schoolName,
+                              entity.schoolName ?? '',
                               style: TextStyle(
                                 color: color,
                                 fontWeight: FontWeight.w600,
-                                fontSize: 13,
+                                fontSize: _dateFontSize,
                                 letterSpacing: 0.3,
                               ),
                             ),
@@ -86,25 +101,25 @@ class Bulletincard extends StatelessWidget {
                 ),
                 // ---- محتوى البطاقة ----
                 Padding(
-                  padding: const EdgeInsets.all(18),
+                  padding: EdgeInsets.all(_contentPadding),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         entity.title,
-                        style: const TextStyle(
-                          fontSize: 18,
+                        style: TextStyle(
+                          fontSize: _titleFontSize,
                           fontWeight: FontWeight.bold,
                           height: 1.3,
                         ),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      const SizedBox(height: 10),
+                      SizedBox(height: _gap),
                       Text(
                         entity.description,
                         style: TextStyle(
-                          fontSize: 14,
+                          fontSize: _descFontSize,
                           color: theme.textTheme.bodyMedium?.color,
                           height: 1.4,
                         ),

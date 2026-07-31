@@ -1,8 +1,12 @@
+// lib/features/Counselor/UI/page/CounsolerStudentDetailScreen.dart
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school/core/injection.dart' as di;
 import 'package:school/core/widget/Loadingwidget.dart';
 import 'package:school/features/Counselor/UI/bloc/PostWarnings/post_warnings_bloc.dart';
+import 'package:school/features/Counselor/UI/bloc/PostWarnings/post_warnings_state.dart';
 import 'package:school/features/Counselor/UI/bloc/Studentprofile/student_profile_bloc.dart';
 import 'package:school/features/Counselor/UI/bloc/attendance/attendance_bloc.dart';
 import 'package:school/features/Counselor/UI/widget/MarkCard.dart';
@@ -15,10 +19,7 @@ import 'package:school/features/Counselor/UI/widget/StudentInfoCard.dart';
 import 'package:school/features/Counselor/UI/widget/section_card_widget.dart';
 import 'package:school/features/Counselor/domain/Entities/StudentsProfileEntity/Counselor_MarkEntity.dart';
 import 'package:school/features/Counselor/domain/Entities/StudentsProfileEntity/Counselor_studentFullProfile.dart';
-import 'package:school/features/Counselor/domain/Repo/CounselorRepo.dart';
 import 'package:school/generated/l10n.dart';
-
-import '../../domain/UseCases/Postwarningsusecase.dart';
 
 class CounsolerStudentDetailScreen extends StatefulWidget {
   final int localStudentNumber;
@@ -39,39 +40,32 @@ class _CounsolerStudentDetailScreenState
   late AnimationController _controller;
   bool _loaded = false;
 
+  // ✅ حسابات القيم الثابتة خارج build
+  final double _contentPadding = 16.w;
+  final double _gapLarge = 24.h;
+  final double _gapMedium = 16.h;
+  final double _gapSmall = 12.h;
+  final double _elevation = 6;
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => di.sl<StudentProfileBloc>()),
-        BlocProvider(
-          create: (_) {
-            final repo = di.sl<CounselorRepo>();
-            final useCase = Postwarningsusecase(repository: repo);
-            return PostWarningBloc(
-              postWarningsUseCase: useCase,
-              counselorRepo: repo,
-            );
-          },
-        ),
+        BlocProvider(create: (_) => di.sl<PostWarningBloc>()),
         BlocProvider(create: (_) => di.sl<AttendanceBloc>()),
       ],
-      child: BlocListener<AttendanceBloc, AttendanceState>(
+      child: BlocListener<PostWarningBloc, PostWarningState>(
         listener: (context, state) {
-          if (state is AttendanceSuccess) {
+          if (state is PostWarningSuccess) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text(state.message),
+                content: Text(state.warning.reason!),
                 backgroundColor: Colors.green,
               ),
             );
-            context.read<StudentProfileBloc>().add(
-              RefreshStudentProfileEvent(
-                localStudentNumber: widget.localStudentNumber,
-              ),
-            );
           }
-          if (state is AttendanceError) {
+          if (state is PostWarningError) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(state.message),
@@ -80,40 +74,60 @@ class _CounsolerStudentDetailScreenState
             );
           }
         },
-        child: BlocConsumer<StudentProfileBloc, StudentProfileState>(
+        child: BlocListener<AttendanceBloc, AttendanceState>(
           listener: (context, state) {
-            if (state is StudentProfileLoaded) {
-              _controller.forward();
-            }
-          },
-          builder: (context, state) {
-            if (!_loaded && state is StudentProfileInitial) {
-              _loaded = true;
-              context.read<StudentProfileBloc>().add(
-                GetStudentProfileEvent(
-                  localStudentNumber: widget.localStudentNumber,
+            if (state is AttendanceSuccess) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(state.message),
+                  backgroundColor: Colors.green,
                 ),
               );
             }
-
-            if (state is StudentProfileLoading) {
-              return const Loadingwidget();
-            }
-
-            if (state is StudentProfileLoaded) {
-              return _buildProfileContent(
-                context,
-                state.profile,
-                state.isRevalidating,
+            if (state is AttendanceError) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(state.message),
+                  backgroundColor: Colors.red,
+                ),
               );
             }
-
-            if (state is StudentProfileError) {
-              return _buildErrorState(context, state.message);
-            }
-
-            return const Loadingwidget();
           },
+          child: BlocConsumer<StudentProfileBloc, StudentProfileState>(
+            listener: (context, state) {
+              if (state is StudentProfileLoaded) {
+                _controller.forward();
+              }
+            },
+            builder: (context, state) {
+              if (!_loaded && state is StudentProfileInitial) {
+                _loaded = true;
+                context.read<StudentProfileBloc>().add(
+                  GetStudentProfileEvent(
+                    localStudentNumber: widget.localStudentNumber,
+                  ),
+                );
+              }
+
+              if (state is StudentProfileLoading) {
+                return const Loadingwidget();
+              }
+
+              if (state is StudentProfileLoaded) {
+                return _buildProfileContent(
+                  context,
+                  state.profile,
+                  state.isRevalidating,
+                );
+              }
+
+              if (state is StudentProfileError) {
+                return _buildErrorState(context, state.message);
+              }
+
+              return const Loadingwidget();
+            },
+          ),
         ),
       ),
     );
@@ -139,14 +153,16 @@ class _CounsolerStudentDetailScreenState
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.error_outline, size: 80, color: Colors.red.shade300),
-          const SizedBox(height: 16),
+          Icon(Icons.error_outline, size: 80.w, color: Colors.red.shade300),
+          SizedBox(height: 16.h),
           Text(
             message,
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.titleMedium,
+            style: Theme.of(
+              context,
+            ).textTheme.titleMedium?.copyWith(fontSize: 16.sp),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8.h),
           TextButton.icon(
             onPressed: () {
               context.read<StudentProfileBloc>().add(
@@ -155,8 +171,8 @@ class _CounsolerStudentDetailScreenState
                 ),
               );
             },
-            icon: const Icon(Icons.refresh),
-            label: const Text('إعادة المحاولة'),
+            icon: Icon(Icons.refresh, size: 20.w),
+            label: Text('إعادة المحاولة', style: TextStyle(fontSize: 14.sp)),
           ),
         ],
       ),
@@ -175,7 +191,6 @@ class _CounsolerStudentDetailScreenState
     final warnings = profile.warningsentity ?? [];
     final attendance = profile.attendance ?? [];
 
-    // بناء واجهة العلامات المباشرة (كما كانت سابقاً)
     List<Widget> marksWidgets = [];
     if (marks != null && marks.isNotEmpty) {
       final marksBySemester = <int, List<CounselorMarkentity>>{};
@@ -196,16 +211,21 @@ class _CounsolerStudentDetailScreenState
 
         marksWidgets.add(
           Padding(
-            padding: const EdgeInsets.only(top: 8, bottom: 8),
+            padding: EdgeInsets.only(top: 8.h, bottom: 8.h),
             child: Row(
               children: [
-                Icon(Icons.bookmark, color: theme.colorScheme.primary),
-                const SizedBox(width: 8),
+                Icon(
+                  Icons.bookmark,
+                  color: theme.colorScheme.primary,
+                  size: 22.w,
+                ),
+                SizedBox(width: 8.w),
                 Text(
                   semesterTitle,
                   style: theme.textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.bold,
                     color: theme.colorScheme.primary,
+                    fontSize: 16.sp,
                   ),
                 ),
               ],
@@ -213,7 +233,7 @@ class _CounsolerStudentDetailScreenState
           ),
         );
         marksWidgets.addAll(semesterMarks.map((m) => MarkCard(mark: m)));
-        marksWidgets.add(const SizedBox(height: 8));
+        marksWidgets.add(SizedBox(height: 8.h));
       }
     }
 
@@ -229,13 +249,12 @@ class _CounsolerStudentDetailScreenState
             child: RefreshIndicator(
               onRefresh: () async => _onRefresh(context),
               child: SingleChildScrollView(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(_contentPadding),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // ====== بطاقة معلومات الطالب ======
                     StudentInfoCard(student: student),
-                    const SizedBox(height: 24),
+                    SizedBox(height: _gapLarge),
 
                     // ====== بطاقة الغيابات ======
                     Row(
@@ -253,16 +272,25 @@ class _CounsolerStudentDetailScreenState
                           ),
                         ),
                         IconButton(
-                          icon: const Icon(Icons.add_circle, color: Colors.red),
+                          icon: Icon(
+                            Icons.add_circle,
+                            color: Colors.red,
+                            size: 24.w,
+                          ),
                           onPressed: () => showAddAttendanceDialog(
                             context,
                             student?.localStudentNumber,
                           ),
                           tooltip: 'إضافة غياب',
+                          padding: EdgeInsets.zero,
+                          constraints: BoxConstraints(
+                            minWidth: 36.w,
+                            minHeight: 36.h,
+                          ),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: _gapMedium),
 
                     // ====== بطاقة المواد ======
                     SectionCard(
@@ -271,7 +299,7 @@ class _CounsolerStudentDetailScreenState
                       count: subjects.length,
                       onTap: () => showSubjectsDialog(context, subjects),
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: _gapMedium),
 
                     // ====== بطاقة الإنذارات ======
                     Row(
@@ -286,54 +314,68 @@ class _CounsolerStudentDetailScreenState
                           ),
                         ),
                         IconButton(
-                          icon: const Icon(Icons.add_circle, color: Colors.red),
+                          icon: Icon(
+                            Icons.add_circle,
+                            color: Colors.red,
+                            size: 24.w,
+                          ),
                           onPressed: () =>
                               showAddWarningDialog(context, student),
                           tooltip: 'إضافة إنذار',
-                        ),
-                      ],
-                    ),
-
-                    // ====== العلامات (عرض مباشر) ======
-                    const SizedBox(height: 16),
-                    Row(
-                      children: [
-                        Icon(Icons.bar_chart, color: theme.colorScheme.primary),
-                        const SizedBox(width: 8),
-                        Text(
-                          S.of(context).marks_title,
-                          style: theme.textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: theme.colorScheme.primary,
+                          padding: EdgeInsets.zero,
+                          constraints: BoxConstraints(
+                            minWidth: 36.w,
+                            minHeight: 36.h,
                           ),
                         ),
                       ],
                     ),
 
-                    const SizedBox(height: 12),
+                    // ====== العلامات ======
+                    SizedBox(height: _gapMedium),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.bar_chart,
+                          color: theme.colorScheme.primary,
+                          size: 22.w,
+                        ),
+                        SizedBox(width: 8.w),
+                        Text(
+                          S.of(context).marks_title,
+                          style: theme.textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: theme.colorScheme.primary,
+                            fontSize: 16.sp,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: _gapSmall),
                     if (marks != null && marks.isNotEmpty)
                       ...marksWidgets
                     else
                       Text(
                         S.of(context).There_are_no_Marks_at_the_moment,
-                        style: theme.textTheme.bodySmall,
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          fontSize: 14.sp,
+                        ),
                       ),
-
-                    const SizedBox(height: 24),
+                    SizedBox(height: _gapLarge),
                   ],
                 ),
               ),
             ),
           ),
           if (isRevalidating)
-            const Positioned(
+            Positioned(
               top: 0,
               left: 0,
               right: 0,
               child: LinearProgressIndicator(
                 backgroundColor: Colors.transparent,
                 color: Colors.blue,
-                minHeight: 3,
+                minHeight: 3.h,
               ),
             ),
         ],

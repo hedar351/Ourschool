@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school/core/cubit/locale_cubit.dart';
 import 'package:school/core/cubit/theme_cubit.dart';
 import 'package:school/core/injection.dart' as di;
@@ -20,7 +21,16 @@ void main() async {
   final prefs = await SharedPreferences.getInstance();
   print("🔵 Stored cache key: ${prefs.getString(authCacheKey)}");
 
-  runApp(const MyApp());
+  runApp(
+    ScreenUtilInit(
+      designSize: const Size(375, 812),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (context, child) {
+        return const MyApp();
+      },
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

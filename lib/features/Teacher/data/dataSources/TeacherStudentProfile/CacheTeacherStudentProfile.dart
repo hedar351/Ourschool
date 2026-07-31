@@ -14,10 +14,7 @@ abstract class CacheTeacherStudentProfile {
   );
 
   // ====== 🆕 حذف الكاش ======
-  Future<Unit> deleteCachedTeacherStudentProfile(
-    int localStudentNumber,
-    int schoolId,
-  );
+  Future<Unit> deleteCachedTeacherStudentProfile();
 
   // ====== جلب الكاش ======
   Future<TeacherStudentProfileModel> getCachedTeacherStudentProfile(
@@ -50,13 +47,10 @@ class CacheTeacherStudentProfileImpl implements CacheTeacherStudentProfile {
 
   // ====== 🆕 حذف الكاش ======
   @override
-  Future<Unit> deleteCachedTeacherStudentProfile(
-    int localStudentNumber,
-    int schoolId,
-  ) async {
-    final key = _getKey(localStudentNumber, schoolId);
-    await box.delete(key);
-    print('🗑️ [Cache] Deleted teacher student profile: $key');
+  Future<Unit> deleteCachedTeacherStudentProfile() async {
+    // final key = _getKey(localStudentNumber, schoolId);
+    await box.clear();
+    // print('🗑️ [Cache] Deleted teacher student profile: $key');
     return unit;
   }
 

@@ -1,4 +1,7 @@
+// lib/features/Teacher/ui/widget/buildSectionCard.dart
+
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school/features/Counselor/domain/Entities/gradeandSectionEntity/SectionEntity.dart';
 import 'package:school/features/Counselor/domain/Entities/gradeandSectionEntity/gradeEntity.dart';
 import 'package:school/features/Teacher/domain/Entities/TeacherProfileEntities/schoolsEntity.dart';
@@ -15,13 +18,23 @@ Widget buildSectionCard({
 }) {
   final theme = Theme.of(context);
 
+  // ✅ حسابات القيم الثابتة
+  final double cardMarginBottom = 12.h;
+  final double cardPadding = 16.w;
+  final double containerSize = 56.w;
+  final double containerRadius = 16.r;
+  final double iconSize = 28.w;
+  final double titleFontSize = 17.sp;
+  final double subtitleFontSize = 13.sp;
+  final double gap = 16.w;
+
   return Card(
     elevation: 4,
-    margin: const EdgeInsets.only(bottom: 12),
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+    margin: EdgeInsets.only(bottom: cardMarginBottom),
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.r)),
     clipBehavior: Clip.antiAlias,
     child: InkWell(
-      borderRadius: BorderRadius.circular(20),
+      borderRadius: BorderRadius.circular(20.r),
       onTap: () {
         Navigator.push(
           context,
@@ -39,40 +52,43 @@ Widget buildSectionCard({
         );
       },
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(cardPadding),
         child: Row(
           children: [
             Container(
-              width: 56,
-              height: 56,
+              width: containerSize,
+              height: containerSize,
               decoration: BoxDecoration(
                 color: theme.colorScheme.primary.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(containerRadius),
               ),
               child: Icon(
                 Icons.group_outlined,
-                size: 28,
+                size: iconSize,
                 color: theme.colorScheme.primary,
               ),
             ),
-            const SizedBox(width: 16),
+            SizedBox(width: gap),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     section.name ?? S.of(context).Sections,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 17,
+                      fontSize: titleFontSize,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(height: 4),
+                  SizedBox(height: 4.h),
                   Text(
-                    grade.name ?? '', // عرض اسم الصف كتفصيل إضافي
-                    style: TextStyle(fontSize: 13, color: Colors.grey[600]),
+                    grade.name ?? '',
+                    style: TextStyle(
+                      fontSize: subtitleFontSize,
+                      color: Colors.grey[600],
+                    ),
                   ),
                 ],
               ),
@@ -80,6 +96,7 @@ Widget buildSectionCard({
             Icon(
               Icons.chevron_right,
               color: theme.colorScheme.primary.withOpacity(0.6),
+              size: 20.w,
             ),
           ],
         ),

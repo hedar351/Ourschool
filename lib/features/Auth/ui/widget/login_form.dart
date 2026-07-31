@@ -1,7 +1,10 @@
+// lib/features/Auth/ui/widget/login_form.dart
+
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school/generated/l10n.dart';
 
-class LoginForm extends StatelessWidget {
+class LoginForm extends StatefulWidget {
   final GlobalKey<FormState> formKey;
   final TextEditingController usernameController;
   final TextEditingController passwordController;
@@ -22,127 +25,192 @@ class LoginForm extends StatelessWidget {
   });
 
   @override
+  State<LoginForm> createState() => _LoginFormState();
+}
+
+class _LoginFormState extends State<LoginForm> {
+  bool _obscureText = true;
+
+  // ✅ حسابات القيم الثابتة خارج build
+  final double _cardPadding = 24.w;
+  final double _gapSmall = 8.h;
+  final double _gapMedium = 16.h;
+  final double _gapLarge = 32.h;
+  final double _buttonHeight = 24.w;
+  final double _buttonWidth = 50.w;
+  final double _borderRadius = 16.r;
+  final double _iconSize = 64.w;
+  final double _loginFontSize = 18.sp;
+
+  @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Card(
       elevation: 8,
-      shadowColor: Theme.of(context).colorScheme.primary.withOpacity(0.3),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+      shadowColor: theme.colorScheme.primary.withOpacity(0.3),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24.r)),
       child: Padding(
-        padding: const EdgeInsets.all(24.0),
+        padding: EdgeInsets.all(_cardPadding),
         child: Column(
           children: [
             Text(
               S.of(context).welcome_back,
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+              style: theme.textTheme.headlineSmall?.copyWith(
                 fontWeight: FontWeight.w600,
-                color: Theme.of(context).colorScheme.primary,
+                color: theme.colorScheme.primary,
+                fontSize: 24.sp,
               ),
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: _gapSmall),
             Text(
               S.of(context).sign_in_continue,
               style: TextStyle(
-                color: Theme.of(context).textTheme.bodySmall?.color,
+                color: theme.textTheme.bodySmall?.color,
+                fontSize: 14.sp,
               ),
             ),
-            const SizedBox(height: 32),
+            SizedBox(height: _gapLarge),
             Form(
-              key: formKey,
+              key: widget.formKey,
               child: Column(
                 children: [
+                  // ====== حقل اسم المستخدم ======
                   TextFormField(
-                    controller: usernameController,
-                    enabled: !isLoading,
+                    controller: widget.usernameController,
+                    enabled: !widget.isLoading,
                     decoration: InputDecoration(
                       labelText: S.of(context).username,
+                      labelStyle: TextStyle(fontSize: 14.sp),
                       prefixIcon: Icon(
                         Icons.person_outline,
-                        color: Theme.of(context).colorScheme.primary,
+                        color: theme.colorScheme.primary,
+                        size: 22.w,
                       ),
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(_borderRadius),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(_borderRadius),
                         borderSide: BorderSide(
-                          color: Theme.of(context).colorScheme.primary,
-                          width: 2,
+                          color: theme.colorScheme.primary,
+                          width: 2.w,
                         ),
                       ),
                     ),
                     validator: (value) => value == null || value.trim().isEmpty
                         ? S.of(context).Username
                         : null,
+                    style: TextStyle(fontSize: 14.sp),
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: _gapMedium),
+
+                  // ====== حقل كلمة المرور ======
                   TextFormField(
-                    controller: passwordController,
-                    obscureText: true,
-                    enabled: !isLoading,
+                    controller: widget.passwordController,
+                    obscureText: _obscureText,
+                    enabled: !widget.isLoading,
                     decoration: InputDecoration(
                       labelText: S.of(context).password,
+                      labelStyle: TextStyle(fontSize: 14.sp),
                       prefixIcon: Icon(
                         Icons.lock_outline,
-                        color: Theme.of(context).colorScheme.primary,
+                        color: theme.colorScheme.primary,
+                        size: 22.w,
+                      ),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _obscureText
+                              ? Icons.visibility_off
+                              : Icons.visibility,
+                          color: theme.colorScheme.primary,
+                          size: 22.w,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _obscureText = !_obscureText;
+                          });
+                        },
+                        tooltip: _obscureText
+                            ? 'إظهار كلمة المرور'
+                            : 'إخفاء كلمة المرور',
+                        padding: EdgeInsets.zero,
+                        constraints: BoxConstraints(
+                          minWidth: 36.w,
+                          minHeight: 36.h,
+                        ),
                       ),
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(_borderRadius),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(_borderRadius),
                         borderSide: BorderSide(
-                          color: Theme.of(context).colorScheme.primary,
-                          width: 2,
+                          color: theme.colorScheme.primary,
+                          width: 2.w,
                         ),
                       ),
                     ),
-                    validator: (value) => value == null || value.isEmpty
-                        ? S.of(context).Password
-                        : null,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return S.of(context).Password;
+                      }
+                      if (value.length < 6) {
+                        return S.of(context).password_min_length;
+                      }
+                      return null;
+                    },
+                    style: TextStyle(fontSize: 14.sp),
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: _gapSmall),
             Row(
               children: [
                 Checkbox(
-                  value: rememberMe,
-                  activeColor: Theme.of(context).colorScheme.primary,
-                  onChanged: (value) => onRememberMeChanged(value ?? false),
+                  value: widget.rememberMe,
+                  activeColor: theme.colorScheme.primary,
+                  onChanged: (value) =>
+                      widget.onRememberMeChanged(value ?? false),
+                  splashRadius: 20.r,
                 ),
-                Text(S.of(context).remember_me),
+                Text(
+                  S.of(context).remember_me,
+                  style: TextStyle(fontSize: 14.sp),
+                ),
                 const Spacer(),
               ],
             ),
-            const SizedBox(height: 24),
+            SizedBox(height: 24.h),
             ElevatedButton(
-              onPressed: isLoading ? null : onLoginPressed,
+              onPressed: widget.isLoading ? null : widget.onLoginPressed,
               style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 13,
-                  horizontal: 50,
+                padding: EdgeInsets.symmetric(
+                  vertical: 13.h,
+                  horizontal: _buttonWidth,
                 ),
-                backgroundColor: Theme.of(context).colorScheme.primary,
-                foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                backgroundColor: theme.colorScheme.primary,
+                foregroundColor: theme.colorScheme.onPrimary,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(_borderRadius),
                 ),
                 elevation: 3,
+                minimumSize: Size(double.infinity, 52.h),
               ),
-              child: isLoading
+              child: widget.isLoading
                   ? SizedBox(
-                      width: 24,
-                      height: 24,
+                      width: _buttonHeight,
+                      height: _buttonHeight,
                       child: CircularProgressIndicator(
-                        color: Theme.of(context).colorScheme.onPrimary,
-                        strokeWidth: 2.5,
+                        color: theme.colorScheme.onPrimary,
+                        strokeWidth: 2.5.w,
                       ),
                     )
                   : Text(
                       S.of(context).login,
-                      style: const TextStyle(
-                        fontSize: 18,
+                      style: TextStyle(
+                        fontSize: _loginFontSize,
                         fontWeight: FontWeight.w600,
                       ),
                     ),

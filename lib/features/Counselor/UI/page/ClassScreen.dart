@@ -1,5 +1,8 @@
+// lib/features/Counselor/UI/page/ClassScreen.dart
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school/core/injection.dart' as di;
 import 'package:school/core/widget/Loadingwidget.dart';
 import 'package:school/features/Counselor/UI/bloc/GradeBloc/grade_bloc.dart';
@@ -17,8 +20,15 @@ class _ClassScreenState extends State<ClassScreen>
     with AutomaticKeepAliveClientMixin {
   bool _loaded = false;
 
+  // ✅ حسابات القيم الثابتة خارج build
+  final double emptyIconSize = 80.w;
+  final double emptyGap = 16.h;
+  final double errorIconSize = 80.w;
+  final double errorGap = 16.h;
+
   @override
   bool get wantKeepAlive => true;
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -57,20 +67,26 @@ class _ClassScreenState extends State<ClassScreen>
   }
 
   Widget _buildEmptyState(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.inbox_outlined, size: 80, color: Colors.grey.shade400),
-          const SizedBox(height: 16),
+          Icon(
+            Icons.inbox_outlined,
+            size: emptyIconSize,
+            color: Colors.grey.shade400,
+          ),
+          SizedBox(height: emptyGap),
           Text(
             S.of(context).There_are_no_sections_at_the_moment,
-            style: Theme.of(context).textTheme.titleMedium,
+            style: theme.textTheme.titleMedium?.copyWith(fontSize: 16.sp),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8.h),
           Text(
             S.of(context).Pull_down_to_refresh,
-            style: Theme.of(context).textTheme.bodySmall,
+            style: theme.textTheme.bodySmall?.copyWith(fontSize: 12.sp),
           ),
         ],
       ),
@@ -78,33 +94,35 @@ class _ClassScreenState extends State<ClassScreen>
   }
 
   Widget _buildErrorState(BuildContext context, String message) {
+    final theme = Theme.of(context);
+
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.error_outline, size: 80, color: Colors.red.shade300),
-          const SizedBox(height: 16),
+          Icon(
+            Icons.error_outline,
+            size: errorIconSize,
+            color: Colors.red.shade300,
+          ),
+          SizedBox(height: errorGap),
           Text(
             message,
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.titleMedium,
+            style: theme.textTheme.titleMedium?.copyWith(fontSize: 16.sp),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8.h),
           TextButton.icon(
             onPressed: () {
               context.read<GradeBloc>().add(RefreshGradeEvent());
             },
-            icon: const Icon(Icons.refresh),
-            label: const Text('إعادة المحاولة'),
+            icon: Icon(Icons.refresh, size: 20.w),
+            label: Text('إعادة المحاولة', style: TextStyle(fontSize: 14.sp)),
           ),
         ],
       ),
     );
   }
-
-  // Widget _buildLoadedState(BuildContext context, GradeLoaded state) {
-  //   return GradesGrid(grade: state.grade, onRefresh: () => _onRefresh(context));
-  // }
 
   Widget _buildLoadedState(BuildContext context, GradeLoaded state) {
     return SafeArea(
@@ -117,14 +135,14 @@ class _ClassScreenState extends State<ClassScreen>
               onRefresh: () => _onRefresh(context),
             ),
             if (state.isRevalidating)
-              const Positioned(
+              Positioned(
                 top: 0,
                 left: 0,
                 right: 0,
                 child: LinearProgressIndicator(
                   backgroundColor: Colors.transparent,
                   color: Colors.blue,
-                  minHeight: 3,
+                  minHeight: 3.h,
                 ),
               ),
           ],

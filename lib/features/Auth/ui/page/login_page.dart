@@ -1,5 +1,8 @@
+// lib/features/Auth/ui/page/login_page.dart
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school/core/widget/SnackBar/Message.dart';
 import 'package:school/features/Auth/ui/bloc/auth_bloc.dart';
 import 'package:school/generated/l10n.dart';
@@ -22,6 +25,11 @@ class _LoginPageState extends State<LoginPage> {
   final _snackBarMessage = SnackBarMessage();
   bool _rememberMe = false;
 
+  // ✅ حسابات القيم الثابتة خارج build
+  final double _horizontalPadding = 28.w;
+  final double _verticalPadding = 40.h;
+  final double _gap = 24.h;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,9 +42,9 @@ class _LoginPageState extends State<LoginPage> {
               color: Theme.of(context).scaffoldBackgroundColor,
               child: SafeArea(
                 child: SingleChildScrollView(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 28,
-                    vertical: 40,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: _horizontalPadding,
+                    vertical: _verticalPadding,
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -52,7 +60,7 @@ class _LoginPageState extends State<LoginPage> {
                         },
                         onLoginPressed: _dispatchLoginEvent,
                       ),
-                      const SizedBox(height: 24),
+                      SizedBox(height: _gap),
                       LoginFooter(isLoading: isLoading),
                     ],
                   ),
@@ -96,15 +104,6 @@ class _LoginPageState extends State<LoginPage> {
         return S.of(context).unexpected_error;
     }
   }
-
-  // void _onAuthStateChanged(BuildContext context, AuthState state) {
-  //   if (state is AuthErorr) {
-  //     final message = _localizedErrorMessage(state.message, context);
-  //     _snackBarMessage.errorMessage(message: message, context: context);
-  //   } else if (state is AuthLoaded) {
-  //     routing(state.user.role!, context, state);
-  //   }
-  // }
 
   void _onAuthStateChanged(BuildContext context, AuthState state) {
     if (state is AuthErorr) {

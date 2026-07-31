@@ -1,5 +1,8 @@
+// lib/features/Teacher/ui/page/TeacherProfileScreen.dart
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school/core/injection.dart' as di;
 import 'package:school/core/widget/Loadingwidget.dart';
 import 'package:school/features/Teacher/ui/page/school_subjects_screen.dart';
@@ -16,6 +19,9 @@ class TeacherProfileScreen extends StatefulWidget {
 }
 
 class _TeacherProfileScreenState extends State<TeacherProfileScreen> {
+  // ✅ حسابات القيم الثابتة خارج build
+  final double listPadding = 16.w;
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -32,16 +38,24 @@ class _TeacherProfileScreenState extends State<TeacherProfileScreen> {
 
             return Scaffold(
               appBar: AppBar(
-                title: Text(teacher?.name ?? S.of(context).teacher_profile),
+                title: Text(
+                  teacher?.name ?? S.of(context).teacher_profile,
+                  style: TextStyle(fontSize: 18.sp),
+                ),
                 centerTitle: true,
                 automaticallyImplyLeading: false,
+                elevation: 0,
               ),
               body: RefreshIndicator(
                 onRefresh: () async {
                   context.read<TeacherBloc>().add(RefreshTeacherEvent());
                 },
+                color: Colors.transparent,
+                backgroundColor: Colors.transparent,
+                strokeWidth: 0,
                 child: ListView.builder(
-                  padding: const EdgeInsets.all(16),
+                  padding: EdgeInsets.all(listPadding),
+                  physics: const AlwaysScrollableScrollPhysics(),
                   itemCount: schools.length,
                   itemBuilder: (context, index) {
                     final school = schools[index];
@@ -65,7 +79,9 @@ class _TeacherProfileScreenState extends State<TeacherProfileScreen> {
             );
           }
           if (state is TeacherError) {
-            return Center(child: Text(state.message));
+            return Center(
+              child: Text(state.message, style: TextStyle(fontSize: 16.sp)),
+            );
           }
           return const Loadingwidget();
         },

@@ -1,5 +1,8 @@
+// lib/features/Counselor/UI/page/CounselorStudentsScreen.dart
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school/core/widget/showImageViewer.dart';
 import 'package:school/features/Counselor/UI/bloc/StudentListBLoc/student_list_bloc.dart';
 
@@ -32,6 +35,23 @@ class CounselorStudentsScreen extends StatefulWidget {
 class _CounselorStudentsScreenState extends State<CounselorStudentsScreen>
     with AutomaticKeepAliveClientMixin {
   bool _loaded = false;
+
+  // ✅ حسابات القيم الثابتة خارج build
+  final double emptyIconSize = 80.w;
+  final double emptyGap = 16.h;
+  final double errorIconSize = 80.w;
+  final double errorGap = 16.h;
+  final double listPadding = 16.w;
+  final double listGap = 12.h;
+  final double cardPadding = 12.w;
+  final double avatarSize = 50.w;
+  final double avatarRadius = 16.r;
+  final double avatarFontSize = 24.sp;
+  final double nameFontSize = 18.sp;
+  final double infoFontSize = 12.sp;
+  final double iconSize = 14.w;
+  final double chevronSize = 24.w;
+  final double cardElevation = 4;
 
   @override
   bool get wantKeepAlive => true;
@@ -100,20 +120,26 @@ class _CounselorStudentsScreenState extends State<CounselorStudentsScreen>
   }
 
   Widget _buildEmptyState(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.inbox_outlined, size: 80, color: Colors.grey.shade400),
-          const SizedBox(height: 16),
+          Icon(
+            Icons.inbox_outlined,
+            size: emptyIconSize,
+            color: Colors.grey.shade400,
+          ),
+          SizedBox(height: emptyGap),
           Text(
             'لا يوجد طلاب في هذه الشعبة',
-            style: Theme.of(context).textTheme.titleMedium,
+            style: theme.textTheme.titleMedium?.copyWith(fontSize: 16.sp),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8.h),
           Text(
             S.of(context).Pull_down_to_refresh,
-            style: Theme.of(context).textTheme.bodySmall,
+            style: theme.textTheme.bodySmall?.copyWith(fontSize: 12.sp),
           ),
         ],
       ),
@@ -121,18 +147,24 @@ class _CounselorStudentsScreenState extends State<CounselorStudentsScreen>
   }
 
   Widget _buildErrorState(BuildContext context, String message) {
+    final theme = Theme.of(context);
+
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.error_outline, size: 80, color: Colors.red.shade300),
-          const SizedBox(height: 16),
+          Icon(
+            Icons.error_outline,
+            size: errorIconSize,
+            color: Colors.red.shade300,
+          ),
+          SizedBox(height: errorGap),
           Text(
             message,
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.titleMedium,
+            style: theme.textTheme.titleMedium?.copyWith(fontSize: 16.sp),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8.h),
           TextButton.icon(
             onPressed: () {
               context.read<StudentsBloc>().add(
@@ -142,8 +174,8 @@ class _CounselorStudentsScreenState extends State<CounselorStudentsScreen>
                 ),
               );
             },
-            icon: const Icon(Icons.refresh),
-            label: const Text('إعادة المحاولة'),
+            icon: Icon(Icons.refresh, size: 20.w),
+            label: Text('إعادة المحاولة', style: TextStyle(fontSize: 14.sp)),
           ),
         ],
       ),
@@ -161,7 +193,7 @@ class _CounselorStudentsScreenState extends State<CounselorStudentsScreen>
         );
       },
       backgroundColor: Colors.green,
-      child: const Icon(Icons.image),
+      child: Icon(Icons.image, size: 24.w),
     );
   }
 
@@ -170,9 +202,17 @@ class _CounselorStudentsScreenState extends State<CounselorStudentsScreen>
     StudentsLoaded state,
     List<Studententity> students,
   ) {
+    final theme = Theme.of(context);
+
     return Scaffold(
-      appBar: AppBar(title: Text(widget.sectionName)),
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      appBar: AppBar(
+        title: Text(widget.sectionName),
+        centerTitle: true,
+        elevation: 0,
+        backgroundColor: theme.scaffoldBackgroundColor,
+        foregroundColor: theme.colorScheme.onSurface,
+      ),
+      backgroundColor: theme.scaffoldBackgroundColor,
       floatingActionButton: _buildFloatingActionButton(context),
       body: Stack(
         children: [
@@ -185,10 +225,14 @@ class _CounselorStudentsScreenState extends State<CounselorStudentsScreen>
                 ),
               );
             },
+            color: Colors.transparent,
+            backgroundColor: Colors.transparent,
+            strokeWidth: 0,
             child: ListView.separated(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(listPadding),
+              physics: const AlwaysScrollableScrollPhysics(),
               itemCount: students.length,
-              separatorBuilder: (_, _) => const SizedBox(height: 12),
+              separatorBuilder: (_, _) => SizedBox(height: listGap),
               itemBuilder: (context, index) {
                 final student = students[index];
                 return _buildStudentCard(context, student);
@@ -196,14 +240,14 @@ class _CounselorStudentsScreenState extends State<CounselorStudentsScreen>
             ),
           ),
           if (state.isRevalidating)
-            const Positioned(
+            Positioned(
               top: 0,
               left: 0,
               right: 0,
               child: LinearProgressIndicator(
                 backgroundColor: Colors.transparent,
                 color: Colors.blue,
-                minHeight: 3,
+                minHeight: 3.h,
               ),
             ),
         ],
@@ -213,6 +257,7 @@ class _CounselorStudentsScreenState extends State<CounselorStudentsScreen>
 
   Widget _buildStudentCard(BuildContext context, Studententity student) {
     final theme = Theme.of(context);
+
     return InkWell(
       onTap: () {
         print(student.localStudentNumber);
@@ -226,15 +271,17 @@ class _CounselorStudentsScreenState extends State<CounselorStudentsScreen>
         );
       },
       child: Card(
-        elevation: 4,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        elevation: cardElevation,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.r),
+        ),
         child: Padding(
-          padding: const EdgeInsets.all(12),
+          padding: EdgeInsets.all(cardPadding),
           child: Row(
             children: [
               Container(
-                width: 50,
-                height: 50,
+                width: avatarSize,
+                height: avatarSize,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     colors: [
@@ -244,55 +291,64 @@ class _CounselorStudentsScreenState extends State<CounselorStudentsScreen>
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(avatarRadius),
                 ),
                 child: Center(
                   child: Text(
                     student.name?.isNotEmpty == true ? student.name![0] : '?',
-                    style: const TextStyle(
-                      fontSize: 24,
+                    style: TextStyle(
+                      fontSize: avatarFontSize,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
                   ),
                 ),
               ),
-              const SizedBox(width: 16),
+              SizedBox(width: 16.w),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       student.name ?? 'طالب بدون اسم',
-                      style: const TextStyle(
-                        fontSize: 18,
+                      style: TextStyle(
+                        fontSize: nameFontSize,
                         fontWeight: FontWeight.bold,
+                        color: theme.colorScheme.onSurface,
                       ),
                     ),
-                    const SizedBox(height: 4),
+                    SizedBox(height: 4.h),
                     Row(
                       children: [
-                        Icon(Icons.person, size: 14, color: Colors.grey[600]),
-                        const SizedBox(width: 4),
+                        Icon(
+                          Icons.person,
+                          size: iconSize,
+                          color: theme.colorScheme.outline,
+                        ),
+                        SizedBox(width: 4.w),
                         Text(
                           "${S.of(context).guardianName}  ${student.guardianName ?? 'غير محدد'}",
                           style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.grey[600],
+                            fontSize: infoFontSize,
+                            color: theme.colorScheme.outline,
                           ),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 2),
+                    SizedBox(height: 2.h),
                     Row(
                       children: [
-                        Icon(Icons.phone, size: 14, color: Colors.grey[600]),
-                        const SizedBox(width: 4),
+                        Icon(
+                          Icons.phone,
+                          size: iconSize,
+                          color: theme.colorScheme.outline,
+                        ),
+                        SizedBox(width: 4.w),
                         Text(
                           student.guardianPhone ?? 'غير محدد',
                           style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.grey[600],
+                            fontSize: infoFontSize,
+                            color: theme.colorScheme.outline,
                           ),
                         ),
                       ],
@@ -300,7 +356,11 @@ class _CounselorStudentsScreenState extends State<CounselorStudentsScreen>
                   ],
                 ),
               ),
-              Icon(Icons.chevron_right, color: theme.colorScheme.primary),
+              Icon(
+                Icons.chevron_right,
+                color: theme.colorScheme.primary,
+                size: chevronSize,
+              ),
             ],
           ),
         ),

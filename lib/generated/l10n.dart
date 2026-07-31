@@ -1000,6 +1000,146 @@ class S {
   String get role_admin {
     return Intl.message('Admin', name: 'role_admin', desc: '', args: []);
   }
+
+  /// `Password must be at least 6 characters`
+  String get password_min_length {
+    return Intl.message(
+      'Password must be at least 6 characters',
+      name: 'password_min_length',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add Mark`
+  String get add_mark {
+    return Intl.message('Add Mark', name: 'add_mark', desc: '', args: []);
+  }
+
+  /// `Edit Mark`
+  String get edit_mark {
+    return Intl.message('Edit Mark', name: 'edit_mark', desc: '', args: []);
+  }
+
+  /// `No marks for semester 1`
+  String get no_marks_semester_1 {
+    return Intl.message(
+      'No marks for semester 1',
+      name: 'no_marks_semester_1',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No marks for semester 2`
+  String get no_marks_semester_2 {
+    return Intl.message(
+      'No marks for semester 2',
+      name: 'no_marks_semester_2',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Quiz Type`
+  String get quiz_type {
+    return Intl.message('Quiz Type', name: 'quiz_type', desc: '', args: []);
+  }
+
+  /// `Quiz 1`
+  String get quiz_type_1 {
+    return Intl.message('Quiz 1', name: 'quiz_type_1', desc: '', args: []);
+  }
+
+  /// `Quiz 2`
+  String get quiz_type_2 {
+    return Intl.message('Quiz 2', name: 'quiz_type_2', desc: '', args: []);
+  }
+
+  /// `Homework`
+  String get quiz_type_3 {
+    return Intl.message('Homework', name: 'quiz_type_3', desc: '', args: []);
+  }
+
+  /// `Final Exam`
+  String get quiz_type_5 {
+    return Intl.message('Final Exam', name: 'quiz_type_5', desc: '', args: []);
+  }
+
+  /// `Score`
+  String get score {
+    return Intl.message('Score', name: 'score', desc: '', args: []);
+  }
+
+  /// `Max Score`
+  String get max_score {
+    return Intl.message('Max Score', name: 'max_score', desc: '', args: []);
+  }
+
+  /// `out of`
+  String get out_of {
+    return Intl.message('out of', name: 'out_of', desc: '', args: []);
+  }
+
+  /// `Please select a semester`
+  String get please_select_semester {
+    return Intl.message(
+      'Please select a semester',
+      name: 'please_select_semester',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please select a quiz type`
+  String get please_select_quiz_type {
+    return Intl.message(
+      'Please select a quiz type',
+      name: 'please_select_quiz_type',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter the score`
+  String get please_enter_score {
+    return Intl.message(
+      'Please enter the score',
+      name: 'please_enter_score',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter the max score`
+  String get please_enter_max_score {
+    return Intl.message(
+      'Please enter the max score',
+      name: 'please_enter_max_score',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter a valid number`
+  String get please_enter_valid_number {
+    return Intl.message(
+      'Please enter a valid number',
+      name: 'please_enter_valid_number',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit`
+  String get edit {
+    return Intl.message('Edit', name: 'edit', desc: '', args: []);
+  }
+
+  /// `Delete`
+  String get delete {
+    return Intl.message('Delete', name: 'delete', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

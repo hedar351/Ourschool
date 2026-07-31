@@ -1,5 +1,8 @@
+// lib/features/Counselor/UI/widget/ShowDialog/showAddAttendanceDialog.dart
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school/features/Counselor/UI/bloc/attendance/attendance_bloc.dart';
 import 'package:school/generated/l10n.dart';
 
@@ -8,6 +11,25 @@ void showAddAttendanceDialog(BuildContext context, int? localStudentNumber) {
   DateTime selectedDate = DateTime(now.year, now.month, now.day);
 
   final attendanceBloc = context.read<AttendanceBloc>();
+
+  // ✅ حسابات القيم الثابتة خارج build
+  final double titleIconSize = 24.w;
+  final double titleFontSize = 18.sp;
+  final double titleGap = 10.w;
+  final double containerPaddingHorizontal = 16.w;
+  final double containerPaddingVertical = 12.h;
+  final double containerBorderRadius = 12.r;
+  final double calendarIconSize = 22.w;
+  final double calendarGap = 12.w;
+  final double calendarFontSize = 16.sp;
+  final double editIconSize = 20.w;
+  final double editButtonSize = 36.w;
+  final double infoIconSize = 14.w;
+  final double infoFontSize = 12.sp;
+  final double contentGap = 12.h;
+  final double infoGap = 6.w;
+  final double buttonBorderRadius = 8.r;
+  final double dialogBorderRadius = 8.r;
 
   showDialog(
     context: context,
@@ -23,12 +45,13 @@ void showAddAttendanceDialog(BuildContext context, int? localStudentNumber) {
                   Icon(
                     Icons.event_available,
                     color: Theme.of(context).colorScheme.primary,
+                    size: titleIconSize,
                   ),
-                  const SizedBox(width: 10),
+                  SizedBox(width: titleGap),
                   Text(
                     ' ',
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: titleFontSize,
                       fontWeight: FontWeight.bold,
                       color: Theme.of(context).colorScheme.onSurface,
                     ),
@@ -39,31 +62,34 @@ void showAddAttendanceDialog(BuildContext context, int? localStudentNumber) {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 12,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: containerPaddingHorizontal,
+                      vertical: containerPaddingVertical,
                     ),
                     decoration: BoxDecoration(
                       border: Border.all(
                         color: Theme.of(
                           context,
                         ).colorScheme.primary.withOpacity(0.3),
+                        width: 1.w,
                       ),
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(
+                        containerBorderRadius,
+                      ),
                     ),
                     child: Row(
                       children: [
                         Icon(
                           Icons.calendar_today,
                           color: Theme.of(context).colorScheme.primary,
-                          size: 22,
+                          size: calendarIconSize,
                         ),
-                        const SizedBox(width: 12),
+                        SizedBox(width: calendarGap),
                         Expanded(
                           child: Text(
                             _formatDate(selectedDate),
                             style: TextStyle(
-                              fontSize: 16,
+                              fontSize: calendarFontSize,
                               fontWeight: FontWeight.w500,
                               color: Theme.of(context).colorScheme.onSurface,
                             ),
@@ -76,7 +102,6 @@ void showAddAttendanceDialog(BuildContext context, int? localStudentNumber) {
                               initialDate: selectedDate,
                               firstDate: DateTime(2000),
                               lastDate: DateTime.now(),
-                              // locale: const Locale('ar'),
                               builder: (context, child) {
                                 return Theme(
                                   data: Theme.of(context).copyWith(
@@ -156,32 +181,32 @@ void showAddAttendanceDialog(BuildContext context, int? localStudentNumber) {
                           icon: Icon(
                             Icons.edit_calendar,
                             color: Theme.of(context).colorScheme.primary,
-                            size: 20,
+                            size: editIconSize,
                           ),
-                          splashRadius: 20,
+                          splashRadius: 20.r,
                           padding: EdgeInsets.zero,
-                          constraints: const BoxConstraints(
-                            minWidth: 36,
-                            minHeight: 36,
+                          constraints: BoxConstraints(
+                            minWidth: editButtonSize,
+                            minHeight: editButtonSize,
                           ),
                         ),
                       ],
                     ),
                   ),
-                  const SizedBox(height: 12),
+                  SizedBox(height: contentGap),
 
                   Row(
                     children: [
                       Icon(
                         Icons.info_outline,
-                        size: 14,
+                        size: infoIconSize,
                         color: Colors.grey.shade500,
                       ),
-                      const SizedBox(width: 6),
+                      SizedBox(width: infoGap),
                       Text(
                         'السنة: ${selectedDate.year}',
                         style: TextStyle(
-                          fontSize: 12,
+                          fontSize: infoFontSize,
                           color: Colors.grey.shade500,
                         ),
                       ),
@@ -217,10 +242,14 @@ void showAddAttendanceDialog(BuildContext context, int? localStudentNumber) {
                     backgroundColor: Theme.of(context).colorScheme.primary,
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(buttonBorderRadius),
                     ),
+                    minimumSize: Size(80.w, 40.h),
                   ),
-                  child: Text(S.of(context).Log),
+                  child: Text(
+                    S.of(context).Log,
+                    style: TextStyle(fontSize: 14.sp),
+                  ),
                 ),
               ],
             );

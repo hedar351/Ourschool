@@ -1,5 +1,8 @@
+// lib/features/Counselor/UI/widget/ShowDialog/showAddWarningDialog.dart
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school/features/Counselor/UI/bloc/PostWarnings/post_warnings_bloc.dart';
 import 'package:school/features/Counselor/UI/bloc/PostWarnings/post_warnings_event.dart';
 import 'package:school/features/Counselor/UI/bloc/PostWarnings/post_warnings_state.dart';
@@ -12,6 +15,15 @@ void showAddWarningDialog(BuildContext context, Studententity? student) {
   final reasonController = TextEditingController();
   String? selectedType;
   final bloc = context.read<PostWarningBloc>();
+
+  // ✅ قيم ثابتة
+  // final double dialogPadding = 16.w;
+  final double containerPaddingHorizontal = 12.w;
+  final double containerPaddingVertical = 8.h;
+  final double fontSize = 16.sp;
+  final double iconSize = 24.w;
+  // final double textFieldFontSize = 14.sp;
+  final double borderRadius = 8.r;
 
   showDialog(
     context: context,
@@ -34,19 +46,22 @@ void showAddWarningDialog(BuildContext context, Studententity? student) {
           },
           builder: (context, state) {
             return AlertDialog(
-              title: Text(S.of(context).add_warning_title),
+              title: Text(
+                S.of(context).add_warning_title,
+                style: TextStyle(fontSize: 18.sp),
+              ),
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Container(
                     width: double.infinity,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 8,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: containerPaddingHorizontal,
+                      vertical: containerPaddingVertical,
                     ),
                     decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: Colors.grey, width: 1.w),
+                      borderRadius: BorderRadius.circular(borderRadius),
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -58,43 +73,56 @@ void showAddWarningDialog(BuildContext context, Studententity? student) {
                                 : selectedType == 'Behavior'
                                 ? S.of(context).type_behavior
                                 : S.of(context).type_dismissal_warning,
-                            style: const TextStyle(fontSize: 16),
+                            style: TextStyle(fontSize: fontSize),
                           ),
                         ),
                         PopupMenuButton<String>(
-                          icon: const Icon(Icons.arrow_drop_down),
+                          icon: Icon(Icons.arrow_drop_down, size: iconSize),
                           onSelected: (value) {
                             selectedType = value;
                           },
                           itemBuilder: (BuildContext context) => [
                             PopupMenuItem(
                               value: 'Behavior',
-                              child: Text(S.of(context).type_behavior),
+                              child: Text(
+                                S.of(context).type_behavior,
+                                style: TextStyle(fontSize: 14.sp),
+                              ),
                             ),
                             PopupMenuItem(
                               value: 'DismissalWarning',
-                              child: Text(S.of(context).type_dismissal_warning),
+                              child: Text(
+                                S.of(context).type_dismissal_warning,
+                                style: TextStyle(fontSize: 14.sp),
+                              ),
                             ),
                           ],
                         ),
                       ],
                     ),
                   ),
-                  const SizedBox(height: 12),
+                  SizedBox(height: 12.h),
                   TextField(
                     controller: reasonController,
                     decoration: InputDecoration(
                       labelText: S.of(context).reason,
-                      border: const OutlineInputBorder(),
+                      labelStyle: TextStyle(fontSize: 14.sp),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8.r),
+                      ),
                     ),
                     maxLines: 3,
+                    style: TextStyle(fontSize: 14.sp),
                   ),
                 ],
               ),
               actions: [
                 TextButton(
                   onPressed: () => Navigator.pop(dialogContext),
-                  child: Text(S.of(context).cancel),
+                  child: Text(
+                    S.of(context).cancel,
+                    style: TextStyle(fontSize: 14.sp),
+                  ),
                 ),
                 ElevatedButton(
                   onPressed: () {
@@ -114,12 +142,16 @@ void showAddWarningDialog(BuildContext context, Studententity? student) {
                         SnackBar(
                           content: Text(
                             S.of(context).please_select_type_and_reason,
+                            style: TextStyle(fontSize: 14.sp),
                           ),
                         ),
                       );
                     }
                   },
-                  child: Text(S.of(context).add),
+                  child: Text(
+                    S.of(context).add,
+                    style: TextStyle(fontSize: 14.sp),
+                  ),
                 ),
               ],
             );
