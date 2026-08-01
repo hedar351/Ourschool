@@ -117,7 +117,6 @@ class _TeacherStudentsListScreenState extends State<TeacherStudentsListScreen> {
   }
 
   AppBar _buildAppBar(BuildContext context) {
-    final theme = Theme.of(context);
     return AppBar(
       title: Text(
         '${widget.gradeName} - ${widget.sectionName}',
@@ -125,8 +124,6 @@ class _TeacherStudentsListScreenState extends State<TeacherStudentsListScreen> {
       ),
       centerTitle: true,
       elevation: 0,
-      backgroundColor: theme.scaffoldBackgroundColor,
-      foregroundColor: theme.colorScheme.onSurface,
     );
   }
 
@@ -430,6 +427,7 @@ class _TeacherStudentsListScreenState extends State<TeacherStudentsListScreen> {
               builder: (_) => TeacherStudentProfileScreen(
                 localStudentNumber: student.localStudentNumber!,
                 schoolId: widget.school.schoolId!,
+                subjectId: widget.localSubjectId,
               ),
             ),
           );

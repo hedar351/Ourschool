@@ -5,11 +5,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school/features/Auth/domain/entities/auth_entities.dart';
 import 'package:school/features/Bulletin/ui/pages/bulletin_screen.dart';
 import 'package:school/features/Setting/Settingscreen.dart';
-import 'package:school/features/Teacher/ui/page/TeacherProfileScreen.dart';
+import 'package:school/features/Teacher/ui/page/teacher_subjects_screen.dart';
 import 'package:school/generated/l10n.dart';
 
 import '../Counselor/UI/page/ClassScreen.dart';
-import '../Student/ui/page/AcademicRecordScreen.dart';
+import '../Student/ui/page/academic_record_screen.dart  .dart';
 
 class NavHomePage extends StatefulWidget {
   final AuthEntities user;
@@ -46,7 +46,7 @@ class _NavHomePageState extends State<NavHomePage>
       widget.user.role == "Student"
           ? const AcademicRecordScreen()
           : widget.user.role == "Teacher"
-          ? const TeacherProfileScreen()
+          ? const TeacherSubjectsScreen()
           : const ClassScreen(),
       const SettingsScreen(),
     ];

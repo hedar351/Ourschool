@@ -7,7 +7,7 @@ class SemesterMarks extends Equatable {
   final double? quiz2;
   final double? homework;
   final double? finalExam;
-  final double? totle;
+  final double? total;
 
   const SemesterMarks({
     required this.localSubjectId,
@@ -16,7 +16,7 @@ class SemesterMarks extends Equatable {
     required this.quiz2,
     required this.homework,
     required this.finalExam,
-    required this.totle,
+    required this.total,
   });
   @override
   List<Object?> get props => [
@@ -26,6 +26,6 @@ class SemesterMarks extends Equatable {
     quiz2,
     homework,
     finalExam,
-    totle,
+    total,
   ];
 }

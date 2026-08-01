@@ -14,6 +14,7 @@ import 'package:school/generated/l10n.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'features/SchoolsInfo/UI/bloc/school_info_bloc.dart';
+import 'features/Student/ui/bloc/student_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        // BlocProvider<StudentBloc>(create: (context) => di.sl<StudentBloc>()),
         BlocProvider<SchoolInfoBloc>(
           create: (context) => di.sl<SchoolInfoBloc>(),
         ),
@@ -50,7 +52,10 @@ class MyApp extends StatelessWidget {
           create: (context) =>
               di.sl<BulletinBloc>()..add(RefreshBulletinsEvent()),
         ),
-
+        BlocProvider(
+          create: (context) =>
+              di.sl<StudentBloc>()..add(RefreshStudentProfileEvent()),
+        ),
         BlocProvider(create: (context) => LocaleCubit()),
         BlocProvider(create: (context) => ThemeCubit()),
         // BlocProvider(create: (context) => di.sl<BulletinBloc>()),

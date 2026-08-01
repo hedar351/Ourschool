@@ -2,14 +2,6 @@ import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:school/features/Teacher/data/Model/TeacherStudentProfileModel/SemesterMarksModel.dart';
-import 'package:school/features/Teacher/data/Model/TeacherStudentProfileModel/TeacherStudentProfileModel.dart';
-import 'package:school/features/Teacher/data/dataSources/Marks/MarksRemoteDataSources.dart';
-import 'package:school/features/Teacher/domain/UseCases/EditMarkUseCase.dart';
-import 'package:school/features/Teacher/domain/UseCases/addMarksUseCase.dart';
-import 'package:school/features/Teacher/domain/UseCases/deleteMarksUseCase.dart';
-import 'package:school/features/Teacher/ui/bloc/MarkBloc/mark_bloc.dart';
-import 'package:school/features/Teacher/ui/bloc/TeacherStudentProflie/bloc/teacher_student_proflie_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // ----- Auth -----
@@ -76,28 +68,44 @@ import '../features/SchoolsInfo/data/models/SubjectsModel.dart';
 import '../features/SchoolsInfo/data/models/TeacherInfoModel.dart';
 import '../features/SchoolsInfo/domain/Repo/SchoolRepository.dart';
 import '../features/SchoolsInfo/domain/UseCase/SchoolwithTeacherUseCase.dart';
+// ----- Student -----
+import '../features/Student/data/DataSource/StudentCacheDataSource.dart';
+import '../features/Student/data/DataSource/StudentRemoteDataSource.dart';
+import '../features/Student/data/Model/ActivitiesModel.dart';
+import '../features/Student/data/Model/StatisticsModel.dart';
+import '../features/Student/data/Model/StudentFullProfileModel.dart';
+import '../features/Student/data/Model/StudentInfoModel.dart';
+import '../features/Student/data/Model/SummonsModel.dart';
+import '../features/Student/data/RepoImp/StudentRepoImp.dart';
+import '../features/Student/domain/Repo/StudentRepo.dart';
+import '../features/Student/domain/useCase/GetFullProfileUseCase.dart';
+import '../features/Student/ui/bloc/student_bloc.dart';
 // ----- Teacher -----
 import '../features/Teacher/data/Model/SchoolModel.dart';
 import '../features/Teacher/data/Model/SubjectModel.dart';
 import '../features/Teacher/data/Model/TeacherFullProfileModel.dart';
 import '../features/Teacher/data/Model/TeacherModel.dart';
+import '../features/Teacher/data/Model/TeacherStudentProfileModel/SemesterMarksModel.dart';
+import '../features/Teacher/data/Model/TeacherStudentProfileModel/TeacherStudentProfileModel.dart';
 import '../features/Teacher/data/RepoImp/TeacherRepoImp.dart';
 import '../features/Teacher/data/dataSources/GetTeacherFullprofile/cacheDataGetTeacherFullprofile.dart';
 import '../features/Teacher/data/dataSources/GetTeacherFullprofile/remoteDataGetTeacherFullProfile.dart';
+import '../features/Teacher/data/dataSources/Marks/MarksRemoteDataSources.dart';
 import '../features/Teacher/data/dataSources/TeacherStudentProfile/CacheTeacherStudentProfile.dart';
 import '../features/Teacher/data/dataSources/TeacherStudentProfile/RemoteTeacherStudentProfile.dart';
 import '../features/Teacher/data/dataSources/TeacherStudentsList/CacheTeacherStudentsList.dart';
 import '../features/Teacher/data/dataSources/TeacherStudentsList/RemotedataTeacherStudentsList.dart';
 import '../features/Teacher/domain/Repo/TeacherRepo.dart';
+import '../features/Teacher/domain/UseCases/EditMarkUseCase.dart';
 import '../features/Teacher/domain/UseCases/GetStudentsUseCase.dart';
 import '../features/Teacher/domain/UseCases/GetTeacherFullProfile.dart';
 import '../features/Teacher/domain/UseCases/GetTeacherSudentProfileUseCase.dart';
+import '../features/Teacher/domain/UseCases/addMarksUseCase.dart';
+import '../features/Teacher/domain/UseCases/deleteMarksUseCase.dart';
+import '../features/Teacher/ui/bloc/MarkBloc/mark_bloc.dart';
 import '../features/Teacher/ui/bloc/StudentListBloc/teacher_student_list_bloc.dart';
 import '../features/Teacher/ui/bloc/TeacherBloc/teacher_bloc.dart';
-// ======================================================================
-// ====== IMPORTS حسب الأدوار ======
-// ======================================================================
-
+import '../features/Teacher/ui/bloc/TeacherStudentProflie/bloc/teacher_student_proflie_bloc.dart';
 // ----- Core -----
 import 'network.dart';
 
@@ -136,16 +144,25 @@ Future<void> init() async {
   Hive.registerAdapter(SubjectModelAdapter());
 
   // Schools Info
-  Hive.registerAdapter(SubjectsModelAdapter()); // 14
-  Hive.registerAdapter(SectionsModelAdapter()); // 15
-  Hive.registerAdapter(TeacherInfoModelAdapter()); // 16
-  Hive.registerAdapter(SchoolInfoModelAdapter()); // 17
-  Hive.registerAdapter(SchoolWithTeacherModelAdapter()); // 18
+  Hive.registerAdapter(SubjectsModelAdapter());
+  Hive.registerAdapter(SectionsModelAdapter());
+  Hive.registerAdapter(TeacherInfoModelAdapter());
+  Hive.registerAdapter(SchoolInfoModelAdapter());
+  Hive.registerAdapter(SchoolWithTeacherModelAdapter());
 
-  Hive.registerAdapter(SemesterMarksModelAdapter()); // 19
-  Hive.registerAdapter(TeacherStudentProfileModelAdapter()); // 20
+  // Teacher Student Profile
+  Hive.registerAdapter(SemesterMarksModelAdapter());
+  Hive.registerAdapter(TeacherStudentProfileModelAdapter());
 
+  // Attendance
   Hive.registerAdapter(AttendancemodelAdapter());
+
+  // Student
+  Hive.registerAdapter(StudentInfoModelAdapter());
+  Hive.registerAdapter(StatisticsModelAdapter());
+  Hive.registerAdapter(ActivitiesModelAdapter());
+  Hive.registerAdapter(SummonsModelAdapter());
+  Hive.registerAdapter(StudentFullProfileModelAdapter());
 
   // ----- 1.2 Open Boxes -----
   final bulletinbox = await Hive.openBox<Bulletinmodel>('bulletinBox');
@@ -168,6 +185,9 @@ Future<void> init() async {
       await Hive.openBox<TeacherStudentProfileModel>(
         'teacherStudentProfileBox',
       );
+  final studentProfileBoxNew = await Hive.openBox<StudentFullProfileModel>(
+    'studentProfileBox',
+  );
 
   print('✅ All Hive boxes opened');
 
@@ -181,17 +201,22 @@ Future<void> init() async {
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
 
   // ====================================================================
-  // 3. AUTH FEATURE
+  // 3. STUDENT FEATURE (يجب أن يكون قبل Auth)
+  // ====================================================================
+  _initStudent(studentProfileBoxNew);
+
+  // ====================================================================
+  // 4. AUTH FEATURE
   // ====================================================================
   _initAuth();
 
   // ====================================================================
-  // 4. BULLETIN FEATURE
+  // 5. BULLETIN FEATURE
   // ====================================================================
   _initBulletin(bulletinbox);
 
   // ====================================================================
-  // 5. COUNSELOR FEATURE
+  // 6. COUNSELOR FEATURE
   // ====================================================================
   _initCounselor(
     gradebox: gradebox,
@@ -200,7 +225,7 @@ Future<void> init() async {
   );
 
   // ====================================================================
-  // 6. TEACHER FEATURE
+  // 7. TEACHER FEATURE
   // ====================================================================
   _initTeacher(
     teacherFullProfileBox: teacherFullProfileBox,
@@ -210,13 +235,15 @@ Future<void> init() async {
   );
 
   // ====================================================================
-  // 7. SCHOOLS INFO FEATURE
+  // 8. SCHOOLS INFO FEATURE
   // ====================================================================
   _initSchoolsInfo(schoolBox: schoolBox);
+
+  print('✅ All dependencies registered successfully!');
 }
 
 // ======================================================================
-// ====== 3. AUTH ======
+// ====== AUTH FEATURE ======
 // ======================================================================
 
 void _initAuth() {
@@ -237,16 +264,22 @@ void _initAuth() {
     ),
   );
 
-  // Use Cases
-  sl.registerLazySingleton(() => LoginUseCase(repository: sl()));
-  sl.registerLazySingleton(() => GetUserUsecase(repository: sl()));
-  sl.registerLazySingleton(() => LogOutUseCase(repository: sl()));
+  // ----- Use Cases (مع تمرير studentCacheDataSource) -----
+  sl.registerLazySingleton(
+    () => LoginUseCase(repository: sl(), studentCacheDataSource: sl()),
+  );
 
-  // Bloc
+  sl.registerLazySingleton(() => GetUserUsecase(repository: sl()));
+
+  sl.registerLazySingleton(
+    () => LogOutUseCase(repository: sl(), studentCacheDataSource: sl()),
+  );
+
+  // ----- Bloc (نظيف وبسيط) -----
   sl.registerFactory(
     () => AuthBloc(
-      getUserUsecase: sl(),
       loginUseCase: sl(),
+      getUserUsecase: sl(),
       logoutUseCase: sl(),
       cachedatasource: sl(),
       cachedatasourceGrade: sl(),
@@ -257,10 +290,12 @@ void _initAuth() {
       cacheTeacherStudentProfile: sl(),
     ),
   );
+
+  print('✅ Auth feature registered');
 }
 
 // ======================================================================
-// ====== 4. BULLETIN ======
+// ====== BULLETIN FEATURE ======
 // ======================================================================
 
 void _initBulletin(Box<Bulletinmodel> bulletinbox) {
@@ -284,10 +319,12 @@ void _initBulletin(Box<Bulletinmodel> bulletinbox) {
   sl.registerFactory(
     () => BulletinBloc(getbulletinsUseCase: sl(), bulletinRepo: sl()),
   );
+
+  print('✅ Bulletin feature registered');
 }
 
 // ======================================================================
-// ====== 5. COUNSELOR ======
+// ====== COUNSELOR FEATURE ======
 // ======================================================================
 
 void _initCounselor({
@@ -360,6 +397,7 @@ void _initCounselor({
   sl.registerLazySingleton(() => AddAttendanceUseCase(repository: sl()));
   sl.registerLazySingleton(() => DeleteAttendanceUseCase(repository: sl()));
   sl.registerLazySingleton(() => Postwarningsusecase(repository: sl()));
+
   // ----- 5.9 Blocs -----
   sl.registerFactory(
     () => GradeBloc(counselorRepo: sl(), gradeAndSectionUseCase: sl()),
@@ -380,10 +418,12 @@ void _initCounselor({
       deleteAttendanceUseCase: sl(),
     ),
   );
+
+  print('✅ Counselor feature registered');
 }
 
 // ======================================================================
-// ====== 7. SCHOOLS INFO ======
+// ====== SCHOOLS INFO FEATURE ======
 // ======================================================================
 
 void _initSchoolsInfo({required Box<SchoolWithTeacherModel> schoolBox}) {
@@ -407,10 +447,45 @@ void _initSchoolsInfo({required Box<SchoolWithTeacherModel> schoolBox}) {
   sl.registerFactory(
     () => SchoolInfoBloc(getSchoolsUseCase: sl(), repository: sl()),
   );
+
+  print('✅ Schools Info feature registered');
 }
 
 // ======================================================================
-// ====== 6. TEACHER ======
+// ====== STUDENT FEATURE ======
+// ======================================================================
+
+void _initStudent(Box<StudentFullProfileModel> studentProfileBox) {
+  sl.registerLazySingleton(() => studentProfileBox);
+
+  // Student Remote Data Source
+  sl.registerLazySingleton<StudentRemoteDataSource>(
+    () => StudentRemoteDataSourceImpl(client: sl(), authLocalDataSource: sl()),
+  );
+
+  // Student Cache Data Source
+  sl.registerLazySingleton<StudentCacheDataSource>(
+    () => StudentCacheDataSourceImpl(box: sl()),
+  );
+
+  // Student Repository
+  sl.registerLazySingleton<StudentRepo>(
+    () => StudentRepoImp(remote: sl(), cache: sl(), networkInfo: sl()),
+  );
+
+  // Student UseCase
+  sl.registerLazySingleton(() => Getfullprofileusecase(repo: sl()));
+
+  // Student Bloc
+  sl.registerLazySingleton(
+    () => StudentBloc(getFullProfileUseCase: sl(), studentRepo: sl()),
+  );
+
+  print('✅ Student feature registered');
+}
+
+// ======================================================================
+// ====== TEACHER FEATURE ======
 // ======================================================================
 
 void _initTeacher({
@@ -441,7 +516,7 @@ void _initTeacher({
     () => CacheTeacherStudentsListImp(box: studentsBySectionBox),
   );
 
-  // ----- 6.3 Teacher Student Profile (new) -----
+  // ----- 6.3 Teacher Student Profile -----
   sl.registerLazySingleton<RemoteTeacherStudentProfile>(
     () => RemoteTeacherStudentProfileImpl(
       client: sl(),
@@ -476,10 +551,9 @@ void _initTeacher({
     () => Getteachersudentprofileusecase(repository: sl()),
   );
   sl.registerLazySingleton(() => Addmarksusecase(repository: sl()));
-
   sl.registerLazySingleton(() => Deletemarksusecase(repository: sl()));
-
   sl.registerLazySingleton(() => Editmarkusecase(repository: sl()));
+
   // ----- 6.6 Blocs -----
   sl.registerFactory(() => TeacherBloc(teacherRepo: sl()));
   sl.registerFactory(() => TeacherStudentListBloc(teacherRepo: sl()));
@@ -496,4 +570,6 @@ void _initTeacher({
       editMarksUseCase: sl(),
     ),
   );
+
+  print('✅ Teacher feature registered');
 }

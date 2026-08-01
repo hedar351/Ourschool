@@ -13,7 +13,6 @@ import 'package:school/features/Counselor/UI/widget/MarkCard.dart';
 import 'package:school/features/Counselor/UI/widget/ShowDialog/ShowAttendanceDialog.dart';
 import 'package:school/features/Counselor/UI/widget/ShowDialog/showAddAttendanceDialog.dart';
 import 'package:school/features/Counselor/UI/widget/ShowDialog/showAddWarningDialog.dart';
-import 'package:school/features/Counselor/UI/widget/ShowDialog/show_subjects_dialog.dart';
 import 'package:school/features/Counselor/UI/widget/ShowDialog/show_warnings_dialog.dart';
 import 'package:school/features/Counselor/UI/widget/StudentInfoCard.dart';
 import 'package:school/features/Counselor/UI/widget/section_card_widget.dart';
@@ -45,7 +44,7 @@ class _CounsolerStudentDetailScreenState
   final double _gapLarge = 24.h;
   final double _gapMedium = 16.h;
   final double _gapSmall = 12.h;
-  final double _elevation = 6;
+  // final double _elevation = 6;
 
   @override
   Widget build(BuildContext context) {
@@ -186,7 +185,7 @@ class _CounsolerStudentDetailScreenState
   ) {
     final theme = Theme.of(context);
     final student = profile.studententity;
-    final subjects = profile.subjectsentity ?? [];
+    // final subjects = profile.subjectsentity ?? [];
     final marks = profile.makrentity;
     final warnings = profile.warningsentity ?? [];
     final attendance = profile.attendance ?? [];
@@ -289,15 +288,6 @@ class _CounsolerStudentDetailScreenState
                           ),
                         ),
                       ],
-                    ),
-                    SizedBox(height: _gapMedium),
-
-                    // ====== بطاقة المواد ======
-                    SectionCard(
-                      icon: Icons.book,
-                      title: S.of(context).subjects_title.trim(),
-                      count: subjects.length,
-                      onTap: () => showSubjectsDialog(context, subjects),
                     ),
                     SizedBox(height: _gapMedium),
 

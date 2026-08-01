@@ -1140,6 +1140,66 @@ class S {
   String get delete {
     return Intl.message('Delete', name: 'delete', desc: '', args: []);
   }
+
+  /// `Academic Year Info`
+  String get academic_year_info {
+    return Intl.message(
+      'Academic Year Info',
+      name: 'academic_year_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Summons`
+  String get summons {
+    return Intl.message('Summons', name: 'summons', desc: '', args: []);
+  }
+
+  /// `Issued by`
+  String get issued_by {
+    return Intl.message('Issued by', name: 'issued_by', desc: '', args: []);
+  }
+
+  /// `Student ID`
+  String get student_id {
+    return Intl.message('Student ID', name: 'student_id', desc: '', args: []);
+  }
+
+  /// `and`
+  String get and {
+    return Intl.message('and', name: 'and', desc: '', args: []);
+  }
+
+  /// `more`
+  String get more {
+    return Intl.message('more', name: 'more', desc: '', args: []);
+  }
+
+  /// `Schedule`
+  String get schedule {
+    return Intl.message('Schedule', name: 'schedule', desc: '', args: []);
+  }
+
+  /// `Quiz 1`
+  String get quiz1 {
+    return Intl.message('Quiz 1', name: 'quiz1', desc: '', args: []);
+  }
+
+  /// `Quiz 2`
+  String get quiz2 {
+    return Intl.message('Quiz 2', name: 'quiz2', desc: '', args: []);
+  }
+
+  /// `Academic Year`
+  String get academic_year {
+    return Intl.message(
+      'Academic Year',
+      name: 'academic_year',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

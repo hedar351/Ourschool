@@ -85,7 +85,7 @@ class Bulletincard extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              entity.schoolName ?? '',
+                              entity.schoolName,
                               style: TextStyle(
                                 color: color,
                                 fontWeight: FontWeight.w600,

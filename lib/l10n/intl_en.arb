@@ -145,5 +145,15 @@
   "please_enter_max_score": "Please enter the max score",
   "please_enter_valid_number": "Please enter a valid number",
   "edit": "Edit",
-  "delete": "Delete"
+  "delete": "Delete",
+  "academic_year_info": "Academic Year Info",
+  "summons": "Summons",
+  "issued_by": "Issued by",
+  "student_id": "Student ID",
+  "and": "and",
+  "more": "more",
+  "schedule": "Schedule",
+  "quiz1": "Quiz 1",
+  "quiz2": "Quiz 2",
+  "academic_year": "Academic Year"
 }

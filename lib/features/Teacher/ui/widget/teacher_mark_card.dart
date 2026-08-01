@@ -78,7 +78,7 @@ class TeacherMarkCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(12.r),
                   ),
                   child: Text(
-                    'total: ${mark.totle ?? 0}',
+                    'total: ${mark.total ?? 0}',
                     style: TextStyle(
                       fontSize: avgFontSize,
                       fontWeight: FontWeight.bold,

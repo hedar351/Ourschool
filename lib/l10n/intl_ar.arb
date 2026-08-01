@@ -145,5 +145,15 @@
   "please_enter_max_score": "يرجى إدخال العلامة الكاملة",
   "please_enter_valid_number": "يرجى إدخال رقم صحيح",
   "edit": "تعديل",
-  "delete": "حذف"
+  "delete": "حذف",
+  "academic_year_info": "معلومات العام الدراسي",
+  "summons": "الاستدعاءات",
+  "issued_by": "صادر عن",
+  "student_id": "رقم الطالب",
+  "and": "و",
+  "more": "المزيد",
+  "schedule": "الجدول الدراسي",
+  "quiz1": "اختبار أول",
+  "quiz2": "اختبار ثاني",
+  "academic_year": "العام الدراسي"
 }

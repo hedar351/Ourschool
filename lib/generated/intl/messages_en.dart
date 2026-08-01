@@ -74,6 +74,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "Please enter your username",
     ),
     "about_app": MessageLookupByLibrary.simpleMessage("About App"),
+    "academic_year": MessageLookupByLibrary.simpleMessage("Academic Year"),
+    "academic_year_info": MessageLookupByLibrary.simpleMessage(
+      "Academic Year Info",
+    ),
     "account_not_available": MessageLookupByLibrary.simpleMessage(
       "This account is currently not available for viewing",
     ),
@@ -85,6 +89,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "affiliatedSchools": MessageLookupByLibrary.simpleMessage(
       "Affiliated Schools",
     ),
+    "and": MessageLookupByLibrary.simpleMessage("and"),
     "app_description": MessageLookupByLibrary.simpleMessage(
       "An integrated application for managing schools, students, and teachers.",
     ),
@@ -127,10 +132,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "grade_sections": m0,
     "guardianName": MessageLookupByLibrary.simpleMessage("Guardian Name:"),
     "homework": MessageLookupByLibrary.simpleMessage("Homework"),
+    "issued_by": MessageLookupByLibrary.simpleMessage("Issued by"),
     "login": MessageLookupByLibrary.simpleMessage("Login"),
     "login_success": MessageLookupByLibrary.simpleMessage("Login successful"),
     "marks_title": MessageLookupByLibrary.simpleMessage(" Marks"),
     "max_score": MessageLookupByLibrary.simpleMessage("Max Score"),
+    "more": MessageLookupByLibrary.simpleMessage("more"),
     "moreTeachers": MessageLookupByLibrary.simpleMessage("more teachers"),
     "noAdditionalInfo": MessageLookupByLibrary.simpleMessage(
       "No additional information",
@@ -184,6 +191,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "pullToRefresh": MessageLookupByLibrary.simpleMessage(
       "Pull down to refresh",
     ),
+    "quiz1": MessageLookupByLibrary.simpleMessage("Quiz 1"),
+    "quiz2": MessageLookupByLibrary.simpleMessage("Quiz 2"),
     "quiz_type": MessageLookupByLibrary.simpleMessage("Quiz Type"),
     "quiz_type_1": MessageLookupByLibrary.simpleMessage("Quiz 1"),
     "quiz_type_2": MessageLookupByLibrary.simpleMessage("Quiz 2"),
@@ -196,6 +205,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "role_counselor": MessageLookupByLibrary.simpleMessage("Counselor"),
     "role_student": MessageLookupByLibrary.simpleMessage("Student"),
     "role_teacher": MessageLookupByLibrary.simpleMessage("Teacher"),
+    "schedule": MessageLookupByLibrary.simpleMessage("Schedule"),
     "school_description": MessageLookupByLibrary.simpleMessage(
       "An integrated educational environment that aims to develop skills and build the student\'s personality in an atmosphere of values, respect, and excellence.",
     ),
@@ -218,6 +228,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "sign_in_continue": MessageLookupByLibrary.simpleMessage(
       "Sign in to continue",
     ),
+    "student_id": MessageLookupByLibrary.simpleMessage("Student ID"),
     "students": MessageLookupByLibrary.simpleMessage("Students"),
     "studentsCount": MessageLookupByLibrary.simpleMessage("student"),
     "subject": MessageLookupByLibrary.simpleMessage("Subject"),
@@ -225,6 +236,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "subjects": MessageLookupByLibrary.simpleMessage("Subjects"),
     "subjectsTaught": MessageLookupByLibrary.simpleMessage("Subjects Taught"),
     "subjects_title": MessageLookupByLibrary.simpleMessage(" Subjects"),
+    "summons": MessageLookupByLibrary.simpleMessage("Summons"),
     "teacherDetails": MessageLookupByLibrary.simpleMessage("Teacher Details"),
     "teacher_prefix": MessageLookupByLibrary.simpleMessage("Mr./Ms."),
     "teacher_profile": MessageLookupByLibrary.simpleMessage("Teacher Profile"),

@@ -29,6 +29,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   CacheDataTeacherFullProfile cacheDataTeacherFullProfile;
   CacheTeacherStudentsList cacheTeacherStudentsList;
   CacheTeacherStudentProfile cacheTeacherStudentProfile;
+  // StudentCacheDataSource studentCacheDataSource;
   AuthBloc({
     required this.cacheTeacherStudentsList,
     required this.cacheDataStudentProfile,
@@ -37,6 +38,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     required this.cachedatasourceGrade,
     required this.cacheDataTeacherFullProfile,
     required this.cacheTeacherStudentProfile,
+    // required this.studentCacheDataSource,
     required this.loginUseCase,
     required this.getUserUsecase,
     required this.logoutUseCase,
@@ -82,6 +84,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     await cacheDataTeacherFullProfile.deleteTeacherFullProfile();
     await cacheTeacherStudentsList.deleteStudents();
     await cacheTeacherStudentProfile.deleteCachedTeacherStudentProfile();
+    // await studentCacheDataSource.deleteProfile();
     result.fold(
       (failure) => emit(AuthErorr(message: mapFailureToMessage(failure))),
       (user) => emit(AuthLoaded(user: user)),
@@ -99,7 +102,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     await cacheDataStudentProfile.deleteStudentProfile();
     await cacheDataTeacherFullProfile.deleteTeacherFullProfile();
     await cacheTeacherStudentsList.deleteStudents();
-    await cacheDataStudentProfile.deleteStudentProfile();
+    // await studentCacheDataSource.deleteProfile();
 
     final result = await logoutUseCase();
     print("🟡 [Bloc] Usecase result: $result");

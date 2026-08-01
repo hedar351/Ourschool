@@ -18,7 +18,6 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen>
     with AutomaticKeepAliveClientMixin {
-  // ✅ حسابات القيم الثابتة خارج build
   final double listPadding = 16.w;
 
   final double cardRadius = 16.r;
@@ -45,6 +44,7 @@ class _SettingsScreenState extends State<SettingsScreen>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final localeCubit = context.watch<LocaleCubit>();
     final currentLocale = Localizations.localeOf(context).languageCode;
     final theme = Theme.of(context);

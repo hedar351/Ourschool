@@ -47,7 +47,7 @@ class SemesterMarksModel extends HiveObject {
       quiz2: entity.quiz2,
       homework: entity.homework,
       finalExam: entity.finalExam,
-      total: entity.totle,
+      total: entity.total,
     );
   }
 
@@ -73,7 +73,7 @@ class SemesterMarksModel extends HiveObject {
       quiz2: quiz2,
       homework: homework,
       finalExam: finalExam,
-      totle: total,
+      total: total,
     );
   }
 
@@ -82,7 +82,6 @@ class SemesterMarksModel extends HiveObject {
     return {
       'localSubjectId': localSubjectId,
       'subjectName': subjectName,
-
       'quiz1': quiz1,
       'quiz2': quiz2,
       'homework': homework,

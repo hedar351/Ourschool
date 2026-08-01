@@ -67,6 +67,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "الرجاء إدخال اسم المستخدم",
     ),
     "about_app": MessageLookupByLibrary.simpleMessage("حول التطبيق"),
+    "academic_year": MessageLookupByLibrary.simpleMessage("العام الدراسي"),
+    "academic_year_info": MessageLookupByLibrary.simpleMessage(
+      "معلومات العام الدراسي",
+    ),
     "account_not_available": MessageLookupByLibrary.simpleMessage(
       "هذا الحساب غير متوفر للعرض حالياً",
     ),
@@ -78,6 +82,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "affiliatedSchools": MessageLookupByLibrary.simpleMessage(
       "المدارس المنتسبة",
     ),
+    "and": MessageLookupByLibrary.simpleMessage("و"),
     "app_description": MessageLookupByLibrary.simpleMessage(
       "تطبيق متكامل لإدارة المدارس والطلاب والمعلمين.",
     ),
@@ -120,12 +125,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "grade_sections": m0,
     "guardianName": MessageLookupByLibrary.simpleMessage("ولي الأمر:"),
     "homework": MessageLookupByLibrary.simpleMessage("واجب"),
+    "issued_by": MessageLookupByLibrary.simpleMessage("صادر عن"),
     "login": MessageLookupByLibrary.simpleMessage("دخول"),
     "login_success": MessageLookupByLibrary.simpleMessage(
       "تم تسجيل الدخول بنجاح",
     ),
     "marks_title": MessageLookupByLibrary.simpleMessage(" العلامات"),
     "max_score": MessageLookupByLibrary.simpleMessage("العلامة الكاملة"),
+    "more": MessageLookupByLibrary.simpleMessage("المزيد"),
     "moreTeachers": MessageLookupByLibrary.simpleMessage("معلمين آخرين"),
     "noAdditionalInfo": MessageLookupByLibrary.simpleMessage(
       "لا توجد معلومات إضافية",
@@ -181,6 +188,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "pullToRefresh": MessageLookupByLibrary.simpleMessage(
       "اسحب للأسفل للتحديث",
     ),
+    "quiz1": MessageLookupByLibrary.simpleMessage("اختبار أول"),
+    "quiz2": MessageLookupByLibrary.simpleMessage("اختبار ثاني"),
     "quiz_type": MessageLookupByLibrary.simpleMessage("نوع الاختبار"),
     "quiz_type_1": MessageLookupByLibrary.simpleMessage("اختبار أول"),
     "quiz_type_2": MessageLookupByLibrary.simpleMessage("اختبار ثاني"),
@@ -192,6 +201,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "role_counselor": MessageLookupByLibrary.simpleMessage("موجه"),
     "role_student": MessageLookupByLibrary.simpleMessage("طالب"),
     "role_teacher": MessageLookupByLibrary.simpleMessage("معلم"),
+    "schedule": MessageLookupByLibrary.simpleMessage("الجدول الدراسي"),
     "school_description": MessageLookupByLibrary.simpleMessage(
       "بيئة تعليمية متكاملة تهدف إلى تطوير المهارات وبناء شخصية الطالب في جو من القيم والاحترام والتميز.",
     ),
@@ -214,6 +224,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "sign_in_continue": MessageLookupByLibrary.simpleMessage(
       "سجل الدخول للمتابعة",
     ),
+    "student_id": MessageLookupByLibrary.simpleMessage("رقم الطالب"),
     "students": MessageLookupByLibrary.simpleMessage("طلاب"),
     "studentsCount": MessageLookupByLibrary.simpleMessage("طالب"),
     "subject": MessageLookupByLibrary.simpleMessage("مادة"),
@@ -223,6 +234,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "المواد التي يدرسها",
     ),
     "subjects_title": MessageLookupByLibrary.simpleMessage(" المواد الدراسية"),
+    "summons": MessageLookupByLibrary.simpleMessage("الاستدعاءات"),
     "teacherDetails": MessageLookupByLibrary.simpleMessage("تفاصيل المعلم"),
     "teacher_prefix": MessageLookupByLibrary.simpleMessage("أ. "),
     "teacher_profile": MessageLookupByLibrary.simpleMessage(

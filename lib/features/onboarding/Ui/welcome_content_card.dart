@@ -33,7 +33,7 @@ class WelcomeContentCard extends StatelessWidget {
             Text(
               S.of(context).welcome_school,
               style: TextStyle(
-                fontSize: 24.sp,
+                fontSize: 22.sp,
                 fontWeight: FontWeight.bold,
                 color: theme.colorScheme.primary,
               ),
@@ -77,7 +77,7 @@ class WelcomeContentCard extends StatelessWidget {
               label: Text(
                 S.of(context).browse_school,
                 style: TextStyle(
-                  fontSize: 18.sp,
+                  fontSize: 17.sp,
                   fontWeight: FontWeight.w600,
                   color: theme.colorScheme.primary,
                 ),

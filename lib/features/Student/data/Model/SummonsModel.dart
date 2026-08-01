@@ -25,7 +25,11 @@ class SummonsModel extends HiveObject {
   // ----- fromEntity -----
   factory SummonsModel.fromEntity(SummonsEntity entity) {
     // SummonsEntity فارغ، نرجع قيم افتراضية
-    return SummonsModel(reason: null, date: null, createdAt: null);
+    return SummonsModel(
+      reason: entity.reason,
+      date: entity.date,
+      createdAt: entity.createdAt,
+    );
   }
 
   // ----- fromJson -----
@@ -39,7 +43,7 @@ class SummonsModel extends HiveObject {
 
   // ----- toEntity -----
   SummonsEntity toEntity() {
-    return SummonsEntity();
+    return SummonsEntity(reason: reason, date: date, createdAt: createdAt);
   }
 
   // ----- toJson -----

@@ -1,19 +1,30 @@
 import 'package:dartz/dartz.dart';
 import 'package:school/features/Auth/domain/entities/auth_entities.dart';
 import 'package:school/features/Auth/domain/repo/auth_repo.dart';
+import 'package:school/features/Student/data/DataSource/StudentCacheDataSource.dart';
 
 import '../../../../core/error/failures.dart';
 
 class LoginUseCase {
   final AuthRepo repository;
+  final StudentCacheDataSource studentCacheDataSource;
 
-  LoginUseCase({required this.repository});
+  LoginUseCase({
+    required this.repository,
+    required this.studentCacheDataSource,
+  });
 
   Future<Either<Failures, AuthEntities>> call(
     String username,
     String password,
     bool rememberMe,
   ) async {
-    return await repository.login(username, password, rememberMe);
+    try {
+      await studentCacheDataSource.deleteProfile();
+
+      return await repository.login(username, password, rememberMe);
+    } catch (e) {
+      return Left(ServerFailure());
+    }
   }
 }

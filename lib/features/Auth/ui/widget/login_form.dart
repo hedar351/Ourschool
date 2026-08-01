@@ -31,7 +31,6 @@ class LoginForm extends StatefulWidget {
 class _LoginFormState extends State<LoginForm> {
   bool _obscureText = true;
 
-  // ✅ حسابات القيم الثابتة خارج build
   final double _cardPadding = 24.w;
   final double _gapSmall = 8.h;
   final double _gapMedium = 16.h;
@@ -39,7 +38,7 @@ class _LoginFormState extends State<LoginForm> {
   final double _buttonHeight = 24.w;
   final double _buttonWidth = 50.w;
   final double _borderRadius = 16.r;
-  final double _iconSize = 64.w;
+  // final double _iconSize = 64.w;
   final double _loginFontSize = 18.sp;
 
   @override

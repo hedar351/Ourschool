@@ -36,7 +36,6 @@ class _CounselorStudentsScreenState extends State<CounselorStudentsScreen>
     with AutomaticKeepAliveClientMixin {
   bool _loaded = false;
 
-  // ✅ حسابات القيم الثابتة خارج build
   final double emptyIconSize = 80.w;
   final double emptyGap = 16.h;
   final double errorIconSize = 80.w;

@@ -29,7 +29,7 @@ void showAddAttendanceDialog(BuildContext context, int? localStudentNumber) {
   final double contentGap = 12.h;
   final double infoGap = 6.w;
   final double buttonBorderRadius = 8.r;
-  final double dialogBorderRadius = 8.r;
+  // final double dialogBorderRadius = 8.r;
 
   showDialog(
     context: context,

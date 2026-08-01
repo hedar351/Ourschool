@@ -17,21 +17,20 @@ class BulletinScreen extends StatefulWidget {
 }
 
 class _BulletinScreenState extends State<BulletinScreen>
-    with AutomaticKeepAliveClientMixin, WidgetsBindingObserver {
+    with WidgetsBindingObserver {
   late SnackBarMessage snackBarMessage;
 
   // ✅ حسابات القيم الثابتة خارج build
   final double _iconSize = 80.w;
-  final double _iconColor = 0.4;
+  // final double _iconColor = 0.4;
   final double _gapSmall = 16.h;
   final double _gapMedium = 8.h;
 
   @override
-  bool get wantKeepAlive => true;
-
+  // bool get wantKeepAlive => true;
   @override
   Widget build(BuildContext context) {
-    super.build(context);
+    // super.build(context);
 
     return BlocConsumer<BulletinBloc, BulletinState>(
       listener: (context, state) {
