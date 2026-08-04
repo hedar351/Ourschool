@@ -155,5 +155,18 @@
   "schedule": "الجدول الدراسي",
   "quiz1": "اختبار أول",
   "quiz2": "اختبار ثاني",
-  "academic_year": "العام الدراسي"
+  "academic_year": "العام الدراسي",
+  "library": "المكتبة",
+  "Bulletin": "النشرة",
+  "Stay_update_with_activities": "ابقَ على اطلاع بأحدث الأخبار والأنشطة المدرسية",
+  "preferences": "تفضيلات التطبيق",
+  "support_and_info": "الدعم والمعلومات",
+  "Books": "الكتب",
+  "My_Reservations": "حجوزاتي",
+  "search_hint": "ابحث عن كتاب أو مؤلف...",
+  "total_books": " إجمالي الكتب",
+  "search_results": "نتائج البحث",
+  "available": "متاح",
+  "reserving": "جاري الحجز",
+  "reserve_book": "حجز الكتاب"
 }

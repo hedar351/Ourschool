@@ -2,6 +2,21 @@ import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:school/features/Student/data/DataSource/library_cache_data_source.dart';
+import 'package:school/features/Student/data/DataSource/library_remote_data_source.dart';
+import 'package:school/features/Student/data/Model/LibraryModel/book_model.dart';
+import 'package:school/features/Student/data/Model/LibraryModel/reserve_book_model.dart';
+import 'package:school/features/Student/data/Model/LibraryModel/reserve_model.dart';
+import 'package:school/features/Student/data/Model/ProfilrModel/ActivitiesModel.dart';
+import 'package:school/features/Student/data/Model/ProfilrModel/StatisticsModel.dart';
+import 'package:school/features/Student/data/Model/ProfilrModel/StudentFullProfileModel.dart';
+import 'package:school/features/Student/data/Model/ProfilrModel/StudentInfoModel.dart';
+import 'package:school/features/Student/data/Model/ProfilrModel/SummonsModel.dart';
+import 'package:school/features/Student/data/RepoImp/library_repo_imp.dart';
+import 'package:school/features/Student/domain/Repo/library_repo.dart';
+import 'package:school/features/Student/domain/useCase/get_books_usecase.dart';
+import 'package:school/features/Student/domain/useCase/reserveBookUseCase.dart';
+import 'package:school/features/Student/ui/bloc/libraryBloc/library_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // ----- Auth -----
@@ -71,15 +86,10 @@ import '../features/SchoolsInfo/domain/UseCase/SchoolwithTeacherUseCase.dart';
 // ----- Student -----
 import '../features/Student/data/DataSource/StudentCacheDataSource.dart';
 import '../features/Student/data/DataSource/StudentRemoteDataSource.dart';
-import '../features/Student/data/Model/ActivitiesModel.dart';
-import '../features/Student/data/Model/StatisticsModel.dart';
-import '../features/Student/data/Model/StudentFullProfileModel.dart';
-import '../features/Student/data/Model/StudentInfoModel.dart';
-import '../features/Student/data/Model/SummonsModel.dart';
 import '../features/Student/data/RepoImp/StudentRepoImp.dart';
 import '../features/Student/domain/Repo/StudentRepo.dart';
 import '../features/Student/domain/useCase/GetFullProfileUseCase.dart';
-import '../features/Student/ui/bloc/student_bloc.dart';
+import '../features/Student/ui/bloc/ProfileBloc/student_bloc.dart';
 // ----- Teacher -----
 import '../features/Teacher/data/Model/SchoolModel.dart';
 import '../features/Teacher/data/Model/SubjectModel.dart';
@@ -163,7 +173,9 @@ Future<void> init() async {
   Hive.registerAdapter(ActivitiesModelAdapter());
   Hive.registerAdapter(SummonsModelAdapter());
   Hive.registerAdapter(StudentFullProfileModelAdapter());
-
+  Hive.registerAdapter(BookModelAdapter()); // typeId: 27
+  Hive.registerAdapter(ReserveBookModelAdapter()); // typeId: 28
+  Hive.registerAdapter(ReserveModelAdapter());
   // ----- 1.2 Open Boxes -----
   final bulletinbox = await Hive.openBox<Bulletinmodel>('bulletinBox');
   final gradebox = await Hive.openBox<GradeModel>('gradebox');
@@ -188,7 +200,8 @@ Future<void> init() async {
   final studentProfileBoxNew = await Hive.openBox<StudentFullProfileModel>(
     'studentProfileBox',
   );
-
+  final libraryBox = await Hive.openBox<BookModel>('libraryBox');
+  sl.registerLazySingleton(() => libraryBox);
   print('✅ All Hive boxes opened');
 
   // ====================================================================
@@ -238,6 +251,7 @@ Future<void> init() async {
   // 8. SCHOOLS INFO FEATURE
   // ====================================================================
   _initSchoolsInfo(schoolBox: schoolBox);
+  _initLibrary(libraryBox: libraryBox);
 
   print('✅ All dependencies registered successfully!');
 }
@@ -288,6 +302,7 @@ void _initAuth() {
       cacheDataTeacherFullProfile: sl(),
       cacheTeacherStudentsList: sl(),
       cacheTeacherStudentProfile: sl(),
+      libraryCacheDataSource: sl(),
     ),
   );
 
@@ -420,6 +435,40 @@ void _initCounselor({
   );
 
   print('✅ Counselor feature registered');
+}
+
+// ======================================================================
+// ====== 8. LIBRARY ======
+// ======================================================================
+
+void _initLibrary({required Box<BookModel> libraryBox}) {
+  // ----- Data Sources -----
+  sl.registerLazySingleton<LibraryRemoteDataSource>(
+    () => LibraryRemoteDataSourceImpl(client: sl(), authLocalDataSource: sl()),
+  );
+
+  sl.registerLazySingleton<LibraryCacheDataSource>(
+    () => LibraryCacheDataSourceImpl(box: sl()),
+  );
+
+  // ----- Repository -----
+  sl.registerLazySingleton<LibraryRepo>(
+    () => LibraryRepoImp(remote: sl(), cache: sl(), networkInfo: sl()),
+  );
+
+  // ----- Use Case -----
+  sl.registerLazySingleton(() => GetBooksUseCase(repository: sl()));
+  sl.registerLazySingleton(() => ReserveBookUseCase(repository: sl()));
+  // ----- Bloc -----
+  sl.registerFactory(
+    () => LibraryBloc(
+      getBooksUseCase: sl(),
+      libraryRepo: sl(),
+      reserveBookUseCase: sl(),
+    ),
+  );
+
+  print('✅ Library feature registered');
 }
 
 // ======================================================================

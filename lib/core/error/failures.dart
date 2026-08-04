@@ -18,6 +18,10 @@ class OfflineFailure extends Failures {
 }
 
 class ServerFailure extends Failures {
+  final String? message; // ✅ إضافة رسالة مخصصة
+
+  ServerFailure({this.message});
+
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [message];
 }

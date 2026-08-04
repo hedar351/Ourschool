@@ -1,5 +1,3 @@
-// lib/features/Auth/ui/page/login_page.dart
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -25,7 +23,6 @@ class _LoginPageState extends State<LoginPage> {
   final _snackBarMessage = SnackBarMessage();
   bool _rememberMe = false;
 
-  // ✅ حسابات القيم الثابتة خارج build
   final double _horizontalPadding = 28.w;
   final double _verticalPadding = 40.h;
   final double _gap = 24.h;
@@ -38,7 +35,8 @@ class _LoginPageState extends State<LoginPage> {
         builder: (context, state) {
           final isLoading = state is AuthLoading;
           return Center(
-            child: Container(
+            // ✅ ColoredBox خفيف ومباشر بدلاً من Container لتسريع الرسم
+            child: ColoredBox(
               color: Theme.of(context).scaffoldBackgroundColor,
               child: SafeArea(
                 child: SingleChildScrollView(

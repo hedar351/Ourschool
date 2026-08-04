@@ -16,317 +16,120 @@ class SettingsScreen extends StatefulWidget {
   State<SettingsScreen> createState() => _SettingsScreenState();
 }
 
-class _SettingsScreenState extends State<SettingsScreen>
-    with AutomaticKeepAliveClientMixin {
-  final double listPadding = 16.w;
+// ============================================================
+// Helper: أنيميشن الدخول المتتابع (Staggered Slide)
+// ============================================================
+class _AnimatedSlide extends StatelessWidget {
+  final Widget child;
+  final AnimationController controller;
+  final int delay;
 
-  final double cardRadius = 16.r;
-  final double cardElevation = 2;
-  final double profileCardRadius = 20.r;
-  final double profileCardElevation = 3;
-  final double profilePadding = 16.w;
-  final double avatarRadius = 32.w;
-  final double avatarFontSize = 28.sp;
-  final double userNameFontSize = 18.sp;
-  final double roleFontSize = 12.sp;
-  final double gapSmall = 20.h;
-  final double gapMedium = 30.h;
-  final double titleGap = 16.w;
-  final double rolePaddingHorizontal = 10.w;
-  final double rolePaddingVertical = 2.h;
-  final double roleRadius = 12.r;
-  final double logoutButtonPaddingHorizontal = 24.w;
-  final double logoutButtonPaddingVertical = 14.h;
-  final double logoutButtonRadius = 12.r;
-  final double iconSize = 20.w;
-  @override
-  bool get wantKeepAlive => true;
+  const _AnimatedSlide({
+    required this.child,
+    required this.controller,
+    required this.delay,
+  });
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
-    final localeCubit = context.watch<LocaleCubit>();
-    final currentLocale = Localizations.localeOf(context).languageCode;
-    final theme = Theme.of(context);
-
-    return Scaffold(
-      backgroundColor: theme.scaffoldBackgroundColor,
-      body: SafeArea(
-        child: ListView(
-          padding: EdgeInsets.all(listPadding),
-          children: [
-            _buildUserProfileCard(context),
-            SizedBox(height: gapSmall),
-
-            // ====== التفضيلات ======
-            Card(
-              elevation: cardElevation,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(cardRadius),
-              ),
-              child: Column(
-                children: [
-                  ListTile(
-                    leading: Icon(
-                      Icons.brightness_6,
-                      color: theme.colorScheme.primary,
-                      size: 24.w,
-                    ),
-                    title: Text(
-                      S.of(context).Theme,
-                      style: TextStyle(fontSize: 16.sp),
-                    ),
-                    trailing: ThemeToggleButton(),
-                  ),
-                  Divider(height: 1.h),
-                  ListTile(
-                    leading: Icon(
-                      Icons.language,
-                      color: theme.colorScheme.primary,
-                      size: 24.w,
-                    ),
-                    title: Text(
-                      S.of(context).Language,
-                      style: TextStyle(fontSize: 16.sp),
-                    ),
-                    trailing: PopupMenu(
-                      currentLocale: currentLocale,
-                      cubit: localeCubit,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            SizedBox(height: gapSmall),
-
-            // ====== الدعم والمعلومات ======
-            Card(
-              elevation: cardElevation,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(cardRadius),
-              ),
-              child: Column(
-                children: [
-                  _buildSupportTile(
-                    context,
-                    icon: Icons.info_outline,
-                    title: S.of(context).about_app,
-                    onTap: () => _showAboutDialog(context),
-                  ),
-                  Divider(height: 1.h),
-                  _buildSupportTile(
-                    context,
-                    icon: Icons.privacy_tip_outlined,
-                    title: S.of(context).privacy_policy,
-                    onTap: () => _showPrivacyDialog(context),
-                  ),
-                  Divider(height: 1.h),
-                  ListTile(
-                    leading: Icon(
-                      Icons.info_outline,
-                      color: theme.colorScheme.outline,
-                      size: 24.w,
-                    ),
-                    title: Text(
-                      S.of(context).version,
-                      style: TextStyle(fontSize: 16.sp),
-                    ),
-                    trailing: Text(
-                      S.of(context).app_version,
-                      style: TextStyle(
-                        color: theme.colorScheme.outline,
-                        fontSize: 14.sp,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            SizedBox(height: gapMedium),
-
-            // ====== زر تسجيل الخروج ======
-            Center(
-              child: ElevatedButton.icon(
-                onPressed: () => _showLogoutDialog(context),
-                icon: Icon(Icons.logout, size: iconSize),
-                label: Text(
-                  S.of(context).Logout,
-                  style: TextStyle(fontSize: 16.sp),
-                ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red.shade50,
-                  foregroundColor: Colors.red.shade700,
-                  elevation: 0,
-                  side: BorderSide(color: Colors.red.shade200, width: 1.w),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(logoutButtonRadius),
-                  ),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: logoutButtonPaddingHorizontal,
-                    vertical: logoutButtonPaddingVertical,
-                  ),
-                ),
-              ),
-            ),
-
-            SizedBox(height: 20.h),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // ============================================================
-  // عناصر قائمة الدعم
-  // ============================================================
-  Widget _buildSupportTile(
-    BuildContext context, {
-    required IconData icon,
-    required String title,
-    required VoidCallback onTap,
-  }) {
-    final theme = Theme.of(context);
-    return ListTile(
-      leading: Icon(icon, color: theme.colorScheme.primary, size: 24.w),
-      title: Text(title, style: TextStyle(fontSize: 16.sp)),
-      trailing: Icon(
-        Icons.chevron_right,
-        color: theme.colorScheme.outline,
-        size: 20.w,
-      ),
-      onTap: onTap,
-    );
-  }
-
-  // ============================================================
-  // بطاقة الملف الشخصي
-  // ============================================================
-  Widget _buildUserProfileCard(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return BlocBuilder<AuthBloc, AuthState>(
-      builder: (context, state) {
-        String name = S.of(context).unknown_name;
-        String role = '';
-
-        if (state is AuthLoaded) {
-          name = state.user.name ?? S.of(context).unknown_name;
-          role = state.user.role ?? '';
-        }
-
-        return Card(
-          elevation: profileCardElevation,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(profileCardRadius),
-          ),
-          child: Padding(
-            padding: EdgeInsets.all(profilePadding),
-            child: Row(
-              children: [
-                CircleAvatar(
-                  radius: avatarRadius,
-                  backgroundColor: theme.colorScheme.primary.withOpacity(0.1),
-                  child: Text(
-                    name.isNotEmpty ? name[0].toUpperCase() : '?',
-                    style: TextStyle(
-                      fontSize: avatarFontSize,
-                      fontWeight: FontWeight.bold,
-                      color: theme.colorScheme.primary,
-                    ),
-                  ),
-                ),
-                SizedBox(width: 16.w),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        name,
-                        style: TextStyle(
-                          fontSize: userNameFontSize,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      if (role.isNotEmpty)
-                        Container(
-                          margin: EdgeInsets.only(top: 4.h),
-                          padding: EdgeInsets.symmetric(
-                            horizontal: rolePaddingHorizontal,
-                            vertical: rolePaddingVertical,
-                          ),
-                          decoration: BoxDecoration(
-                            color: theme.colorScheme.primary.withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(roleRadius),
-                          ),
-                          child: Text(
-                            _translateRole(role, context),
-                            style: TextStyle(
-                              fontSize: roleFontSize,
-                              color: theme.colorScheme.primary,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+    final animation =
+        Tween<Offset>(begin: const Offset(0, 0.15), end: Offset.zero).animate(
+          CurvedAnimation(
+            parent: controller,
+            curve: Interval(delay / 1000, 1.0, curve: Curves.easeOutQuart),
           ),
         );
-      },
+    final fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: controller,
+        curve: Interval(delay / 1000, 1.0, curve: Curves.easeOut),
+      ),
+    );
+
+    return FadeTransition(
+      opacity: fadeAnimation,
+      child: SlideTransition(position: animation, child: child),
     );
   }
+}
 
-  // ============================================================
-  // ديالوغات الدعم
-  // ============================================================
-  void _showAboutDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text(S.of(context).about_app),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(S.of(context).app_title),
-            SizedBox(height: 8.h),
-            Text(S.of(context).app_version_info),
-            SizedBox(height: 8.h),
-            Text(S.of(context).app_description),
-          ],
+class _Divider extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16.w),
+      child: Divider(
+        height: 1.h,
+        thickness: 1,
+        color: Theme.of(context).dividerColor.withOpacity(0.1),
+      ),
+    );
+  }
+}
+
+// ============================================================
+// 4. زر تسجيل الخروج الحديث (Soft Danger)
+// ============================================================
+class _ModernLogoutButton extends StatelessWidget {
+  const _ModernLogoutButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton.icon(
+      onPressed: () => _showLogoutDialog(context),
+      icon: Icon(Icons.logout_rounded, size: 20.w),
+      label: Text(
+        S.of(context).Logout,
+        style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w700),
+      ),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.red.shade50,
+        foregroundColor: Colors.red.shade600,
+        elevation: 0,
+        side: BorderSide(color: Colors.red.shade100, width: 1.5.r),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.r),
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx),
-            child: Text(S.of(context).close, style: TextStyle(fontSize: 14.sp)),
-          ),
-        ],
+        padding: EdgeInsets.symmetric(vertical: 16.h),
       ),
     );
   }
 
-  // ============================================================
-  // ديالوغ تسجيل الخروج
-  // ============================================================
   void _showLogoutDialog(BuildContext context) {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: Text(S.of(context).Logout, style: TextStyle(fontSize: 18.sp)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.r),
+        ),
+        title: Row(
+          children: [
+            Icon(
+              Icons.warning_amber_rounded,
+              color: Colors.red.shade600,
+              size: 24.w,
+            ),
+            SizedBox(width: 8.w),
+            Text(
+              S.of(context).Logout,
+              style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
         content: Text(
           S.of(context).want_to_logout,
-          style: TextStyle(fontSize: 16.sp),
+          style: TextStyle(
+            fontSize: 15.sp,
+            color: Colors.grey.shade700,
+            height: 1.4,
+          ),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
             child: Text(
               S.of(context).cancel,
-              style: TextStyle(fontSize: 14.sp),
+              style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w600),
             ),
           ),
           ElevatedButton(
@@ -338,46 +141,143 @@ class _SettingsScreenState extends State<SettingsScreen>
               );
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red.shade700,
+              backgroundColor: Colors.red.shade600,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8.r),
+                borderRadius: BorderRadius.circular(10.r),
               ),
+              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
             ),
             child: Text(
               S.of(context).Logout,
-              style: TextStyle(color: Colors.white, fontSize: 14.sp),
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
         ],
       ),
     );
   }
+}
 
-  void _showPrivacyDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text(
-          S.of(context).privacy_policy,
-          style: TextStyle(fontSize: 18.sp),
-        ),
-        content: Text(
-          S.of(context).privacy_policy_text,
-          style: TextStyle(fontSize: 16.sp),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx),
-            child: Text(S.of(context).close, style: TextStyle(fontSize: 14.sp)),
+// ============================================================
+// 1. بطاقة الملف الشخصي الحديثة
+// ============================================================
+class _ModernProfileCard extends StatelessWidget {
+  const _ModernProfileCard();
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return BlocBuilder<AuthBloc, AuthState>(
+      buildWhen: (previous, current) =>
+          previous.runtimeType != current.runtimeType,
+      builder: (context, state) {
+        String name = S.of(context).unknown_name;
+        String role = '';
+
+        if (state is AuthLoaded) {
+          name = state.user.name ?? S.of(context).unknown_name;
+          role = state.user.role ?? '';
+        }
+
+        return Container(
+          margin: EdgeInsets.symmetric(horizontal: 16.w),
+          padding: EdgeInsets.all(20.w),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                theme.colorScheme.primary,
+                theme.colorScheme.primary.withOpacity(0.85),
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            borderRadius: BorderRadius.circular(24.r),
+            boxShadow: [
+              BoxShadow(
+                color: theme.colorScheme.primary.withOpacity(0.3),
+                blurRadius: 15.w,
+                offset: Offset(0, 8.h),
+              ),
+            ],
           ),
-        ],
-      ),
+          child: Row(
+            children: [
+              // Avatar مع حلقة بيضاء
+              Container(
+                padding: EdgeInsets.all(3.w),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
+                ),
+                child: CircleAvatar(
+                  radius: 34.w,
+                  backgroundColor: theme.colorScheme.surface,
+                  child: Text(
+                    name.isNotEmpty ? name[0].toUpperCase() : '?',
+                    style: TextStyle(
+                      fontSize: 28.sp,
+                      fontWeight: FontWeight.w800,
+                      color: theme.colorScheme.primary,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(width: 16.w),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      name,
+                      style: TextStyle(
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        letterSpacing: 0.5,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    SizedBox(height: 6.h),
+                    if (role.isNotEmpty)
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 12.w,
+                          vertical: 5.h,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.2),
+                          borderRadius: BorderRadius.circular(20.r),
+                          border: Border.all(
+                            color: Colors.white.withOpacity(0.3),
+                            width: 0.5.r,
+                          ),
+                        ),
+                        child: Text(
+                          _translateRole(role, context),
+                          style: TextStyle(
+                            fontSize: 12.5.sp,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: 0.3,
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 
-  // ============================================================
-  // ترجمة الأدوار
-  // ============================================================
   String _translateRole(String role, BuildContext context) {
     switch (role.toLowerCase()) {
       case 'teacher':
@@ -391,5 +291,340 @@ class _SettingsScreenState extends State<SettingsScreen>
       default:
         return role;
     }
+  }
+}
+
+// ============================================================
+// 3. عنصر الإعداد الحديث (Modern Setting Tile)
+// ============================================================
+class _ModernSettingTile extends StatelessWidget {
+  final IconData icon;
+  final Color iconColor;
+  final String title;
+  final Widget? trailing;
+  final VoidCallback? onTap;
+
+  const _ModernSettingTile({
+    required this.icon,
+    required this.iconColor,
+    required this.title,
+    this.trailing,
+    this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(20.r),
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
+          child: Row(
+            children: [
+              // أيقونة بخلفية ملونة ناعمة
+              Container(
+                padding: EdgeInsets.all(9.w),
+                decoration: BoxDecoration(
+                  color: iconColor.withOpacity(0.12),
+                  borderRadius: BorderRadius.circular(12.r),
+                ),
+                child: Icon(icon, color: iconColor, size: 22.w),
+              ),
+              SizedBox(width: 14.w),
+              Expanded(
+                child: Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 15.sp,
+                    fontWeight: FontWeight.w600,
+                    color: theme.colorScheme.onSurface,
+                  ),
+                ),
+              ),
+              ?trailing,
+              if (trailing == null && onTap != null)
+                Icon(
+                  Icons.chevron_left_rounded,
+                  color: theme.colorScheme.outline.withOpacity(0.5),
+                  size: 22.w,
+                ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _SettingsScreenState extends State<SettingsScreen>
+    with AutomaticKeepAliveClientMixin, SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    final theme = Theme.of(context);
+
+    return Scaffold(
+      backgroundColor: theme.scaffoldBackgroundColor,
+      body: SafeArea(
+        child: CustomScrollView(
+          physics: const BouncingScrollPhysics(),
+          slivers: [
+            // مساحة علوية بسيطة
+            SliverToBoxAdapter(child: SizedBox(height: 16.h)),
+
+            // 1. بطاقة الملف الشخصي
+            SliverToBoxAdapter(
+              child: _AnimatedSlide(
+                controller: _animationController,
+                delay: 0,
+                child: const _ModernProfileCard(),
+              ),
+            ),
+
+            SliverToBoxAdapter(child: SizedBox(height: 24.h)),
+
+            // 2. قسم التفضيلات
+            SliverToBoxAdapter(
+              child: _AnimatedSlide(
+                controller: _animationController,
+                delay: 100,
+                child: _SettingsSection(
+                  title: S.of(context).preferences,
+                  children: [
+                    _ModernSettingTile(
+                      icon: Icons.brightness_6_rounded,
+                      iconColor: const Color(0xFF8B5CF6), // بنفسجي
+                      title: S.of(context).Theme,
+                      trailing: const ThemeToggleButton(),
+                    ),
+                    _Divider(),
+                    _ModernSettingTile(
+                      icon: Icons.language_rounded,
+                      iconColor: const Color(0xFF3B82F6), // أزرق
+                      title: S.of(context).Language,
+                      trailing: PopupMenu(
+                        currentLocale: Localizations.localeOf(
+                          context,
+                        ).languageCode,
+                        cubit: context.read<LocaleCubit>(),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            SliverToBoxAdapter(child: SizedBox(height: 24.h)),
+
+            // 3. قسم الدعم والمعلومات
+            SliverToBoxAdapter(
+              child: _AnimatedSlide(
+                controller: _animationController,
+                delay: 200,
+                child: _SettingsSection(
+                  title: S.of(context).support_and_info,
+                  children: [
+                    _ModernSettingTile(
+                      icon: Icons.info_rounded,
+                      iconColor: const Color(0xFF10B981), // أخضر زمردي
+                      title: S.of(context).about_app,
+                      onTap: () => _showAboutDialog(context),
+                    ),
+                    _Divider(),
+                    _ModernSettingTile(
+                      icon: Icons.privacy_tip_rounded,
+                      iconColor: const Color(0xFFF59E0B), // برتقالي
+                      title: S.of(context).privacy_policy,
+                      onTap: () => _showPrivacyDialog(context),
+                    ),
+                    _Divider(),
+                    _ModernSettingTile(
+                      icon: Icons.new_releases_rounded,
+                      iconColor: const Color(0xFF6366F1), // نيلي
+                      title: S.of(context).version,
+                      trailing: Text(
+                        S.of(context).app_version,
+                        style: TextStyle(
+                          fontSize: 13.sp,
+                          color: theme.colorScheme.outline,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            SliverToBoxAdapter(child: SizedBox(height: 32.h)),
+
+            // 4. زر تسجيل الخروج
+            SliverToBoxAdapter(
+              child: _AnimatedSlide(
+                controller: _animationController,
+                delay: 300,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  child: const _ModernLogoutButton(),
+                ),
+              ),
+            ),
+
+            SliverToBoxAdapter(child: SizedBox(height: 40.h)),
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 600),
+    );
+    _animationController.forward();
+  }
+
+  // ---------------------------------------------------------
+  // Dialogs Logic (محفوظ كما هو مع تحسين بسيط في الشكل)
+  // ---------------------------------------------------------
+  void _showAboutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.r),
+        ),
+        title: Text(
+          S.of(context).about_app,
+          style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              S.of(context).app_title,
+              style: TextStyle(fontWeight: FontWeight.w600),
+            ),
+            SizedBox(height: 8.h),
+            Text(
+              S.of(context).app_version_info,
+              style: TextStyle(color: Colors.grey.shade600),
+            ),
+            SizedBox(height: 12.h),
+            Text(
+              S.of(context).app_description,
+              style: TextStyle(color: Colors.grey.shade700, height: 1.4),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(
+              S.of(context).close,
+              style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w600),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showPrivacyDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.r),
+        ),
+        title: Text(
+          S.of(context).privacy_policy,
+          style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
+        ),
+        content: SingleChildScrollView(
+          child: Text(
+            S.of(context).privacy_policy_text,
+            style: TextStyle(
+              fontSize: 15.sp,
+              height: 1.5,
+              color: Colors.grey.shade700,
+            ),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(
+              S.of(context).close,
+              style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.w600),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ============================================================
+// 2. حاوية الأقسام (Settings Section)
+// ============================================================
+class _SettingsSection extends StatelessWidget {
+  final String title;
+  final List<Widget> children;
+
+  const _SettingsSection({required this.title, required this.children});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16.w),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.only(left: 4.w, bottom: 8.h),
+            child: Text(
+              title.toUpperCase(),
+              style: TextStyle(
+                fontSize: 11.sp,
+                fontWeight: FontWeight.w700,
+                color: theme.colorScheme.outline.withOpacity(0.8),
+                letterSpacing: 1.2,
+              ),
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+              color: theme.cardColor,
+              borderRadius: BorderRadius.circular(20.r),
+              border: Border.all(
+                color: theme.dividerColor.withOpacity(0.1),
+                width: 1.r,
+              ),
+            ),
+            child: Column(children: children),
+          ),
+        ],
+      ),
+    );
   }
 }

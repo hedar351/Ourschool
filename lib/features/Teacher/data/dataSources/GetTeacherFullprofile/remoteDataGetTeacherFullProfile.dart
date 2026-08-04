@@ -1,10 +1,16 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:school/core/const.dart';
 import 'package:school/core/error/EXP.dart';
 import 'package:school/features/Auth/data/datasources/local_data_source.dart';
 import 'package:school/features/Teacher/data/Model/TeacherFullProfileModel.dart';
+
+TeacherFullProfileModel _parseTeacherFullProfile(String responseBody) {
+  final Map<String, dynamic> decoded = json.decode(responseBody);
+  return TeacherFullProfileModel.fromJson(decoded);
+}
 
 abstract class RemoteDataTeacherFullProfile {
   Future<TeacherFullProfileModel> getTeacherFullProfile();
@@ -40,7 +46,7 @@ class RemoteDataTeacherFullProfileImp implements RemoteDataTeacherFullProfile {
 
     if (response.statusCode == 200) {
       final Map<String, dynamic> decoded = json.decode(response.body);
-      return TeacherFullProfileModel.fromJson(decoded);
+      return compute(_parseTeacherFullProfile, response.body);
     } else {
       throw ServerExp();
     }

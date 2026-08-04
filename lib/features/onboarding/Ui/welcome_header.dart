@@ -1,41 +1,37 @@
-// lib/features/onboarding/Ui/welcome_header.dart
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school/generated/l10n.dart';
 
 class WelcomeHeader extends StatelessWidget {
-  // ✅ حسابات القيم الثابتة خارج build
-  final double _logoSize = 200.w;
-
-  final double _blurRadius = 60.w;
-  WelcomeHeader({super.key});
+  const WelcomeHeader({super.key});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final double logoSize = 200.w;
 
     return Center(
       child: Column(
         children: [
           Container(
-            width: _logoSize,
-            height: _logoSize,
+            width: logoSize,
+            height: logoSize,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
-                  color: theme.colorScheme.primary.withOpacity(0.29),
-                  blurRadius: _blurRadius,
+                  color: theme.colorScheme.primary.withOpacity(0.25),
+                  blurRadius: 60.w,
                 ),
               ],
             ),
             child: Image.asset(
               'assets/logo.png',
-              width: _logoSize,
-              height: _logoSize,
+              width: logoSize,
+              height: logoSize,
             ),
           ),
+          SizedBox(height: 12.h),
           Text(
             S.of(context).title,
             textAlign: TextAlign.center,

@@ -3,11 +3,19 @@
 // class RemotedatastudentprofileImp implements Remotedatastudentprofile {}
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:school/core/const.dart';
 import 'package:school/core/error/EXP.dart';
 import 'package:school/features/Auth/data/datasources/local_data_source.dart';
 import 'package:school/features/Counselor/data/Model/StudentsProfileModel/Counselor_studentFullProfileModel.dart';
+
+CounselorStudentFullProfileModel _parseCounselorStudentProfile(
+  String responseBody,
+) {
+  final Map<String, dynamic> decoded = json.decode(responseBody);
+  return CounselorStudentFullProfileModel.fromJson(decoded);
+}
 
 abstract class RemoteDataStudentProfile {
   Future<CounselorStudentFullProfileModel> getStudentProfile(
@@ -49,7 +57,7 @@ class RemoteDataStudentProfileImp implements RemoteDataStudentProfile {
       final Map<String, dynamic> decoded = json.decode(response.body);
       print("🟡 [Remote] Decoded JSON: $decoded");
 
-      return CounselorStudentFullProfileModel.fromJson(decoded);
+      return compute(_parseCounselorStudentProfile, response.body);
     } else {
       throw ServerExp();
     }

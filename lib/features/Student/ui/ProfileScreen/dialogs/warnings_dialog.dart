@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school/features/Counselor/domain/Entities/StudentsProfileEntity/Counselor_WarningsEntity.dart';
-import 'package:school/features/Student/ui/utils/date_formatter.dart';
+import 'package:school/features/Student/ui/ProfileScreen/utils/date_formatter.dart';
 import 'package:school/generated/l10n.dart';
 
 class WarningsDialog extends StatelessWidget {

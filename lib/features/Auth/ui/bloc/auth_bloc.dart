@@ -7,6 +7,7 @@ import 'package:school/features/Bulletin/data/dataSources/cachedataSource.dart';
 import 'package:school/features/Counselor/data/DataSources/Grade/cachedatasource.dart';
 import 'package:school/features/Counselor/data/DataSources/StudentList/Cachedatasource.dart';
 import 'package:school/features/Counselor/data/DataSources/StudentProfile/cachDataStudentProfile.dart';
+import 'package:school/features/Student/data/DataSource/library_cache_data_source.dart';
 import 'package:school/features/Teacher/data/dataSources/GetTeacherFullprofile/cacheDataGetTeacherFullprofile.dart';
 import 'package:school/features/Teacher/data/dataSources/TeacherStudentProfile/CacheTeacherStudentProfile.dart';
 import 'package:school/features/Teacher/data/dataSources/TeacherStudentsList/CacheTeacherStudentsList.dart';
@@ -29,7 +30,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   CacheDataTeacherFullProfile cacheDataTeacherFullProfile;
   CacheTeacherStudentsList cacheTeacherStudentsList;
   CacheTeacherStudentProfile cacheTeacherStudentProfile;
-  // StudentCacheDataSource studentCacheDataSource;
+  LibraryCacheDataSource libraryCacheDataSource;
   AuthBloc({
     required this.cacheTeacherStudentsList,
     required this.cacheDataStudentProfile,
@@ -38,7 +39,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     required this.cachedatasourceGrade,
     required this.cacheDataTeacherFullProfile,
     required this.cacheTeacherStudentProfile,
-    // required this.studentCacheDataSource,
+    required this.libraryCacheDataSource,
     required this.loginUseCase,
     required this.getUserUsecase,
     required this.logoutUseCase,
@@ -84,7 +85,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     await cacheDataTeacherFullProfile.deleteTeacherFullProfile();
     await cacheTeacherStudentsList.deleteStudents();
     await cacheTeacherStudentProfile.deleteCachedTeacherStudentProfile();
-    // await studentCacheDataSource.deleteProfile();
+    await libraryCacheDataSource.deleteBooks();
     result.fold(
       (failure) => emit(AuthErorr(message: mapFailureToMessage(failure))),
       (user) => emit(AuthLoaded(user: user)),
@@ -102,7 +103,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     await cacheDataStudentProfile.deleteStudentProfile();
     await cacheDataTeacherFullProfile.deleteTeacherFullProfile();
     await cacheTeacherStudentsList.deleteStudents();
-    // await studentCacheDataSource.deleteProfile();
+    await libraryCacheDataSource.deleteBooks();
 
     final result = await logoutUseCase();
     print("🟡 [Bloc] Usecase result: $result");

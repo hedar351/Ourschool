@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school/features/Student/domain/entity/Student-FullProfile/StatisticsEntity.dart';
-import 'package:school/features/Student/ui/widget/pulsing_icon.dart';
+import 'package:school/features/Student/ui/ProfileScreen/widget/pulsing_icon.dart';
 import 'package:school/generated/l10n.dart';
 
 class QuickStatsRow extends StatelessWidget {

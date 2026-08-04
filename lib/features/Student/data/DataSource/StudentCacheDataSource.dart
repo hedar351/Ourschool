@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
 import 'package:school/core/error/EXP.dart';
-import 'package:school/features/Student/data/Model/StudentFullProfileModel.dart';
+import 'package:school/features/Student/data/Model/ProfilrModel/StudentFullProfileModel.dart';
 
 abstract class StudentCacheDataSource {
   Future<void> cacheProfile(StudentFullProfileModel profile);

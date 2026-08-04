@@ -1,58 +1,16 @@
-// // lib/features/Student/data/datasources/StudentRemoteDataSource.dart
-
-// import 'dart:convert';
-
-// import 'package:http/http.dart' as http;
-// import 'package:school/core/const.dart';
-// import 'package:school/core/error/EXP.dart';
-// import 'package:school/features/Auth/data/datasources/local_data_source.dart';
-// import 'package:school/features/Student/data/Model/StudentFullProfileModel.dart';
-
-// abstract class StudentRemoteDataSource {
-//   Future<StudentFullProfileModel> getFullProfile();
-// }
-
-// class StudentRemoteDataSourceImpl implements StudentRemoteDataSource {
-//   final http.Client client;
-//   final AuthLocalDataSource authLocalDataSource;
-
-//   StudentRemoteDataSourceImpl({
-//     required this.client,
-//     required this.authLocalDataSource,
-//   });
-
-//   @override
-//   Future<StudentFullProfileModel> getFullProfile() async {
-//     final token = await authLocalDataSource.getToken();
-//     if (token.isEmpty) {
-//       throw TokenNotFoundExp();
-//     }
-
-//     final response = await client.get(
-//       Uri.parse('$baseUrl/student/full-profile'),
-//       headers: {
-//         'Content-Type': 'application/json',
-//         'Authorization': 'Bearer $token',
-//       },
-//     );
-
-//     if (response.statusCode == 200) {
-//       final Map<String, dynamic> decoded = json.decode(response.body);
-//       return StudentFullProfileModel.fromJson(decoded);
-//     } else {
-//       throw ServerExp();
-//     }
-//   }
-// }
-// lib/features/Student/data/datasources/StudentRemoteDataSource.dart
-
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:school/core/const.dart';
 import 'package:school/core/error/EXP.dart';
 import 'package:school/features/Auth/data/datasources/local_data_source.dart';
-import 'package:school/features/Student/data/Model/StudentFullProfileModel.dart';
+import 'package:school/features/Student/data/Model/ProfilrModel/StudentFullProfileModel.dart';
+
+StudentFullProfileModel _parseStudentProfile(String responseBody) {
+  final Map<String, dynamic> decoded = json.decode(responseBody);
+  return StudentFullProfileModel.fromJson(decoded);
+}
 
 abstract class StudentRemoteDataSource {
   Future<StudentFullProfileModel> getFullProfile();
@@ -98,9 +56,10 @@ class StudentRemoteDataSourceImpl implements StudentRemoteDataSource {
     );
 
     if (response.statusCode == 200) {
-      print('✅ [Remote] تم استقبال البيانات بنجاح');
-      final Map<String, dynamic> decoded = json.decode(response.body);
-      return StudentFullProfileModel.fromJson(decoded);
+      print(
+        '✅ [Remote] تم استقبال البيانات بنجاح، جاري المعالجة في Isolate مستقل...',
+      );
+      return compute(_parseStudentProfile, response.body);
     } else {
       print('🔴 [Remote] فشل الطلب، رمي ServerExp');
       throw ServerExp();

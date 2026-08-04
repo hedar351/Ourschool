@@ -14,16 +14,20 @@ class SplashPage extends StatelessWidget {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthLoaded) {
-          // final token = state.user.token;
           final role = state.user.role;
           routing(role!, context, state);
         } else if (state is AuthInitial || state is AuthErorr) {
           Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (_) => const WelcomeScreen()),
+            PageRouteBuilder(
+              transitionDuration: const Duration(milliseconds: 400),
+              pageBuilder: (_, _, _) => const WelcomeScreen(),
+              transitionsBuilder: (_, animation, _, child) {
+                return FadeTransition(opacity: animation, child: child);
+              },
+            ),
             (route) => false,
           );
         }
-        //ffgg
       },
       child: const Scaffold(body: Center(child: Loadingwidget())),
     );

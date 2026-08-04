@@ -339,9 +339,9 @@ class S {
     return Intl.message('Payments', name: 'Payments', desc: '', args: []);
   }
 
-  /// `AcademicRecord`
+  /// `My Profile`
   String get Info {
-    return Intl.message('AcademicRecord', name: 'Info', desc: '', args: []);
+    return Intl.message('My Profile', name: 'Info', desc: '', args: []);
   }
 
   /// `There are no bulletins at the moment`
@@ -1196,6 +1196,101 @@ class S {
     return Intl.message(
       'Academic Year',
       name: 'academic_year',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `library`
+  String get library {
+    return Intl.message('library', name: 'library', desc: '', args: []);
+  }
+
+  /// `Bulletin`
+  String get Bulletin {
+    return Intl.message('Bulletin', name: 'Bulletin', desc: '', args: []);
+  }
+
+  /// `Stay updated with the latest news and school activities`
+  String get Stay_update_with_activities {
+    return Intl.message(
+      'Stay updated with the latest news and school activities',
+      name: 'Stay_update_with_activities',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Preferences`
+  String get preferences {
+    return Intl.message('Preferences', name: 'preferences', desc: '', args: []);
+  }
+
+  /// `Support and Information`
+  String get support_and_info {
+    return Intl.message(
+      'Support and Information',
+      name: 'support_and_info',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Books`
+  String get Books {
+    return Intl.message('Books', name: 'Books', desc: '', args: []);
+  }
+
+  /// `My Reservations`
+  String get My_Reservations {
+    return Intl.message(
+      'My Reservations',
+      name: 'My_Reservations',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search for a book or author...`
+  String get search_hint {
+    return Intl.message(
+      'Search for a book or author...',
+      name: 'search_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total Books`
+  String get total_books {
+    return Intl.message('Total Books', name: 'total_books', desc: '', args: []);
+  }
+
+  /// `Search Results`
+  String get search_results {
+    return Intl.message(
+      'Search Results',
+      name: 'search_results',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Available`
+  String get available {
+    return Intl.message('Available', name: 'available', desc: '', args: []);
+  }
+
+  /// `Reserving`
+  String get reserving {
+    return Intl.message('Reserving', name: 'reserving', desc: '', args: []);
+  }
+
+  /// `Reserve Book`
+  String get reserve_book {
+    return Intl.message(
+      'Reserve Book',
+      name: 'reserve_book',
       desc: '',
       args: [],
     );

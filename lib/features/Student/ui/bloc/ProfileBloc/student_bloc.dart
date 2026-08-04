@@ -20,6 +20,7 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     : super(StudentInitial()) {
     on<GetStudentProfileEvent>(_onGetProfile);
     on<RefreshStudentProfileEvent>(_onRefresh);
+    on<RevalidateStudentProfileEvent>(_onRevalidate); // ✅ أضف هذا
     on<WatchCachedStudentProfileEvent>(_onWatchCached);
     on<UpdateCachedStudentProfileEvent>(_onUpdateCached);
   }
@@ -60,6 +61,40 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     );
   }
 
+  // ---- Revalidate (Background Update) ----
+  Future<void> _onRevalidate(
+    RevalidateStudentProfileEvent event,
+    Emitter<StudentState> emit,
+  ) async {
+    if (state is StudentLoaded) {
+      final currentState = state as StudentLoaded;
+      emit(currentState.copyWith(isRevalidating: true));
+    }
+
+    final networkEither = await studentRepo.getFullprofile();
+    networkEither.fold(
+      (failure) {
+        if (state is StudentLoaded) {
+          final currentState = state as StudentLoaded;
+          emit(
+            currentState.copyWith(
+              isRevalidating: false,
+              errorMessage: mapFailureToMessage(failure),
+            ),
+          );
+        }
+      },
+      (profile) {
+        if (state is StudentLoaded) {
+          final currentState = state as StudentLoaded;
+          emit(
+            currentState.copyWith(isRevalidating: false, errorMessage: null),
+          );
+        }
+      },
+    );
+  }
+
   // ---- Update Cached (Background Update) ----
   Future<void> _onUpdateCached(
     UpdateCachedStudentProfileEvent event,
@@ -79,16 +114,16 @@ class StudentBloc extends Bloc<StudentEvent, StudentState> {
     Emitter<StudentState> emit,
   ) async {
     await _subscription?.cancel();
-
     _cachedStream = studentRepo.watchStudentProfile().map(
       (either) => either.fold(
         (_) => <Studentfullprofileentity>[],
         (profile) => profile,
       ),
     );
-
     _subscription = _cachedStream?.listen((profile) {
-      add(UpdateCachedStudentProfileEvent(profile: profile));
+      if (state is StudentLoaded) {
+        add(UpdateCachedStudentProfileEvent(profile: profile));
+      }
     });
   }
 }

@@ -1,5 +1,3 @@
-// lib/features/onboarding/Ui/welcome_content_card.dart
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school/generated/l10n.dart';
@@ -8,11 +6,7 @@ class WelcomeContentCard extends StatelessWidget {
   final VoidCallback onLoginPressed;
   final VoidCallback onExplorePressed;
 
-  final double _cardPadding = 28.w;
-
-  final double _buttonHeight = 52.h;
-  final double _iconSize = 22.w;
-  WelcomeContentCard({
+  const WelcomeContentCard({
     super.key,
     required this.onLoginPressed,
     required this.onExplorePressed,
@@ -21,13 +15,14 @@ class WelcomeContentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final double buttonHeight = 52.h;
 
     return Card(
-      elevation: 8,
-      shadowColor: theme.colorScheme.primary.withOpacity(0.3),
+      elevation: 6,
+      shadowColor: theme.colorScheme.primary.withOpacity(0.2),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(32.r)),
       child: Padding(
-        padding: EdgeInsets.all(_cardPadding),
+        padding: EdgeInsets.all(28.w),
         child: Column(
           children: [
             Text(
@@ -48,7 +43,7 @@ class WelcomeContentCard extends StatelessWidget {
                 height: 1.6,
               ),
             ),
-            SizedBox(height: 40.h),
+            SizedBox(height: 32.h),
             ElevatedButton(
               onPressed: onLoginPressed,
               style: ElevatedButton.styleFrom(
@@ -58,8 +53,8 @@ class WelcomeContentCard extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20.r),
                 ),
-                elevation: 3,
-                minimumSize: Size(double.infinity, _buttonHeight),
+                elevation: 2,
+                minimumSize: Size(double.infinity, buttonHeight),
               ),
               child: Text(
                 S.of(context).login,
@@ -72,7 +67,7 @@ class WelcomeContentCard extends StatelessWidget {
               icon: Icon(
                 Icons.explore_outlined,
                 color: theme.colorScheme.primary,
-                size: _iconSize,
+                size: 22.w,
               ),
               label: Text(
                 S.of(context).browse_school,
@@ -88,7 +83,7 @@ class WelcomeContentCard extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20.r),
                 ),
-                minimumSize: Size(double.infinity, _buttonHeight),
+                minimumSize: Size(double.infinity, buttonHeight),
               ),
             ),
           ],

@@ -1,143 +1,152 @@
-// lib/features/Bulletin/ui/widget/BulletinCard.dart
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school/features/Bulletin/domain/Entities/AnnouncementActivityEntity.dart';
+import 'package:school/features/Bulletin/ui/widget/bulletin_details_sheet.dart';
 
-class Bulletincard extends StatelessWidget {
+class BulletinCard extends StatelessWidget {
   final Announcementactivityentity entity;
   final Color color;
+  final bool isHorizontal;
 
-  final double _cardWidth = 280.w;
-
-  final double _marginRight = 16.w;
-  final double _borderRadius = 28.r;
-  final double _headerPaddingHorizontal = 16.w;
-  final double _headerPaddingVertical = 14.h;
-  final double _iconSize = 24.w;
-  final double _iconGap = 12.w;
-  final double _contentPadding = 18.w;
-  final double _titleFontSize = 18.sp;
-  final double _descFontSize = 14.sp;
-  final double _dateFontSize = 13.sp;
-  final double _gap = 10.h;
-  final double _blurRadius = 12.w;
-  Bulletincard({super.key, required this.entity, required this.color});
+  const BulletinCard({
+    super.key,
+    required this.entity,
+    required this.color,
+    required this.isHorizontal,
+  });
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
     final iconData = _getIcon(entity.title);
 
-    return RepaintBoundary(
-      child: Container(
-        width: _cardWidth,
-        margin: EdgeInsets.only(right: _marginRight),
-        decoration: BoxDecoration(
-          color: theme.cardColor,
-          borderRadius: BorderRadius.circular(_borderRadius),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black12,
-              blurRadius: _blurRadius,
-              offset: Offset(0, 4.h),
-            ),
-          ],
-        ),
-        child: Material(
-          color: Colors.transparent,
-          borderRadius: BorderRadius.circular(_borderRadius),
-          child: InkWell(
-            borderRadius: BorderRadius.circular(_borderRadius),
-            onTap: () {},
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                // ---- رأس البطاقة ----
-                Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: _headerPaddingHorizontal,
-                    vertical: _headerPaddingVertical,
-                  ),
-                  decoration: BoxDecoration(
-                    color: color.withOpacity(0.12),
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(_borderRadius),
-                      topRight: Radius.circular(_borderRadius),
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: () => _showBottomSheet(context),
+        borderRadius: BorderRadius.circular(20.r),
+        child: Container(
+          padding: EdgeInsets.all(16.w),
+          decoration: BoxDecoration(
+            color: theme.cardColor,
+            borderRadius: BorderRadius.circular(20.r),
+
+            border: isDark
+                ? Border.all(
+                    color: theme.dividerColor.withOpacity(0.4),
+                    width: 1.w,
+                  )
+                : null,
+            boxShadow: isDark
+                ? null
+                : [
+                    BoxShadow(
+                      color: color.withOpacity(0.08),
+                      blurRadius: 16.r,
+                      offset: Offset(0, 8.h),
                     ),
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(iconData, color: color, size: _iconSize),
-                      SizedBox(width: _iconGap),
-                      Expanded(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              _formatDate(entity.date),
-                              style: TextStyle(
-                                color: color,
-                                fontWeight: FontWeight.w600,
-                                fontSize: _dateFontSize,
-                                letterSpacing: 0.3,
-                              ),
-                            ),
-                            Text(
-                              entity.schoolName,
-                              style: TextStyle(
-                                color: color,
-                                fontWeight: FontWeight.w600,
-                                fontSize: _dateFontSize,
-                                letterSpacing: 0.3,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+                  ],
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // الأيقونة
+              Container(
+                padding: EdgeInsets.all(12.w),
+                decoration: BoxDecoration(
+                  color: color.withOpacity(0.12),
+                  borderRadius: BorderRadius.circular(14.r),
                 ),
-                // ---- محتوى البطاقة ----
-                Padding(
-                  padding: EdgeInsets.all(_contentPadding),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        entity.title,
-                        style: TextStyle(
-                          fontSize: _titleFontSize,
-                          fontWeight: FontWeight.bold,
-                          height: 1.3,
+                child: Icon(iconData, color: color, size: 24.w),
+              ),
+              SizedBox(width: 16.w),
+
+              // المحتوى
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Text(
+                            entity.title,
+                            style: theme.textTheme.titleMedium?.copyWith(
+                              fontWeight: FontWeight.w700,
+                              height: 1.3,
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
+                      ],
+                    ),
+                    SizedBox(height: 8.h),
+                    Text(
+                      entity.description,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: theme.colorScheme.onSurface.withOpacity(0.7),
+                        height: 1.5,
                       ),
-                      SizedBox(height: _gap),
-                      Text(
-                        entity.description,
-                        style: TextStyle(
-                          fontSize: _descFontSize,
-                          color: theme.textTheme.bodyMedium?.color,
-                          height: 1.4,
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    SizedBox(height: 12.h),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.access_time_rounded,
+                          size: 14.w,
+                          color: theme.colorScheme.onSurface.withOpacity(0.5),
                         ),
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                  ),
+                        SizedBox(width: 6.w),
+                        Text(
+                          _formatDate(entity.date),
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: theme.colorScheme.onSurface.withOpacity(0.5),
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                        SizedBox(width: 12.w),
+                        Container(
+                          width: 1.w,
+                          height: 12.h,
+                          color: theme.dividerColor,
+                        ),
+                        SizedBox(width: 12.w),
+                        Icon(
+                          Icons.school_rounded,
+                          size: 14.w,
+                          color: theme.colorScheme.onSurface.withOpacity(0.5),
+                        ),
+                        SizedBox(width: 6.w),
+                        Expanded(
+                          child: Text(
+                            entity.schoolName,
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: theme.colorScheme.onSurface.withOpacity(
+                                0.5,
+                              ),
+                              fontWeight: FontWeight.w500,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
     );
   }
 
-  // ---- التواريخ بالعربية ----
   String _formatDate(DateTime date) {
     const months = [
       'يناير',
@@ -156,24 +165,36 @@ class Bulletincard extends StatelessWidget {
     return '${date.day} ${months[date.month - 1]} ${date.year}';
   }
 
-  // ---- الأيقونات الذكية ----
   IconData _getIcon(String title) {
     final lowerTitle = title.toLowerCase();
-    if (lowerTitle.contains('رحلة')) return Icons.tour;
-    if (lowerTitle.contains('علوم')) return Icons.science;
+    if (lowerTitle.contains('رحلة')) return Icons.flight_takeoff_rounded;
+    if (lowerTitle.contains('علوم')) return Icons.science_rounded;
     if (lowerTitle.contains('فنية') || lowerTitle.contains('رسم')) {
-      return Icons.palette;
+      return Icons.palette_rounded;
     }
-    if (lowerTitle.contains('رياضة')) return Icons.sports_soccer;
+    if (lowerTitle.contains('رياضة')) return Icons.sports_soccer_rounded;
     if (lowerTitle.contains('هام') || lowerTitle.contains('تحذير')) {
       return Icons.warning_amber_rounded;
     }
     if (lowerTitle.contains('اجتماع') || lowerTitle.contains('أولياء')) {
-      return Icons.people;
+      return Icons.people_alt_rounded;
     }
     if (lowerTitle.contains('تسجيل') || lowerTitle.contains('موعد')) {
-      return Icons.edit_calendar;
+      return Icons.edit_calendar_rounded;
     }
-    return Icons.event;
+    return Icons.campaign_rounded;
+  }
+
+  void _showBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => BulletinDetailsSheet(
+        entity: entity,
+        color: color,
+        isHorizontal: isHorizontal,
+      ),
+    );
   }
 }

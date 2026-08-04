@@ -1,5 +1,3 @@
-// lib/features/onboarding/Ui/onboarding_screen.dart
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -24,11 +22,8 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   late final AnimationController _animationController;
   late final Animation<double> _fadeAnimation;
 
-  // ✅ حسابات القيم الثابتة خارج build
-  final double _horizontalPadding = 24.w;
-  final double _verticalPadding = 20.h;
-  final double _gapLarge = 48.h;
-  final double _gapSmall = 20.h;
+  // ✅ تجهيز ودجت تسجيل الدخول مسبقاً في الذاكرة
+  final Widget _loginPageWidget = const LoginPage();
 
   @override
   Widget build(BuildContext context) {
@@ -43,24 +38,14 @@ class _WelcomeScreenState extends State<WelcomeScreen>
           child: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
             child: Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: _horizontalPadding,
-                vertical: _verticalPadding,
-              ),
+              padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 20.h),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  WelcomeHeader(),
-                  SizedBox(height: _gapLarge),
+                  const WelcomeHeader(),
+                  SizedBox(height: 48.h),
                   WelcomeContentCard(
-                    onLoginPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const LoginPage(),
-                        ),
-                      );
-                    },
+                    onLoginPressed: () => _navigateToLogin(context),
                     onExplorePressed: () {
                       Navigator.push(
                         context,
@@ -70,7 +55,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                       );
                     },
                   ),
-                  SizedBox(height: _gapSmall),
+                  SizedBox(height: 20.h),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -85,6 +70,13 @@ class _WelcomeScreenState extends State<WelcomeScreen>
         ),
       ),
     );
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // ✅ تحميل صورة الشعار مسبقاً لتفادي أي تقطيع بفك التشفير
+    precacheImage(const AssetImage('assets/logo.png'), context);
   }
 
   @override
@@ -104,5 +96,30 @@ class _WelcomeScreenState extends State<WelcomeScreen>
       CurvedAnimation(parent: _animationController, curve: Curves.easeIn),
     );
     _animationController.forward();
+  }
+
+  // ✅ دالة انتقال سلسة ومجهزة تمنع تجمد الـ UI Thread
+  void _navigateToLogin(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+
+      Navigator.of(context).push(
+        PageRouteBuilder(
+          transitionDuration: const Duration(milliseconds: 300),
+          reverseTransitionDuration: const Duration(milliseconds: 250),
+          pageBuilder: (context, animation, secondaryAnimation) =>
+              _loginPageWidget,
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(
+              opacity: CurvedAnimation(
+                parent: animation,
+                curve: Curves.easeInOut,
+              ),
+              child: child,
+            );
+          },
+        ),
+      );
+    });
   }
 }

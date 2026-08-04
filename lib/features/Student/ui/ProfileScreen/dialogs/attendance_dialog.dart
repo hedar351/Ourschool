@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school/features/Counselor/domain/Entities/attendanceEntity/attendanceEntity.dart';
-import 'package:school/features/Student/ui/utils/date_formatter.dart';
+import 'package:school/features/Student/ui/ProfileScreen/utils/date_formatter.dart';
 import 'package:school/generated/l10n.dart';
 
 class AttendanceDialog extends StatelessWidget {
@@ -18,7 +18,7 @@ class AttendanceDialog extends StatelessWidget {
       title: Row(
         children: [
           Icon(Icons.calendar_today, color: Colors.red),
-          SizedBox(width: 8.w),
+          SizedBox(width: 4.w),
           Text(S.of(context).Attendance_Record),
         ],
       ),

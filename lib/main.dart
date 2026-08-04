@@ -14,7 +14,7 @@ import 'package:school/generated/l10n.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'features/SchoolsInfo/UI/bloc/school_info_bloc.dart';
-import 'features/Student/ui/bloc/student_bloc.dart';
+import 'features/Student/ui/bloc/ProfileBloc/student_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,46 +41,37 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        // BlocProvider<StudentBloc>(create: (context) => di.sl<StudentBloc>()),
         BlocProvider<SchoolInfoBloc>(
           create: (context) => di.sl<SchoolInfoBloc>(),
         ),
         BlocProvider(
           create: (context) => di.sl<AuthBloc>()..add(CheckAuthEvent()),
         ),
-        BlocProvider(
-          create: (context) =>
-              di.sl<BulletinBloc>()..add(RefreshBulletinsEvent()),
-        ),
-        BlocProvider(
-          create: (context) =>
-              di.sl<StudentBloc>()..add(RefreshStudentProfileEvent()),
-        ),
+        BlocProvider(create: (context) => di.sl<BulletinBloc>()),
+        BlocProvider(create: (context) => di.sl<StudentBloc>()),
         BlocProvider(create: (context) => LocaleCubit()),
         BlocProvider(create: (context) => ThemeCubit()),
-        // BlocProvider(create: (context) => di.sl<BulletinBloc>()),
       ],
-      child: BlocBuilder<LocaleCubit, LocaleState>(
-        builder: (context, localeState) {
-          return BlocBuilder<ThemeCubit, ThemeMode>(
-            builder: (context, themeMode) {
-              return MaterialApp(
-                debugShowCheckedModeBanner: false,
-                locale: localeState.locale,
-                localizationsDelegates: const [
-                  S.delegate,
-                  GlobalMaterialLocalizations.delegate,
-                  GlobalWidgetsLocalizations.delegate,
-                  GlobalCupertinoLocalizations.delegate,
-                ],
-                supportedLocales: S.delegate.supportedLocales,
-                title: 'Future School',
-                theme: AppTheme.lightTheme,
-                darkTheme: AppTheme.darkTheme,
-                themeMode: themeMode,
-                home: const SplashPage(),
-              );
-            },
+      child: Builder(
+        builder: (context) {
+          final localeState = context.select((LocaleCubit c) => c.state);
+          final themeMode = context.select((ThemeCubit c) => c.state);
+
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            locale: localeState.locale,
+            localizationsDelegates: const [
+              S.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: S.delegate.supportedLocales,
+            title: 'Future School',
+            theme: AppTheme.lightTheme,
+            darkTheme: AppTheme.darkTheme,
+            themeMode: themeMode,
+            home: const SplashPage(),
           );
         },
       ),

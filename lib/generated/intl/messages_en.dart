@@ -34,12 +34,15 @@ class MessageLookup extends MessageLookupByLibrary {
     "Attendance_Record": MessageLookupByLibrary.simpleMessage(
       "Attendance Record",
     ),
+    "Books": MessageLookupByLibrary.simpleMessage("Books"),
+    "Bulletin": MessageLookupByLibrary.simpleMessage("Bulletin"),
     "Cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
     "Home": MessageLookupByLibrary.simpleMessage("Home"),
-    "Info": MessageLookupByLibrary.simpleMessage("AcademicRecord"),
+    "Info": MessageLookupByLibrary.simpleMessage("My Profile"),
     "Language": MessageLookupByLibrary.simpleMessage("Language"),
     "Log": MessageLookupByLibrary.simpleMessage("Log"),
     "Logout": MessageLookupByLibrary.simpleMessage("Logout"),
+    "My_Reservations": MessageLookupByLibrary.simpleMessage("My Reservations"),
     "Ok": MessageLookupByLibrary.simpleMessage("Ok"),
     "Password": MessageLookupByLibrary.simpleMessage(
       "Please enter your password",
@@ -50,6 +53,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "Sections": MessageLookupByLibrary.simpleMessage("Sections"),
     "Settings": MessageLookupByLibrary.simpleMessage("Settings"),
+    "Stay_update_with_activities": MessageLookupByLibrary.simpleMessage(
+      "Stay updated with the latest news and school activities",
+    ),
     "Students": MessageLookupByLibrary.simpleMessage("Students"),
     "Theme": MessageLookupByLibrary.simpleMessage("Theme"),
     "There_are_no_Marks_at_the_moment": MessageLookupByLibrary.simpleMessage(
@@ -98,6 +104,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "app_version": MessageLookupByLibrary.simpleMessage("1.0.0"),
     "app_version_info": MessageLookupByLibrary.simpleMessage("Version: 1.0.0"),
+    "available": MessageLookupByLibrary.simpleMessage("Available"),
     "browse_school": MessageLookupByLibrary.simpleMessage(
       "Browse school information",
     ),
@@ -133,6 +140,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "guardianName": MessageLookupByLibrary.simpleMessage("Guardian Name:"),
     "homework": MessageLookupByLibrary.simpleMessage("Homework"),
     "issued_by": MessageLookupByLibrary.simpleMessage("Issued by"),
+    "library": MessageLookupByLibrary.simpleMessage("library"),
     "login": MessageLookupByLibrary.simpleMessage("Login"),
     "login_success": MessageLookupByLibrary.simpleMessage("Login successful"),
     "marks_title": MessageLookupByLibrary.simpleMessage(" Marks"),
@@ -184,6 +192,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "please_select_type_and_reason": MessageLookupByLibrary.simpleMessage(
       "Please select a type and fill the reason",
     ),
+    "preferences": MessageLookupByLibrary.simpleMessage("Preferences"),
     "privacy_policy": MessageLookupByLibrary.simpleMessage("Privacy Policy"),
     "privacy_policy_text": MessageLookupByLibrary.simpleMessage(
       "We are committed to protecting your personal data. We do not share your information with any third party without your consent.",
@@ -200,6 +209,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "quiz_type_5": MessageLookupByLibrary.simpleMessage("Final Exam"),
     "reason": MessageLookupByLibrary.simpleMessage("Reason"),
     "remember_me": MessageLookupByLibrary.simpleMessage("Remember me"),
+    "reserve_book": MessageLookupByLibrary.simpleMessage("Reserve Book"),
+    "reserving": MessageLookupByLibrary.simpleMessage("Reserving"),
     "retry": MessageLookupByLibrary.simpleMessage("Retry"),
     "role_admin": MessageLookupByLibrary.simpleMessage("Admin"),
     "role_counselor": MessageLookupByLibrary.simpleMessage("Counselor"),
@@ -216,6 +227,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "schools": MessageLookupByLibrary.simpleMessage("Schools"),
     "schoolsCount": MessageLookupByLibrary.simpleMessage("school"),
     "score": MessageLookupByLibrary.simpleMessage("Score"),
+    "search_hint": MessageLookupByLibrary.simpleMessage(
+      "Search for a book or author...",
+    ),
+    "search_results": MessageLookupByLibrary.simpleMessage("Search Results"),
     "select_warning_type": MessageLookupByLibrary.simpleMessage(
       "Select Warning Type",
     ),
@@ -237,6 +252,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "subjectsTaught": MessageLookupByLibrary.simpleMessage("Subjects Taught"),
     "subjects_title": MessageLookupByLibrary.simpleMessage(" Subjects"),
     "summons": MessageLookupByLibrary.simpleMessage("Summons"),
+    "support_and_info": MessageLookupByLibrary.simpleMessage(
+      "Support and Information",
+    ),
     "teacherDetails": MessageLookupByLibrary.simpleMessage("Teacher Details"),
     "teacher_prefix": MessageLookupByLibrary.simpleMessage("Mr./Ms."),
     "teacher_profile": MessageLookupByLibrary.simpleMessage("Teacher Profile"),
@@ -245,6 +263,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "teachersOf": MessageLookupByLibrary.simpleMessage("Teachers of"),
     "teachingStaff": MessageLookupByLibrary.simpleMessage("Teaching Staff"),
     "title": MessageLookupByLibrary.simpleMessage("Our School"),
+    "total_books": MessageLookupByLibrary.simpleMessage("Total Books"),
     "type": MessageLookupByLibrary.simpleMessage("Type"),
     "type_behavior": MessageLookupByLibrary.simpleMessage("Behavior"),
     "type_dismissal_warning": MessageLookupByLibrary.simpleMessage(

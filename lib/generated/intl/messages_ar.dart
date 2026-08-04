@@ -32,11 +32,14 @@ class MessageLookup extends MessageLookupByLibrary {
     "Announcements": MessageLookupByLibrary.simpleMessage("الإعلانات"),
     "Attendance": MessageLookupByLibrary.simpleMessage("الغيابات"),
     "Attendance_Record": MessageLookupByLibrary.simpleMessage("سجل الغيابات"),
+    "Books": MessageLookupByLibrary.simpleMessage("الكتب"),
+    "Bulletin": MessageLookupByLibrary.simpleMessage("النشرة"),
     "Cancel": MessageLookupByLibrary.simpleMessage("الغاء"),
     "Home": MessageLookupByLibrary.simpleMessage("الرئيسية"),
     "Info": MessageLookupByLibrary.simpleMessage("السجل الأكاديمي"),
     "Language": MessageLookupByLibrary.simpleMessage("اللغة"),
     "Logout": MessageLookupByLibrary.simpleMessage("تسجيل الخروج"),
+    "My_Reservations": MessageLookupByLibrary.simpleMessage("حجوزاتي"),
     "Ok": MessageLookupByLibrary.simpleMessage("حسناً"),
     "Password": MessageLookupByLibrary.simpleMessage(
       "الرجاء إدخال كلمة المرور",
@@ -47,6 +50,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "Sections": MessageLookupByLibrary.simpleMessage("شعبة"),
     "Settings": MessageLookupByLibrary.simpleMessage("الاعدادات"),
+    "Stay_update_with_activities": MessageLookupByLibrary.simpleMessage(
+      "ابقَ على اطلاع بأحدث الأخبار والأنشطة المدرسية",
+    ),
     "Students": MessageLookupByLibrary.simpleMessage("الطلاب"),
     "Theme": MessageLookupByLibrary.simpleMessage("السمة"),
     "There_are_no_Marks_at_the_moment": MessageLookupByLibrary.simpleMessage(
@@ -91,6 +97,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "app_version": MessageLookupByLibrary.simpleMessage("1.0.0"),
     "app_version_info": MessageLookupByLibrary.simpleMessage("الإصدار: 1.0.0"),
+    "available": MessageLookupByLibrary.simpleMessage("متاح"),
     "browse_school": MessageLookupByLibrary.simpleMessage(
       "تصفح معلومات المدرسة",
     ),
@@ -126,6 +133,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "guardianName": MessageLookupByLibrary.simpleMessage("ولي الأمر:"),
     "homework": MessageLookupByLibrary.simpleMessage("واجب"),
     "issued_by": MessageLookupByLibrary.simpleMessage("صادر عن"),
+    "library": MessageLookupByLibrary.simpleMessage("المكتبة"),
     "login": MessageLookupByLibrary.simpleMessage("دخول"),
     "login_success": MessageLookupByLibrary.simpleMessage(
       "تم تسجيل الدخول بنجاح",
@@ -181,6 +189,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "please_select_type_and_reason": MessageLookupByLibrary.simpleMessage(
       "يرجى اختيار النوع وملء السبب",
     ),
+    "preferences": MessageLookupByLibrary.simpleMessage("تفضيلات التطبيق"),
     "privacy_policy": MessageLookupByLibrary.simpleMessage("سياسة الخصوصية"),
     "privacy_policy_text": MessageLookupByLibrary.simpleMessage(
       "نحن نلتزم بحماية بياناتك الشخصية. لا نقوم بمشاركة معلوماتك مع أي طرف ثالث دون موافقتك.",
@@ -197,6 +206,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "quiz_type_5": MessageLookupByLibrary.simpleMessage("نهائي"),
     "reason": MessageLookupByLibrary.simpleMessage("السبب"),
     "remember_me": MessageLookupByLibrary.simpleMessage("تذكرني"),
+    "reserve_book": MessageLookupByLibrary.simpleMessage("حجز الكتاب"),
+    "reserving": MessageLookupByLibrary.simpleMessage("جاري الحجز"),
     "retry": MessageLookupByLibrary.simpleMessage("إعادة المحاولة"),
     "role_counselor": MessageLookupByLibrary.simpleMessage("موجه"),
     "role_student": MessageLookupByLibrary.simpleMessage("طالب"),
@@ -212,6 +223,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "schools": MessageLookupByLibrary.simpleMessage("المدارس"),
     "schoolsCount": MessageLookupByLibrary.simpleMessage("مدرسة"),
     "score": MessageLookupByLibrary.simpleMessage("العلامة"),
+    "search_hint": MessageLookupByLibrary.simpleMessage(
+      "ابحث عن كتاب أو مؤلف...",
+    ),
+    "search_results": MessageLookupByLibrary.simpleMessage("نتائج البحث"),
     "select_warning_type": MessageLookupByLibrary.simpleMessage(
       "اختر نوع الإنذار",
     ),
@@ -235,6 +250,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "subjects_title": MessageLookupByLibrary.simpleMessage(" المواد الدراسية"),
     "summons": MessageLookupByLibrary.simpleMessage("الاستدعاءات"),
+    "support_and_info": MessageLookupByLibrary.simpleMessage(
+      "الدعم والمعلومات",
+    ),
     "teacherDetails": MessageLookupByLibrary.simpleMessage("تفاصيل المعلم"),
     "teacher_prefix": MessageLookupByLibrary.simpleMessage("أ. "),
     "teacher_profile": MessageLookupByLibrary.simpleMessage(
@@ -245,6 +263,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "teachersOf": MessageLookupByLibrary.simpleMessage("معلمي"),
     "teachingStaff": MessageLookupByLibrary.simpleMessage("الكادر التدريسي"),
     "title": MessageLookupByLibrary.simpleMessage("مدرستنا"),
+    "total_books": MessageLookupByLibrary.simpleMessage(" إجمالي الكتب"),
     "type": MessageLookupByLibrary.simpleMessage("النوع"),
     "type_behavior": MessageLookupByLibrary.simpleMessage("سلوك"),
     "type_dismissal_warning": MessageLookupByLibrary.simpleMessage("إنذار فصل"),

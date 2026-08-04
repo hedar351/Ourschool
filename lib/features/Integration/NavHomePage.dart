@@ -1,15 +1,18 @@
-// lib/features/Navigation/NavHomePage.dart
-
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:school/core/injection.dart' as di;
 import 'package:school/features/Auth/domain/entities/auth_entities.dart';
 import 'package:school/features/Bulletin/ui/pages/bulletin_screen.dart';
 import 'package:school/features/Setting/Settingscreen.dart';
+// ✅ تم تصحيح مسار الاستيراد (إزالة المسافات الزائدة)
+import 'package:school/features/Student/ui/ProfileScreen/page/academic_record_screen.dart%20%20.dart';
+import 'package:school/features/Student/ui/bloc/libraryBloc/library_bloc.dart';
+import 'package:school/features/Student/ui/libraryScreen/library_screen.dart';
 import 'package:school/features/Teacher/ui/page/teacher_subjects_screen.dart';
 import 'package:school/generated/l10n.dart';
 
 import '../Counselor/UI/page/ClassScreen.dart';
-import '../Student/ui/page/academic_record_screen.dart  .dart';
 
 class NavHomePage extends StatefulWidget {
   final AuthEntities user;
@@ -21,122 +24,26 @@ class NavHomePage extends StatefulWidget {
 
 class _NavHomePageState extends State<NavHomePage>
     with SingleTickerProviderStateMixin {
-  late final PageController _pageController;
   int _currentIndex = 0;
+  late final PageController _pageController;
 
-  // ✅ حسابات القيم الثابتة خارج build
-  final double _navPaddingLeft = 20.w;
-  final double _navPaddingRight = 20.w;
-  final double _navPaddingBottom = 16.h;
-  final double _navHeight = 65.h;
-  final double _navRadius = 30.r;
-  final double _blurRadius = 20.w;
-  final double _spreadRadius = 5.w;
-  final double _selectedFontSize = 13.sp;
-  final double _unselectedFontSize = 12.sp;
-  final double _scaleMultiplier = 1.2;
-  final double _offsetY = 8.h;
+  bool get _isStudent => widget.user.role == "Student";
+  bool get _isTeacher => widget.user.role == "Teacher";
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-
-    List<Widget> pages = [
-      const BulletinScreen(),
-      widget.user.role == "Student"
-          ? const AcademicRecordScreen()
-          : widget.user.role == "Teacher"
-          ? const TeacherSubjectsScreen()
-          : const ClassScreen(),
-      const SettingsScreen(),
-    ];
-
-    List<NavigationDestination> destinations = [
-      _buildNavItem(
-        index: 0,
-        icon: Icons.home_outlined,
-        activeIcon: Icons.home_rounded,
-        label: S.of(context).Home,
-      ),
-      _buildNavItem(
-        index: 1,
-        icon: widget.user.role == "Student" ? Icons.receipt : Icons.person,
-        activeIcon: widget.user.role == "Student"
-            ? Icons.receipt
-            : Icons.person,
-        label: widget.user.role == "Student"
-            ? S.of(context).Info
-            : S.of(context).Students,
-      ),
-      _buildNavItem(
-        index: widget.user.role == "Student" ? 3 : 2,
-        icon: Icons.settings_outlined,
-        activeIcon: Icons.settings_rounded,
-        label: S.of(context).Settings,
-      ),
-    ];
+    final primaryColor = theme.colorScheme.primary;
 
     return Scaffold(
       extendBody: true,
+
       body: PageView(
         controller: _pageController,
         physics: const NeverScrollableScrollPhysics(),
-        children: pages,
+        children: _buildPages(),
       ),
-      bottomNavigationBar: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.fromLTRB(
-            _navPaddingLeft,
-            0,
-            _navPaddingRight,
-            _navPaddingBottom,
-          ),
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(_navRadius),
-              boxShadow: [
-                BoxShadow(
-                  color: theme.shadowColor.withOpacity(0.1),
-                  blurRadius: _blurRadius,
-                  spreadRadius: _spreadRadius,
-                  offset: Offset(0, _offsetY),
-                ),
-              ],
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(_navRadius),
-              child: NavigationBarTheme(
-                data: NavigationBarThemeData(
-                  indicatorColor: theme.colorScheme.primary.withOpacity(0.15),
-                  labelTextStyle: WidgetStateProperty.resolveWith((states) {
-                    if (states.contains(WidgetState.selected)) {
-                      return TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: _selectedFontSize,
-                        color: theme.colorScheme.primary,
-                      );
-                    }
-                    return TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: _unselectedFontSize,
-                      color: theme.unselectedWidgetColor,
-                    );
-                  }),
-                ),
-                child: NavigationBar(
-                  height: _navHeight,
-                  backgroundColor: theme.cardColor,
-                  surfaceTintColor: Colors.transparent,
-                  elevation: 0,
-                  selectedIndex: _currentIndex,
-                  onDestinationSelected: _onTap,
-                  destinations: destinations,
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
+      bottomNavigationBar: _buildCustomNavBar(theme, primaryColor),
     );
   }
 
@@ -149,41 +56,178 @@ class _NavHomePageState extends State<NavHomePage>
   @override
   void initState() {
     super.initState();
-    _pageController = PageController();
+    _pageController = PageController(initialPage: _currentIndex);
   }
 
-  NavigationDestination _buildNavItem({
+  void _animateToPage(int index) {
+    if (index == _currentIndex) return;
+    setState(() => _currentIndex = index);
+
+    _pageController.animateToPage(
+      index,
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.easeInOutCubicEmphasized,
+    );
+  }
+
+  Widget _buildCustomNavBar(ThemeData theme, Color primaryColor) {
+    return SafeArea(
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(24.w, 0, 24.w, 20.h),
+        child: Container(
+          height: 72.h,
+          decoration: BoxDecoration(
+            color: theme.cardColor.withOpacity(0.95),
+            borderRadius: BorderRadius.circular(36.r),
+            border: Border.all(
+              color: theme.dividerColor.withOpacity(0.15),
+              width: 1.w,
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: primaryColor.withOpacity(0.1),
+                blurRadius: 30.r,
+                spreadRadius: 2.r,
+                offset: const Offset(0, 10),
+              ),
+            ],
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(36.r),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _buildNavItem(
+                  index: 0,
+                  icon: Icons.home_outlined,
+                  activeIcon: Icons.home_rounded,
+                  label: S.of(context).Home,
+                  theme: theme,
+                  primaryColor: primaryColor,
+                ),
+                _buildNavItem(
+                  index: 1,
+                  icon: _isStudent
+                      ? Icons.receipt_long_outlined
+                      : Icons.people_outline,
+                  activeIcon: _isStudent
+                      ? Icons.receipt_long_rounded
+                      : Icons.people_rounded,
+                  label: _isStudent
+                      ? S.of(context).Info
+                      : S.of(context).Students,
+                  theme: theme,
+                  primaryColor: primaryColor,
+                ),
+                if (_isStudent)
+                  _buildNavItem(
+                    index: 2,
+                    icon: Icons.library_books_outlined,
+                    activeIcon: Icons.library_books_rounded,
+                    label: S.of(context).library,
+                    theme: theme,
+                    primaryColor: primaryColor,
+                  ),
+                _buildNavItem(
+                  index: _isStudent ? 3 : 2,
+                  icon: Icons.settings_outlined,
+                  activeIcon: Icons.settings_rounded,
+                  label: S.of(context).Settings,
+                  theme: theme,
+                  primaryColor: primaryColor,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildNavItem({
     required int index,
     required IconData icon,
     required IconData activeIcon,
     required String label,
+    required ThemeData theme,
+    required Color primaryColor,
   }) {
     final isSelected = _currentIndex == index;
 
-    return NavigationDestination(
-      icon: AnimatedScale(
-        scale: isSelected ? _scaleMultiplier : 1.0,
-        duration: const Duration(milliseconds: 300),
+    return InkWell(
+      onTap: () => _animateToPage(index),
+      borderRadius: BorderRadius.circular(36.r),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 400),
         curve: Curves.easeOutBack,
-        child: Icon(icon, size: 24.w),
+        padding: EdgeInsets.symmetric(
+          horizontal: isSelected ? 20.w : 16.w,
+          vertical: 12.h,
+        ),
+        decoration: BoxDecoration(
+          color: isSelected
+              ? primaryColor.withOpacity(0.12)
+              : Colors.transparent,
+          borderRadius: BorderRadius.circular(36.r),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // أنيميشن الأيقونة
+            AnimatedScale(
+              scale: isSelected ? 1.25 : 1.0,
+              duration: const Duration(milliseconds: 400),
+              curve: Curves.elasticOut,
+              child: Icon(
+                isSelected ? activeIcon : icon,
+                color: isSelected ? primaryColor : theme.hintColor,
+                size: 20.w,
+              ),
+            ),
+
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+              width: isSelected ? 70.w : 0.w,
+              child: AnimatedOpacity(
+                opacity: isSelected ? 1.0 : 0.0,
+                duration: const Duration(milliseconds: 200),
+                child: Text(
+                  label,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: primaryColor,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 14.sp,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
-      selectedIcon: AnimatedScale(
-        scale: _scaleMultiplier,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeOutBack,
-        child: Icon(activeIcon, size: 24.w),
-      ),
-      label: label,
     );
   }
 
-  void _onTap(int index) {
-    if (index == _currentIndex) return;
-    setState(() => _currentIndex = index);
-    _pageController.animateToPage(
-      index,
-      duration: const Duration(milliseconds: 400),
-      curve: Curves.easeOutCubic,
-    );
+  List<Widget> _buildPages() {
+    return [
+      const BulletinScreen(),
+
+      if (_isStudent)
+        const AcademicRecordScreen()
+      else if (_isTeacher)
+        const TeacherSubjectsScreen()
+      else
+        const ClassScreen(),
+
+      if (_isStudent)
+        BlocProvider(
+          create: (context) => di.sl<LibraryBloc>(),
+          child: const LibraryScreen(),
+        ),
+
+      const SettingsScreen(),
+    ];
   }
 }

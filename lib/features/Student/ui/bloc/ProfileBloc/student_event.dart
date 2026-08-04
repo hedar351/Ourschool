@@ -1,9 +1,10 @@
-
 part of 'student_bloc.dart';
 
 class GetStudentProfileEvent extends StudentEvent {}
 
 class RefreshStudentProfileEvent extends StudentEvent {}
+
+class RevalidateStudentProfileEvent extends StudentEvent {}
 
 sealed class StudentEvent extends Equatable {
   const StudentEvent();

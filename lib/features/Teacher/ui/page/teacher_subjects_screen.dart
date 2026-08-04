@@ -99,11 +99,8 @@ class _TeacherSubjectsScreenState extends State<TeacherSubjectsScreen> {
     final subject = item.subject;
     final school = item.school;
 
-    // حساب عدد الشعب لهذه المادة في هذه المدرسة
-    int sectionsCount = 0;
-    for (var grade in subject.grades) {
-      sectionsCount += grade.sections?.length ?? 0;
-    }
+    // ignore: unused_local_variable
+    for (var grade in subject.grades) {}
 
     return Card(
       margin: EdgeInsets.only(bottom: 12.h),
