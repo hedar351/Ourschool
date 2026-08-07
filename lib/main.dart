@@ -10,11 +10,11 @@ import 'package:school/features/Auth/data/datasources/local_data_source.dart';
 import 'package:school/features/Auth/ui/bloc/auth_bloc.dart';
 import 'package:school/features/Bulletin/ui/bloc/bulletin_bloc.dart';
 import 'package:school/features/Integration/SplashPage.dart';
+import 'package:school/features/Student/ui/bloc/ProfileBloc/student_bloc.dart';
 import 'package:school/generated/l10n.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'features/SchoolsInfo/UI/bloc/school_info_bloc.dart';
-import 'features/Student/ui/bloc/ProfileBloc/student_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

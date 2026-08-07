@@ -10,6 +10,7 @@ import 'package:school/features/Student/ui/ProfileScreen/page/academic_record_sc
 import 'package:school/features/Student/ui/bloc/libraryBloc/library_bloc.dart';
 import 'package:school/features/Student/ui/bloc/reservation_bloc/reservation_bloc.dart';
 import 'package:school/features/Student/ui/libraryScreen/library_screen.dart';
+import 'package:school/features/Teacher/ui/bloc/TeacherBloc/teacher_bloc.dart';
 import 'package:school/features/Teacher/ui/page/teacher_subjects_screen.dart';
 import 'package:school/generated/l10n.dart';
 
@@ -217,7 +218,10 @@ class _NavHomePageState extends State<NavHomePage>
       if (_isStudent)
         const AcademicRecordScreen()
       else if (_isTeacher)
-        const TeacherSubjectsScreen()
+        BlocProvider(
+          create: (_) => di.sl<TeacherBloc>()..add(GetTeacherEvent()),
+          child: const TeacherSubjectsScreen(),
+        )
       else
         const ClassScreen(),
 

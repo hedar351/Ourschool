@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:school/core/injection.dart' as di;
 import 'package:school/core/widget/Loadingwidget.dart';
 import 'package:school/features/Teacher/domain/Entities/TeacherProfileEntities/SubjectEntity.dart';
 import 'package:school/features/Teacher/domain/Entities/TeacherProfileEntities/schoolsEntity.dart';
@@ -25,72 +24,73 @@ class _SubjectWithSchool {
 class _TeacherSubjectsScreenState extends State<TeacherSubjectsScreen> {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => di.sl<TeacherBloc>()..add(GetTeacherEvent()),
-      child: BlocBuilder<TeacherBloc, TeacherState>(
-        builder: (context, state) {
-          if (state is TeacherLoading) {
-            return const Loadingwidget();
-          }
-          if (state is TeacherLoaded) {
-            final profile = state.profile;
-            final teacher = profile.teacherInfo;
-            final schools = profile.school ?? [];
-
-            // استخلاص جميع المواد مع معلومات المدرسة
-            List<_SubjectWithSchool> subjectsWithSchool = [];
-            for (var school in schools) {
-              for (var subject in school.subjects ?? []) {
-                subjectsWithSchool.add(
-                  _SubjectWithSchool(subject: subject, school: school),
-                );
-              }
-            }
-
-            return Scaffold(
-              appBar: AppBar(
-                title: Text(
-                  teacher?.name ?? S.of(context).teacher_profile,
-                  style: TextStyle(fontSize: 18.sp),
-                ),
-                centerTitle: true,
-                automaticallyImplyLeading: false,
-                elevation: 0,
-              ),
-              body: RefreshIndicator(
-                onRefresh: () async {
-                  context.read<TeacherBloc>().add(RefreshTeacherEvent());
-                },
-                color: Colors.transparent,
-                backgroundColor: Colors.transparent,
-                strokeWidth: 0,
-                child: subjectsWithSchool.isEmpty
-                    ? Center(
-                        child: Text(
-                          "S.of(context).no_subjects",
-                          style: TextStyle(fontSize: 16.sp),
-                        ),
-                      )
-                    : ListView.builder(
-                        padding: EdgeInsets.all(16.w),
-                        physics: const AlwaysScrollableScrollPhysics(),
-                        itemCount: subjectsWithSchool.length,
-                        itemBuilder: (context, index) {
-                          final item = subjectsWithSchool[index];
-                          return _buildSubjectCard(context, item);
-                        },
-                      ),
-              ),
-            );
-          }
-          if (state is TeacherError) {
-            return Center(
-              child: Text(state.message, style: TextStyle(fontSize: 16.sp)),
-            );
-          }
+    return
+    // BlocProvider(
+    // create: (_) => di.sl<TeacherBloc>()..add(GetTeacherEvent()),
+    // child:
+    BlocBuilder<TeacherBloc, TeacherState>(
+      builder: (context, state) {
+        if (state is TeacherLoading) {
           return const Loadingwidget();
-        },
-      ),
+        }
+        if (state is TeacherLoaded) {
+          final profile = state.profile;
+          final teacher = profile.teacherInfo;
+          final schools = profile.school ?? [];
+
+          List<_SubjectWithSchool> subjectsWithSchool = [];
+          for (var school in schools) {
+            for (var subject in school.subjects ?? []) {
+              subjectsWithSchool.add(
+                _SubjectWithSchool(subject: subject, school: school),
+              );
+            }
+          }
+
+          return Scaffold(
+            appBar: AppBar(
+              title: Text(
+                teacher?.name ?? S.of(context).teacher_profile,
+                style: TextStyle(fontSize: 18.sp),
+              ),
+              centerTitle: true,
+              automaticallyImplyLeading: false,
+              elevation: 0,
+            ),
+            body: RefreshIndicator(
+              onRefresh: () async {
+                context.read<TeacherBloc>().add(RefreshTeacherEvent());
+              },
+              color: Colors.transparent,
+              backgroundColor: Colors.transparent,
+              strokeWidth: 0,
+              child: subjectsWithSchool.isEmpty
+                  ? Center(
+                      child: Text(
+                        "S.of(context).no_subjects",
+                        style: TextStyle(fontSize: 16.sp),
+                      ),
+                    )
+                  : ListView.builder(
+                      padding: EdgeInsets.all(16.w),
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      itemCount: subjectsWithSchool.length,
+                      itemBuilder: (context, index) {
+                        final item = subjectsWithSchool[index];
+                        return _buildSubjectCard(context, item);
+                      },
+                    ),
+            ),
+          );
+        }
+        if (state is TeacherError) {
+          return Center(
+            child: Text(state.message, style: TextStyle(fontSize: 16.sp)),
+          );
+        }
+        return const Loadingwidget();
+      },
+      // ),
     );
   }
 

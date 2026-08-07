@@ -80,9 +80,8 @@ class _AnimatedSectionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    // final theme = Theme.of(context);
 
-    // أنيميشن دخول متتابع بناءً على الفهرس
     final int delay = (index * 60).clamp(0, 400);
 
     return TweenAnimationBuilder<double>(
@@ -99,10 +98,6 @@ class _AnimatedSectionCard extends StatelessWidget {
     );
   }
 }
-
-// ---------------------------------------------------------
-// محتوى البطاقة الفعلي (مفصول لتجنب إعادة بناء الأنيميشن)
-// ---------------------------------------------------------
 class _SectionCardContent extends StatelessWidget {
   final Sectionentity section;
   final Gradeentity grade;
@@ -168,7 +163,6 @@ class _SectionCardContent extends StatelessWidget {
               padding: EdgeInsets.all(16.w),
               child: Row(
                 children: [
-                  // الأيقونة بتدرج لوني
                   Container(
                     width: 56.w,
                     height: 56.w,
@@ -200,7 +194,7 @@ class _SectionCardContent extends StatelessWidget {
                   ),
                   SizedBox(width: 16.w),
 
-                  // اسم الشعبة
+                  
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -226,7 +220,6 @@ class _SectionCardContent extends StatelessWidget {
                     ),
                   ),
 
-                  // سهم التنقل
                   Container(
                     padding: EdgeInsets.all(8.w),
                     decoration: BoxDecoration(

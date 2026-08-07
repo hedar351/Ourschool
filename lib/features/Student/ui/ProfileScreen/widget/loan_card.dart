@@ -21,10 +21,7 @@ class LoanCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: theme.cardColor,
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(
-          color: isOverdue ? Colors.red.shade200 : Colors.green.shade200,
-          width: 1.5.w,
-        ),
+        border: Border.all(color: Colors.green.shade200, width: 1.5.w),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.04),
@@ -80,10 +77,8 @@ class LoanCard extends StatelessWidget {
                       'إعادة: ${_formatDate(loan.dueDate)}',
                       style: TextStyle(
                         fontSize: 11.sp,
-                        color: isOverdue ? Colors.red : Colors.green.shade700,
-                        fontWeight: isOverdue
-                            ? FontWeight.w600
-                            : FontWeight.normal,
+                        color: Colors.green.shade700,
+                        fontWeight: FontWeight.normal,
                       ),
                     ),
                   ],
@@ -96,9 +91,7 @@ class LoanCard extends StatelessWidget {
           Container(
             padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
             decoration: BoxDecoration(
-              color: isOverdue
-                  ? Colors.red.withOpacity(0.1)
-                  : Colors.green.withOpacity(0.1),
+              color: Colors.green.withOpacity(0.1),
               borderRadius: BorderRadius.circular(10.r),
             ),
             child: Text(
@@ -106,7 +99,7 @@ class LoanCard extends StatelessWidget {
               style: TextStyle(
                 fontSize: 10.sp,
                 fontWeight: FontWeight.w600,
-                color: isOverdue ? Colors.red : Colors.green,
+                color: Colors.green,
               ),
             ),
           ),

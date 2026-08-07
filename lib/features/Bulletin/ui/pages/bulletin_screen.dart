@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:school/core/auto_refresh_mixin.dart';
 import 'package:school/core/widget/Loadingwidget.dart';
 import 'package:school/core/widget/SnackBar/Message.dart';
 import 'package:school/features/Bulletin/ui/bloc/bulletin_bloc.dart';
@@ -15,9 +16,15 @@ class BulletinScreen extends StatefulWidget {
 }
 
 class _BulletinScreenState extends State<BulletinScreen>
-    with WidgetsBindingObserver, AutomaticKeepAliveClientMixin {
+    with
+        WidgetsBindingObserver,
+        AutomaticKeepAliveClientMixin,
+        AutoRefreshMixin<BulletinScreen> {
   late SnackBarMessage snackBarMessage;
   int _selectedTab = 0;
+
+  @override
+  int get refreshInterval => 240;
 
   @override
   bool get wantKeepAlive => true;
@@ -158,6 +165,14 @@ class _BulletinScreenState extends State<BulletinScreen>
     WidgetsBinding.instance.addObserver(this);
     snackBarMessage = SnackBarMessage();
     _loadData();
+  }
+
+  @override
+  Future<void> onAutoRefresh() async {
+    print('🔄 [AutoRefresh] تحديث الكتب تلقائياً...');
+    if (mounted) {
+      context.read<BulletinBloc>().add(RefreshBulletinsEvent());
+    }
   }
 
   Widget _buildEmptyState(BuildContext context, Color activeColor) {

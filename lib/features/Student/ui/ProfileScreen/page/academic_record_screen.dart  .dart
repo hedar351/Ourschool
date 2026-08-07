@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:school/core/auto_refresh_mixin.dart';
 import 'package:school/core/widget/Loadingwidget.dart';
 import 'package:school/core/widget/SnackBar/Message.dart';
 import 'package:school/features/Counselor/domain/Entities/StudentsProfileEntity/Counselor_WarningsEntity.dart';
@@ -31,7 +32,8 @@ class _AcademicRecordScreenState extends State<AcademicRecordScreen>
     with
         WidgetsBindingObserver,
         TickerProviderStateMixin,
-        AutomaticKeepAliveClientMixin {
+        AutomaticKeepAliveClientMixin,
+        AutoRefreshMixin<AcademicRecordScreen> {
   late SnackBarMessage snackBarMessage;
 
   late AnimationController _mainAnimController;
@@ -43,6 +45,9 @@ class _AcademicRecordScreenState extends State<AcademicRecordScreen>
   final double _iconSize = 80.w;
   final double _gapSmall = 16.h;
   final double _gapMedium = 8.h;
+
+  @override
+  int get refreshInterval => 400;
 
   @override
   bool get wantKeepAlive => true;
@@ -101,6 +106,17 @@ class _AcademicRecordScreenState extends State<AcademicRecordScreen>
     snackBarMessage = SnackBarMessage();
     _initAnimations();
     _loadData();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      restartAutoRefresh();
+    });
+  }
+
+  @override
+  Future<void> onAutoRefresh() async {
+    print('🔄 [AutoRefresh] تحديث ملف الطالب تلقائياً...');
+    if (mounted) {
+      context.read<StudentBloc>().add(RefreshStudentProfileEvent());
+    }
   }
 
   Widget _buildContent(BuildContext context, Studentfullprofileentity profile) {
@@ -188,7 +204,6 @@ class _AcademicRecordScreenState extends State<AcademicRecordScreen>
               ),
               SizedBox(height: 16.h),
 
-              // ✅ القسم 3: العلامات
               AnimatedSection(
                 fadeAnim: _fadeAnimations[2],
                 slideAnim: _slideAnimations[2],
@@ -254,7 +269,7 @@ class _AcademicRecordScreenState extends State<AcademicRecordScreen>
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
-            Icons.error_outline,
+            Icons.wifi_off_rounded,
             size: _iconSize,
             color: Colors.red.shade300,
           ),
