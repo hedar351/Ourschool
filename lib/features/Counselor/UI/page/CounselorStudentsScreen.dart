@@ -70,9 +70,9 @@ class _CounselorStudentsScreenState extends State<CounselorStudentsScreen>
             setState(() {});
             showImageViewer(context, state.scheduleImage.imageUrl);
           } else if (state is ScheduleImagesError) {
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text(state.message)));
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("لا توجد صورة جدول لهذه الشعبة")),
+            );
           }
         },
         child: BlocBuilder<StudentsBloc, StudentsState>(
@@ -208,8 +208,8 @@ class _CounselorStudentsScreenState extends State<CounselorStudentsScreen>
         title: Text(widget.sectionName),
         centerTitle: true,
         elevation: 0,
-        backgroundColor: theme.scaffoldBackgroundColor,
-        foregroundColor: theme.colorScheme.onSurface,
+        // backgroundColor: theme.scaffoldBackgroundColor,
+        // foregroundColor: theme.colorScheme.onSurface,
       ),
       backgroundColor: theme.scaffoldBackgroundColor,
       floatingActionButton: _buildFloatingActionButton(context),

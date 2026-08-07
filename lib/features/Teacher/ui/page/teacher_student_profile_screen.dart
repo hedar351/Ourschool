@@ -268,13 +268,13 @@ class _TeacherStudentProfileScreenState
     final theme = Theme.of(context);
     return AppBar(
       title: Text(
-        S.of(context).teacher_profile,
+        S.of(context).student_profile,
         style: TextStyle(fontSize: 18.sp, color: theme.colorScheme.onSurface),
       ),
       centerTitle: true,
       elevation: 0,
-      backgroundColor: theme.scaffoldBackgroundColor,
-      foregroundColor: theme.colorScheme.onSurface,
+      // backgroundColor: theme.scaffoldBackgroundColor,
+      // foregroundColor: theme.colorScheme.onSurface,
     );
   }
 

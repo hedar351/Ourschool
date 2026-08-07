@@ -5,6 +5,7 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:school/features/Student/data/DataSource/library_cache_data_source.dart';
 import 'package:school/features/Student/data/DataSource/library_remote_data_source.dart';
 import 'package:school/features/Student/data/Model/LibraryModel/book_model.dart';
+import 'package:school/features/Student/data/Model/LibraryModel/reservations_model.dart';
 import 'package:school/features/Student/data/Model/LibraryModel/reserve_book_model.dart';
 import 'package:school/features/Student/data/Model/LibraryModel/reserve_model.dart';
 import 'package:school/features/Student/data/Model/ProfilrModel/ActivitiesModel.dart';
@@ -12,11 +13,14 @@ import 'package:school/features/Student/data/Model/ProfilrModel/StatisticsModel.
 import 'package:school/features/Student/data/Model/ProfilrModel/StudentFullProfileModel.dart';
 import 'package:school/features/Student/data/Model/ProfilrModel/StudentInfoModel.dart';
 import 'package:school/features/Student/data/Model/ProfilrModel/SummonsModel.dart';
+import 'package:school/features/Student/data/Model/ProfilrModel/loan_model.dart';
 import 'package:school/features/Student/data/RepoImp/library_repo_imp.dart';
 import 'package:school/features/Student/domain/Repo/library_repo.dart';
+import 'package:school/features/Student/domain/useCase/GetReserveBookUseCase.dart';
 import 'package:school/features/Student/domain/useCase/get_books_usecase.dart';
 import 'package:school/features/Student/domain/useCase/reserveBookUseCase.dart';
 import 'package:school/features/Student/ui/bloc/libraryBloc/library_bloc.dart';
+import 'package:school/features/Student/ui/bloc/reservation_bloc/reservation_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // ----- Auth -----
@@ -176,6 +180,9 @@ Future<void> init() async {
   Hive.registerAdapter(BookModelAdapter()); // typeId: 27
   Hive.registerAdapter(ReserveBookModelAdapter()); // typeId: 28
   Hive.registerAdapter(ReserveModelAdapter());
+  Hive.registerAdapter(ReservationsModelAdapter()); // typeId: 31
+  Hive.registerAdapter(LoanModelAdapter()); // typeId: 31
+
   // ----- 1.2 Open Boxes -----
   final bulletinbox = await Hive.openBox<Bulletinmodel>('bulletinBox');
   final gradebox = await Hive.openBox<GradeModel>('gradebox');
@@ -202,6 +209,11 @@ Future<void> init() async {
   );
   final libraryBox = await Hive.openBox<BookModel>('libraryBox');
   sl.registerLazySingleton(() => libraryBox);
+  final reservationsBox = await Hive.openBox<ReservationsModel>(
+    'reservationsBox',
+  );
+  sl.registerLazySingleton(() => reservationsBox);
+
   print('✅ All Hive boxes opened');
 
   // ====================================================================
@@ -251,7 +263,7 @@ Future<void> init() async {
   // 8. SCHOOLS INFO FEATURE
   // ====================================================================
   _initSchoolsInfo(schoolBox: schoolBox);
-  _initLibrary(libraryBox: libraryBox);
+  _initLibrary(libraryBox: libraryBox, reservationsBox: reservationsBox);
 
   print('✅ All dependencies registered successfully!');
 }
@@ -441,14 +453,17 @@ void _initCounselor({
 // ====== 8. LIBRARY ======
 // ======================================================================
 
-void _initLibrary({required Box<BookModel> libraryBox}) {
+void _initLibrary({
+  required Box<BookModel> libraryBox,
+  required Box<ReservationsModel> reservationsBox,
+}) {
   // ----- Data Sources -----
   sl.registerLazySingleton<LibraryRemoteDataSource>(
     () => LibraryRemoteDataSourceImpl(client: sl(), authLocalDataSource: sl()),
   );
 
   sl.registerLazySingleton<LibraryCacheDataSource>(
-    () => LibraryCacheDataSourceImpl(box: sl()),
+    () => LibraryCacheDataSourceImpl(bookBox: sl(), reservationsBox: sl()),
   );
 
   // ----- Repository -----
@@ -459,6 +474,7 @@ void _initLibrary({required Box<BookModel> libraryBox}) {
   // ----- Use Case -----
   sl.registerLazySingleton(() => GetBooksUseCase(repository: sl()));
   sl.registerLazySingleton(() => ReserveBookUseCase(repository: sl()));
+  sl.registerLazySingleton(() => Getreservebookusecase(repository: sl()));
   // ----- Bloc -----
   sl.registerFactory(
     () => LibraryBloc(
@@ -467,7 +483,9 @@ void _initLibrary({required Box<BookModel> libraryBox}) {
       reserveBookUseCase: sl(),
     ),
   );
-
+  sl.registerFactory(
+    () => ReservationsBloc(getReserveBookUseCase: sl(), libraryRepo: sl()),
+  );
   print('✅ Library feature registered');
 }
 

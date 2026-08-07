@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school/core/cubit/locale_cubit.dart';
+import 'package:school/core/theme/animated_theme_switcher.dart';
 import 'package:school/core/widget/PopupMenu.dart';
 import 'package:school/core/widget/theme_toggle_button.dart';
 import 'package:school/features/Auth/ui/bloc/auth_bloc.dart';
@@ -16,9 +17,6 @@ class SettingsScreen extends StatefulWidget {
   State<SettingsScreen> createState() => _SettingsScreenState();
 }
 
-// ============================================================
-// Helper: أنيميشن الدخول المتتابع (Staggered Slide)
-// ============================================================
 class _AnimatedSlide extends StatelessWidget {
   final Widget child;
   final AnimationController controller;
@@ -67,9 +65,6 @@ class _Divider extends StatelessWidget {
   }
 }
 
-// ============================================================
-// 4. زر تسجيل الخروج الحديث (Soft Danger)
-// ============================================================
 class _ModernLogoutButton extends StatelessWidget {
   const _ModernLogoutButton();
 
@@ -162,9 +157,6 @@ class _ModernLogoutButton extends StatelessWidget {
   }
 }
 
-// ============================================================
-// 1. بطاقة الملف الشخصي الحديثة
-// ============================================================
 class _ModernProfileCard extends StatelessWidget {
   const _ModernProfileCard();
 
@@ -294,9 +286,6 @@ class _ModernProfileCard extends StatelessWidget {
   }
 }
 
-// ============================================================
-// 3. عنصر الإعداد الحديث (Modern Setting Tile)
-// ============================================================
 class _ModernSettingTile extends StatelessWidget {
   final IconData icon;
   final Color iconColor;
@@ -324,7 +313,6 @@ class _ModernSettingTile extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
           child: Row(
             children: [
-              // أيقونة بخلفية ملونة ناعمة
               Container(
                 padding: EdgeInsets.all(9.w),
                 decoration: BoxDecoration(
@@ -362,6 +350,7 @@ class _ModernSettingTile extends StatelessWidget {
 class _SettingsScreenState extends State<SettingsScreen>
     with AutomaticKeepAliveClientMixin, SingleTickerProviderStateMixin {
   late AnimationController _animationController;
+  bool _isDarkMode = false;
 
   @override
   bool get wantKeepAlive => true;
@@ -370,6 +359,7 @@ class _SettingsScreenState extends State<SettingsScreen>
   Widget build(BuildContext context) {
     super.build(context);
     final theme = Theme.of(context);
+    _isDarkMode = theme.brightness == Brightness.dark;
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
@@ -377,107 +367,122 @@ class _SettingsScreenState extends State<SettingsScreen>
         child: CustomScrollView(
           physics: const BouncingScrollPhysics(),
           slivers: [
-            // مساحة علوية بسيطة
             SliverToBoxAdapter(child: SizedBox(height: 16.h)),
 
-            // 1. بطاقة الملف الشخصي
             SliverToBoxAdapter(
-              child: _AnimatedSlide(
-                controller: _animationController,
-                delay: 0,
-                child: const _ModernProfileCard(),
-              ),
-            ),
-
-            SliverToBoxAdapter(child: SizedBox(height: 24.h)),
-
-            // 2. قسم التفضيلات
-            SliverToBoxAdapter(
-              child: _AnimatedSlide(
-                controller: _animationController,
-                delay: 100,
-                child: _SettingsSection(
-                  title: S.of(context).preferences,
-                  children: [
-                    _ModernSettingTile(
-                      icon: Icons.brightness_6_rounded,
-                      iconColor: const Color(0xFF8B5CF6), // بنفسجي
-                      title: S.of(context).Theme,
-                      trailing: const ThemeToggleButton(),
-                    ),
-                    _Divider(),
-                    _ModernSettingTile(
-                      icon: Icons.language_rounded,
-                      iconColor: const Color(0xFF3B82F6), // أزرق
-                      title: S.of(context).Language,
-                      trailing: PopupMenu(
-                        currentLocale: Localizations.localeOf(
-                          context,
-                        ).languageCode,
-                        cubit: context.read<LocaleCubit>(),
-                      ),
-                    ),
-                  ],
+              child: AnimatedThemeSwitcher(
+                isDarkMode: _isDarkMode,
+                child: _AnimatedSlide(
+                  controller: _animationController,
+                  delay: 0,
+                  child: const _ModernProfileCard(),
                 ),
               ),
             ),
 
             SliverToBoxAdapter(child: SizedBox(height: 24.h)),
 
-            // 3. قسم الدعم والمعلومات
             SliverToBoxAdapter(
-              child: _AnimatedSlide(
-                controller: _animationController,
-                delay: 200,
-                child: _SettingsSection(
-                  title: S.of(context).support_and_info,
-                  children: [
-                    _ModernSettingTile(
-                      icon: Icons.info_rounded,
-                      iconColor: const Color(0xFF10B981), // أخضر زمردي
-                      title: S.of(context).about_app,
-                      onTap: () => _showAboutDialog(context),
-                    ),
-                    _Divider(),
-                    _ModernSettingTile(
-                      icon: Icons.privacy_tip_rounded,
-                      iconColor: const Color(0xFFF59E0B), // برتقالي
-                      title: S.of(context).privacy_policy,
-                      onTap: () => _showPrivacyDialog(context),
-                    ),
-                    _Divider(),
-                    _ModernSettingTile(
-                      icon: Icons.new_releases_rounded,
-                      iconColor: const Color(0xFF6366F1), // نيلي
-                      title: S.of(context).version,
-                      trailing: Text(
-                        S.of(context).app_version,
-                        style: TextStyle(
-                          fontSize: 13.sp,
-                          color: theme.colorScheme.outline,
-                          fontWeight: FontWeight.w600,
+              child: AnimatedThemeSwitcher(
+                isDarkMode: _isDarkMode,
+                child: _AnimatedSlide(
+                  controller: _animationController,
+                  delay: 100,
+                  child: _SettingsSection(
+                    title: S.of(context).preferences,
+                    children: [
+                      _ModernSettingTile(
+                        icon: Icons.brightness_6_rounded,
+                        iconColor: const Color(0xFF8B5CF6),
+                        title: S.of(context).Theme,
+                        trailing: const ThemeToggleButton(),
+                      ),
+                      _Divider(),
+                      _ModernSettingTile(
+                        icon: Icons.language_rounded,
+                        iconColor: const Color(0xFF3B82F6),
+                        title: S.of(context).Language,
+                        trailing: PopupMenu(
+                          currentLocale: Localizations.localeOf(
+                            context,
+                          ).languageCode,
+                          cubit: context.read<LocaleCubit>(),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
+            SliverToBoxAdapter(child: SizedBox(height: 24.h)),
 
+            SliverToBoxAdapter(
+              child: AnimatedThemeSwitcher(
+                isDarkMode: _isDarkMode,
+                child: _AnimatedSlide(
+                  controller: _animationController,
+                  delay: 200,
+                  child: _SettingsSection(
+                    title: S.of(context).support_and_info,
+                    children: [
+                      _ModernSettingTile(
+                        icon: Icons.info_rounded,
+                        iconColor: const Color(0xFF10B981),
+                        title: S.of(context).about_app,
+                        onTap: () => _showAboutDialog(context),
+                      ),
+                      _Divider(),
+                      _ModernSettingTile(
+                        icon: Icons.privacy_tip_rounded,
+                        iconColor: const Color(0xFFF59E0B),
+                        title: S.of(context).privacy_policy,
+                        onTap: () => _showPrivacyDialog(context),
+                      ),
+                      _Divider(),
+                      _ModernSettingTile(
+                        icon: Icons.new_releases_rounded,
+                        iconColor: const Color(0xFF6366F1),
+                        title: S.of(context).version,
+                        trailing: Text(
+                          S.of(context).app_version,
+                          style: TextStyle(
+                            fontSize: 13.sp,
+                            color: theme.colorScheme.outline,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
             SliverToBoxAdapter(child: SizedBox(height: 32.h)),
 
             // 4. زر تسجيل الخروج
+            // SliverToBoxAdapter(
+            //   child: _AnimatedSlide(
+            //     controller: _animationController,
+            //     delay: 300,
+            //     child: Padding(
+            //       padding: EdgeInsets.symmetric(horizontal: 16.w),
+            //       child: const _ModernLogoutButton(),
+            //     ),
+            //   ),
+            // ),
             SliverToBoxAdapter(
-              child: _AnimatedSlide(
-                controller: _animationController,
-                delay: 300,
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.w),
-                  child: const _ModernLogoutButton(),
+              child: AnimatedThemeSwitcher(
+                isDarkMode: _isDarkMode,
+                child: _AnimatedSlide(
+                  controller: _animationController,
+                  delay: 300,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.w),
+                    child: const _ModernLogoutButton(),
+                  ),
                 ),
               ),
             ),
-
             SliverToBoxAdapter(child: SizedBox(height: 40.h)),
           ],
         ),

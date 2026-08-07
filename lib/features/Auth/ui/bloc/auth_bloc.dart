@@ -87,7 +87,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     await cacheTeacherStudentProfile.deleteCachedTeacherStudentProfile();
     await libraryCacheDataSource.deleteBooks();
     result.fold(
-      (failure) => emit(AuthErorr(message: mapFailureToMessage(failure))),
+      //(failure) {
+      //   String message = mapFailureToMessage(failure);
+      //   if (failure is ServerFailure && failure.message != null) {
+      //     message = failure.message!;
+      //   }
+      //   emit(AuthErorr(message: message));
+      // },
+      (failure) {
+        final message = mapFailureToMessage(failure);
+        emit(AuthErorr(message: message));
+      },
       (user) => emit(AuthLoaded(user: user)),
     );
   }
@@ -109,10 +119,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     print("🟡 [Bloc] Usecase result: $result");
 
     result.fold(
+      // (failure) {
+      //   String message = mapFailureToMessage(failure);
+      //   if (failure is ServerFailure && failure.message != null) {
+      //     message = failure.message!;
+      //   }
+      //   emit(AuthErorr(message: message));
+      //   print("🔴 [Bloc] No user found, emitting AuthInitial");
+      // },
       (failure) {
-        emit(AuthErorr(message: mapFailureToMessage(failure)));
-        print("🔴 [Bloc] No user found, emitting AuthInitial");
+        final message = mapFailureToMessage(failure);
+        emit(AuthErorr(message: message));
       },
+
       (_) {
         print("🟢 [Bloc] LogOut");
         emit(AuthInitial());

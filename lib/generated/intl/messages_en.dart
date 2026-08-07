@@ -244,6 +244,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Sign in to continue",
     ),
     "student_id": MessageLookupByLibrary.simpleMessage("Student ID"),
+    "student_profile": MessageLookupByLibrary.simpleMessage("student profile"),
     "students": MessageLookupByLibrary.simpleMessage("Students"),
     "studentsCount": MessageLookupByLibrary.simpleMessage("student"),
     "subject": MessageLookupByLibrary.simpleMessage("Subject"),

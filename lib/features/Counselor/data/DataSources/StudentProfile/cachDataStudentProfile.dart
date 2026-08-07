@@ -1,6 +1,3 @@
-// abstract class Cachdatastudentprofile {}
-
-// class CachdatastudentprofileImp implements Cachdatastudentprofile {}
 import 'package:dartz/dartz.dart';
 import 'package:hive/hive.dart';
 import 'package:school/core/error/EXP.dart';

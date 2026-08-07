@@ -59,7 +59,7 @@ class _CounsolerStudentDetailScreenState
           if (state is PostWarningSuccess) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text(state.warning.reason!),
+                content: Text("تم اضافة الانذار بنجاح"),
                 backgroundColor: Colors.green,
               ),
             );

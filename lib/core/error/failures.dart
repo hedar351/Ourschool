@@ -18,7 +18,7 @@ class OfflineFailure extends Failures {
 }
 
 class ServerFailure extends Failures {
-  final String? message; // ✅ إضافة رسالة مخصصة
+  final String? message;
 
   ServerFailure({this.message});
 

@@ -1,6 +1,3 @@
-// abstract class Remotedatastudentprofile {}
-
-// class RemotedatastudentprofileImp implements Remotedatastudentprofile {}
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';

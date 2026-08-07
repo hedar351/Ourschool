@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:school/features/Counselor/domain/Entities/StudentsProfileEntity/Counselor_WarningsEntity.dart';
 import 'package:school/features/Counselor/domain/Entities/attendanceEntity/attendanceEntity.dart';
 import 'package:school/features/Student/domain/entity/Student-FullProfile/ActivitiesEntity.dart';
+import 'package:school/features/Student/domain/entity/Student-FullProfile/LoansEntity.dart';
 import 'package:school/features/Student/domain/entity/Student-FullProfile/StatisticsEntity.dart';
 import 'package:school/features/Student/domain/entity/Student-FullProfile/StudentInfoEntity.dart';
 import 'package:school/features/Student/domain/entity/Student-FullProfile/SummonsEntity.dart';
@@ -18,7 +19,7 @@ class Studentfullprofileentity extends Equatable {
   final List<ActivitiesEntity>? activities;
   final List<CounselorWarningsentity>? warnings;
   final List<SummonsEntity>? summons;
-
+  final List<Loansentity>? loans;
   const Studentfullprofileentity({
     required this.message,
     required this.studentInfo,
@@ -30,6 +31,7 @@ class Studentfullprofileentity extends Equatable {
     required this.activities,
     required this.warnings,
     required this.summons,
+    required this.loans,
   });
   @override
   List<Object?> get props => [
@@ -43,5 +45,6 @@ class Studentfullprofileentity extends Equatable {
     activities,
     warnings,
     summons,
+    loans,
   ];
 }

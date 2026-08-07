@@ -168,5 +168,6 @@
   "search_results": "نتائج البحث",
   "available": "متاح",
   "reserving": "جاري الحجز",
-  "reserve_book": "حجز الكتاب"
+  "reserve_book": "حجز الكتاب",
+  "student_profile": "ملف الطالب "
 }

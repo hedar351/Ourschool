@@ -5,6 +5,7 @@ import 'package:school/features/Student/data/Model/ProfilrModel/ActivitiesModel.
 import 'package:school/features/Student/data/Model/ProfilrModel/StatisticsModel.dart';
 import 'package:school/features/Student/data/Model/ProfilrModel/StudentInfoModel.dart';
 import 'package:school/features/Student/data/Model/ProfilrModel/SummonsModel.dart';
+import 'package:school/features/Student/data/Model/ProfilrModel/loan_model.dart';
 import 'package:school/features/Student/domain/entity/Student-FullProfile/StudentFullProfileEntity.dart';
 import 'package:school/features/Teacher/data/Model/TeacherStudentProfileModel/SemesterMarksModel.dart';
 
@@ -41,7 +42,8 @@ class StudentFullProfileModel extends HiveObject {
 
   @HiveField(9)
   final List<SummonsModel>? summons;
-
+  @HiveField(10)
+  final List<LoanModel>? loans;
   StudentFullProfileModel({
     required this.message,
     required this.studentInfo,
@@ -53,6 +55,7 @@ class StudentFullProfileModel extends HiveObject {
     required this.activities,
     required this.warnings,
     required this.summons,
+    required this.loans,
   });
 
   // ----- fromEntity -----
@@ -81,6 +84,7 @@ class StudentFullProfileModel extends HiveObject {
       warnings: entity.warnings
           ?.map((e) => CounselorWarningModel.fromEntity(e))
           .toList(),
+      loans: entity.loans?.map((e) => LoanModel.fromEntity(e)).toList(),
       summons: entity.summons?.map((e) => SummonsModel.fromEntity(e)).toList(),
     );
   }
@@ -93,6 +97,8 @@ class StudentFullProfileModel extends HiveObject {
     final scheduleImage = scheduleImageData != null
         ? scheduleImageData['imageUrl'] as String?
         : null;
+    final libraryData = data['library'] as Map<String, dynamic>? ?? {};
+    final loansData = libraryData['loans'] as List? ?? [];
 
     return StudentFullProfileModel(
       message: json['message'] as String?,
@@ -121,6 +127,9 @@ class StudentFullProfileModel extends HiveObject {
       summons: (data['summons'] as List? ?? [])
           .map((e) => SummonsModel.fromJson(e as Map<String, dynamic>))
           .toList(),
+      loans: loansData
+          .map((e) => LoanModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
@@ -137,6 +146,7 @@ class StudentFullProfileModel extends HiveObject {
       activities: activities?.map((e) => e.toEntity()).toList(),
       warnings: warnings?.map((e) => e.toEntity()).toList(),
       summons: summons?.map((e) => e.toEntity()).toList(),
+      loans: loans?.map((e) => e.toEntity()).toList(),
     );
   }
 
@@ -154,6 +164,7 @@ class StudentFullProfileModel extends HiveObject {
         'activities': activities?.map((e) => e.toJson()).toList(),
         'warnings': warnings?.map((e) => e.toJson()).toList(),
         'summons': summons?.map((e) => e.toJson()).toList(),
+        'library': {'loans': loans?.map((e) => e.toJson()).toList()},
       },
     };
   }

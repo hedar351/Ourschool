@@ -19,7 +19,6 @@ class TeacherSectionsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // استخراج جميع الشعب من جميع الصفوف لهذه المادة في هذه المدرسة
     List<_SectionWithGrade> sections = [];
     for (var grade in subject.grades) {
       for (var section in grade.sections ?? []) {

@@ -77,9 +77,9 @@ class AuthRepoImp implements AuthRepo {
       } on OfflineExp {
         print("🔴 [Repo] OfflineExp caught, returning Left(OfflineFailure)");
         return Left(OfflineFailure());
-      } catch (e) {
-        print("🔴 [Repo] Unexpected error: $e, returning Left(ServerFailure)");
-        return Left(ServerFailure());
+      } on ServerExp catch (e) {
+        print("🔴 [Repo] ServerExp caught: $e, returning Left(ServerFailure)");
+        return Left(ServerFailure(message: e.message));
       }
     } else {
       return Left(OfflineFailure());

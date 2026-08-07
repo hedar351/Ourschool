@@ -240,6 +240,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "سجل الدخول للمتابعة",
     ),
     "student_id": MessageLookupByLibrary.simpleMessage("رقم الطالب"),
+    "student_profile": MessageLookupByLibrary.simpleMessage("ملف الطالب "),
     "students": MessageLookupByLibrary.simpleMessage("طلاب"),
     "studentsCount": MessageLookupByLibrary.simpleMessage("طالب"),
     "subject": MessageLookupByLibrary.simpleMessage("مادة"),

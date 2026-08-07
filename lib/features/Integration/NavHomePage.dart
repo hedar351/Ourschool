@@ -8,6 +8,7 @@ import 'package:school/features/Setting/Settingscreen.dart';
 // ✅ تم تصحيح مسار الاستيراد (إزالة المسافات الزائدة)
 import 'package:school/features/Student/ui/ProfileScreen/page/academic_record_screen.dart%20%20.dart';
 import 'package:school/features/Student/ui/bloc/libraryBloc/library_bloc.dart';
+import 'package:school/features/Student/ui/bloc/reservation_bloc/reservation_bloc.dart';
 import 'package:school/features/Student/ui/libraryScreen/library_screen.dart';
 import 'package:school/features/Teacher/ui/page/teacher_subjects_screen.dart';
 import 'package:school/generated/l10n.dart';
@@ -173,7 +174,6 @@ class _NavHomePageState extends State<NavHomePage>
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            // أنيميشن الأيقونة
             AnimatedScale(
               scale: isSelected ? 1.25 : 1.0,
               duration: const Duration(milliseconds: 400),
@@ -184,7 +184,7 @@ class _NavHomePageState extends State<NavHomePage>
                 size: 20.w,
               ),
             ),
-
+            SizedBox(width: 6.w),
             AnimatedContainer(
               duration: const Duration(milliseconds: 300),
               curve: Curves.easeInOut,
@@ -222,8 +222,11 @@ class _NavHomePageState extends State<NavHomePage>
         const ClassScreen(),
 
       if (_isStudent)
-        BlocProvider(
-          create: (context) => di.sl<LibraryBloc>(),
+        MultiBlocProvider(
+          providers: [
+            BlocProvider(create: (context) => di.sl<LibraryBloc>()),
+            BlocProvider(create: (context) => di.sl<ReservationsBloc>()),
+          ],
           child: const LibraryScreen(),
         ),
 

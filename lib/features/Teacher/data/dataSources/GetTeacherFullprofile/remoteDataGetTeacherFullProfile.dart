@@ -45,7 +45,7 @@ class RemoteDataTeacherFullProfileImp implements RemoteDataTeacherFullProfile {
     print("🟡 [Remote] Response body: ${response.body}");
 
     if (response.statusCode == 200) {
-      final Map<String, dynamic> decoded = json.decode(response.body);
+      // final Map<String, dynamic> decoded = json.decode(response.body);
       return compute(_parseTeacherFullProfile, response.body);
     } else {
       throw ServerExp();

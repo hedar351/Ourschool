@@ -35,7 +35,6 @@ class _LoginPageState extends State<LoginPage> {
         builder: (context, state) {
           final isLoading = state is AuthLoading;
           return Center(
-            // ✅ ColoredBox خفيف ومباشر بدلاً من Container لتسريع الرسم
             child: ColoredBox(
               color: Theme.of(context).scaffoldBackgroundColor,
               child: SafeArea(
@@ -78,6 +77,19 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
+  String localizedErrorMessage(String key, BuildContext context) {
+    switch (key) {
+      case "SERVER_FAILURE_MESSAGE":
+        return S.of(context).server_failure;
+      case "EMPTY_CACHE_FAILURE_MESSAGE":
+        return S.of(context).empty_cache_failure;
+      case "OFFLINE_FAILURE_MESSAGE":
+        return S.of(context).offline_failure;
+      default:
+        return key;
+    }
+  }
+
   void _dispatchLoginEvent() {
     if (_formKey.currentState!.validate()) {
       context.read<AuthBloc>().add(
@@ -90,22 +102,9 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  String _localizedErrorMessage(String key, BuildContext context) {
-    switch (key) {
-      case "SERVER_FAILURE_MESSAGE":
-        return S.of(context).server_failure;
-      case "EMPTY_CACHE_FAILURE_MESSAGE":
-        return S.of(context).empty_cache_failure;
-      case "OFFLINE_FAILURE_MESSAGE":
-        return S.of(context).offline_failure;
-      default:
-        return S.of(context).unexpected_error;
-    }
-  }
-
   void _onAuthStateChanged(BuildContext context, AuthState state) {
     if (state is AuthErorr) {
-      final message = _localizedErrorMessage(state.message, context);
+      final message = localizedErrorMessage(state.message, context);
       _snackBarMessage.errorMessage(message: message, context: context);
     } else if (state is AuthLoaded) {
       routing(state.user.role!, context, state);

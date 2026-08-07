@@ -6,9 +6,6 @@ import 'package:school/features/Bulletin/ui/widget/BulletinCard.dart';
 import 'package:school/features/Bulletin/ui/widget/buildSectionHeader.dart';
 import 'package:school/generated/l10n.dart';
 
-// ============================================================
-// Widget مساعد للحركة المتتالية (نفس الكود السابق)
-// ============================================================
 class AnimatedEntryWidget extends StatefulWidget {
   final Widget child;
   final int delay;
@@ -101,7 +98,6 @@ class _ScaffoldWidgetState extends State<ScaffoldWidget>
       child: CustomScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         slivers: [
-          // ✅ إضافة مساحة علوية لتعويض إزالة SafeArea، مع الحفاظ على الشفافية
           SliverToBoxAdapter(child: SizedBox(height: 16.h)),
 
           SliverPadding(
@@ -139,7 +135,6 @@ class _ScaffoldWidgetState extends State<ScaffoldWidget>
                     delay: 100,
                     child: _buildEmptySection(context),
                   ),
-                // ✅ مساحة سفلية إضافية لضمان عدم تغطية الشريط العائم لآخر عنصر
                 SizedBox(height: 100.h),
               ]),
             ),
