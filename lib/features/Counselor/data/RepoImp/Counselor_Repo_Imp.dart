@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:school/core/error/EXP.dart';
 import 'package:school/core/error/failures.dart';
-import 'package:school/core/network.dart';
+import 'package:school/core/services/network.dart';
 import 'package:school/features/Counselor/data/DataSources/Grade/cachedatasource.dart';
 import 'package:school/features/Counselor/data/DataSources/Grade/remotdatasource.dart';
 import 'package:school/features/Counselor/data/DataSources/PostWarnings/RemotedataPostWarnings.dart';
@@ -205,7 +205,6 @@ class CounselorRepoImp implements CounselorRepo {
     String type,
     String reason,
   ) async {
-    // 1. التحقق من الاتصال
     if (!await networkInfo.isConnected) {
       print('❌ [Repo] No internet connection');
       return Left(OfflineFailure());

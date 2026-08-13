@@ -1,5 +1,3 @@
-// lib/features/Counselor/UI/widget/ShowDialog/show_warnings_dialog.dart
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school/features/Counselor/UI/widget/WarningCard.dart';
@@ -10,7 +8,6 @@ void showWarningsDialog(
   BuildContext context,
   List<CounselorWarningsentity> warnings,
 ) {
-  // ✅ قيم ثابتة
   final double dialogPadding = 20.w;
   final double maxWidth = 520.w;
   final double maxHeight = 550.h;
@@ -80,7 +77,6 @@ void showWarningsDialog(
               ),
               SizedBox(height: 14.h),
 
-              // ====== المحتوى ======
               Expanded(
                 child: warnings.isEmpty
                     ? Center(
@@ -115,7 +111,6 @@ void showWarningsDialog(
               ),
               SizedBox(height: 12.h),
 
-              // ====== زر الإغلاق ======
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [

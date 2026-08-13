@@ -1,5 +1,3 @@
-// lib/features/Counselor/UI/widget/MarkCard.dart
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school/features/Counselor/domain/Entities/StudentsProfileEntity/Counselor_MarkEntity.dart';
@@ -8,7 +6,6 @@ import 'package:school/generated/l10n.dart';
 class MarkCard extends StatelessWidget {
   final CounselorMarkentity mark;
 
-  // ✅ حسابات القيم الثابتة خارج build
   final double _cardMarginBottom = 12.h;
 
   final double _cardPadding = 16.w;

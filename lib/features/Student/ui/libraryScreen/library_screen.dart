@@ -10,6 +10,7 @@ import 'package:school/core/widget/SnackBar/Message.dart';
 import 'package:school/features/Student/domain/entity/Library/BookEntity.dart';
 import 'package:school/features/Student/ui/bloc/libraryBloc/library_bloc.dart';
 import 'package:school/features/Student/ui/bloc/reservation_bloc/reservation_bloc.dart';
+import 'package:school/features/Student/ui/bloc/reservation_bloc/reservation_event.dart';
 import 'package:school/features/Student/ui/libraryScreen/book_card.dart';
 import 'package:school/features/Student/ui/libraryScreen/reservations_dialog.dart'; // تأكد من صحة المسار واسم الملف
 import 'package:school/generated/l10n.dart';
@@ -133,9 +134,12 @@ class _LibraryScreenState extends State<LibraryScreen>
 
   @override
   Future<void> onAutoRefresh() async {
-    print('🔄 [AutoRefresh] تحديث الكتب تلقائياً...');
+    print(
+      '🔄 [AutoRefresh][RefreshBooksEvent][RefreshReservationsEvent] تحديث الكتب تلقائياً...',
+    );
     if (mounted) {
       context.read<LibraryBloc>().add(RefreshBooksEvent());
+      context.read<ReservationsBloc>().add(RefreshReservationsEvent());
     }
   }
 

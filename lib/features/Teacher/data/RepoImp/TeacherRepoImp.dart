@@ -4,7 +4,7 @@ import 'package:dartz/dartz.dart';
 // ======================================================================
 import 'package:school/core/error/EXP.dart';
 import 'package:school/core/error/failures.dart';
-import 'package:school/core/network.dart';
+import 'package:school/core/services/network.dart';
 // ======================================================================
 // ====== DOMAIN ======
 // ======================================================================

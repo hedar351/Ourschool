@@ -4,8 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:school/core/const.dart';
 import 'package:school/core/error/EXP.dart';
-import 'package:school/features/Auth/data/datasources/local_data_source.dart';
 import 'package:school/features/Counselor/data/Model/StudentsProfileModel/Counselor_studentFullProfileModel.dart';
+import 'package:school/features/FirstStep/Auth/data/datasources/local_data_source.dart';
 
 CounselorStudentFullProfileModel _parseCounselorStudentProfile(
   String responseBody,

@@ -1,5 +1,3 @@
-// lib/features/Counselor/UI/widget/ShowDialog/show_marks_dialog.dart
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school/features/Counselor/UI/widget/MarkCard.dart';
@@ -7,7 +5,6 @@ import 'package:school/features/Counselor/domain/Entities/StudentsProfileEntity/
 import 'package:school/generated/l10n.dart';
 
 void showMarksDialog(BuildContext context, List<CounselorMarkentity> marks) {
-  // ✅ قيم ثابتة
   final double dialogPadding = 20.w;
   final double maxWidth = 520.w;
   final double maxHeight = 550.h;
@@ -25,7 +22,6 @@ void showMarksDialog(BuildContext context, List<CounselorMarkentity> marks) {
     context: context,
     barrierDismissible: true,
     builder: (dialogContext) {
-      // تجميع العلامات حسب الفصل
       final marksBySemester = <int, List<CounselorMarkentity>>{};
       for (var mark in marks) {
         final semester = mark.semester ?? 0;
@@ -80,7 +76,6 @@ void showMarksDialog(BuildContext context, List<CounselorMarkentity> marks) {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // ====== العنوان ======
               Row(
                 children: [
                   Container(
@@ -126,7 +121,6 @@ void showMarksDialog(BuildContext context, List<CounselorMarkentity> marks) {
               ),
               SizedBox(height: 14.h),
 
-              // ====== المحتوى ======
               Expanded(
                 child: marks.isEmpty
                     ? Center(
@@ -156,7 +150,6 @@ void showMarksDialog(BuildContext context, List<CounselorMarkentity> marks) {
               ),
               SizedBox(height: 12.h),
 
-              // ====== زر الإغلاق ======
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [

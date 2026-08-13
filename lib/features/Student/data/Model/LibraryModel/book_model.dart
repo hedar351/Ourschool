@@ -44,7 +44,7 @@ class BookModel extends HiveObject {
   }
 
   factory BookModel.fromJson(Map<String, dynamic> json) {
-    print('📚 [Model] تحويل JSON إلى BookModel: $json');
+    print('[Model] تحويل JSON إلى BookModel: $json');
     return BookModel(
       localBookNumber: json['localBookNumber'] as int,
       title: json['title'] as String,

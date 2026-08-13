@@ -1,5 +1,3 @@
-// lib/features/Counselor/UI/widget/ShowDialog/showAddWarningDialog.dart
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -16,7 +14,6 @@ void showAddWarningDialog(BuildContext context, Studententity? student) {
   String? selectedType;
   final bloc = context.read<PostWarningBloc>();
 
-  // ✅ قيم ثابتة
   // final double dialogPadding = 16.w;
   final double containerPaddingHorizontal = 12.w;
   final double containerPaddingVertical = 8.h;

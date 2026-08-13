@@ -1,78 +1,7 @@
-// // lib/features/Student/data/repositories/StudentRepoImp.dart
-
-// import 'package:dartz/dartz.dart';
-// import 'package:school/core/error/EXP.dart';
-// import 'package:school/core/error/failures.dart';
-// import 'package:school/core/network.dart';
-// import 'package:school/features/Student/data/DataSource/StudentCacheDataSource.dart';
-// import 'package:school/features/Student/data/DataSource/StudentRemoteDataSource.dart';
-// import 'package:school/features/Student/domain/Repo/StudentRepo.dart';
-// import 'package:school/features/Student/domain/entity/Student-FullProfile/StudentFullProfileEntity.dart';
-
-// class StudentRepoImp implements StudentRepo {
-//   final StudentRemoteDataSource remote;
-//   final StudentCacheDataSource cache;
-//   final NetworkInfo networkInfo;
-
-//   StudentRepoImp({
-//     required this.remote,
-//     required this.cache,
-//     required this.networkInfo,
-//   });
-
-//   @override
-//   Future<Either<Failures, List<Studentfullprofileentity>>>
-//   getFullprofile() async {
-//     try {
-//       final cached = await cache.getCachedProfile();
-//       return Right([cached.toEntity()]);
-//     } on EmptyCacheExp {
-//       return await _fetchFromNetworkAndCache();
-//     } catch (e) {
-//       return Left(EmptyCacheFailure());
-//     }
-//   }
-
-//   @override
-//   Future<Either<Failures, List<Studentfullprofileentity>>>
-//   getFullprofileWithCached() async {
-//     if (await networkInfo.isConnected) {
-//       return await _fetchFromNetworkAndCache();
-//     } else {
-//       return Left(OfflineFailure());
-//     }
-//   }
-
-//   @override
-//   Stream<Either<Failures, List<Studentfullprofileentity>>>
-//   watchStudentProfile() {
-//     return cache.watchCachedProfile().map((model) {
-//       if (model != null) {
-//         return Right([model.toEntity()]);
-//       } else {
-//         return Left(EmptyCacheFailure());
-//       }
-//     });
-//   }
-
-//   // ---- Helper ----
-//   Future<Either<Failures, List<Studentfullprofileentity>>>
-//   _fetchFromNetworkAndCache() async {
-//     try {
-//       final remoteProfile = await remote.getFullProfile();
-//       await cache.cacheProfile(remoteProfile);
-//       return Right([remoteProfile.toEntity()]);
-//     } catch (e) {
-//       return Left(ServerFailure());
-//     }
-//   }
-// }
-// lib/features/Student/data/repositories/StudentRepoImp.dart
-
 import 'package:dartz/dartz.dart';
 import 'package:school/core/error/EXP.dart';
 import 'package:school/core/error/failures.dart';
-import 'package:school/core/network.dart';
+import 'package:school/core/services/network.dart';
 import 'package:school/features/Student/data/DataSource/StudentCacheDataSource.dart';
 import 'package:school/features/Student/data/DataSource/StudentRemoteDataSource.dart';
 import 'package:school/features/Student/domain/Repo/StudentRepo.dart';

@@ -1,5 +1,3 @@
-// lib/features/Counselor/UI/widget/WarningCard.dart
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school/features/Counselor/domain/Entities/StudentsProfileEntity/Counselor_WarningsEntity.dart';
@@ -11,7 +9,6 @@ class WarningCard extends StatelessWidget {
   static const Color iconColor = Colors.red;
 
   final CounselorWarningsentity warning;
-  // ✅ حسابات القيم الثابتة خارج build
   final double _cardMarginBottom = 12.h;
   final double _cardPadding = 12.w;
   final double _iconContainerPadding = 8.w;

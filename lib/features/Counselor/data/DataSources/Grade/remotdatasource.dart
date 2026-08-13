@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:school/core/const.dart';
 import 'package:school/core/error/EXP.dart';
-import 'package:school/features/Auth/data/datasources/local_data_source.dart';
 import 'package:school/features/Counselor/data/Model/gradeandSectionModel/gradeModel.dart';
+import 'package:school/features/FirstStep/Auth/data/datasources/local_data_source.dart';
 
 abstract class RemotdatasourceGrade {
   Future<List<GradeModel>> getGardeAndSection();

@@ -1,5 +1,3 @@
-// lib/features/Counselor/UI/page/CounselorStudentsScreen.dart
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -293,14 +291,16 @@ class _CounselorStudentsScreenState extends State<CounselorStudentsScreen>
                   borderRadius: BorderRadius.circular(avatarRadius),
                 ),
                 child: Center(
-                  child: Text(
-                    student.name?.isNotEmpty == true ? student.name![0] : '?',
-                    style: TextStyle(
-                      fontSize: avatarFontSize,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
+                  child:
+                      //  Text(
+                      //   student.name?.isNotEmpty == true ? student.name![0] : '?',
+                      //   style: TextStyle(
+                      //     fontSize: avatarFontSize,
+                      //     fontWeight: FontWeight.bold,
+                      //     color: Colors.white,
+                      //   ),
+                      // ),
+                      Icon(Icons.person),
                 ),
               ),
               SizedBox(width: 16.w),

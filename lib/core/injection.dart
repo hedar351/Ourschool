@@ -23,15 +23,6 @@ import 'package:school/features/Student/ui/bloc/libraryBloc/library_bloc.dart';
 import 'package:school/features/Student/ui/bloc/reservation_bloc/reservation_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-// ----- Auth -----
-import '../features/Auth/data/datasources/local_data_source.dart';
-import '../features/Auth/data/datasources/remote_data_source.dart';
-import '../features/Auth/data/repoImp/auth_repo_imp.dart';
-import '../features/Auth/domain/repo/auth_repo.dart';
-import '../features/Auth/domain/useCases/Log_out_UseCase.dart';
-import '../features/Auth/domain/useCases/LoginUseCase.dart';
-import '../features/Auth/domain/useCases/get_user_usecase.dart';
-import '../features/Auth/ui/bloc/auth_bloc.dart';
 // ----- Bulletin -----
 import '../features/Bulletin/data/dataSources/RemotedataSource.dart';
 import '../features/Bulletin/data/dataSources/cachedataSource.dart';
@@ -75,18 +66,27 @@ import '../features/Counselor/domain/UseCases/GradeAndSectionUseCase.dart';
 import '../features/Counselor/domain/UseCases/Postwarningsusecase.dart';
 import '../features/Counselor/domain/UseCases/StudentBySectionUseCase.dart';
 import '../features/Counselor/domain/UseCases/StudentProfileUseCase.dart';
+// ----- Auth -----
+import '../features/FirstStep/Auth/data/datasources/local_data_source.dart';
+import '../features/FirstStep/Auth/data/datasources/remote_data_source.dart';
+import '../features/FirstStep/Auth/data/repoImp/auth_repo_imp.dart';
+import '../features/FirstStep/Auth/domain/repo/auth_repo.dart';
+import '../features/FirstStep/Auth/domain/useCases/Log_out_UseCase.dart';
+import '../features/FirstStep/Auth/domain/useCases/LoginUseCase.dart';
+import '../features/FirstStep/Auth/domain/useCases/get_user_usecase.dart';
+import '../features/FirstStep/Auth/ui/bloc/auth_bloc.dart';
 // ----- SchoolsInfo -----
-import '../features/SchoolsInfo/UI/bloc/school_info_bloc.dart';
-import '../features/SchoolsInfo/data/DataSource/SchoolCacheDataSource.dart';
-import '../features/SchoolsInfo/data/DataSource/SchoolRemoteDataSource.dart';
-import '../features/SchoolsInfo/data/RepoImp/SchoolRepositoryImpl.dart';
-import '../features/SchoolsInfo/data/models/SchoolInfoModel.dart';
-import '../features/SchoolsInfo/data/models/SchoolWithTeacherModel.dart';
-import '../features/SchoolsInfo/data/models/SectionsModel.dart';
-import '../features/SchoolsInfo/data/models/SubjectsModel.dart';
-import '../features/SchoolsInfo/data/models/TeacherInfoModel.dart';
-import '../features/SchoolsInfo/domain/Repo/SchoolRepository.dart';
-import '../features/SchoolsInfo/domain/UseCase/SchoolwithTeacherUseCase.dart';
+import '../features/FirstStep/SchoolsInfo/UI/bloc/school_info_bloc.dart';
+import '../features/FirstStep/SchoolsInfo/data/DataSource/SchoolCacheDataSource.dart';
+import '../features/FirstStep/SchoolsInfo/data/DataSource/SchoolRemoteDataSource.dart';
+import '../features/FirstStep/SchoolsInfo/data/RepoImp/SchoolRepositoryImpl.dart';
+import '../features/FirstStep/SchoolsInfo/data/models/SchoolInfoModel.dart';
+import '../features/FirstStep/SchoolsInfo/data/models/SchoolWithTeacherModel.dart';
+import '../features/FirstStep/SchoolsInfo/data/models/SectionsModel.dart';
+import '../features/FirstStep/SchoolsInfo/data/models/SubjectsModel.dart';
+import '../features/FirstStep/SchoolsInfo/data/models/TeacherInfoModel.dart';
+import '../features/FirstStep/SchoolsInfo/domain/Repo/SchoolRepository.dart';
+import '../features/FirstStep/SchoolsInfo/domain/UseCase/SchoolwithTeacherUseCase.dart';
 // ----- Student -----
 import '../features/Student/data/DataSource/StudentCacheDataSource.dart';
 import '../features/Student/data/DataSource/StudentRemoteDataSource.dart';
@@ -121,7 +121,7 @@ import '../features/Teacher/ui/bloc/StudentListBloc/teacher_student_list_bloc.da
 import '../features/Teacher/ui/bloc/TeacherBloc/teacher_bloc.dart';
 import '../features/Teacher/ui/bloc/TeacherStudentProflie/bloc/teacher_student_proflie_bloc.dart';
 // ----- Core -----
-import 'network.dart';
+import 'services/network.dart';
 
 // ======================================================================
 // ====== GET IT INSTANCE ======

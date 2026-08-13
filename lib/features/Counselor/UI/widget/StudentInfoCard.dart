@@ -1,5 +1,3 @@
-// lib/features/Counselor/UI/widget/StudentInfoCard.dart
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school/features/Counselor/domain/Entities/StudentsBySectionEntity/studentEntity.dart';
@@ -8,7 +6,6 @@ import 'package:school/generated/l10n.dart';
 class StudentInfoCard extends StatelessWidget {
   final Studententity? student;
 
-  // ✅ حسابات القيم الثابتة خارج build
   final double _cardPadding = 20.w;
 
   final double _avatarSize = 70.w;

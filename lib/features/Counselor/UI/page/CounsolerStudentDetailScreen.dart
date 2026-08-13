@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:school/core/auto_refresh_mixin.dart';
 import 'package:school/core/injection.dart' as di;
 import 'package:school/core/widget/Loadingwidget.dart';
 import 'package:school/features/Counselor/UI/bloc/PostWarnings/post_warnings_bloc.dart';
@@ -33,17 +34,17 @@ class CounsolerStudentDetailScreen extends StatefulWidget {
 
 class _CounsolerStudentDetailScreenState
     extends State<CounsolerStudentDetailScreen>
-    with SingleTickerProviderStateMixin {
+    with
+        SingleTickerProviderStateMixin,
+        AutoRefreshMixin<CounsolerStudentDetailScreen> {
   late AnimationController _controller;
   bool _loaded = false;
-
-  // ✅ حسابات القيم الثابتة خارج build
   final double _contentPadding = 16.w;
   final double _gapLarge = 24.h;
   final double _gapMedium = 16.h;
   final double _gapSmall = 12.h;
-  // final double _elevation = 6;
-
+  @override
+  int get refreshInterval => 300;
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -143,6 +144,18 @@ class _CounsolerStudentDetailScreenState
       vsync: this,
       duration: const Duration(milliseconds: 500),
     );
+  }
+
+  @override
+  Future<void> onAutoRefresh() async {
+    print('🔄 [AutoRefresh][StudentProfileBloc] تحديث تلقائياً...');
+    if (mounted) {
+      context.read<StudentProfileBloc>().add(
+        RefreshStudentProfileEvent(
+          localStudentNumber: widget.localStudentNumber,
+        ),
+      );
+    }
   }
 
   Widget _buildErrorState(BuildContext context, String message) {
@@ -289,7 +302,6 @@ class _CounsolerStudentDetailScreenState
                     ),
                     SizedBox(height: _gapMedium),
 
-                    // ====== بطاقة الإنذارات ======
                     Row(
                       children: [
                         Expanded(
@@ -319,7 +331,6 @@ class _CounsolerStudentDetailScreenState
                       ],
                     ),
 
-                    // ====== العلامات ======
                     SizedBox(height: _gapMedium),
                     Row(
                       children: [

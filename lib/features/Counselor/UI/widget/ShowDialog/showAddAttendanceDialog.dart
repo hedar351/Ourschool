@@ -1,5 +1,3 @@
-// lib/features/Counselor/UI/widget/ShowDialog/showAddAttendanceDialog.dart
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,7 +10,6 @@ void showAddAttendanceDialog(BuildContext context, int? localStudentNumber) {
 
   final attendanceBloc = context.read<AttendanceBloc>();
 
-  // ✅ حسابات القيم الثابتة خارج build
   final double titleIconSize = 24.w;
   final double titleFontSize = 18.sp;
   final double titleGap = 10.w;

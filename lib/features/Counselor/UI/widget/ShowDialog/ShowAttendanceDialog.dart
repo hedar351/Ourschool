@@ -15,8 +15,6 @@ void showAttendanceDialog(
 ) {
   final attendanceBloc = context.read<AttendanceBloc>();
   final studentId = student?.localStudentNumber;
-
-  // ✅ حسابات القيم الثابتة
   final double dialogPadding = 20.w;
   final double maxWidth = 480.w;
   final double maxHeight = 580.h;
@@ -57,7 +55,6 @@ void showAttendanceDialog(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                // ====== العنوان ======
                 Row(
                   children: [
                     Container(
@@ -103,7 +100,6 @@ void showAttendanceDialog(
                 ),
                 SizedBox(height: 14.h),
 
-                // ====== المحتوى ======
                 Expanded(
                   child: attendance.isEmpty
                       ? Center(
@@ -129,7 +125,6 @@ void showAttendanceDialog(
                         )
                       : Column(
                           children: [
-                            // ====== رأس الجدول ======
                             Container(
                               padding: EdgeInsets.symmetric(
                                 horizontal: headerPaddingHorizontal,
@@ -176,7 +171,6 @@ void showAttendanceDialog(
                             ),
                             SizedBox(height: 8.h),
 
-                            // ====== القائمة ======
                             Expanded(
                               child: ListView.separated(
                                 physics: const BouncingScrollPhysics(),
@@ -242,7 +236,6 @@ Widget _buildAttendanceItem(
 ) {
   final isDark = Theme.of(context).brightness == Brightness.dark;
 
-  // ✅ قيم ثابتة
   final double itemPaddingHorizontal = 4.w;
   final double itemPaddingVertical = 4.h;
   final double dateIconSize = 11.w;
@@ -265,7 +258,6 @@ Widget _buildAttendanceItem(
     ),
     child: Row(
       children: [
-        // ====== التاريخ ======
         Expanded(
           flex: 3,
           child: Padding(
@@ -300,8 +292,6 @@ Widget _buildAttendanceItem(
             ),
           ),
         ),
-
-        // ====== زر الحذف ======
         SizedBox(
           width: 68.w,
           child: Row(

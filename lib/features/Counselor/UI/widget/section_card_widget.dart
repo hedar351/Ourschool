@@ -1,5 +1,3 @@
-// lib/features/Counselor/UI/widget/SectionCard.dart
-
 import 'package:flutter/material.dart';
 
 class SectionCard extends StatelessWidget {
