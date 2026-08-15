@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school/core/injection.dart' as di;
-import 'package:school/features/Bulletin/ui/pages/bulletin_screen.dart';
 import 'package:school/features/Counselor/UI/page/ClassAndSectionsScreen.dart';
+import 'package:school/features/Cross-role/Bulletin/ui/pages/bulletin_screen.dart';
 import 'package:school/features/Cross-role/Setting/Settingscreen.dart';
 import 'package:school/features/FirstStep/Auth/domain/entities/auth_entities.dart';
+import 'package:school/features/Librarian/UI/Bloc/LibrarianBloc/librarian_bloc.dart';
+import 'package:school/features/Librarian/UI/page/BooksScreen.dart';
 import 'package:school/features/Student/ui/ProfileScreen/page/academic_record_screen.dart%20%20.dart';
 import 'package:school/features/Student/ui/bloc/libraryBloc/library_bloc.dart';
 import 'package:school/features/Student/ui/bloc/reservation_bloc/reservation_bloc.dart';
-import 'package:school/features/Student/ui/libraryScreen/library_screen.dart';
+import 'package:school/features/Student/ui/libraryScreen/page/library_screen.dart';
 import 'package:school/features/Teacher/ui/bloc/TeacherBloc/teacher_bloc.dart';
 import 'package:school/features/Teacher/ui/page/teacher_subjects_screen.dart';
 import 'package:school/generated/l10n.dart';
@@ -27,8 +29,83 @@ class _NavHomePageState extends State<NavHomePage>
   int _currentIndex = 0;
   late final PageController _pageController;
 
+  bool get _isCounselor => widget.user.role == "Counselor";
+  bool get _isLibrarian => widget.user.role == "Librarian";
   bool get _isStudent => widget.user.role == "Student";
   bool get _isTeacher => widget.user.role == "Teacher";
+
+  List<Map<String, dynamic>> get _navConfig {
+    final config = <Map<String, dynamic>>[];
+    config.add({
+      'icon': Icons.home_outlined,
+      'activeIcon': Icons.home_rounded,
+      'label': S.of(context).Home,
+      'page': const BulletinScreen(),
+    });
+
+    if (_isStudent) {
+      config.add({
+        'icon': Icons.receipt_long_outlined,
+        'activeIcon': Icons.receipt_long_rounded,
+        'label': S.of(context).Info,
+        'page': const AcademicRecordScreen(),
+      });
+    } else if (_isTeacher) {
+      config.add({
+        'icon': Icons.people_outline,
+        'activeIcon': Icons.people_rounded,
+        'label': S.of(context).Students,
+        'page': BlocProvider(
+          create: (_) => di.sl<TeacherBloc>()..add(GetTeacherEvent()),
+          child: const TeacherSubjectsScreen(),
+        ),
+      });
+    } else if (_isCounselor) {
+      config.add({
+        'icon': Icons.people_outline,
+        'activeIcon': Icons.people_rounded,
+        'label': S.of(context).Students,
+        'page': const ClassAndSectionsScreen(),
+      });
+    } else {
+      // ✅ إذا كان الدور Librarian أو أي دور آخر، لا نضيف صفحة ثانية
+      // (نتركها فارغة حتى لا يختل الترتيب)
+    }
+
+    if (_isStudent) {
+      config.add({
+        'icon': Icons.library_books_outlined,
+        'activeIcon': Icons.library_books_rounded,
+        'label': S.of(context).library,
+        'page': MultiBlocProvider(
+          providers: [
+            BlocProvider(create: (context) => di.sl<LibraryBloc>()),
+            BlocProvider(create: (context) => di.sl<ReservationsBloc>()),
+          ],
+          child: const LibraryScreen(),
+        ),
+      });
+    } else if (_isLibrarian) {
+      config.add({
+        'icon': Icons.library_books_outlined,
+        'activeIcon': Icons.library_books_rounded,
+        'label': S.of(context).library,
+        'page': BlocProvider(
+          create: (context) => di.sl<LibrarianBloc>(),
+          child: const Booksscreen(),
+        ),
+      });
+    }
+
+    config.add({
+      'icon': Icons.settings_outlined,
+      'activeIcon': Icons.settings_rounded,
+      'label': S.of(context).Settings,
+      'page': const SettingsScreen(),
+    });
+
+    return config;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,11 +114,15 @@ class _NavHomePageState extends State<NavHomePage>
 
     return Scaffold(
       extendBody: true,
-
       body: PageView(
         controller: _pageController,
-        physics: const NeverScrollableScrollPhysics(),
-        children: _buildPages(),
+        physics: const BouncingScrollPhysics(),
+        onPageChanged: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+        children: _navConfig.map((item) => item['page'] as Widget).toList(),
       ),
       bottomNavigationBar: _buildCustomNavBar(theme, primaryColor),
     );
@@ -71,6 +152,8 @@ class _NavHomePageState extends State<NavHomePage>
   }
 
   Widget _buildCustomNavBar(ThemeData theme, Color primaryColor) {
+    final config = _navConfig;
+
     return SafeArea(
       child: Padding(
         padding: EdgeInsets.fromLTRB(24.w, 0, 24.w, 20.h),
@@ -96,47 +179,18 @@ class _NavHomePageState extends State<NavHomePage>
             borderRadius: BorderRadius.circular(36.r),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                _buildNavItem(
-                  index: 0,
-                  icon: Icons.home_outlined,
-                  activeIcon: Icons.home_rounded,
-                  label: S.of(context).Home,
+              children: config.asMap().entries.map((entry) {
+                final index = entry.key;
+                final item = entry.value;
+                return _buildNavItem(
+                  index: index,
+                  icon: item['icon'] as IconData,
+                  activeIcon: item['activeIcon'] as IconData,
+                  label: item['label'] as String,
                   theme: theme,
                   primaryColor: primaryColor,
-                ),
-                _buildNavItem(
-                  index: 1,
-                  icon: _isStudent
-                      ? Icons.receipt_long_outlined
-                      : Icons.people_outline,
-                  activeIcon: _isStudent
-                      ? Icons.receipt_long_rounded
-                      : Icons.people_rounded,
-                  label: _isStudent
-                      ? S.of(context).Info
-                      : S.of(context).Students,
-                  theme: theme,
-                  primaryColor: primaryColor,
-                ),
-                if (_isStudent)
-                  _buildNavItem(
-                    index: 2,
-                    icon: Icons.library_books_outlined,
-                    activeIcon: Icons.library_books_rounded,
-                    label: S.of(context).library,
-                    theme: theme,
-                    primaryColor: primaryColor,
-                  ),
-                _buildNavItem(
-                  index: _isStudent ? 3 : 2,
-                  icon: Icons.settings_outlined,
-                  activeIcon: Icons.settings_rounded,
-                  label: S.of(context).Settings,
-                  theme: theme,
-                  primaryColor: primaryColor,
-                ),
-              ],
+                );
+              }).toList(),
             ),
           ),
         ),
@@ -207,32 +261,5 @@ class _NavHomePageState extends State<NavHomePage>
         ),
       ),
     );
-  }
-
-  List<Widget> _buildPages() {
-    return [
-      const BulletinScreen(),
-
-      if (_isStudent)
-        const AcademicRecordScreen()
-      else if (_isTeacher)
-        BlocProvider(
-          create: (_) => di.sl<TeacherBloc>()..add(GetTeacherEvent()),
-          child: const TeacherSubjectsScreen(),
-        )
-      else
-        const ClassAndSectionsScreen(),
-
-      if (_isStudent)
-        MultiBlocProvider(
-          providers: [
-            BlocProvider(create: (context) => di.sl<LibraryBloc>()),
-            BlocProvider(create: (context) => di.sl<ReservationsBloc>()),
-          ],
-          child: const LibraryScreen(),
-        ),
-
-      const SettingsScreen(),
-    ];
   }
 }

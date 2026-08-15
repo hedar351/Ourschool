@@ -2,6 +2,34 @@ import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:school/features/Librarian/UI/Bloc/AddDeleteEdit/add_delete_edit_bloc.dart';
+import 'package:school/features/Librarian/UI/Bloc/BookLoansBloc/book_loans_bloc.dart';
+import 'package:school/features/Librarian/UI/Bloc/BookReservationsLoansBloc/book_reservations_loans_bloc.dart';
+import 'package:school/features/Librarian/UI/Bloc/LibrarianBloc/librarian_bloc.dart';
+import 'package:school/features/Librarian/UI/Bloc/LibrarianReservationsLoansBloc/librarian_reservations_loans_bloc.dart';
+import 'package:school/features/Librarian/data/DataSource/Book-reservations-loans-Data/book_loans_cache_data_source.dart';
+import 'package:school/features/Librarian/data/DataSource/Book-reservations-loans-Data/book_loans_remote_data_source.dart';
+import 'package:school/features/Librarian/data/DataSource/Book-reservations-loans-Data/book_reservations_cache_data_source.dart';
+import 'package:school/features/Librarian/data/DataSource/Book-reservations-loans-Data/book_reservations_remote_data_source.dart';
+import 'package:school/features/Librarian/data/DataSource/LibrarianRemoteDataSource.dart';
+import 'package:school/features/Librarian/data/DataSource/loans/librarian_loans_cache_data_source.dart';
+import 'package:school/features/Librarian/data/DataSource/loans/librarian_loans_remote_data_source.dart';
+import 'package:school/features/Librarian/data/DataSource/reservations/librarian_reservations_cache_data_source.dart';
+import 'package:school/features/Librarian/data/DataSource/reservations/librarian_reservations_remote_data_source.dart';
+import 'package:school/features/Librarian/data/Model/Book-reservations-loans-Model/book_loan_model.dart';
+import 'package:school/features/Librarian/data/Model/Book-reservations-loans-Model/book_reservations_model.dart';
+import 'package:school/features/Librarian/data/Model/Book-reservations-loans-Model/statistics_loans_model.dart';
+import 'package:school/features/Librarian/data/Model/general_Model/librarian_loans_model.dart';
+import 'package:school/features/Librarian/data/Model/general_Model/librarian_reservation_model.dart';
+import 'package:school/features/Librarian/data/Model/general_Model/librarian_reservations_model.dart';
+import 'package:school/features/Librarian/data/RepoImp/Librarian_Repo_Imp.dart';
+import 'package:school/features/Librarian/domain/Repo/Librarian_Repo.dart';
+import 'package:school/features/Librarian/domain/UseCase/GetLibrarianLoansUsecase.dart';
+import 'package:school/features/Librarian/domain/UseCase/addBooksUseCase.dart';
+import 'package:school/features/Librarian/domain/UseCase/getBookLoansUseCase.dart';
+import 'package:school/features/Librarian/domain/UseCase/getBookReservationsUseCase.dart';
+import 'package:school/features/Librarian/domain/UseCase/getBooksLibrarianUseCase.dart';
+import 'package:school/features/Librarian/domain/UseCase/getLibrarianReservationsUseCase.dart';
 import 'package:school/features/Student/data/DataSource/library_cache_data_source.dart';
 import 'package:school/features/Student/data/DataSource/library_remote_data_source.dart';
 import 'package:school/features/Student/data/Model/LibraryModel/book_model.dart';
@@ -23,15 +51,6 @@ import 'package:school/features/Student/ui/bloc/libraryBloc/library_bloc.dart';
 import 'package:school/features/Student/ui/bloc/reservation_bloc/reservation_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-// ----- Bulletin -----
-import '../features/Bulletin/data/dataSources/RemotedataSource.dart';
-import '../features/Bulletin/data/dataSources/cachedataSource.dart';
-import '../features/Bulletin/data/model/AnnouncementActivityModel.dart';
-import '../features/Bulletin/data/model/BulletinModel.dart';
-import '../features/Bulletin/data/repoImp/BulletinRepoImp.dart';
-import '../features/Bulletin/domain/Repo/Bulletin_repo.dart';
-import '../features/Bulletin/domain/Usecases/GetbulletinsUseCase.dart';
-import '../features/Bulletin/ui/bloc/bulletin_bloc.dart';
 // ----- Counselor -----
 import '../features/Counselor/UI/bloc/GradeBloc/grade_bloc.dart';
 import '../features/Counselor/UI/bloc/PostWarnings/post_warnings_bloc.dart';
@@ -66,6 +85,15 @@ import '../features/Counselor/domain/UseCases/GradeAndSectionUseCase.dart';
 import '../features/Counselor/domain/UseCases/Postwarningsusecase.dart';
 import '../features/Counselor/domain/UseCases/StudentBySectionUseCase.dart';
 import '../features/Counselor/domain/UseCases/StudentProfileUseCase.dart';
+// ----- Bulletin -----
+import '../features/Cross-role/Bulletin/data/dataSources/RemotedataSource.dart';
+import '../features/Cross-role/Bulletin/data/dataSources/cachedataSource.dart';
+import '../features/Cross-role/Bulletin/data/model/AnnouncementActivityModel.dart';
+import '../features/Cross-role/Bulletin/data/model/BulletinModel.dart';
+import '../features/Cross-role/Bulletin/data/repoImp/BulletinRepoImp.dart';
+import '../features/Cross-role/Bulletin/domain/Repo/Bulletin_repo.dart';
+import '../features/Cross-role/Bulletin/domain/Usecases/GetbulletinsUseCase.dart';
+import '../features/Cross-role/Bulletin/ui/bloc/bulletin_bloc.dart';
 // ----- Auth -----
 import '../features/FirstStep/Auth/data/datasources/local_data_source.dart';
 import '../features/FirstStep/Auth/data/datasources/remote_data_source.dart';
@@ -123,10 +151,6 @@ import '../features/Teacher/ui/bloc/TeacherStudentProflie/bloc/teacher_student_p
 // ----- Core -----
 import 'services/network.dart';
 
-// ======================================================================
-// ====== GET IT INSTANCE ======
-// ======================================================================
-
 final sl = GetIt.instance;
 
 Future<void> init() async {
@@ -182,6 +206,13 @@ Future<void> init() async {
   Hive.registerAdapter(ReserveModelAdapter());
   Hive.registerAdapter(ReservationsModelAdapter()); // typeId: 31
   Hive.registerAdapter(LoanModelAdapter()); // typeId: 31
+  // ----- Librarian -----
+  Hive.registerAdapter(LibrarianReservationModelAdapter()); // typeId: 32
+  Hive.registerAdapter(LibrarianReservationsModelAdapter()); // typeId: 34
+  Hive.registerAdapter(LibrarianLoansModelAdapter()); // typeId: 35
+  Hive.registerAdapter(BookReservationsModelAdapter()); // typeId: 36
+  Hive.registerAdapter(BookLoanModelAdapter()); // typeId: 38
+  Hive.registerAdapter(StatisticsLoansModelAdapter()); // typeId: 37
 
   // ----- 1.2 Open Boxes -----
   final bulletinbox = await Hive.openBox<Bulletinmodel>('bulletinBox');
@@ -214,6 +245,26 @@ Future<void> init() async {
   );
   sl.registerLazySingleton(() => reservationsBox);
 
+  final librarianReservationsBox =
+      await Hive.openBox<LibrarianReservationsModel>(
+        'librarianReservationsBox',
+      );
+
+  sl.registerLazySingleton(() => librarianReservationsBox);
+
+  final librarianLoansBox = await Hive.openBox<LibrarianLoansModel>(
+    'librarianLoansBox',
+  );
+
+  sl.registerLazySingleton(() => librarianLoansBox);
+  final bookReservationsBox = await Hive.openBox<BookReservationsModel>(
+    'bookReservationsBox',
+  );
+
+  sl.registerLazySingleton(() => bookReservationsBox);
+
+  final bookLoanBox = await Hive.openBox<BookLoanModel>('bookLoanBox');
+  sl.registerLazySingleton(() => bookLoanBox);
   print('✅ All Hive boxes opened');
 
   // ====================================================================
@@ -264,7 +315,10 @@ Future<void> init() async {
   // ====================================================================
   _initSchoolsInfo(schoolBox: schoolBox);
   _initLibrary(libraryBox: libraryBox, reservationsBox: reservationsBox);
-
+  // ====================================================================
+  // 9. LIBRARIAN FEATURE
+  // ====================================================================
+  _initLibrarian();
   print('✅ All dependencies registered successfully!');
 }
 
@@ -315,6 +369,10 @@ void _initAuth() {
       cacheTeacherStudentsList: sl(),
       cacheTeacherStudentProfile: sl(),
       libraryCacheDataSource: sl(),
+      librarianReservationsCacheDataSource: sl(),
+      librarianLoansCacheDataSource: sl(),
+      bookReservationsCacheDataSource: sl(),
+      bookLoansCacheDataSource: sl(),
     ),
   );
 
@@ -450,6 +508,153 @@ void _initCounselor({
 }
 
 // ======================================================================
+// ====== LIBRARIAN FEATURE ======
+// ======================================================================
+
+void _initLibrarian() {
+  // ============================================================
+  // ====== Remote Data Sources ======
+  // ============================================================
+
+  // ----- الكتب -----
+  sl.registerLazySingleton<LibrarianRemoteDataSource>(
+    () =>
+        LibrarianRemoteDataSourceImpl(client: sl(), authLocalDataSource: sl()),
+  );
+
+  // ----- الحجوزات العامة -----
+  sl.registerLazySingleton<LibrarianReservationsRemoteDataSource>(
+    () => LibrarianReservationsRemoteDataSourceImpl(
+      client: sl(),
+      authLocalDataSource: sl(),
+    ),
+  );
+
+  // ----- الاستعارات العامة -----
+  sl.registerLazySingleton<LibrarianLoansRemoteDataSource>(
+    () => LibrarianLoansRemoteDataSourceImpl(
+      client: sl(),
+      authLocalDataSource: sl(),
+    ),
+  );
+
+  // ----- حجوزات الكتاب -----
+  sl.registerLazySingleton<BookReservationsRemoteDataSource>(
+    () => BookReservationsRemoteDataSourceImpl(
+      client: sl(),
+      authLocalDataSource: sl(),
+    ),
+  );
+
+  // ----- استعارات الكتاب (جديد) -----
+  sl.registerLazySingleton<BookLoansRemoteDataSource>(
+    () =>
+        BookLoansRemoteDataSourceImpl(client: sl(), authLocalDataSource: sl()),
+  );
+
+  // ============================================================
+  // ====== Cache Data Sources ======
+  // ============================================================
+
+  // ----- الحجوزات العامة -----
+  sl.registerLazySingleton<LibrarianReservationsCacheDataSource>(
+    () => LibrarianReservationsCacheDataSourceImpl(
+      box: sl<Box<LibrarianReservationsModel>>(),
+    ),
+  );
+
+  // ----- الاستعارات العامة -----
+  sl.registerLazySingleton<LibrarianLoansCacheDataSource>(
+    () =>
+        LibrarianLoansCacheDataSourceImpl(box: sl<Box<LibrarianLoansModel>>()),
+  );
+
+  // ----- حجوزات الكتاب -----
+  sl.registerLazySingleton<BookReservationsCacheDataSource>(
+    () => BookReservationsCacheDataSourceImpl(
+      box: sl<Box<BookReservationsModel>>(),
+    ),
+  );
+
+  // ----- استعارات الكتاب (جديد) -----
+  sl.registerLazySingleton<BookLoansCacheDataSource>(
+    () => BookLoansCacheDataSourceImpl(box: sl<Box<BookLoanModel>>()),
+  );
+
+  // ============================================================
+  // ====== Repository ======
+  // ============================================================
+
+  sl.registerLazySingleton<LibrarianRepo>(
+    () => LibrarianRepoImp(
+      cache: sl(),
+      networkInfo: sl(),
+      librarianRemoteDataSource: sl(),
+      reservationsRemoteDataSource: sl(),
+      reservationsCacheDataSource: sl(),
+      loansRemoteDataSource: sl(),
+      loansCacheDataSource: sl(),
+      bookReservationsRemoteDataSource: sl(),
+      bookReservationsCacheDataSource: sl(),
+      bookLoansRemoteDataSource: sl(), // جديد
+      bookLoansCacheDataSource: sl(), // جديد
+    ),
+  );
+
+  // ============================================================
+  // ====== Use Cases ======
+  // ============================================================
+
+  sl.registerLazySingleton(() => Getbookslibrarianusecase(repository: sl()));
+  sl.registerLazySingleton(() => Addbooksusecase(repository: sl()));
+
+  sl.registerLazySingleton(
+    () => GetLibrarianReservationsUseCase(repository: sl()),
+  );
+
+  sl.registerLazySingleton(() => GetLibrarianLoansUsecase(repository: sl()));
+
+  sl.registerLazySingleton(() => Getbookreservationsusecase(repository: sl()));
+
+  // جديد
+  sl.registerLazySingleton(() => Getbookloansusecase(repository: sl()));
+
+  // ============================================================
+  // ====== Blocs ======
+  // ============================================================
+
+  sl.registerFactory(
+    () => LibrarianBloc(getBooksLibrarianUseCase: sl(), librarianRepo: sl()),
+  );
+
+  sl.registerFactory(
+    () => AddDeleteEditBloc(addBooksUseCase: sl<Addbooksusecase>()),
+  );
+
+  sl.registerFactory(
+    () => LibrarianReservationsLoansBloc(
+      getLibrarianReservationsUseCase: sl(),
+      getLibrarianLoansUsecase: sl(),
+      librarianRepo: sl(),
+    ),
+  );
+
+  sl.registerFactory(
+    () => BookReservationsLoansBloc(
+      getBookReservationsUseCase: sl(),
+      librarianRepo: sl(),
+    ),
+  );
+
+  // جديد
+  sl.registerFactory(
+    () => BookLoansBloc(getBookLoansUseCase: sl(), librarianRepo: sl()),
+  );
+
+  print('✅ Librarian feature registered');
+}
+
+// ======================================================================
 // ====== 8. LIBRARY ======
 // ======================================================================
 
@@ -550,7 +755,6 @@ void _initStudent(Box<StudentFullProfileModel> studentProfileBox) {
 
   print('✅ Student feature registered');
 }
-
 // ======================================================================
 // ====== TEACHER FEATURE ======
 // ======================================================================

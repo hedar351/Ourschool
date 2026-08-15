@@ -10,7 +10,7 @@ void routing(
   AuthLoaded state,
 ) {
   if (role != "Admin" &&
-      role != "Librarian" &&
+      // role != "Librarian" &&
       role != "Manager" &&
       role != "Secretary") {
     Navigator.of(context).pushAndRemoveUntil(

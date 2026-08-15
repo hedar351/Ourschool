@@ -1,5 +1,3 @@
-// lib/features/Student/ui/ProfileScreen/widget/loan_card.dart
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school/features/Student/domain/entity/Student-FullProfile/LoansEntity.dart';

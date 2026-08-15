@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
-import 'package:school/features/Bulletin/data/model/AnnouncementActivityModel.dart';
-import 'package:school/features/Bulletin/domain/Entities/BulletinEntity.dart';
+import 'package:school/features/Cross-role/Bulletin/data/model/AnnouncementActivityModel.dart';
+import 'package:school/features/Cross-role/Bulletin/domain/Entities/BulletinEntity.dart';
 
 part 'BulletinModel.g.dart';
 

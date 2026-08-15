@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:school/features/Bulletin/domain/Entities/AnnouncementActivityEntity.dart';
-import 'package:school/features/Bulletin/ui/widget/bulletin_details_sheet.dart';
+import 'package:school/features/Cross-role/Bulletin/domain/Entities/AnnouncementActivityEntity.dart';
+import 'package:school/features/Cross-role/Bulletin/ui/widget/bulletin_details_sheet.dart';
 
 class BulletinCard extends StatelessWidget {
   final Announcementactivityentity entity;

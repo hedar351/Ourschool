@@ -20,11 +20,13 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
-  static String m0(gradeName) => "Sections for ${gradeName}";
+  static String m0(title) => " Book \"${title}\" added successfully";
 
-  static String m1(schoolName) => "Subjects in ${schoolName}";
+  static String m1(gradeName) => "Sections for ${gradeName}";
 
-  static String m2(subjectName) => "Grades for ${subjectName}";
+  static String m2(schoolName) => "Subjects in ${schoolName}";
+
+  static String m3(subjectName) => "Grades for ${subjectName}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -88,10 +90,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "This account is currently not available for viewing",
     ),
     "add": MessageLookupByLibrary.simpleMessage("Add"),
+    "add_book": MessageLookupByLibrary.simpleMessage("Add Book"),
     "add_mark": MessageLookupByLibrary.simpleMessage("Add Mark"),
     "add_warning_title": MessageLookupByLibrary.simpleMessage(
       "Add New Warning",
     ),
+    "adding": MessageLookupByLibrary.simpleMessage("Adding..."),
     "affiliatedSchools": MessageLookupByLibrary.simpleMessage(
       "Affiliated Schools",
     ),
@@ -104,7 +108,44 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "app_version": MessageLookupByLibrary.simpleMessage("1.0.0"),
     "app_version_info": MessageLookupByLibrary.simpleMessage("Version: 1.0.0"),
+    "authorLabel": MessageLookupByLibrary.simpleMessage("Author"),
     "available": MessageLookupByLibrary.simpleMessage("Available"),
+    "bookDetailsAvailableCopies": MessageLookupByLibrary.simpleMessage(
+      "Available Copies",
+    ),
+    "bookDetailsAvailableForLoan": MessageLookupByLibrary.simpleMessage(
+      "Available for Loan",
+    ),
+    "bookDetailsReservedCopies": MessageLookupByLibrary.simpleMessage(
+      "Reserved",
+    ),
+    "bookReservationsSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Browse reservations and Loans for this book",
+    ),
+    "bookReservationsTitle": MessageLookupByLibrary.simpleMessage("Book Info"),
+    "book_added_success": m0,
+    "book_author": MessageLookupByLibrary.simpleMessage("Author Name"),
+    "book_author_hint": MessageLookupByLibrary.simpleMessage(
+      "Example: Taha Hussein",
+    ),
+    "book_author_required": MessageLookupByLibrary.simpleMessage(
+      "Please enter the author name",
+    ),
+    "book_copies": MessageLookupByLibrary.simpleMessage("Number of Copies"),
+    "book_copies_hint": MessageLookupByLibrary.simpleMessage("Example: 5"),
+    "book_copies_positive": MessageLookupByLibrary.simpleMessage(
+      "Please enter a positive integer",
+    ),
+    "book_copies_required": MessageLookupByLibrary.simpleMessage(
+      "Please enter the number of copies",
+    ),
+    "book_title": MessageLookupByLibrary.simpleMessage("Book Title"),
+    "book_title_hint": MessageLookupByLibrary.simpleMessage(
+      "Example: The Days",
+    ),
+    "book_title_required": MessageLookupByLibrary.simpleMessage(
+      "Please enter the book title",
+    ),
     "browse_school": MessageLookupByLibrary.simpleMessage(
       "Browse school information",
     ),
@@ -136,11 +177,22 @@ class MessageLookup extends MessageLookupByLibrary {
     "final_exam": MessageLookupByLibrary.simpleMessage("Final"),
     "final_grade": MessageLookupByLibrary.simpleMessage("Final Grade"),
     "fullName": MessageLookupByLibrary.simpleMessage("Full Name"),
-    "grade_sections": m0,
+    "grade_sections": m1,
     "guardianName": MessageLookupByLibrary.simpleMessage("Guardian Name:"),
     "homework": MessageLookupByLibrary.simpleMessage("Homework"),
     "issued_by": MessageLookupByLibrary.simpleMessage("Issued by"),
     "library": MessageLookupByLibrary.simpleMessage("library"),
+    "loading": MessageLookupByLibrary.simpleMessage("Loading..."),
+    "loadingDataMessage": MessageLookupByLibrary.simpleMessage(
+      "Loading data...",
+    ),
+    "loans": MessageLookupByLibrary.simpleMessage("loans"),
+    "loansManagementSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Browse and track current loans",
+    ),
+    "loansManagementTitle": MessageLookupByLibrary.simpleMessage(
+      "Loans Management",
+    ),
     "login": MessageLookupByLibrary.simpleMessage("Login"),
     "login_success": MessageLookupByLibrary.simpleMessage("Login successful"),
     "marks_title": MessageLookupByLibrary.simpleMessage(" Marks"),
@@ -149,6 +201,22 @@ class MessageLookup extends MessageLookupByLibrary {
     "moreTeachers": MessageLookupByLibrary.simpleMessage("more teachers"),
     "noAdditionalInfo": MessageLookupByLibrary.simpleMessage(
       "No additional information",
+    ),
+    "noLoansForThisBook": MessageLookupByLibrary.simpleMessage(
+      "No loans for this book",
+    ),
+    "noLoansSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Please choose another filter or try again later",
+    ),
+    "noLoansTitle": MessageLookupByLibrary.simpleMessage("No loans available"),
+    "noReservationsForThisBook": MessageLookupByLibrary.simpleMessage(
+      "No reservations for this book",
+    ),
+    "noReservationsSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Please choose another filter or try again later",
+    ),
+    "noReservationsTitle": MessageLookupByLibrary.simpleMessage(
+      "No reservation results available",
     ),
     "noSchools": MessageLookupByLibrary.simpleMessage("No schools available"),
     "noTeachers": MessageLookupByLibrary.simpleMessage(
@@ -209,9 +277,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "quiz_type_5": MessageLookupByLibrary.simpleMessage("Final Exam"),
     "reason": MessageLookupByLibrary.simpleMessage("Reason"),
     "remember_me": MessageLookupByLibrary.simpleMessage("Remember me"),
+    "reservationsManagementSubtitle": MessageLookupByLibrary.simpleMessage(
+      "Browse and track available requests",
+    ),
+    "reservationsManagementTitle": MessageLookupByLibrary.simpleMessage(
+      "Reservations Management",
+    ),
     "reserve_book": MessageLookupByLibrary.simpleMessage("Reserve Book"),
+    "reserves": MessageLookupByLibrary.simpleMessage("reserves"),
     "reserving": MessageLookupByLibrary.simpleMessage("Reserving"),
     "retry": MessageLookupByLibrary.simpleMessage("Retry"),
+    "retryButton": MessageLookupByLibrary.simpleMessage("Retry"),
     "role_admin": MessageLookupByLibrary.simpleMessage("Admin"),
     "role_counselor": MessageLookupByLibrary.simpleMessage("Counselor"),
     "role_student": MessageLookupByLibrary.simpleMessage("Student"),
@@ -223,7 +299,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "school_management_system": MessageLookupByLibrary.simpleMessage(
       "School Management System",
     ),
-    "school_subjects": m1,
+    "school_subjects": m2,
     "schools": MessageLookupByLibrary.simpleMessage("Schools"),
     "schoolsCount": MessageLookupByLibrary.simpleMessage("school"),
     "score": MessageLookupByLibrary.simpleMessage("Score"),
@@ -243,12 +319,32 @@ class MessageLookup extends MessageLookupByLibrary {
     "sign_in_continue": MessageLookupByLibrary.simpleMessage(
       "Sign in to continue",
     ),
+    "statActive": MessageLookupByLibrary.simpleMessage("Active"),
+    "statActiveLoans": MessageLookupByLibrary.simpleMessage("Active"),
+    "statApproved": MessageLookupByLibrary.simpleMessage("Approved"),
+    "statOverdue": MessageLookupByLibrary.simpleMessage("Overdue"),
+    "statOverdueLoans": MessageLookupByLibrary.simpleMessage("Overdue"),
+    "statPending": MessageLookupByLibrary.simpleMessage("Pending"),
+    "statRejected": MessageLookupByLibrary.simpleMessage("Rejected"),
+    "statReturned": MessageLookupByLibrary.simpleMessage("Returned"),
+    "statReturnedLoans": MessageLookupByLibrary.simpleMessage("Returned"),
+    "statTotal": MessageLookupByLibrary.simpleMessage("Total"),
+    "statTotalLoans": MessageLookupByLibrary.simpleMessage("Total Loans"),
+    "statusActive": MessageLookupByLibrary.simpleMessage("Active"),
+    "statusAll": MessageLookupByLibrary.simpleMessage("All"),
+    "statusApproved": MessageLookupByLibrary.simpleMessage("Approved"),
+    "statusCancelled": MessageLookupByLibrary.simpleMessage("Cancelled"),
+    "statusFulfilled": MessageLookupByLibrary.simpleMessage("Fulfilled"),
+    "statusOverdue": MessageLookupByLibrary.simpleMessage("Overdue"),
+    "statusPending": MessageLookupByLibrary.simpleMessage("Pending"),
+    "statusRejected": MessageLookupByLibrary.simpleMessage("Rejected"),
+    "statusReturned": MessageLookupByLibrary.simpleMessage("Returned"),
     "student_id": MessageLookupByLibrary.simpleMessage("Student ID"),
     "student_profile": MessageLookupByLibrary.simpleMessage("student profile"),
     "students": MessageLookupByLibrary.simpleMessage("Students"),
     "studentsCount": MessageLookupByLibrary.simpleMessage("student"),
     "subject": MessageLookupByLibrary.simpleMessage("Subject"),
-    "subject_grades": m2,
+    "subject_grades": m3,
     "subjects": MessageLookupByLibrary.simpleMessage("Subjects"),
     "subjectsTaught": MessageLookupByLibrary.simpleMessage("Subjects Taught"),
     "subjects_title": MessageLookupByLibrary.simpleMessage(" Subjects"),
@@ -265,6 +361,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "teachingStaff": MessageLookupByLibrary.simpleMessage("Teaching Staff"),
     "title": MessageLookupByLibrary.simpleMessage("Our School"),
     "total_books": MessageLookupByLibrary.simpleMessage("Total Books"),
+    "tryAnotherFilter": MessageLookupByLibrary.simpleMessage(
+      "Try another filter",
+    ),
     "type": MessageLookupByLibrary.simpleMessage("Type"),
     "type_behavior": MessageLookupByLibrary.simpleMessage("Behavior"),
     "type_dismissal_warning": MessageLookupByLibrary.simpleMessage(
@@ -274,6 +373,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "unexpected_error": MessageLookupByLibrary.simpleMessage(
       "Unexpected error, please try again later",
     ),
+    "unknownBookTitle": MessageLookupByLibrary.simpleMessage(
+      "Book title not specified",
+    ),
+    "unknownDate": MessageLookupByLibrary.simpleMessage("Not specified"),
+    "unknownStudent": MessageLookupByLibrary.simpleMessage("Unknown student"),
+    "unknownTitle": MessageLookupByLibrary.simpleMessage("Unknown title"),
     "unknown_name": MessageLookupByLibrary.simpleMessage("Unknown"),
     "unknown_school": MessageLookupByLibrary.simpleMessage("Unknown School"),
     "username": MessageLookupByLibrary.simpleMessage("Username"),

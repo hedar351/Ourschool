@@ -6,7 +6,7 @@ import 'package:school/core/cubit/locale_cubit.dart';
 import 'package:school/core/cubit/theme_cubit.dart';
 import 'package:school/core/injection.dart' as di;
 import 'package:school/core/theme/theme.dart';
-import 'package:school/features/Bulletin/ui/bloc/bulletin_bloc.dart';
+import 'package:school/features/Cross-role/Bulletin/ui/bloc/bulletin_bloc.dart';
 import 'package:school/features/Cross-role/Route/SplashPage.dart';
 import 'package:school/features/FirstStep/Auth/data/datasources/local_data_source.dart';
 import 'package:school/features/FirstStep/Auth/ui/bloc/auth_bloc.dart';

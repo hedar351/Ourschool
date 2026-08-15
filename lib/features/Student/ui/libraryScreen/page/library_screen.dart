@@ -11,8 +11,8 @@ import 'package:school/features/Student/domain/entity/Library/BookEntity.dart';
 import 'package:school/features/Student/ui/bloc/libraryBloc/library_bloc.dart';
 import 'package:school/features/Student/ui/bloc/reservation_bloc/reservation_bloc.dart';
 import 'package:school/features/Student/ui/bloc/reservation_bloc/reservation_event.dart';
-import 'package:school/features/Student/ui/libraryScreen/book_card.dart';
-import 'package:school/features/Student/ui/libraryScreen/reservations_dialog.dart'; // تأكد من صحة المسار واسم الملف
+import 'package:school/features/Student/ui/libraryScreen/Widget/book_card.dart';
+import 'package:school/features/Student/ui/libraryScreen/Widget/reservations_dialog.dart'; // تأكد من صحة المسار واسم الملف
 import 'package:school/generated/l10n.dart';
 
 class LibraryScreen extends StatefulWidget {
@@ -262,6 +262,7 @@ class _LibraryScreenState extends State<LibraryScreen>
                               ),
                               book: displayedBooks[index],
                               index: index,
+                              isStudent: true,
                             ),
                             childCount: displayedBooks.length,
                             addAutomaticKeepAlives: true,

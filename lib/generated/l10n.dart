@@ -1305,6 +1305,476 @@ class S {
       args: [],
     );
   }
+
+  /// `Add Book`
+  String get add_book {
+    return Intl.message('Add Book', name: 'add_book', desc: '', args: []);
+  }
+
+  /// `Book Title`
+  String get book_title {
+    return Intl.message('Book Title', name: 'book_title', desc: '', args: []);
+  }
+
+  /// `Example: The Days`
+  String get book_title_hint {
+    return Intl.message(
+      'Example: The Days',
+      name: 'book_title_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Author Name`
+  String get book_author {
+    return Intl.message('Author Name', name: 'book_author', desc: '', args: []);
+  }
+
+  /// `Example: Taha Hussein`
+  String get book_author_hint {
+    return Intl.message(
+      'Example: Taha Hussein',
+      name: 'book_author_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Number of Copies`
+  String get book_copies {
+    return Intl.message(
+      'Number of Copies',
+      name: 'book_copies',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Example: 5`
+  String get book_copies_hint {
+    return Intl.message(
+      'Example: 5',
+      name: 'book_copies_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter the book title`
+  String get book_title_required {
+    return Intl.message(
+      'Please enter the book title',
+      name: 'book_title_required',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter the author name`
+  String get book_author_required {
+    return Intl.message(
+      'Please enter the author name',
+      name: 'book_author_required',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter the number of copies`
+  String get book_copies_required {
+    return Intl.message(
+      'Please enter the number of copies',
+      name: 'book_copies_required',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter a positive integer`
+  String get book_copies_positive {
+    return Intl.message(
+      'Please enter a positive integer',
+      name: 'book_copies_positive',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Adding...`
+  String get adding {
+    return Intl.message('Adding...', name: 'adding', desc: '', args: []);
+  }
+
+  /// ` Book "{title}" added successfully`
+  String book_added_success(Object title) {
+    return Intl.message(
+      ' Book "$title" added successfully',
+      name: 'book_added_success',
+      desc: '',
+      args: [title],
+    );
+  }
+
+  /// `Reservations Management`
+  String get reservationsManagementTitle {
+    return Intl.message(
+      'Reservations Management',
+      name: 'reservationsManagementTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Browse and track available requests`
+  String get reservationsManagementSubtitle {
+    return Intl.message(
+      'Browse and track available requests',
+      name: 'reservationsManagementSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Loading data...`
+  String get loadingDataMessage {
+    return Intl.message(
+      'Loading data...',
+      name: 'loadingDataMessage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No reservation results available`
+  String get noReservationsTitle {
+    return Intl.message(
+      'No reservation results available',
+      name: 'noReservationsTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please choose another filter or try again later`
+  String get noReservationsSubtitle {
+    return Intl.message(
+      'Please choose another filter or try again later',
+      name: 'noReservationsSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Retry`
+  String get retryButton {
+    return Intl.message('Retry', name: 'retryButton', desc: '', args: []);
+  }
+
+  /// `Book title not specified`
+  String get unknownBookTitle {
+    return Intl.message(
+      'Book title not specified',
+      name: 'unknownBookTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unknown student`
+  String get unknownStudent {
+    return Intl.message(
+      'Unknown student',
+      name: 'unknownStudent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Not specified`
+  String get unknownDate {
+    return Intl.message(
+      'Not specified',
+      name: 'unknownDate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pending`
+  String get statusPending {
+    return Intl.message('Pending', name: 'statusPending', desc: '', args: []);
+  }
+
+  /// `Approved`
+  String get statusApproved {
+    return Intl.message('Approved', name: 'statusApproved', desc: '', args: []);
+  }
+
+  /// `Rejected`
+  String get statusRejected {
+    return Intl.message('Rejected', name: 'statusRejected', desc: '', args: []);
+  }
+
+  /// `Cancelled`
+  String get statusCancelled {
+    return Intl.message(
+      'Cancelled',
+      name: 'statusCancelled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fulfilled`
+  String get statusFulfilled {
+    return Intl.message(
+      'Fulfilled',
+      name: 'statusFulfilled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pending`
+  String get statPending {
+    return Intl.message('Pending', name: 'statPending', desc: '', args: []);
+  }
+
+  /// `Approved`
+  String get statApproved {
+    return Intl.message('Approved', name: 'statApproved', desc: '', args: []);
+  }
+
+  /// `Rejected`
+  String get statRejected {
+    return Intl.message('Rejected', name: 'statRejected', desc: '', args: []);
+  }
+
+  /// `Total`
+  String get statTotal {
+    return Intl.message('Total', name: 'statTotal', desc: '', args: []);
+  }
+
+  /// `loans`
+  String get loans {
+    return Intl.message('loans', name: 'loans', desc: '', args: []);
+  }
+
+  /// `reserves`
+  String get reserves {
+    return Intl.message('reserves', name: 'reserves', desc: '', args: []);
+  }
+
+  /// `Loans Management`
+  String get loansManagementTitle {
+    return Intl.message(
+      'Loans Management',
+      name: 'loansManagementTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Browse and track current loans`
+  String get loansManagementSubtitle {
+    return Intl.message(
+      'Browse and track current loans',
+      name: 'loansManagementSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No loans available`
+  String get noLoansTitle {
+    return Intl.message(
+      'No loans available',
+      name: 'noLoansTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please choose another filter or try again later`
+  String get noLoansSubtitle {
+    return Intl.message(
+      'Please choose another filter or try again later',
+      name: 'noLoansSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Active`
+  String get statActive {
+    return Intl.message('Active', name: 'statActive', desc: '', args: []);
+  }
+
+  /// `Returned`
+  String get statReturned {
+    return Intl.message('Returned', name: 'statReturned', desc: '', args: []);
+  }
+
+  /// `Overdue`
+  String get statOverdue {
+    return Intl.message('Overdue', name: 'statOverdue', desc: '', args: []);
+  }
+
+  /// `All`
+  String get statusAll {
+    return Intl.message('All', name: 'statusAll', desc: '', args: []);
+  }
+
+  /// `Active`
+  String get statusActive {
+    return Intl.message('Active', name: 'statusActive', desc: '', args: []);
+  }
+
+  /// `Returned`
+  String get statusReturned {
+    return Intl.message('Returned', name: 'statusReturned', desc: '', args: []);
+  }
+
+  /// `Overdue`
+  String get statusOverdue {
+    return Intl.message('Overdue', name: 'statusOverdue', desc: '', args: []);
+  }
+
+  /// `Book Info`
+  String get bookReservationsTitle {
+    return Intl.message(
+      'Book Info',
+      name: 'bookReservationsTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Browse reservations and Loans for this book`
+  String get bookReservationsSubtitle {
+    return Intl.message(
+      'Browse reservations and Loans for this book',
+      name: 'bookReservationsSubtitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Available Copies`
+  String get bookDetailsAvailableCopies {
+    return Intl.message(
+      'Available Copies',
+      name: 'bookDetailsAvailableCopies',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Reserved`
+  String get bookDetailsReservedCopies {
+    return Intl.message(
+      'Reserved',
+      name: 'bookDetailsReservedCopies',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Available for Loan`
+  String get bookDetailsAvailableForLoan {
+    return Intl.message(
+      'Available for Loan',
+      name: 'bookDetailsAvailableForLoan',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No reservations for this book`
+  String get noReservationsForThisBook {
+    return Intl.message(
+      'No reservations for this book',
+      name: 'noReservationsForThisBook',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Try another filter`
+  String get tryAnotherFilter {
+    return Intl.message(
+      'Try another filter',
+      name: 'tryAnotherFilter',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Author`
+  String get authorLabel {
+    return Intl.message('Author', name: 'authorLabel', desc: '', args: []);
+  }
+
+  /// `Unknown title`
+  String get unknownTitle {
+    return Intl.message(
+      'Unknown title',
+      name: 'unknownTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Loading...`
+  String get loading {
+    return Intl.message('Loading...', name: 'loading', desc: '', args: []);
+  }
+
+  /// `Total Loans`
+  String get statTotalLoans {
+    return Intl.message(
+      'Total Loans',
+      name: 'statTotalLoans',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Active`
+  String get statActiveLoans {
+    return Intl.message('Active', name: 'statActiveLoans', desc: '', args: []);
+  }
+
+  /// `Returned`
+  String get statReturnedLoans {
+    return Intl.message(
+      'Returned',
+      name: 'statReturnedLoans',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Overdue`
+  String get statOverdueLoans {
+    return Intl.message(
+      'Overdue',
+      name: 'statOverdueLoans',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No loans for this book`
+  String get noLoansForThisBook {
+    return Intl.message(
+      'No loans for this book',
+      name: 'noLoansForThisBook',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

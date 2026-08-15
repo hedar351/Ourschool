@@ -332,7 +332,7 @@ class _ModernSettingTile extends StatelessWidget {
                   ),
                 ),
               ),
-              ?trailing,
+              // ?trailing,
               if (trailing == null && onTap != null)
                 Icon(
                   Icons.chevron_left_rounded,

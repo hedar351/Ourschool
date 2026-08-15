@@ -12,16 +12,6 @@ class StudentFullProfileModelAdapter
   final int typeId = 25;
 
   @override
-  int get hashCode => typeId.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is StudentFullProfileModelAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
-
-  @override
   StudentFullProfileModel read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
@@ -45,7 +35,7 @@ class StudentFullProfileModelAdapter
   @override
   void write(BinaryWriter writer, StudentFullProfileModel obj) {
     writer
-      ..writeByte(10)
+      ..writeByte(11)
       ..writeByte(0)
       ..write(obj.message)
       ..writeByte(1)
@@ -69,4 +59,14 @@ class StudentFullProfileModelAdapter
       ..writeByte(10)
       ..write(obj.loans);
   }
+
+  @override
+  int get hashCode => typeId.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is StudentFullProfileModelAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }

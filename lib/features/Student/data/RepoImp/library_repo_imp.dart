@@ -117,7 +117,7 @@ class LibraryRepoImp implements LibraryRepo {
 
   @override
   Stream<List<BookEntity>> watchCachedBooks() {
-    print('👀 [Repo] بدء مراقبة الكاش (Stream)');
+    print(' [Repo] بدء مراقبة الكاش (Stream)');
     return cache.watchCachedBooks().map(
       (models) => models.map((e) => e.toEntity()).toList(),
     );

@@ -2,11 +2,15 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:school/core/const.dart';
-import 'package:school/features/Bulletin/data/dataSources/cachedataSource.dart';
 import 'package:school/features/Counselor/data/DataSources/Grade/cachedatasource.dart';
 import 'package:school/features/Counselor/data/DataSources/StudentList/Cachedatasource.dart';
 import 'package:school/features/Counselor/data/DataSources/StudentProfile/cachDataStudentProfile.dart';
+import 'package:school/features/Cross-role/Bulletin/data/dataSources/cachedataSource.dart';
 import 'package:school/features/FirstStep/Auth/domain/entities/auth_entities.dart';
+import 'package:school/features/Librarian/data/DataSource/Book-reservations-loans-Data/book_loans_cache_data_source.dart';
+import 'package:school/features/Librarian/data/DataSource/Book-reservations-loans-Data/book_reservations_cache_data_source.dart';
+import 'package:school/features/Librarian/data/DataSource/loans/librarian_loans_cache_data_source.dart';
+import 'package:school/features/Librarian/data/DataSource/reservations/librarian_reservations_cache_data_source.dart';
 import 'package:school/features/Student/data/DataSource/library_cache_data_source.dart';
 import 'package:school/features/Teacher/data/dataSources/GetTeacherFullprofile/cacheDataGetTeacherFullprofile.dart';
 import 'package:school/features/Teacher/data/dataSources/TeacherStudentProfile/CacheTeacherStudentProfile.dart';
@@ -31,7 +35,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   CacheTeacherStudentsList cacheTeacherStudentsList;
   CacheTeacherStudentProfile cacheTeacherStudentProfile;
   LibraryCacheDataSource libraryCacheDataSource;
-
+  LibrarianReservationsCacheDataSource librarianReservationsCacheDataSource;
+  LibrarianLoansCacheDataSource librarianLoansCacheDataSource;
+  BookReservationsCacheDataSource bookReservationsCacheDataSource;
+  BookLoansCacheDataSource bookLoansCacheDataSource;
   AuthBloc({
     required this.cacheTeacherStudentsList,
     required this.cacheDataStudentProfile,
@@ -44,6 +51,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     required this.loginUseCase,
     required this.getUserUsecase,
     required this.logoutUseCase,
+    required this.librarianReservationsCacheDataSource,
+    required this.librarianLoansCacheDataSource,
+    required this.bookReservationsCacheDataSource,
+    required this.bookLoansCacheDataSource,
   }) : super(AuthInitial()) {
     on<LoginEvent>(_onLogin);
     on<CheckAuthEvent>(_onCheckAuth);
@@ -88,21 +99,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     await cacheTeacherStudentProfile.deleteCachedTeacherStudentProfile();
     await libraryCacheDataSource.deleteBooks();
     await libraryCacheDataSource.deleteReservations();
-
-    result.fold(
-      //(failure) {
-      //   String message = mapFailureToMessage(failure);
-      //   if (failure is ServerFailure && failure.message != null) {
-      //     message = failure.message!;
-      //   }
-      //   emit(AuthErorr(message: message));
-      // },
-      (failure) {
-        final message = mapFailureToMessage(failure);
-        emit(AuthErorr(message: message));
-      },
-      (user) => emit(AuthLoaded(user: user)),
-    );
+    await librarianReservationsCacheDataSource.deleteLibrarianReservations();
+    await librarianLoansCacheDataSource.deleteLibrarianLoans();
+    await bookReservationsCacheDataSource.deleteBookReservations();
+    await bookLoansCacheDataSource.deleteBookLoans();
+    result.fold((failure) {
+      final message = mapFailureToMessage(failure);
+      emit(AuthErorr(message: message));
+    }, (user) => emit(AuthLoaded(user: user)));
   }
 
   Future<void> _onLogout(LogoutEvent event, Emitter<AuthState> emit) async {
@@ -118,19 +122,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     await cacheTeacherStudentsList.deleteStudents();
     await libraryCacheDataSource.deleteBooks();
     await libraryCacheDataSource.deleteReservations();
+    await librarianReservationsCacheDataSource.deleteLibrarianReservations();
+    await librarianLoansCacheDataSource.deleteLibrarianLoans();
+    await bookReservationsCacheDataSource.deleteBookReservations();
+    await bookLoansCacheDataSource.deleteBookLoans();
 
     final result = await logoutUseCase();
     print("🟡 [Bloc] Usecase result: $result");
 
     result.fold(
-      // (failure) {
-      //   String message = mapFailureToMessage(failure);
-      //   if (failure is ServerFailure && failure.message != null) {
-      //     message = failure.message!;
-      //   }
-      //   emit(AuthErorr(message: message));
-      //   print("🔴 [Bloc] No user found, emitting AuthInitial");
-      // },
       (failure) {
         final message = mapFailureToMessage(failure);
         emit(AuthErorr(message: message));

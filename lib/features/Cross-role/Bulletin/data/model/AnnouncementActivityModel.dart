@@ -1,5 +1,5 @@
 import 'package:hive/hive.dart';
-import 'package:school/features/Bulletin/domain/Entities/AnnouncementActivityEntity.dart';
+import 'package:school/features/Cross-role/Bulletin/domain/Entities/AnnouncementActivityEntity.dart';
 
 part 'AnnouncementActivityModel.g.dart';
 

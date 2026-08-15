@@ -20,11 +20,13 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'ar';
 
-  static String m0(gradeName) => "الشعب لصف ${gradeName}";
+  static String m0(title) => " تم إضافة الكتاب \"${title}\" بنجاح";
 
-  static String m1(schoolName) => "المواد في ${schoolName}";
+  static String m1(gradeName) => "الشعب لصف ${gradeName}";
 
-  static String m2(subjectName) => "الصفوف لمادة ${subjectName}";
+  static String m2(schoolName) => "المواد في ${schoolName}";
+
+  static String m3(subjectName) => "الصفوف لمادة ${subjectName}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -81,10 +83,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "هذا الحساب غير متوفر للعرض حالياً",
     ),
     "add": MessageLookupByLibrary.simpleMessage("إضافة"),
+    "add_book": MessageLookupByLibrary.simpleMessage("إضافة كتاب"),
     "add_mark": MessageLookupByLibrary.simpleMessage("إضافة علامة"),
     "add_warning_title": MessageLookupByLibrary.simpleMessage(
       "إضافة إنذار جديد",
     ),
+    "adding": MessageLookupByLibrary.simpleMessage("جاري الإضافة..."),
     "affiliatedSchools": MessageLookupByLibrary.simpleMessage(
       "المدارس المنتسبة",
     ),
@@ -97,7 +101,40 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "app_version": MessageLookupByLibrary.simpleMessage("1.0.0"),
     "app_version_info": MessageLookupByLibrary.simpleMessage("الإصدار: 1.0.0"),
+    "authorLabel": MessageLookupByLibrary.simpleMessage("المؤلف"),
     "available": MessageLookupByLibrary.simpleMessage("متاح"),
+    "bookDetailsAvailableCopies": MessageLookupByLibrary.simpleMessage(
+      "النسخ المتاحة",
+    ),
+    "bookDetailsAvailableForLoan": MessageLookupByLibrary.simpleMessage(
+      "متاحة للإعارة",
+    ),
+    "bookDetailsReservedCopies": MessageLookupByLibrary.simpleMessage("محجوزة"),
+    "bookReservationsSubtitle": MessageLookupByLibrary.simpleMessage(
+      "استعراض حجوزات واعارات هذا الكتاب",
+    ),
+    "bookReservationsTitle": MessageLookupByLibrary.simpleMessage(
+      "معلومات الكتاب",
+    ),
+    "book_added_success": m0,
+    "book_author": MessageLookupByLibrary.simpleMessage("اسم المؤلف"),
+    "book_author_hint": MessageLookupByLibrary.simpleMessage("مثال: طه حسين"),
+    "book_author_required": MessageLookupByLibrary.simpleMessage(
+      "يرجى إدخال اسم المؤلف",
+    ),
+    "book_copies": MessageLookupByLibrary.simpleMessage("عدد النسخ"),
+    "book_copies_hint": MessageLookupByLibrary.simpleMessage("مثال: 5"),
+    "book_copies_positive": MessageLookupByLibrary.simpleMessage(
+      "يرجى إدخال عدد صحيح موجب",
+    ),
+    "book_copies_required": MessageLookupByLibrary.simpleMessage(
+      "يرجى إدخال عدد النسخ",
+    ),
+    "book_title": MessageLookupByLibrary.simpleMessage("عنوان الكتاب"),
+    "book_title_hint": MessageLookupByLibrary.simpleMessage("مثال: الأيام"),
+    "book_title_required": MessageLookupByLibrary.simpleMessage(
+      "يرجى إدخال عنوان الكتاب",
+    ),
     "browse_school": MessageLookupByLibrary.simpleMessage(
       "تصفح معلومات المدرسة",
     ),
@@ -129,11 +166,22 @@ class MessageLookup extends MessageLookupByLibrary {
     "final_exam": MessageLookupByLibrary.simpleMessage("نهائي"),
     "final_grade": MessageLookupByLibrary.simpleMessage("العلامة النهائية"),
     "fullName": MessageLookupByLibrary.simpleMessage("الاسم الكامل"),
-    "grade_sections": m0,
+    "grade_sections": m1,
     "guardianName": MessageLookupByLibrary.simpleMessage("ولي الأمر:"),
     "homework": MessageLookupByLibrary.simpleMessage("واجب"),
     "issued_by": MessageLookupByLibrary.simpleMessage("صادر عن"),
     "library": MessageLookupByLibrary.simpleMessage("المكتبة"),
+    "loading": MessageLookupByLibrary.simpleMessage("جاري التحميل..."),
+    "loadingDataMessage": MessageLookupByLibrary.simpleMessage(
+      "جاري إحضار البيانات...",
+    ),
+    "loans": MessageLookupByLibrary.simpleMessage("الاستعارات"),
+    "loansManagementSubtitle": MessageLookupByLibrary.simpleMessage(
+      "استعراض وتتبع الاستعارات الحالية",
+    ),
+    "loansManagementTitle": MessageLookupByLibrary.simpleMessage(
+      "إدارة الاستعارات",
+    ),
     "login": MessageLookupByLibrary.simpleMessage("دخول"),
     "login_success": MessageLookupByLibrary.simpleMessage(
       "تم تسجيل الدخول بنجاح",
@@ -144,6 +192,24 @@ class MessageLookup extends MessageLookupByLibrary {
     "moreTeachers": MessageLookupByLibrary.simpleMessage("معلمين آخرين"),
     "noAdditionalInfo": MessageLookupByLibrary.simpleMessage(
       "لا توجد معلومات إضافية",
+    ),
+    "noLoansForThisBook": MessageLookupByLibrary.simpleMessage(
+      "لا توجد استعارات لهذا الكتاب",
+    ),
+    "noLoansSubtitle": MessageLookupByLibrary.simpleMessage(
+      "تأكد من اختيار فلتر آخر أو حاول لاحقاً",
+    ),
+    "noLoansTitle": MessageLookupByLibrary.simpleMessage(
+      "لا توجد استعارات متوفرة حالياً",
+    ),
+    "noReservationsForThisBook": MessageLookupByLibrary.simpleMessage(
+      "لا توجد حجوزات لهذا الكتاب",
+    ),
+    "noReservationsSubtitle": MessageLookupByLibrary.simpleMessage(
+      "تأكد من اختيار فلتر آخر أو حاول لاحقاً",
+    ),
+    "noReservationsTitle": MessageLookupByLibrary.simpleMessage(
+      "لا توجد نتائج حجز متوفرة حالياً",
     ),
     "noSchools": MessageLookupByLibrary.simpleMessage(
       "لا توجد مدارس متاحة حالياً",
@@ -206,9 +272,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "quiz_type_5": MessageLookupByLibrary.simpleMessage("نهائي"),
     "reason": MessageLookupByLibrary.simpleMessage("السبب"),
     "remember_me": MessageLookupByLibrary.simpleMessage("تذكرني"),
+    "reservationsManagementSubtitle": MessageLookupByLibrary.simpleMessage(
+      "استعراض وتتبع الطلبات المتاحة",
+    ),
+    "reservationsManagementTitle": MessageLookupByLibrary.simpleMessage(
+      "إدارة الحجوزات",
+    ),
     "reserve_book": MessageLookupByLibrary.simpleMessage("حجز الكتاب"),
+    "reserves": MessageLookupByLibrary.simpleMessage("الحجوزات"),
     "reserving": MessageLookupByLibrary.simpleMessage("جاري الحجز"),
     "retry": MessageLookupByLibrary.simpleMessage("إعادة المحاولة"),
+    "retryButton": MessageLookupByLibrary.simpleMessage("إعادة المحاولة"),
     "role_counselor": MessageLookupByLibrary.simpleMessage("موجه"),
     "role_student": MessageLookupByLibrary.simpleMessage("طالب"),
     "role_teacher": MessageLookupByLibrary.simpleMessage("معلم"),
@@ -219,7 +293,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "school_management_system": MessageLookupByLibrary.simpleMessage(
       "نظام إدارة المدارس",
     ),
-    "school_subjects": m1,
+    "school_subjects": m2,
     "schools": MessageLookupByLibrary.simpleMessage("المدارس"),
     "schoolsCount": MessageLookupByLibrary.simpleMessage("مدرسة"),
     "score": MessageLookupByLibrary.simpleMessage("العلامة"),
@@ -239,12 +313,32 @@ class MessageLookup extends MessageLookupByLibrary {
     "sign_in_continue": MessageLookupByLibrary.simpleMessage(
       "سجل الدخول للمتابعة",
     ),
+    "statActive": MessageLookupByLibrary.simpleMessage("النشطة"),
+    "statActiveLoans": MessageLookupByLibrary.simpleMessage("نشطة"),
+    "statApproved": MessageLookupByLibrary.simpleMessage("المقبول"),
+    "statOverdue": MessageLookupByLibrary.simpleMessage("المتأخرة"),
+    "statOverdueLoans": MessageLookupByLibrary.simpleMessage("متأخرة"),
+    "statPending": MessageLookupByLibrary.simpleMessage("الانتظار"),
+    "statRejected": MessageLookupByLibrary.simpleMessage("المرفوض"),
+    "statReturned": MessageLookupByLibrary.simpleMessage("المعادة"),
+    "statReturnedLoans": MessageLookupByLibrary.simpleMessage("معادة"),
+    "statTotal": MessageLookupByLibrary.simpleMessage("الإجمالي"),
+    "statTotalLoans": MessageLookupByLibrary.simpleMessage("إجمالي الاستعارات"),
+    "statusActive": MessageLookupByLibrary.simpleMessage("نشط"),
+    "statusAll": MessageLookupByLibrary.simpleMessage("الكل"),
+    "statusApproved": MessageLookupByLibrary.simpleMessage("موافق عليه"),
+    "statusCancelled": MessageLookupByLibrary.simpleMessage("ملغي"),
+    "statusFulfilled": MessageLookupByLibrary.simpleMessage("مكتمل"),
+    "statusOverdue": MessageLookupByLibrary.simpleMessage("متأخر"),
+    "statusPending": MessageLookupByLibrary.simpleMessage("قيد الانتظار"),
+    "statusRejected": MessageLookupByLibrary.simpleMessage("مرفوض"),
+    "statusReturned": MessageLookupByLibrary.simpleMessage("معاد"),
     "student_id": MessageLookupByLibrary.simpleMessage("رقم الطالب"),
     "student_profile": MessageLookupByLibrary.simpleMessage("ملف الطالب "),
     "students": MessageLookupByLibrary.simpleMessage("طلاب"),
     "studentsCount": MessageLookupByLibrary.simpleMessage("طالب"),
     "subject": MessageLookupByLibrary.simpleMessage("مادة"),
-    "subject_grades": m2,
+    "subject_grades": m3,
     "subjects": MessageLookupByLibrary.simpleMessage("المواد"),
     "subjectsTaught": MessageLookupByLibrary.simpleMessage(
       "المواد التي يدرسها",
@@ -265,6 +359,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "teachingStaff": MessageLookupByLibrary.simpleMessage("الكادر التدريسي"),
     "title": MessageLookupByLibrary.simpleMessage("مدرستنا"),
     "total_books": MessageLookupByLibrary.simpleMessage(" إجمالي الكتب"),
+    "tryAnotherFilter": MessageLookupByLibrary.simpleMessage(
+      "حاول اختيار فلتر آخر",
+    ),
     "type": MessageLookupByLibrary.simpleMessage("النوع"),
     "type_behavior": MessageLookupByLibrary.simpleMessage("سلوك"),
     "type_dismissal_warning": MessageLookupByLibrary.simpleMessage("إنذار فصل"),
@@ -272,6 +369,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "unexpected_error": MessageLookupByLibrary.simpleMessage(
       "حدث خطأ غير متوقع، حاول لاحقاً",
     ),
+    "unknownBookTitle": MessageLookupByLibrary.simpleMessage(
+      "عنوان الكتاب غير محدد",
+    ),
+    "unknownDate": MessageLookupByLibrary.simpleMessage("غير محدد"),
+    "unknownStudent": MessageLookupByLibrary.simpleMessage("طالب غير معروف"),
+    "unknownTitle": MessageLookupByLibrary.simpleMessage("عنوان غير محدد"),
     "unknown_name": MessageLookupByLibrary.simpleMessage("غير معروف"),
     "unknown_school": MessageLookupByLibrary.simpleMessage("مدرسة غير معروفة"),
     "username": MessageLookupByLibrary.simpleMessage("اسم المستخدم"),

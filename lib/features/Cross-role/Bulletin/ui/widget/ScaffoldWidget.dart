@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:school/features/Bulletin/domain/Entities/AnnouncementActivityEntity.dart';
-import 'package:school/features/Bulletin/domain/Entities/BulletinEntity.dart';
-import 'package:school/features/Bulletin/ui/widget/BulletinCard.dart';
-import 'package:school/features/Bulletin/ui/widget/buildSectionHeader.dart';
+import 'package:school/features/Cross-role/Bulletin/domain/Entities/AnnouncementActivityEntity.dart';
+import 'package:school/features/Cross-role/Bulletin/domain/Entities/BulletinEntity.dart';
+import 'package:school/features/Cross-role/Bulletin/ui/widget/BulletinCard.dart';
+import 'package:school/features/Cross-role/Bulletin/ui/widget/buildSectionHeader.dart';
 import 'package:school/generated/l10n.dart';
 
 class AnimatedEntryWidget extends StatefulWidget {

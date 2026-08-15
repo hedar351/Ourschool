@@ -4,8 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school/core/auto_refresh_mixin.dart';
 import 'package:school/core/widget/Loadingwidget.dart';
 import 'package:school/core/widget/SnackBar/Message.dart';
-import 'package:school/features/Bulletin/ui/bloc/bulletin_bloc.dart';
-import 'package:school/features/Bulletin/ui/widget/BulletinCard.dart';
+import 'package:school/features/Cross-role/Bulletin/ui/bloc/bulletin_bloc.dart';
+import 'package:school/features/Cross-role/Bulletin/ui/widget/BulletinCard.dart';
 import 'package:school/generated/l10n.dart';
 
 class BulletinScreen extends StatefulWidget {

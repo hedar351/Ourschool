@@ -1,5 +1,3 @@
-// lib/features/Library/domain/entities/book_entity.dart
-
 import 'package:equatable/equatable.dart';
 
 class BookEntity extends Equatable {

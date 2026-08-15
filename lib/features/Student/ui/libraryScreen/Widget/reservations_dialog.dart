@@ -358,40 +358,40 @@ class _ReservationsBottomSheetState extends State<ReservationsBottomSheet> {
     });
   }
 
-  Widget _buildStatItem(
-    BuildContext context,
-    IconData icon,
-    String value,
-    String label,
-  ) {
-    final theme = Theme.of(context);
-    return Expanded(
-      child: Container(
-        padding: EdgeInsets.symmetric(vertical: 8.h),
-        decoration: BoxDecoration(
-          color: theme.cardColor,
-          borderRadius: BorderRadius.circular(12.r),
-          border: Border.all(color: theme.dividerColor.withOpacity(0.1)),
-        ),
-        child: Column(
-          children: [
-            Icon(icon, size: 18.w, color: theme.colorScheme.primary),
-            SizedBox(height: 4.h),
-            Text(
-              value,
-              style: TextStyle(
-                fontSize: 16.sp,
-                fontWeight: FontWeight.bold,
-                color: theme.colorScheme.onSurface,
-              ),
-            ),
-            Text(
-              label,
-              style: TextStyle(fontSize: 11.sp, color: Colors.grey.shade500),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+  // Widget _buildStatItem(
+  //   BuildContext context,
+  //   IconData icon,
+  //   String value,
+  //   String label,
+  // ) {
+  //   final theme = Theme.of(context);
+  //   return Expanded(
+  //     child: Container(
+  //       padding: EdgeInsets.symmetric(vertical: 8.h),
+  //       decoration: BoxDecoration(
+  //         color: theme.cardColor,
+  //         borderRadius: BorderRadius.circular(12.r),
+  //         border: Border.all(color: theme.dividerColor.withOpacity(0.1)),
+  //       ),
+  //       child: Column(
+  //         children: [
+  //           Icon(icon, size: 18.w, color: theme.colorScheme.primary),
+  //           SizedBox(height: 4.h),
+  //           Text(
+  //             value,
+  //             style: TextStyle(
+  //               fontSize: 16.sp,
+  //               fontWeight: FontWeight.bold,
+  //               color: theme.colorScheme.onSurface,
+  //             ),
+  //           ),
+  //           Text(
+  //             label,
+  //             style: TextStyle(fontSize: 11.sp, color: Colors.grey.shade500),
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 }
