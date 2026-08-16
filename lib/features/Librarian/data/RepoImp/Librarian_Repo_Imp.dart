@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:school/core/error/EXP.dart';
 import 'package:school/core/error/failures.dart';
 import 'package:school/core/services/network.dart';
+import 'package:school/features/Librarian/data/DataSource/Actions_dataSource/actions_remote_data_source.dart';
 import 'package:school/features/Librarian/data/DataSource/Book-reservations-loans-Data/book_loans_cache_data_source.dart';
 import 'package:school/features/Librarian/data/DataSource/Book-reservations-loans-Data/book_loans_remote_data_source.dart';
 import 'package:school/features/Librarian/data/DataSource/Book-reservations-loans-Data/book_reservations_cache_data_source.dart';
@@ -36,6 +37,7 @@ class LibrarianRepoImp implements LibrarianRepo {
   final BookLoansRemoteDataSource bookLoansRemoteDataSource;
   final BookLoansCacheDataSource bookLoansCacheDataSource;
 
+  final ActionsRemoteDataSource actionsRemoteDataSource;
   LibrarianRepoImp({
     required this.cache,
     required this.networkInfo,
@@ -48,10 +50,10 @@ class LibrarianRepoImp implements LibrarianRepo {
     required this.bookReservationsCacheDataSource,
     required this.bookLoansRemoteDataSource,
     required this.bookLoansCacheDataSource,
+    required this.actionsRemoteDataSource,
   });
-
   // ============================================================
-  // ====== 1. الكتب (Books) ======
+  // ====== 1.  (Books) ======
   // ============================================================
 
   @override
@@ -79,8 +81,92 @@ class LibrarianRepoImp implements LibrarianRepo {
     }
   }
 
+  @override
+  Future<Either<Failures, Unit>> approveReservations(
+    int localBookNumber,
+    int localStudentNumber,
+  ) async {
+    if (!await networkInfo.isConnected) {
+      print('🔴 [Repo] لا يوجد اتصال بالإنترنت');
+      return Left(OfflineFailure());
+    }
+    try {
+      await actionsRemoteDataSource.approve(
+        localBookNumber,
+        localStudentNumber,
+      );
+
+      return Right(unit);
+    } catch (e) {
+      return Left(ServerFailure(message: e.toString()));
+    }
+  }
+
+  // ==================================================
+  @override
+  Future<void> deleteBookLoansCache(int localBookNumber) async {
+    print(' [Repo] حذف كاش استعارات الكتاب رقم $localBookNumber');
+    await bookLoansCacheDataSource.deleteBookLoans(localBookNumber);
+  }
+
+  @override
+  Future<void> deleteBookReservationsCache(int localBookNumber) async {
+    print(' [Repo] حذف كاش حجوزات الكتاب رقم $localBookNumber');
+    await bookReservationsCacheDataSource.deleteBookReservations(
+      localBookNumber,
+    );
+  }
+
+  // ==================================================
+
+  @override
+  Future<Either<Failures, Unit>> deleteBooks(int localBookNumber) async {
+    if (!await networkInfo.isConnected) {
+      print('🔴 [Repo] لا يوجد اتصال بالإنترنت');
+      return Left(OfflineFailure());
+    }
+
+    try {
+      await librarianRemoteDataSource.deleteBook(localBookNumber);
+      print(' [Repo] تم حذف الكتاب بنجاح');
+      await _fetchLibrarianBooksFromNetworkAndCache();
+      return const Right(unit);
+    } catch (e) {
+      print('🔴 [Repo] فشل حذف الكتاب: $e');
+      return Left(ServerFailure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failures, Unit>> editBooks(
+    int localBookNumber,
+    String title,
+    String author,
+    int copies,
+  ) async {
+    if (!await networkInfo.isConnected) {
+      print('🔴 [Repo] لا يوجد اتصال بالإنترنت');
+      return Left(OfflineFailure());
+    }
+
+    try {
+      await librarianRemoteDataSource.editBook(
+        localBookNumber,
+        title,
+        author,
+        copies,
+      );
+      print(' [Repo] تم عدل الكتاب بنجاح');
+      await _fetchLibrarianBooksFromNetworkAndCache();
+      return const Right(unit);
+    } catch (e) {
+      print('🔴 [Repo] فشل عدل الكتاب: $e');
+      return Left(ServerFailure(message: e.toString()));
+    }
+  }
+
   // ============================================================
-  // ====== 3. استعارات الكتاب (Book Loans) ======
+  // ====== 3.(Book Loans) ======
   // ============================================================
 
   @override
@@ -124,7 +210,7 @@ class LibrarianRepoImp implements LibrarianRepo {
   }
 
   // ============================================================
-  // ====== 2. حجوزات الكتاب (Book Reservations) ======
+  // ====== 2.(Book Reservations) ======
   // ============================================================
 
   @override
@@ -229,7 +315,7 @@ class LibrarianRepoImp implements LibrarianRepo {
   }
 
   // ============================================================
-  // ====== 6. الاستعارات العامة (Loans) ======
+  // ====== 6.(Loans) ======
   // ============================================================
 
   @override
@@ -284,6 +370,63 @@ class LibrarianRepoImp implements LibrarianRepo {
     } catch (e) {
       print('🔴 [Repo] خطأ غير متوقع في الكاش: $e');
       return Left(EmptyCacheFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failures, Unit>> postLoans(
+    int localBookNumber,
+    int localStudentNumber,
+  ) async {
+    if (!await networkInfo.isConnected) {
+      print('🔴 [Repo] لا يوجد اتصال بالإنترنت');
+      return Left(OfflineFailure());
+    }
+    try {
+      await actionsRemoteDataSource.postLoans(
+        localBookNumber,
+        localStudentNumber,
+      );
+      return const Right(unit);
+    } catch (e) {
+      return Left(ServerFailure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failures, Unit>> rejectReservations(
+    int localBookNumber,
+    int localStudentNumber,
+  ) async {
+    if (!await networkInfo.isConnected) {
+      print('🔴 [Repo] لا يوجد اتصال بالإنترنت');
+      return Left(OfflineFailure());
+    }
+    try {
+      await actionsRemoteDataSource.reject(localBookNumber, localStudentNumber);
+      return Right(unit);
+    } catch (e) {
+      return Left(ServerFailure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failures, Unit>> returnLoans(
+    int localBookNumber,
+    int localStudentNumber,
+  ) async {
+    if (!await networkInfo.isConnected) {
+      print('🔴 [Repo] لا يوجد اتصال بالإنترنت');
+      return Left(OfflineFailure());
+    }
+    try {
+      await actionsRemoteDataSource.returnLoans(
+        localBookNumber,
+        localStudentNumber,
+      );
+      return const Right(unit);
+    } catch (e) {
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 
@@ -352,10 +495,6 @@ class LibrarianRepoImp implements LibrarianRepo {
       reservations: [],
     );
   }
-
-  // ============================================================
-  // ====== الكيانات الفارغة ======
-  // ============================================================
 
   BookReservationsEntity _emptyBookReservationsEntity() {
     return const BookReservationsEntity(
@@ -445,7 +584,7 @@ class LibrarianRepoImp implements LibrarianRepo {
   }
 
   // ============================================================
-  // ====== الدوال المساعدة (Helper) ======
+  // ====== (Helper) ======
   // ============================================================
 
   // ----- الكتب -----

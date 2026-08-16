@@ -40,7 +40,7 @@ class _NavHomePageState extends State<NavHomePage>
       'icon': Icons.home_outlined,
       'activeIcon': Icons.home_rounded,
       'label': S.of(context).Home,
-      'page': const BulletinScreen(),
+      'page': BulletinScreen(isStudent: _isStudent),
     });
 
     if (_isStudent) {

@@ -23,13 +23,14 @@ class AnnouncementActivityModelAdapter
       description: fields[2] as String,
       date: fields[3] as DateTime,
       schoolName: fields[4] as String,
+      type: fields[5] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, AnnouncementActivityModel obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -39,7 +40,9 @@ class AnnouncementActivityModelAdapter
       ..writeByte(3)
       ..write(obj.date)
       ..writeByte(4)
-      ..write(obj.schoolName);
+      ..write(obj.schoolName)
+      ..writeByte(5)
+      ..write(obj.type);
   }
 
   @override

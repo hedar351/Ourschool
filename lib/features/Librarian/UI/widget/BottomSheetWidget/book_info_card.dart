@@ -63,18 +63,21 @@ class BookInfoCard extends StatelessWidget {
               SizedBox(width: 8.w),
               _buildInfoChip(
                 context,
-                label: S.of(context).bookDetailsReservedCopies,
-                value: '$reservedCopies',
-                color: Colors.orange.shade600,
-              ),
-              SizedBox(width: 8.w),
-              _buildInfoChip(
-                context,
                 label: S.of(context).bookDetailsAvailableForLoan,
                 value: '$availableForLoan',
                 color: Colors.blue.shade600,
               ),
+
+              // SizedBox(width: 2.w),
             ],
+          ),
+          SizedBox(height: 8.h),
+
+          _buildInfoChip(
+            context,
+            label: S.of(context).bookDetailsReservedCopies,
+            value: '$reservedCopies',
+            color: Colors.orange.shade600,
           ),
         ],
       ),

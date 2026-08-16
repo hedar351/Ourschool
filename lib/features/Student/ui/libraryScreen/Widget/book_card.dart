@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:school/features/Librarian/UI/Bloc/BookReservationsLoansBloc/book_reservations_loans_bloc.dart';
+import 'package:school/features/Librarian/UI/Bloc/BookReservationsBloc/book_reservations_loans_bloc.dart';
 import 'package:school/features/Librarian/UI/widget/BottomSheetWidget/BookReservationsBottomSheet.dart';
 import 'package:school/features/Student/domain/entity/Library/BookEntity.dart';
 import 'package:school/features/Student/ui/bloc/libraryBloc/library_bloc.dart';

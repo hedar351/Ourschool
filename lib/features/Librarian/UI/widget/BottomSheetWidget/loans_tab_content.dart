@@ -17,7 +17,7 @@ class LoansTabContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<BookLoansBloc, BookLoansState>(
       builder: (context, state) {
-        final isLoading = state is BookLoansLoading;
+        // final isLoading = state is BookLoansLoading;
         List<Reservations>? lastLoans;
 
         if (state is BookLoansLoaded) {
@@ -71,31 +71,11 @@ class LoansTabContent extends StatelessWidget {
               style: TextStyle(fontSize: 13.sp, color: theme.hintColor),
             ),
           ],
-          SizedBox(height: 8.h),
-          Row(
-            children: [
-              _buildInfoChip(
-                context,
-                label: S.of(context).bookDetailsAvailableCopies,
-                value: '${book.availableCopies ?? 0}',
-                color: Colors.green.shade600,
-              ),
-              SizedBox(width: 8.w),
-              _buildInfoChip(
-                context,
-                label: S.of(context).bookDetailsReservedCopies,
-                value: '${book.reservedCopies ?? 0}',
-                color: Colors.orange.shade600,
-              ),
-              SizedBox(width: 8.w),
-              _buildInfoChip(
-                context,
-                label: S.of(context).bookDetailsAvailableForLoan,
-                value: '${book.availableForLoan ?? 0}',
-                color: Colors.blue.shade600,
-              ),
-            ],
-          ),
+          // SizedBox(height: 8.h),
+          // Row(children: [
+
+          //   ],
+          // ),
           if (stats != null) ...[
             SizedBox(height: 8.h),
             Divider(height: 1.h, color: theme.dividerColor.withOpacity(0.3)),
@@ -108,21 +88,21 @@ class LoansTabContent extends StatelessWidget {
                   value: '${stats.totalLoans ?? 0}',
                   color: Colors.blueGrey,
                 ),
-                SizedBox(width: 8.w),
+                SizedBox(width: 4.w),
                 _buildInfoChip(
                   context,
                   label: S.of(context).statActiveLoans,
                   value: '${stats.activeLoans ?? 0}',
                   color: Colors.green.shade600,
                 ),
-                SizedBox(width: 8.w),
+                SizedBox(width: 4.w),
                 _buildInfoChip(
                   context,
                   label: S.of(context).statReturnedLoans,
                   value: '${stats.returnedLoans ?? 0}',
                   color: Colors.blue.shade600,
                 ),
-                SizedBox(width: 8.w),
+                SizedBox(width: 4.w),
                 _buildInfoChip(
                   context,
                   label: S.of(context).statOverdueLoans,
@@ -158,7 +138,7 @@ class LoansTabContent extends StatelessWidget {
             label,
             style: TextStyle(fontSize: 10.sp, color: theme.hintColor),
           ),
-          SizedBox(width: 4.w),
+          SizedBox(width: 2.w),
           Text(
             value,
             style: TextStyle(
@@ -256,7 +236,7 @@ class LoansTabContent extends StatelessWidget {
                       size: 11.w,
                       color: theme.hintColor.withOpacity(0.7),
                     ),
-                    SizedBox(width: 4.w),
+                    SizedBox(width: 2.w),
                     Text(
                       loan.date != null
                           ? formatDate(loan.date)
@@ -272,7 +252,7 @@ class LoansTabContent extends StatelessWidget {
                       size: 11.w,
                       color: theme.hintColor.withOpacity(0.7),
                     ),
-                    SizedBox(width: 4.w),
+                    SizedBox(width: 2.w),
                     Text(
                       loan.expiryDate != null
                           ? formatDate(loan.expiryDate)

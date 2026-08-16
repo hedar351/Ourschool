@@ -8,7 +8,10 @@ abstract class BookReservationsCacheDataSource {
     required String status,
     required int localBookNumber,
   });
-  Future<void> deleteBookReservations();
+  Future<void> deleteBookAllReservations();
+  Future<void> deleteBookReservations(
+    int localBookNumber,
+  ); //======================
   Future<BookReservationsModel> getCachedBookReservations({
     required String status,
     required int localBookNumber,
@@ -25,7 +28,6 @@ class BookReservationsCacheDataSourceImpl
   final Box<BookReservationsModel> box;
 
   BookReservationsCacheDataSourceImpl({required this.box});
-
   @override
   Future<void> cacheBookReservations(
     BookReservationsModel reservations, {
@@ -39,9 +41,23 @@ class BookReservationsCacheDataSourceImpl
   }
 
   @override
-  Future<void> deleteBookReservations() async {
+  Future<void> deleteBookAllReservations() async {
     await box.clear();
     print(' [BookReservations Cache] تم الحذف');
+  }
+
+  @override
+  Future<void> deleteBookReservations(int localBookNumber) async {
+    final keysToDelete = box.keys.where((key) {
+      return key is String &&
+          key.startsWith('book_reservations_${localBookNumber}_');
+    }).toList();
+    if (keysToDelete.isNotEmpty) {
+      await box.deleteAll(keysToDelete);
+      print(
+        ' [BookReservations Cache] تم حذف كاش حجوزات الكتاب $localBookNumber',
+      );
+    }
   }
 
   @override

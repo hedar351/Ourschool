@@ -193,7 +193,7 @@ class _ScaffoldWidgetState extends State<ScaffoldWidget>
               key: ValueKey(items[index].id),
               entity: items[index],
               color: color,
-              isHorizontal: true,
+              isStudent: true,
             ),
           );
         },
@@ -217,7 +217,7 @@ class _ScaffoldWidgetState extends State<ScaffoldWidget>
             key: ValueKey(items[index].id),
             entity: items[index],
             color: color,
-            isHorizontal: false,
+            isStudent: true,
           ),
         );
       },

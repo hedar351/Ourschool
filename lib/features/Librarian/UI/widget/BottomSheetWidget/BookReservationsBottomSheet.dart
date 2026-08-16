@@ -2,10 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school/core/injection.dart' as di;
+import 'package:school/features/Librarian/UI/Bloc/AddDeleteEdit/add_delete_edit_bloc.dart';
 import 'package:school/features/Librarian/UI/Bloc/BookLoansBloc/book_loans_bloc.dart';
-import 'package:school/features/Librarian/UI/Bloc/BookReservationsLoansBloc/book_reservations_loans_bloc.dart';
+import 'package:school/features/Librarian/UI/Bloc/BookReservationsBloc/book_reservations_loans_bloc.dart';
+import 'package:school/features/Librarian/UI/Bloc/LibrarianBloc/librarian_bloc.dart';
 import 'package:school/features/Librarian/UI/widget/BottomSheetWidget/loans_tab_content.dart';
 import 'package:school/features/Librarian/UI/widget/BottomSheetWidget/reservations_tab_content.dart';
+import 'package:school/features/Librarian/UI/widget/Dialog/showDeleteConfirmation.dart';
+import 'package:school/features/Librarian/UI/widget/Dialog/showEditDialog.dart';
+import 'package:school/features/Student/domain/entity/Library/BookEntity.dart';
 import 'package:school/generated/l10n.dart';
 
 class BookReservationsBottomSheet extends StatefulWidget {
@@ -46,6 +51,10 @@ class _BookReservationsBottomSheetState
       providers: [
         BlocProvider.value(value: context.read<BookReservationsLoansBloc>()),
         BlocProvider(create: (context) => di.sl<BookLoansBloc>()),
+        BlocProvider(create: (context) => di.sl<LibrarianBloc>()),
+        BlocProvider(
+          create: (context) => di.sl<AddDeleteEditBloc>(),
+        ), // ✅ إضافة AddDeleteEditBloc
       ],
       child: Builder(
         builder: (innerContext) {
@@ -56,54 +65,75 @@ class _BookReservationsBottomSheetState
             }
           });
 
-          return BlocConsumer<
-            BookReservationsLoansBloc,
-            BookReservationsLoansState
-          >(
-            listener: (context, state) {
-              if (state is BookReservationsError) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(state.message),
-                    backgroundColor: colorScheme.error,
-                    behavior: SnackBarBehavior.floating,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12.r),
-                    ),
-                    duration: const Duration(seconds: 3),
-                  ),
-                );
-              }
-            },
-            builder: (context, state) {
-              final isLoading = state is BookReservationsLoading;
-
-              return Container(
-                height: 600.h,
-                padding: EdgeInsets.fromLTRB(20.w, 16.h, 20.w, 20.h),
-                decoration: BoxDecoration(
-                  color: theme.scaffoldBackgroundColor,
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(24.r),
-                  ),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildHeader(context, state),
-                    _buildTabBar(),
-                    if (isLoading)
-                      LinearProgressIndicator(
-                        backgroundColor: Colors.transparent,
-                        color: colorScheme.primary,
-                        minHeight: 2.5.h,
+          return MultiBlocListener(
+            listeners: [
+              BlocListener<
+                BookReservationsLoansBloc,
+                BookReservationsLoansState
+              >(
+                listener: (context, state) {
+                  if (state is BookReservationsError) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(state.message),
+                        backgroundColor: colorScheme.error,
+                        behavior: SnackBarBehavior.floating,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12.r),
+                        ),
+                        duration: const Duration(seconds: 3),
                       ),
-                    SizedBox(height: isLoading ? 8.h : 0.h),
-                    Expanded(child: _buildTabBarView(context, state)),
-                  ],
+                    );
+                  }
+                },
+              ),
+              BlocListener<AddDeleteEditBloc, AddDeleteEditState>(
+                listener: (context, state) async {
+                  if (state is AddDeleteEditSuccess) {
+                    if (state.message.contains('حذف')) {
+                      Navigator.pop(context);
+                    } else {
+                      _refreshAll(context);
+                    }
+                  }
+                },
+              ),
+            ],
+            child:
+                BlocBuilder<
+                  BookReservationsLoansBloc,
+                  BookReservationsLoansState
+                >(
+                  builder: (context, state) {
+                    final isLoading = state is BookReservationsLoading;
+
+                    return Container(
+                      height: 600.h,
+                      padding: EdgeInsets.fromLTRB(20.w, 16.h, 20.w, 20.h),
+                      decoration: BoxDecoration(
+                        color: theme.scaffoldBackgroundColor,
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(24.r),
+                        ),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _buildHeader(context, state),
+                          _buildTabBar(),
+                          if (isLoading)
+                            LinearProgressIndicator(
+                              backgroundColor: Colors.transparent,
+                              color: colorScheme.primary,
+                              minHeight: 2.5.h,
+                            ),
+                          SizedBox(height: isLoading ? 8.h : 0.h),
+                          Expanded(child: _buildTabBarView(context, state)),
+                        ],
+                      ),
+                    );
+                  },
                 ),
-              );
-            },
           );
         },
       ),
@@ -126,6 +156,19 @@ class _BookReservationsBottomSheetState
   Widget _buildHeader(BuildContext context, BookReservationsLoansState state) {
     final theme = Theme.of(context);
     final isLoading = state is BookReservationsLoading;
+
+    BookEntity? bookEntity;
+    if (state is BookReservationsLoaded) {
+      final book = state.reservations;
+      bookEntity = BookEntity(
+        title: book.title ?? '',
+        author: book.author ?? '',
+        localBookNumber: book.localBookNumber ?? 0,
+        copies: (book.availableCopies ?? 0) + (book.reservedCopies ?? 0),
+        availableCopies: book.availableCopies ?? 0,
+        isAvailable: false,
+      );
+    }
 
     return Row(
       children: [
@@ -161,49 +204,82 @@ class _BookReservationsBottomSheetState
             ],
           ),
         ),
-        Material(
-          color: Colors.transparent,
-          child: InkWell(
-            borderRadius: BorderRadius.circular(50.r),
-            onTap: isLoading ? null : () => _refreshAll(context),
-            child: Container(
-              padding: EdgeInsets.all(6.w),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: theme.dividerColor.withOpacity(0.05),
-              ),
-              child: AnimatedRotation(
-                turns: isLoading ? 1.0 : 0.0,
-                duration: const Duration(milliseconds: 800),
-                child: Icon(
-                  Icons.refresh_rounded,
-                  size: 20.w,
-                  color: isLoading
-                      ? theme.colorScheme.primary
-                      : theme.hintColor,
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // زر التحديث
+            Material(
+              color: Colors.transparent,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(50.r),
+                onTap: isLoading ? null : () => _refreshAll(context),
+                child: Container(
+                  padding: EdgeInsets.all(6.w),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: theme.dividerColor.withOpacity(0.05),
+                  ),
+                  child: AnimatedRotation(
+                    turns: isLoading ? 1.0 : 0.0,
+                    duration: const Duration(milliseconds: 800),
+                    child: Icon(
+                      Icons.refresh_rounded,
+                      size: 20.w,
+                      color: isLoading
+                          ? theme.colorScheme.primary
+                          : theme.hintColor,
+                    ),
+                  ),
                 ),
               ),
             ),
-          ),
-        ),
-        Material(
-          color: Colors.transparent,
-          child: InkWell(
-            borderRadius: BorderRadius.circular(50.r),
-            onTap: () => Navigator.pop(context),
-            child: Container(
-              padding: EdgeInsets.all(6.w),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: theme.dividerColor.withOpacity(0.05),
+            // زر التعديل
+            if (bookEntity != null)
+              IconButton(
+                icon: Icon(
+                  Icons.edit_rounded,
+                  size: 20.w,
+                  color: Colors.blue.shade600,
+                ),
+                onPressed: () => showEditDialog(
+                  context,
+                  bookEntity!,
+                  onSuccess: () => _refreshAll(context),
+                ),
+                tooltip: 'تعديل',
               ),
-              child: Icon(
-                Icons.close_rounded,
+            // زر الحذف
+            IconButton(
+              icon: Icon(
+                Icons.delete_rounded,
                 size: 20.w,
-                color: theme.hintColor,
+                color: Colors.red.shade600,
+              ),
+              onPressed: () =>
+                  showDeleteConfirmation(context, widget.localBookNumber),
+              tooltip: 'حذف',
+            ),
+            // زر الإغلاق
+            Material(
+              color: Colors.transparent,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(50.r),
+                onTap: () => Navigator.pop(context),
+                child: Container(
+                  padding: EdgeInsets.all(6.w),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: theme.dividerColor.withOpacity(0.05),
+                  ),
+                  child: Icon(
+                    Icons.close_rounded,
+                    size: 20.w,
+                    color: theme.hintColor,
+                  ),
+                ),
               ),
             ),
-          ),
+          ],
         ),
       ],
     );

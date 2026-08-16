@@ -6,13 +6,13 @@ import 'package:school/features/Cross-role/Bulletin/ui/widget/bulletin_details_s
 class BulletinCard extends StatelessWidget {
   final Announcementactivityentity entity;
   final Color color;
-  final bool isHorizontal;
+  final bool isStudent;
 
   const BulletinCard({
     super.key,
     required this.entity,
     required this.color,
-    required this.isHorizontal,
+    required this.isStudent,
   });
 
   @override
@@ -192,7 +192,7 @@ class BulletinCard extends StatelessWidget {
       builder: (context) => BulletinDetailsSheet(
         entity: entity,
         color: color,
-        isHorizontal: isHorizontal,
+        isStudent: isStudent,
       ),
     );
   }

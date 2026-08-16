@@ -1775,6 +1775,21 @@ class S {
       args: [],
     );
   }
+
+  /// `Are you sure you want to delete this book?\nThis action cannot be undone.`
+  String get delet_book {
+    return Intl.message(
+      'Are you sure you want to delete this book?\nThis action cannot be undone.',
+      name: 'delet_book',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `save`
+  String get save {
+    return Intl.message('save', name: 'save', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

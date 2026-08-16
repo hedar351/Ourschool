@@ -18,12 +18,16 @@ class AnnouncementActivityModel extends HiveObject {
   final DateTime date;
   @HiveField(4)
   final String schoolName;
+  @HiveField(5)
+  final String type;
+
   AnnouncementActivityModel({
     required this.id,
     required this.title,
     required this.description,
     required this.date,
     required this.schoolName,
+    required this.type,
   });
 
   factory AnnouncementActivityModel.fromEntity(
@@ -35,6 +39,7 @@ class AnnouncementActivityModel extends HiveObject {
       description: entity.description,
       date: entity.date,
       schoolName: entity.schoolName,
+      type: entity.type,
     );
   }
 
@@ -45,6 +50,7 @@ class AnnouncementActivityModel extends HiveObject {
       description: json['description'],
       date: DateTime.parse(json['date']),
       schoolName: json['schoolName'],
+      type: json['type'],
     );
   }
 
@@ -55,6 +61,7 @@ class AnnouncementActivityModel extends HiveObject {
       description: description,
       date: date,
       schoolName: schoolName,
+      type: type,
     );
   }
 
@@ -65,6 +72,7 @@ class AnnouncementActivityModel extends HiveObject {
       'description': description,
       'date': date,
       'schoolName': schoolName,
+      'type': type,
     };
   }
 }

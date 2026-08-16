@@ -154,6 +154,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "contact_us": MessageLookupByLibrary.simpleMessage("اتصل بنا"),
     "date": MessageLookupByLibrary.simpleMessage("التاريخ"),
     "date_unknown": MessageLookupByLibrary.simpleMessage("تاريخ غير محدد"),
+    "delet_book": MessageLookupByLibrary.simpleMessage(
+      "هل أنت متأكد من رغبتك في حذف هذا الكتاب؟\nلا يمكن التراجع عن هذا الإجراء.",
+    ),
     "delete": MessageLookupByLibrary.simpleMessage("حذف"),
     "edit": MessageLookupByLibrary.simpleMessage("تعديل"),
     "edit_mark": MessageLookupByLibrary.simpleMessage("تعديل علامة"),
@@ -286,6 +289,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "role_counselor": MessageLookupByLibrary.simpleMessage("موجه"),
     "role_student": MessageLookupByLibrary.simpleMessage("طالب"),
     "role_teacher": MessageLookupByLibrary.simpleMessage("معلم"),
+    "save": MessageLookupByLibrary.simpleMessage("حفظ"),
     "schedule": MessageLookupByLibrary.simpleMessage("الجدول الدراسي"),
     "school_description": MessageLookupByLibrary.simpleMessage(
       "بيئة تعليمية متكاملة تهدف إلى تطوير المهارات وبناء شخصية الطالب في جو من القيم والاحترام والتميز.",

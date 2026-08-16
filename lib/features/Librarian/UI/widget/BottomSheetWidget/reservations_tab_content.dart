@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school/core/widget/Loadingwidget.dart';
-import 'package:school/features/Librarian/UI/Bloc/BookReservationsLoansBloc/book_reservations_loans_bloc.dart';
+import 'package:school/features/Librarian/UI/Bloc/BookReservationsBloc/book_reservations_loans_bloc.dart';
 import 'package:school/features/Librarian/UI/widget/BottomSheetWidget/book_info_card.dart';
 import 'package:school/features/Librarian/UI/widget/helpingWidget/getStatusColor.dart';
 import 'package:school/features/Librarian/UI/widget/helpingWidget/helpers.dart';
@@ -27,7 +27,6 @@ class ReservationsTabContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<BookReservationsLoansBloc, BookReservationsLoansState>(
       builder: (context, state) {
-        final isLoading = state is BookReservationsLoading;
         List<Reservations>? lastReservations;
 
         if (state is BookReservationsLoaded) {
@@ -101,106 +100,6 @@ class ReservationsTabContent extends StatelessWidget {
           );
         }).toList(),
       ),
-    );
-  }
-
-  Widget _buildReservationsList(
-    BuildContext context,
-    BookReservationsLoansState state,
-    List<Reservations>? lastReservations,
-  ) {
-    List<Reservations> reservations = [];
-
-    if (state is BookReservationsLoading && lastReservations != null) {
-      reservations = lastReservations;
-    } else if (state is BookReservationsLoaded) {
-      reservations =
-          state.reservations.librarianReservationsEntity?.reservations ?? [];
-    } else if (state is BookReservationsError) {
-      return Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              Icons.cloud_off_rounded,
-              size: 50.w,
-              color: Colors.red.shade400,
-            ),
-            SizedBox(height: 12.h),
-            Text(
-              state.message,
-              style: TextStyle(
-                fontSize: 13.sp,
-                color: Theme.of(context).colorScheme.onSurface,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 14.h),
-            OutlinedButton.icon(
-              onPressed: () {
-                context.read<BookReservationsLoansBloc>().add(
-                  GetBookReservationsEvent(
-                    status: selectedStatus,
-                    localBookNumber: localBookNumber,
-                  ),
-                );
-              },
-              icon: Icon(Icons.refresh_rounded, size: 16.w),
-              label: Text(S.of(context).retryButton),
-            ),
-          ],
-        ),
-      );
-    } else if (state is BookReservationsLoading && lastReservations == null) {
-      return const Center(child: Loadingwidget());
-    }
-
-    if (reservations.isEmpty) {
-      return Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              padding: EdgeInsets.all(16.w),
-              decoration: BoxDecoration(
-                color: Theme.of(context).dividerColor.withOpacity(0.05),
-                shape: BoxShape.circle,
-              ),
-              child: Icon(
-                Icons.folder_off_outlined,
-                size: 48.w,
-                color: Theme.of(context).hintColor.withOpacity(0.5),
-              ),
-            ),
-            SizedBox(height: 12.h),
-            Text(
-              S.of(context).noReservationsForThisBook,
-              style: TextStyle(
-                fontSize: 14.sp,
-                fontWeight: FontWeight.w600,
-                color: Theme.of(context).colorScheme.onSurface,
-              ),
-            ),
-            SizedBox(height: 4.h),
-            Text(
-              S.of(context).tryAnotherFilter,
-              style: TextStyle(
-                fontSize: 12.sp,
-                color: Theme.of(context).hintColor,
-              ),
-            ),
-          ],
-        ),
-      );
-    }
-
-    return ListView.separated(
-      physics: const BouncingScrollPhysics(),
-      itemCount: reservations.length,
-      separatorBuilder: (_, _) => SizedBox(height: 10.h),
-      itemBuilder: (context, index) {
-        return _buildReservationCard(context, reservations[index]);
-      },
     );
   }
 
@@ -321,6 +220,106 @@ class ReservationsTabContent extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildReservationsList(
+    BuildContext context,
+    BookReservationsLoansState state,
+    List<Reservations>? lastReservations,
+  ) {
+    List<Reservations> reservations = [];
+
+    if (state is BookReservationsLoading && lastReservations != null) {
+      reservations = lastReservations;
+    } else if (state is BookReservationsLoaded) {
+      reservations =
+          state.reservations.librarianReservationsEntity?.reservations ?? [];
+    } else if (state is BookReservationsError) {
+      return Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.cloud_off_rounded,
+              size: 50.w,
+              color: Colors.red.shade400,
+            ),
+            SizedBox(height: 12.h),
+            Text(
+              state.message,
+              style: TextStyle(
+                fontSize: 13.sp,
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 14.h),
+            OutlinedButton.icon(
+              onPressed: () {
+                context.read<BookReservationsLoansBloc>().add(
+                  GetBookReservationsEvent(
+                    status: selectedStatus,
+                    localBookNumber: localBookNumber,
+                  ),
+                );
+              },
+              icon: Icon(Icons.refresh_rounded, size: 16.w),
+              label: Text(S.of(context).retryButton),
+            ),
+          ],
+        ),
+      );
+    } else if (state is BookReservationsLoading && lastReservations == null) {
+      return const Center(child: Loadingwidget());
+    }
+
+    if (reservations.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              padding: EdgeInsets.all(16.w),
+              decoration: BoxDecoration(
+                color: Theme.of(context).dividerColor.withOpacity(0.05),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                Icons.folder_off_outlined,
+                size: 48.w,
+                color: Theme.of(context).hintColor.withOpacity(0.5),
+              ),
+            ),
+            SizedBox(height: 12.h),
+            Text(
+              S.of(context).noReservationsForThisBook,
+              style: TextStyle(
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w600,
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
+            ),
+            SizedBox(height: 4.h),
+            Text(
+              S.of(context).tryAnotherFilter,
+              style: TextStyle(
+                fontSize: 12.sp,
+                color: Theme.of(context).hintColor,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    return ListView.separated(
+      physics: const BouncingScrollPhysics(),
+      itemCount: reservations.length,
+      separatorBuilder: (_, _) => SizedBox(height: 10.h),
+      itemBuilder: (context, index) {
+        return _buildReservationCard(context, reservations[index]);
+      },
     );
   }
 }

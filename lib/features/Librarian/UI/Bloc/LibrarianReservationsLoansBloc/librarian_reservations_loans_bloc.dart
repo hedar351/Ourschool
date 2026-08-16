@@ -50,11 +50,10 @@ class LibrarianReservationsLoansBloc
     // ---- حدث إعادة التعيين ----
     on<ResetLibrarianReservationsLoansState>(_onReset);
   }
-
   @override
   Future<void> close() {
     _reservationsSubscription?.cancel();
-    // _loansSubscription?.cancel();
+    _loansSubscription?.cancel();
     return super.close();
   }
 

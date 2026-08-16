@@ -6,7 +6,10 @@ import 'package:school/features/Librarian/data/Model/Book-reservations-loans-Mod
 
 abstract class BookLoansCacheDataSource {
   Future<void> cacheBookLoans(BookLoanModel loans, int localBookNumber);
-  Future<void> deleteBookLoans();
+  Future<void> deleteAllBookLoans();
+  Future<void> deleteBookLoans(
+    int localBookNumber,
+  ); //===========================
   Future<BookLoanModel> getCachedBookLoans(int localBookNumber);
   Stream<BookLoanModel?> watchCachedBookLoans(int localBookNumber);
 }
@@ -16,7 +19,6 @@ class BookLoansCacheDataSourceImpl implements BookLoansCacheDataSource {
   final Box<BookLoanModel> box;
 
   BookLoansCacheDataSourceImpl({required this.box});
-
   @override
   Future<void> cacheBookLoans(BookLoanModel loans, int localBookNumber) async {
     final key = _getKey(localBookNumber);
@@ -26,10 +28,23 @@ class BookLoansCacheDataSourceImpl implements BookLoansCacheDataSource {
   }
 
   @override
-  Future<void> deleteBookLoans() async {
+  Future<void> deleteAllBookLoans() async {
     await box.clear();
     print(' [BookLoans Cache] تم الحذف');
   }
+
+  // ==============================================
+  @override
+  Future<void> deleteBookLoans(int localBookNumber) async {
+    final keysToDelete = box.keys.where((key) {
+      return key is String && key.startsWith('book_loans_${localBookNumber}_');
+    }).toList();
+    if (keysToDelete.isNotEmpty) {
+      await box.deleteAll(keysToDelete);
+      print(' [BookLoans Cache] تم حذف كاش استعارات الكتاب $localBookNumber');
+    }
+  }
+  // ==============================================
 
   @override
   Future<BookLoanModel> getCachedBookLoans(int localBookNumber) async {

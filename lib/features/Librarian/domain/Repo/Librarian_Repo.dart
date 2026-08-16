@@ -12,12 +12,27 @@ abstract class LibrarianRepo {
     String author,
     int copies,
   );
+  Future<Either<Failures, Unit>> approveReservations(
+    int localBookNumber,
+    int localStudentNumber,
+  );
+  Future<void> deleteBookLoansCache(int localBookNumber);
+
+  Future<void> deleteBookReservationsCache(int localBookNumber);
+
+  Future<Either<Failures, Unit>> deleteBooks(int localBookNumber);
+  Future<Either<Failures, Unit>> editBooks(
+    int localBookNumber,
+    String title,
+    String author,
+    int copies,
+  );
 
   Future<Either<Failures, BookLoanEntity>> getBookLoans(int localBookNumber);
-
   Future<Either<Failures, BookLoanEntity>> getBookLoansWithCache(
     int localBookNumber,
   );
+
   Future<Either<Failures, BookReservationsEntity>> getBookReservations(
     String status,
     int localBookNumber,
@@ -27,6 +42,7 @@ abstract class LibrarianRepo {
     String status,
     int localBookNumber,
   );
+
   Future<Either<Failures, List<BookEntity>>> getBooksLibrarian();
 
   Future<Either<Failures, List<BookEntity>>> getBooksWithCacheLibrarian();
@@ -40,17 +56,26 @@ abstract class LibrarianRepo {
 
   Future<Either<Failures, LibrarianReservationsEntity>>
   getLibrarianReservations(String status);
+  Future<Either<Failures, Unit>> postLoans(
+    int localStudentNumber,
+    int localBookNumber,
+  );
 
+  Future<Either<Failures, Unit>> rejectReservations(
+    int localBookNmber,
+    int localStudentNumber,
+  );
+  Future<Either<Failures, Unit>> returnLoans(
+    int localStudentNumber,
+    int localBookNumber,
+  );
   Stream<List<BookEntity>> watchCachedBooksLibrarian();
-
   Stream<BookLoanEntity> watchCachedgetBookLoans(int localBookNumbe);
-
   Stream<BookReservationsEntity> watchCachedgetBookReservations(
     String status,
     int localBookNumbe,
   );
   Stream<LibrarianLoansEntity> watchCachedgetLibrarianLeons();
-
   Stream<LibrarianReservationsEntity> watchCachedgetLibrarianReservations(
     String status,
   );

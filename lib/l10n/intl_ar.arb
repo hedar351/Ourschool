@@ -229,5 +229,7 @@
   "statActiveLoans": "نشطة",
   "statReturnedLoans": "معادة",
   "statOverdueLoans": "متأخرة",
-  "noLoansForThisBook": "لا توجد استعارات لهذا الكتاب"
+  "noLoansForThisBook": "لا توجد استعارات لهذا الكتاب",
+  "delet_book": "هل أنت متأكد من رغبتك في حذف هذا الكتاب؟\nلا يمكن التراجع عن هذا الإجراء.",
+  "save": "حفظ"
 }

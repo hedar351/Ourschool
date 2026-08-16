@@ -165,6 +165,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "contact_us": MessageLookupByLibrary.simpleMessage("Contact Us"),
     "date": MessageLookupByLibrary.simpleMessage("Date"),
     "date_unknown": MessageLookupByLibrary.simpleMessage("Unknown date"),
+    "delet_book": MessageLookupByLibrary.simpleMessage(
+      "Are you sure you want to delete this book?\nThis action cannot be undone.",
+    ),
     "delete": MessageLookupByLibrary.simpleMessage("Delete"),
     "edit": MessageLookupByLibrary.simpleMessage("Edit"),
     "edit_mark": MessageLookupByLibrary.simpleMessage("Edit Mark"),
@@ -292,6 +295,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "role_counselor": MessageLookupByLibrary.simpleMessage("Counselor"),
     "role_student": MessageLookupByLibrary.simpleMessage("Student"),
     "role_teacher": MessageLookupByLibrary.simpleMessage("Teacher"),
+    "save": MessageLookupByLibrary.simpleMessage("save"),
     "schedule": MessageLookupByLibrary.simpleMessage("Schedule"),
     "school_description": MessageLookupByLibrary.simpleMessage(
       "An integrated educational environment that aims to develop skills and build the student\'s personality in an atmosphere of values, respect, and excellence.",

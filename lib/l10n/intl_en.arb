@@ -228,5 +228,7 @@
   "statActiveLoans": "Active",
   "statReturnedLoans": "Returned",
   "statOverdueLoans": "Overdue",
-  "noLoansForThisBook": "No loans for this book"
+  "noLoansForThisBook": "No loans for this book",
+  "delet_book": "Are you sure you want to delete this book?\nThis action cannot be undone.",
+  "save": "save"
 }

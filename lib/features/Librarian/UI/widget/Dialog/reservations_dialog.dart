@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:school/core/injection.dart' as di;
 import 'package:school/core/widget/Loadingwidget.dart';
+import 'package:school/core/widget/SnackBar/Overlay.dart';
+import 'package:school/features/Librarian/UI/Bloc/AddDeleteEdit/add_delete_edit_bloc.dart';
 import 'package:school/features/Librarian/UI/Bloc/LibrarianReservationsLoansBloc/librarian_reservations_loans_bloc.dart';
 import 'package:school/features/Librarian/UI/widget/helpingWidget/buildVerticalDivider.dart';
 import 'package:school/features/Librarian/UI/widget/helpingWidget/getStatusColor.dart';
@@ -35,65 +38,110 @@ class _ReservationsDialogState extends State<ReservationsDialog> {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
-    return BlocConsumer<
-      LibrarianReservationsLoansBloc,
-      LibrarianReservationsLoansState
-    >(
-      listener: (context, state) {
-        if (state is ReservationsError) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.message),
-              backgroundColor: colorScheme.error,
-              behavior: SnackBarBehavior.floating,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12.r),
-              ),
-              duration: const Duration(seconds: 3),
-            ),
-          );
-        }
-        if (state is ReservationsLoaded) {
-          _lastReservations = state.reservations.reservations;
-        }
-      },
-      builder: (context, state) {
-        final isLoading = state is ReservationsLoading;
-
-        return Dialog(
-          insetPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 24.h),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(24.r),
-          ),
-          // backgroundColor: theme.scaffoldBackgroundColor,
-          child: Container(
-            constraints: BoxConstraints(maxHeight: 680.h, maxWidth: 500.w),
-            padding: EdgeInsets.fromLTRB(20.w, 16.h, 20.w, 20.h),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildHeader(context, state),
-                SizedBox(height: 8.h),
-
-                if (isLoading)
-                  LinearProgressIndicator(
-                    backgroundColor: Colors.transparent,
-                    color: colorScheme.primary,
-                    minHeight: 2.5.h,
+    return BlocProvider(
+      create: (context) => di.sl<AddDeleteEditBloc>(),
+      child: MultiBlocListener(
+        listeners: [
+          BlocListener<
+            LibrarianReservationsLoansBloc,
+            LibrarianReservationsLoansState
+          >(
+            listener: (context, state) {
+              if (state is ReservationsError) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(state.message),
+                    backgroundColor: colorScheme.error,
+                    behavior: SnackBarBehavior.floating,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12.r),
+                    ),
+                    duration: const Duration(seconds: 3),
                   ),
-
-                SizedBox(height: isLoading ? 8.h : 0.h),
-
-                _buildFilterChips(context),
-                SizedBox(height: 16.h),
-
-                Expanded(child: _buildContent(context, state)),
-              ],
-            ),
+                );
+                // showSnackBar(context, state.message, Colors.green);
+              }
+              if (state is ReservationsLoaded) {
+                _lastReservations = state.reservations.reservations;
+              }
+            },
           ),
-        );
-      },
+          BlocListener<AddDeleteEditBloc, AddDeleteEditState>(
+            listener: (context, state) {
+              if (state is AddDeleteEditSuccess) {
+                // ScaffoldMessenger.of(context).showSnackBar(
+                //   SnackBar(
+                //     content: Text(state.message),
+                //     backgroundColor: Colors.green,
+                //     duration: const Duration(seconds: 2),
+                //   ),
+                // );
+                showSnackBar(context, state.message, Colors.green);
+
+                context.read<LibrarianReservationsLoansBloc>().add(
+                  RefreshReservationsEvent(
+                    status: _selectedStatus == 'All' ? null : _selectedStatus,
+                  ),
+                );
+              }
+              if (state is AddDeleteEditError) {
+                // ScaffoldMessenger.of(context).showSnackBar(
+                //   SnackBar(
+                //     content: Text(state.message),
+                //     backgroundColor: Colors.red,
+                //     duration: const Duration(seconds: 3),
+                //   ),
+                // );
+                showSnackBar(context, state.message, Colors.red);
+              }
+            },
+          ),
+        ],
+        child:
+            BlocBuilder<
+              LibrarianReservationsLoansBloc,
+              LibrarianReservationsLoansState
+            >(
+              builder: (context, state) {
+                final isLoading = state is ReservationsLoading;
+
+                return Dialog(
+                  insetPadding: EdgeInsets.symmetric(
+                    horizontal: 16.w,
+                    vertical: 24.h,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(24.r),
+                  ),
+                  child: Container(
+                    constraints: BoxConstraints(
+                      maxHeight: 680.h,
+                      maxWidth: 500.w,
+                    ),
+                    padding: EdgeInsets.fromLTRB(20.w, 16.h, 20.w, 20.h),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildHeader(context, state),
+                        SizedBox(height: 8.h),
+                        if (isLoading)
+                          LinearProgressIndicator(
+                            backgroundColor: Colors.transparent,
+                            color: colorScheme.primary,
+                            minHeight: 2.5.h,
+                          ),
+                        SizedBox(height: isLoading ? 8.h : 0.h),
+                        _buildFilterChips(context),
+                        SizedBox(height: 16.h),
+                        Expanded(child: _buildContent(context, state)),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+      ),
     );
   }
 
@@ -359,7 +407,6 @@ class _ReservationsDialogState extends State<ReservationsDialog> {
                 ),
               ),
             ),
-            // زر الإغلاق
             Material(
               color: Colors.transparent,
               child: InkWell(
@@ -406,7 +453,6 @@ class _ReservationsDialogState extends State<ReservationsDialog> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // رقم Book Icon / Badge
           Container(
             width: 46.w,
             height: 46.w,
@@ -426,7 +472,6 @@ class _ReservationsDialogState extends State<ReservationsDialog> {
             ),
           ),
           SizedBox(width: 12.w),
-
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -486,26 +531,102 @@ class _ReservationsDialogState extends State<ReservationsDialog> {
               ],
             ),
           ),
-
           SizedBox(width: 8.w),
-
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
-            decoration: BoxDecoration(
-              color: statusColor.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(10.r),
-            ),
-            child: Text(
-              _getTranslatedStatus(
-                context,
-                reservation.statusName ?? 'Pending',
+          Column(
+            children: [
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
+                decoration: BoxDecoration(
+                  color: statusColor.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(10.r),
+                ),
+                child: Text(
+                  _getTranslatedStatus(
+                    context,
+                    reservation.statusName ?? 'Pending',
+                  ),
+                  style: TextStyle(
+                    fontSize: 11.sp,
+                    fontWeight: FontWeight.bold,
+                    color: statusColor,
+                  ),
+                ),
               ),
-              style: TextStyle(
-                fontSize: 11.sp,
-                fontWeight: FontWeight.bold,
-                color: statusColor,
-              ),
-            ),
+              if (reservation.statusName == 'Pending') ...[
+                SizedBox(width: 8.w),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      icon: Icon(
+                        Icons.check_circle_rounded,
+                        size: 20.w,
+                        color: Colors.green.shade600,
+                      ),
+                      onPressed: () {
+                        context.read<AddDeleteEditBloc>().add(
+                          ApproveReservationEvent(
+                            localBookNumber: reservation.localBookNumber ?? 0,
+                            localStudentNumber:
+                                reservation.localStudentNumber ?? 0,
+                          ),
+                        );
+                      },
+                      tooltip: 'قبول',
+                    ),
+                    IconButton(
+                      icon: Icon(
+                        Icons.cancel_rounded,
+                        size: 20.w,
+                        color: Colors.red.shade600,
+                      ),
+                      onPressed: () {
+                        context.read<AddDeleteEditBloc>().add(
+                          RejectReservationEvent(
+                            localBookNumber: reservation.localBookNumber ?? 0,
+                            localStudentNumber:
+                                reservation.localStudentNumber ?? 0,
+                          ),
+                        );
+                      },
+                      tooltip: 'رفض',
+                    ),
+                  ],
+                ),
+              ],
+              if (reservation.statusName == 'Approved') ...[
+                SizedBox(width: 8.w),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      icon: Icon(
+                        Icons.check_circle_rounded,
+                        size: 20.w,
+                        color: Colors.green.shade600,
+                      ),
+                      onPressed: () {
+                        context.read<AddDeleteEditBloc>().add(
+                          PostLoansEvent(
+                            localBookNumber: reservation.localBookNumber ?? 0,
+                            localStudentNumber:
+                                reservation.localStudentNumber ?? 0,
+                          ),
+                        );
+                        // context.read<LibrarianReservationsLoansBloc>().add(
+                        //   RefreshReservationsEvent(
+                        //     status: _selectedStatus == 'Approved'
+                        //         ? null
+                        //         : _selectedStatus,
+                        //   ),
+                        // );
+                      },
+                      tooltip: 'اعارة',
+                    ),
+                  ],
+                ),
+              ],
+            ],
           ),
         ],
       ),

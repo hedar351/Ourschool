@@ -61,6 +61,21 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<LogoutEvent>(_onLogout);
   }
 
+  Future<void> clearCaches() async {
+    await cachedatasource.deleteBulletins();
+    await cachedatasourceGrade.deletegrades();
+    await cachedatasourceStudentList.deleteStudentsBySection();
+    await cacheDataStudentProfile.deleteStudentProfile();
+    await cacheDataTeacherFullProfile.deleteTeacherFullProfile();
+    await cacheTeacherStudentsList.deleteStudents();
+    await libraryCacheDataSource.deleteBooks();
+    await libraryCacheDataSource.deleteReservations();
+    await librarianReservationsCacheDataSource.deleteLibrarianReservations();
+    await librarianLoansCacheDataSource.deleteLibrarianLoans();
+    await bookReservationsCacheDataSource.deleteBookAllReservations();
+    await bookLoansCacheDataSource.deleteAllBookLoans();
+  }
+
   Future<void> _onCheckAuth(
     CheckAuthEvent event,
     Emitter<AuthState> emit,
@@ -90,19 +105,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       event.password,
       event.rememberMe,
     );
-    await cachedatasource.deleteBulletins();
-    await cachedatasourceGrade.deletegrades();
-    await cachedatasourceStudentList.deleteStudentsBySection();
-    await cacheDataStudentProfile.deleteStudentProfile();
-    await cacheDataTeacherFullProfile.deleteTeacherFullProfile();
-    await cacheTeacherStudentsList.deleteStudents();
-    await cacheTeacherStudentProfile.deleteCachedTeacherStudentProfile();
-    await libraryCacheDataSource.deleteBooks();
-    await libraryCacheDataSource.deleteReservations();
-    await librarianReservationsCacheDataSource.deleteLibrarianReservations();
-    await librarianLoansCacheDataSource.deleteLibrarianLoans();
-    await bookReservationsCacheDataSource.deleteBookReservations();
-    await bookLoansCacheDataSource.deleteBookLoans();
+    await clearCaches();
+
     result.fold((failure) {
       final message = mapFailureToMessage(failure);
       emit(AuthErorr(message: message));
@@ -114,18 +118,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     emit(AuthLoading());
 
-    await cachedatasource.deleteBulletins();
-    await cachedatasourceGrade.deletegrades();
-    await cachedatasourceStudentList.deleteStudentsBySection();
-    await cacheDataStudentProfile.deleteStudentProfile();
-    await cacheDataTeacherFullProfile.deleteTeacherFullProfile();
-    await cacheTeacherStudentsList.deleteStudents();
-    await libraryCacheDataSource.deleteBooks();
-    await libraryCacheDataSource.deleteReservations();
-    await librarianReservationsCacheDataSource.deleteLibrarianReservations();
-    await librarianLoansCacheDataSource.deleteLibrarianLoans();
-    await bookReservationsCacheDataSource.deleteBookReservations();
-    await bookLoansCacheDataSource.deleteBookLoans();
+    await clearCaches();
 
     final result = await logoutUseCase();
     print("🟡 [Bloc] Usecase result: $result");

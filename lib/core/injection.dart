@@ -4,9 +4,10 @@ import 'package:http/http.dart' as http;
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:school/features/Librarian/UI/Bloc/AddDeleteEdit/add_delete_edit_bloc.dart';
 import 'package:school/features/Librarian/UI/Bloc/BookLoansBloc/book_loans_bloc.dart';
-import 'package:school/features/Librarian/UI/Bloc/BookReservationsLoansBloc/book_reservations_loans_bloc.dart';
+import 'package:school/features/Librarian/UI/Bloc/BookReservationsBloc/book_reservations_loans_bloc.dart';
 import 'package:school/features/Librarian/UI/Bloc/LibrarianBloc/librarian_bloc.dart';
 import 'package:school/features/Librarian/UI/Bloc/LibrarianReservationsLoansBloc/librarian_reservations_loans_bloc.dart';
+import 'package:school/features/Librarian/data/DataSource/Actions_dataSource/actions_remote_data_source.dart';
 import 'package:school/features/Librarian/data/DataSource/Book-reservations-loans-Data/book_loans_cache_data_source.dart';
 import 'package:school/features/Librarian/data/DataSource/Book-reservations-loans-Data/book_loans_remote_data_source.dart';
 import 'package:school/features/Librarian/data/DataSource/Book-reservations-loans-Data/book_reservations_cache_data_source.dart';
@@ -26,10 +27,16 @@ import 'package:school/features/Librarian/data/RepoImp/Librarian_Repo_Imp.dart';
 import 'package:school/features/Librarian/domain/Repo/Librarian_Repo.dart';
 import 'package:school/features/Librarian/domain/UseCase/GetLibrarianLoansUsecase.dart';
 import 'package:school/features/Librarian/domain/UseCase/addBooksUseCase.dart';
+import 'package:school/features/Librarian/domain/UseCase/approve_reservations_use_case.dart';
+import 'package:school/features/Librarian/domain/UseCase/delete_book_use_case.dart';
+import 'package:school/features/Librarian/domain/UseCase/edit_book_use_case.dart';
 import 'package:school/features/Librarian/domain/UseCase/getBookLoansUseCase.dart';
 import 'package:school/features/Librarian/domain/UseCase/getBookReservationsUseCase.dart';
 import 'package:school/features/Librarian/domain/UseCase/getBooksLibrarianUseCase.dart';
 import 'package:school/features/Librarian/domain/UseCase/getLibrarianReservationsUseCase.dart';
+import 'package:school/features/Librarian/domain/UseCase/post_loans_use_case.dart';
+import 'package:school/features/Librarian/domain/UseCase/reject_reservations_use_case.dart';
+import 'package:school/features/Librarian/domain/UseCase/return_loans_use_case.dart';
 import 'package:school/features/Student/data/DataSource/library_cache_data_source.dart';
 import 'package:school/features/Student/data/DataSource/library_remote_data_source.dart';
 import 'package:school/features/Student/data/Model/LibraryModel/book_model.dart';
@@ -551,7 +558,9 @@ void _initLibrarian() {
     () =>
         BookLoansRemoteDataSourceImpl(client: sl(), authLocalDataSource: sl()),
   );
-
+  sl.registerLazySingleton<ActionsRemoteDataSource>(
+    () => ActionsRemoteDataSourceImp(client: sl(), authLocalDataSource: sl()),
+  );
   // ============================================================
   // ====== Cache Data Sources ======
   // ============================================================
@@ -597,7 +606,8 @@ void _initLibrarian() {
       bookReservationsRemoteDataSource: sl(),
       bookReservationsCacheDataSource: sl(),
       bookLoansRemoteDataSource: sl(), // جديد
-      bookLoansCacheDataSource: sl(), // جديد
+      bookLoansCacheDataSource: sl(),
+      actionsRemoteDataSource: sl(),
     ),
   );
 
@@ -607,6 +617,8 @@ void _initLibrarian() {
 
   sl.registerLazySingleton(() => Getbookslibrarianusecase(repository: sl()));
   sl.registerLazySingleton(() => Addbooksusecase(repository: sl()));
+  sl.registerLazySingleton(() => EditBookUseCase(repository: sl()));
+  sl.registerLazySingleton(() => DeleteBookUseCase(repository: sl()));
 
   sl.registerLazySingleton(
     () => GetLibrarianReservationsUseCase(repository: sl()),
@@ -618,7 +630,10 @@ void _initLibrarian() {
 
   // جديد
   sl.registerLazySingleton(() => Getbookloansusecase(repository: sl()));
-
+  sl.registerLazySingleton(() => ApproveReservationsUseCase(repository: sl()));
+  sl.registerLazySingleton(() => RejectReservationsUseCase(repository: sl()));
+  sl.registerLazySingleton(() => PostLoansUseCase(repository: sl()));
+  sl.registerLazySingleton(() => ReturnLoansUseCase(repository: sl()));
   // ============================================================
   // ====== Blocs ======
   // ============================================================
@@ -628,7 +643,15 @@ void _initLibrarian() {
   );
 
   sl.registerFactory(
-    () => AddDeleteEditBloc(addBooksUseCase: sl<Addbooksusecase>()),
+    () => AddDeleteEditBloc(
+      addBooksUseCase: sl<Addbooksusecase>(),
+      deleteBookUseCase: sl(),
+      editBookUseCase: sl(),
+      approveReservationsUseCase: sl(),
+      rejectReservationsUseCase: sl(),
+      postLoansUseCase: sl(),
+      returnLoansUseCase: sl(),
+    ),
   );
 
   sl.registerFactory(

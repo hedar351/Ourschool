@@ -9,7 +9,8 @@ import 'package:school/features/Cross-role/Bulletin/ui/widget/BulletinCard.dart'
 import 'package:school/generated/l10n.dart';
 
 class BulletinScreen extends StatefulWidget {
-  const BulletinScreen({super.key});
+  final bool isStudent;
+  const BulletinScreen({super.key, required this.isStudent});
 
   @override
   State<BulletinScreen> createState() => _BulletinScreenState();
@@ -104,7 +105,7 @@ class _BulletinScreenState extends State<BulletinScreen>
                             child: BulletinCard(
                               entity: currentItems[index],
                               color: activeColor,
-                              isHorizontal: false,
+                              isStudent: widget.isStudent,
                             ),
                           );
                         }, childCount: currentItems.length),

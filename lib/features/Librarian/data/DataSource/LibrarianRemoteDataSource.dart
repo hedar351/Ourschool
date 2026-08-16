@@ -1,5 +1,3 @@
-// lib/features/Librarian/data/datasources/librarian_remote_data_source.dart
-
 import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
@@ -33,6 +31,13 @@ List<BookModel> _parseBooks(String responseBody) {
 
 abstract class LibrarianRemoteDataSource {
   Future<Unit> addBooks(String title, String author, int copies);
+  Future<Unit> deleteBook(int localBookNumber);
+  Future<Unit> editBook(
+    int localBookNumber,
+    String title,
+    String author,
+    int copies,
+  );
   Future<List<BookModel>> getBooks();
 }
 
@@ -44,8 +49,6 @@ class LibrarianRemoteDataSourceImpl implements LibrarianRemoteDataSource {
     required this.client,
     required this.authLocalDataSource,
   });
-
-  // داخل LibrarianRemoteDataSourceImpl
 
   @override
   Future<Unit> addBooks(String title, String author, int copies) async {
@@ -88,6 +91,91 @@ class LibrarianRemoteDataSourceImpl implements LibrarianRemoteDataSource {
         errorMessage = decoded['message'] as String? ?? errorMessage;
       } catch (_) {}
       print('🔴 [Librarian Remote] فشل إضافة الكتاب - الرسالة: $errorMessage');
+      throw ServerExp(message: errorMessage);
+    }
+  }
+
+  @override
+  Future<Unit> deleteBook(int localBookNumber) async {
+    print(' [Librarian Remote] بدء حذف كتاب جديد');
+
+    final token = await authLocalDataSource.getToken();
+    if (token.isEmpty) {
+      print('🔴 [Librarian Remote] التوكن فارغ');
+      throw TokenNotFoundExp();
+    }
+
+    final response = await client.delete(
+      Uri.parse('$baseUrl/librarian/books/$localBookNumber '),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    print('[Librarian Remote] حالة الاستجابة: ${response.statusCode}');
+    print('[Librarian Remote] نص الرد: ${response.body}');
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      print(' [Librarian Remote] تم حذف الكتاب بنجاح');
+      return unit;
+    } else {
+      String errorMessage = 'فشل حذف الكتاب';
+      try {
+        final Map<String, dynamic> decoded = json.decode(response.body);
+        errorMessage = decoded['message'] as String? ?? errorMessage;
+      } catch (_) {}
+      print('🔴 [Librarian Remote] فشل حذف الكتاب - الرسالة: $errorMessage');
+      throw ServerExp(message: errorMessage);
+    }
+  }
+
+  @override
+  Future<Unit> editBook(
+    int localBookNumber,
+    String title,
+    String author,
+    int copies,
+  ) async {
+    print(' [Librarian Remote] بدء تعديل كتاب جديد');
+    print(
+      ' [Librarian Remote] العنوان: $title, المؤلف: $author, النسخ: $copies',
+    );
+
+    final token = await authLocalDataSource.getToken();
+    if (token.isEmpty) {
+      print('🔴 [Librarian Remote] التوكن فارغ');
+      throw TokenNotFoundExp();
+    }
+
+    final body = json.encode({
+      'title': title,
+      'author': author,
+      'copies': copies,
+    });
+
+    final response = await client.put(
+      Uri.parse('$baseUrl/librarian/books/$localBookNumber '),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+      body: body,
+    );
+
+    print('[Librarian Remote] حالة الاستجابة: ${response.statusCode}');
+    print('[Librarian Remote] نص الرد: ${response.body}');
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      print(' [Librarian Remote] تم تعديل الكتاب بنجاح');
+      return unit;
+    } else {
+      String errorMessage = 'فشل تعديل الكتاب';
+      try {
+        final Map<String, dynamic> decoded = json.decode(response.body);
+        errorMessage = decoded['message'] as String? ?? errorMessage;
+      } catch (_) {}
+      print('🔴 [Librarian Remote] فشل تعديل الكتاب - الرسالة: $errorMessage');
       throw ServerExp(message: errorMessage);
     }
   }
