@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school/features/Counselor/UI/bloc/attendance/attendance_bloc.dart';
+import 'package:school/features/Librarian/UI/widget/helpingWidget/helpers.dart';
 import 'package:school/generated/l10n.dart';
 
 void showAddAttendanceDialog(BuildContext context, int? localStudentNumber) {
@@ -84,7 +85,7 @@ void showAddAttendanceDialog(BuildContext context, int? localStudentNumber) {
                         SizedBox(width: calendarGap),
                         Expanded(
                           child: Text(
-                            _formatDate(selectedDate),
+                            formatDate(selectedDate),
                             style: TextStyle(
                               fontSize: calendarFontSize,
                               fontWeight: FontWeight.w500,
@@ -255,22 +256,4 @@ void showAddAttendanceDialog(BuildContext context, int? localStudentNumber) {
       );
     },
   );
-}
-
-String _formatDate(DateTime date) {
-  final months = [
-    'يناير',
-    'فبراير',
-    'مارس',
-    'أبريل',
-    'مايو',
-    'يونيو',
-    'يوليو',
-    'أغسطس',
-    'سبتمبر',
-    'أكتوبر',
-    'نوفمبر',
-    'ديسمبر',
-  ];
-  return '${date.day} ${months[date.month - 1]} ${date.year}';
 }

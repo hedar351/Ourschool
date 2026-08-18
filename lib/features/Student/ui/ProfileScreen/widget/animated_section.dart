@@ -25,7 +25,9 @@ class AnimatedSection extends StatelessWidget {
           opacity: fadeAnim,
           child: SlideTransition(
             position: slideAnim,
-            child: ScaleTransition(scale: scaleAnim, child: child),
+            child: RepaintBoundary(
+              child: ScaleTransition(scale: scaleAnim, child: child),
+            ),
           ),
         );
       },

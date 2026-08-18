@@ -2,17 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school/features/Cross-role/Bulletin/domain/Entities/AnnouncementActivityEntity.dart';
 import 'package:school/features/Cross-role/Bulletin/ui/widget/bulletin_details_sheet.dart';
+import 'package:school/features/Librarian/UI/widget/helpingWidget/helpers.dart';
 
 class BulletinCard extends StatelessWidget {
   final Announcementactivityentity entity;
   final Color color;
   final bool isStudent;
+  final bool isActivitySupervisor;
 
   const BulletinCard({
     super.key,
     required this.entity,
     required this.color,
     required this.isStudent,
+    required this.isActivitySupervisor,
   });
 
   @override
@@ -102,7 +105,7 @@ class BulletinCard extends StatelessWidget {
                         ),
                         SizedBox(width: 6.w),
                         Text(
-                          _formatDate(entity.date),
+                          formatDate(entity.date),
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: theme.colorScheme.onSurface.withOpacity(0.5),
                             fontWeight: FontWeight.w500,
@@ -146,24 +149,6 @@ class BulletinCard extends StatelessWidget {
     );
   }
 
-  String _formatDate(DateTime date) {
-    const months = [
-      'يناير',
-      'فبراير',
-      'مارس',
-      'أبريل',
-      'مايو',
-      'يونيو',
-      'يوليو',
-      'أغسطس',
-      'سبتمبر',
-      'أكتوبر',
-      'نوفمبر',
-      'ديسمبر',
-    ];
-    return '${date.day} ${months[date.month - 1]} ${date.year}';
-  }
-
   IconData _getIcon(String title) {
     final lowerTitle = title.toLowerCase();
     if (lowerTitle.contains('رحلة')) return Icons.flight_takeoff_rounded;
@@ -193,6 +178,7 @@ class BulletinCard extends StatelessWidget {
         entity: entity,
         color: color,
         isStudent: isStudent,
+        isActivitySupervisor: isActivitySupervisor,
       ),
     );
   }

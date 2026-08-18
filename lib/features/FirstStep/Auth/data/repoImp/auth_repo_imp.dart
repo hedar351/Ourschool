@@ -64,7 +64,6 @@ class AuthRepoImp implements AuthRepo {
 
         if (rememberMe) {
           await authLocalDataSource.cacheUser(remote);
-          // await authLocalDataSource.cacheUserRole(remote.role ?? 'Student');
           print("🟢 [Repo] Saved user because rememberMe = true");
         } else {
           await authLocalDataSource.deleteUser();

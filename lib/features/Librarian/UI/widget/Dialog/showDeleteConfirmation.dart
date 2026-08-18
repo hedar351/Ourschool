@@ -1,5 +1,3 @@
-// lib/features/Librarian/UI/widget/Dialog/showDeleteConfirmation.dart
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,13 +5,16 @@ import 'package:school/core/injection.dart' as di;
 import 'package:school/features/Librarian/UI/Bloc/AddDeleteEdit/add_delete_edit_bloc.dart';
 import 'package:school/generated/l10n.dart';
 
-void showDeleteConfirmation(BuildContext context, int localBookNumber) {
-  final theme = Theme.of(context);
+void showDeleteConfirmation(
+  BuildContext bottomSheetContext,
+  int localBookNumber,
+) {
+  final theme = Theme.of(bottomSheetContext);
 
   showDialog(
-    context: context,
+    context: bottomSheetContext,
     barrierDismissible: false,
-    builder: (context) => BlocProvider(
+    builder: (dialogContext) => BlocProvider(
       create: (context) => di.sl<AddDeleteEditBloc>(),
       child: AlertDialog(
         backgroundColor: theme.scaffoldBackgroundColor,
@@ -29,7 +30,7 @@ void showDeleteConfirmation(BuildContext context, int localBookNumber) {
             ),
             SizedBox(width: 10.w),
             Text(
-              S.of(context).delete,
+              S.of(dialogContext).delete,
               style: TextStyle(
                 fontSize: 20.sp,
                 fontWeight: FontWeight.bold,
@@ -39,7 +40,7 @@ void showDeleteConfirmation(BuildContext context, int localBookNumber) {
           ],
         ),
         content: Text(
-          S.of(context).delet_book,
+          S.of(dialogContext).delet_book,
           style: TextStyle(
             fontSize: 14.sp,
             color: theme.colorScheme.onSurface.withOpacity(0.8),
@@ -47,9 +48,9 @@ void showDeleteConfirmation(BuildContext context, int localBookNumber) {
         ),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => Navigator.pop(dialogContext),
             child: Text(
-              S.of(context).cancel,
+              S.of(dialogContext).cancel,
               style: TextStyle(
                 fontSize: 15.sp,
                 fontWeight: FontWeight.w600,
@@ -57,7 +58,29 @@ void showDeleteConfirmation(BuildContext context, int localBookNumber) {
               ),
             ),
           ),
-          BlocBuilder<AddDeleteEditBloc, AddDeleteEditState>(
+          BlocConsumer<AddDeleteEditBloc, AddDeleteEditState>(
+            listener: (context, state) {
+              if (state is AddDeleteEditSuccess) {
+                Navigator.pop(dialogContext);
+                Navigator.pop(bottomSheetContext);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(state.message),
+                    backgroundColor: Colors.green,
+                    duration: const Duration(seconds: 2),
+                  ),
+                );
+              }
+              if (state is AddDeleteEditError) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(state.message),
+                    backgroundColor: Colors.red,
+                    duration: const Duration(seconds: 3),
+                  ),
+                );
+              }
+            },
             builder: (context, state) {
               final isLoading = state is AddDeleteEditLoading;
               return ElevatedButton.icon(
@@ -67,7 +90,6 @@ void showDeleteConfirmation(BuildContext context, int localBookNumber) {
                         context.read<AddDeleteEditBloc>().add(
                           DeleteBookEvent(localBookNumber: localBookNumber),
                         );
-                        Navigator.pop(context);
                       },
                 icon: isLoading
                     ? SizedBox(

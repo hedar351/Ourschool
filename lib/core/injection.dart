@@ -2,6 +2,20 @@ import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:school/features/Activities/UI/bloc/activitiesBloc/activities_bloc.dart';
+import 'package:school/features/Activities/UI/bloc/activities_registrations_bloc/activities_registrations_bloc.dart';
+import 'package:school/features/Activities/data/data_source/activities_registrations_cache_data_source.dart';
+import 'package:school/features/Activities/data/data_source/activities_registrations_remote_data_source.dart';
+import 'package:school/features/Activities/data/data_source/activities_remote_data.dart';
+import 'package:school/features/Activities/data/model/activities_registrations_model.dart';
+import 'package:school/features/Activities/data/model/activities_statistics_model.dart';
+import 'package:school/features/Activities/data/model/registrations_info_model.dart';
+import 'package:school/features/Activities/data/repo_imp/activity_repo_imp.dart';
+import 'package:school/features/Activities/domain/repo/activites_repo.dart';
+import 'package:school/features/Activities/domain/useCase/activities_registrations_use_case.dart';
+import 'package:school/features/Activities/domain/useCase/add_activity_use_case.dart';
+import 'package:school/features/Activities/domain/useCase/delete_activity_use_case.dart';
+import 'package:school/features/Activities/domain/useCase/edit_activity_use_case.dart';
 import 'package:school/features/Librarian/UI/Bloc/AddDeleteEdit/add_delete_edit_bloc.dart';
 import 'package:school/features/Librarian/UI/Bloc/BookLoansBloc/book_loans_bloc.dart';
 import 'package:school/features/Librarian/UI/Bloc/BookReservationsBloc/book_reservations_loans_bloc.dart';
@@ -44,6 +58,7 @@ import 'package:school/features/Student/data/Model/LibraryModel/reservations_mod
 import 'package:school/features/Student/data/Model/LibraryModel/reserve_book_model.dart';
 import 'package:school/features/Student/data/Model/LibraryModel/reserve_model.dart';
 import 'package:school/features/Student/data/Model/ProfilrModel/ActivitiesModel.dart';
+import 'package:school/features/Student/data/Model/ProfilrModel/MarksStatisticsModel.dart';
 import 'package:school/features/Student/data/Model/ProfilrModel/StatisticsModel.dart';
 import 'package:school/features/Student/data/Model/ProfilrModel/StudentFullProfileModel.dart';
 import 'package:school/features/Student/data/Model/ProfilrModel/StudentInfoModel.dart';
@@ -218,9 +233,12 @@ Future<void> init() async {
   Hive.registerAdapter(LibrarianReservationsModelAdapter()); // typeId: 34
   Hive.registerAdapter(LibrarianLoansModelAdapter()); // typeId: 35
   Hive.registerAdapter(BookReservationsModelAdapter()); // typeId: 36
-  Hive.registerAdapter(BookLoanModelAdapter()); // typeId: 38
   Hive.registerAdapter(StatisticsLoansModelAdapter()); // typeId: 37
-
+  Hive.registerAdapter(BookLoanModelAdapter()); // typeId: 38
+  Hive.registerAdapter(MarksStatisticsModelAdapter()); // typeId: 39
+  Hive.registerAdapter(ActivitiesStatisticsModelAdapter()); // typeId: 40
+  Hive.registerAdapter(RegistrationsInfoModelAdapter()); // typeId: 41
+  Hive.registerAdapter(ActivitiesRegistrationsModelAdapter()); // typeId: 42
   // ----- 1.2 Open Boxes -----
   final bulletinbox = await Hive.openBox<Bulletinmodel>('bulletinBox');
   final gradebox = await Hive.openBox<GradeModel>('gradebox');
@@ -272,6 +290,12 @@ Future<void> init() async {
 
   final bookLoanBox = await Hive.openBox<BookLoanModel>('bookLoanBox');
   sl.registerLazySingleton(() => bookLoanBox);
+
+  final activitiesRegistrationsBox =
+      await Hive.openBox<ActivitiesRegistrationsModel>(
+        'activitiesRegistrationsBox',
+      );
+  sl.registerLazySingleton(() => activitiesRegistrationsBox);
   print('✅ All Hive boxes opened');
 
   // ====================================================================
@@ -284,7 +308,7 @@ Future<void> init() async {
   sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
 
   // ====================================================================
-  // 3. STUDENT FEATURE (يجب أن يكون قبل Auth)
+  // 3. STUDENT FEATURE
   // ====================================================================
   _initStudent(studentProfileBoxNew);
 
@@ -326,7 +350,74 @@ Future<void> init() async {
   // 9. LIBRARIAN FEATURE
   // ====================================================================
   _initLibrarian();
+
+  _initActivities();
   print('✅ All dependencies registered successfully!');
+}
+
+void _initActivities() {
+  // ============================================================
+  // ====== Remote Data Source ======
+  // ============================================================
+
+  sl.registerLazySingleton<ActivitiesRemoteData>(
+    () => ActivitiesRemoteDataImp(client: sl(), authLocalDataSource: sl()),
+  );
+  sl.registerLazySingleton<ActivitiesRegistrationsRemoteDataSource>(
+    () => ActivitiesRegistrationsRemoteDataSourceImpl(
+      client: sl(),
+      authLocalDataSource: sl(),
+    ),
+  );
+
+  sl.registerLazySingleton<ActivitiesRegistrationsCacheDataSource>(
+    () => ActivitiesRegistrationsCacheDataSourceImpl(
+      box: sl<Box<ActivitiesRegistrationsModel>>(),
+    ),
+  );
+  // ============================================================
+  // ====== Repository ======
+  // ============================================================
+
+  sl.registerLazySingleton<ActivitesRepo>(
+    () => ActivityRepoImp(
+      activitiesRemoteData: sl(),
+      networkInfo: sl(),
+      remote: sl(),
+      cache: sl(),
+    ),
+  );
+
+  // ============================================================
+  // ====== Use Cases ======
+  // ============================================================
+
+  sl.registerLazySingleton(() => AddActivityUseCase(repository: sl()));
+
+  sl.registerLazySingleton(() => EditActivityUseCase(repository: sl()));
+
+  sl.registerLazySingleton(() => DeleteActivityUseCase(repository: sl()));
+  sl.registerLazySingleton(() => ActivitiesRegistrationsUseCase(repo: sl()));
+
+  // ============================================================
+  // ====== Bloc ======
+  // ============================================================
+
+  sl.registerFactory(
+    () => ActivitiesBloc(
+      addActivityUseCase: sl(),
+      editActivityUseCase: sl(),
+      deleteActivityUseCase: sl(),
+      activitiesRepo: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => ActivitiesRegistrationsBloc(
+      getRegistrationsUseCase: sl(),
+      activitiesRepo: sl<ActivitesRepo>(),
+    ),
+  );
+  print('✅ Activities feature registered');
 }
 
 // ======================================================================
@@ -745,7 +836,6 @@ void _initSchoolsInfo({required Box<SchoolWithTeacherModel> schoolBox}) {
 
   print('✅ Schools Info feature registered');
 }
-
 // ======================================================================
 // ====== STUDENT FEATURE ======
 // ======================================================================
@@ -778,6 +868,7 @@ void _initStudent(Box<StudentFullProfileModel> studentProfileBox) {
 
   print('✅ Student feature registered');
 }
+
 // ======================================================================
 // ====== TEACHER FEATURE ======
 // ======================================================================

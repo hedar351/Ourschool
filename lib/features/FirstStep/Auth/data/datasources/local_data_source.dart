@@ -7,18 +7,15 @@ import '../../../../../core/error/EXP.dart';
 import '../model/auth_model.dart';
 
 const authCacheKey = "AUTH_CACHE";
-// const authRoleKey = "USER_ROLE";
 const authTokenKey = "Token_cache";
 
 abstract class AuthLocalDataSource {
   Future<Unit> cacheToken(String token);
   Future<Unit> cacheUser(AuthModel user);
-  // Future<Unit> cacheUserRole(String role);
   Future<Unit> deleteToken();
   Future<Unit> deleteUser();
   Future<String> getToken();
   Future<AuthModel> getUser();
-  // Future<String> getUserRole();
 }
 
 class AuthLocalDataSourceImp implements AuthLocalDataSource {

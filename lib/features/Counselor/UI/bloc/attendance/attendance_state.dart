@@ -1,5 +1,3 @@
-// lib/features/Counselor/UI/bloc/Attendance/attendance_state.dart
-
 part of 'attendance_bloc.dart';
 
 // ====== حالة الخطأ ======

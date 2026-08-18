@@ -1,5 +1,3 @@
-// lib/features/SchoolsInfo/data/datasources/school_remote_ds.dart
-
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;

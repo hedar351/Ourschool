@@ -48,7 +48,7 @@ class CounselorRepoImp implements CounselorRepo {
     String date,
   ) async {
     if (!await networkInfo.isConnected) {
-      print('❌ [Repo] No internet connection');
+      print(' [Repo] No internet connection');
       return Left(OfflineFailure());
     }
     print(
@@ -60,11 +60,11 @@ class CounselorRepoImp implements CounselorRepo {
     );
     return result.fold(
       (failure) {
-        print('❌ [Repo] Failed to add attendance');
+        print(' [Repo] Failed to add attendance');
         return Left(failure);
       },
       (_) async {
-        print('✅ [Repo] Attendance added successfully');
+        print(' [Repo] Attendance added successfully');
 
         _fetchStudentProfileFromNetworkAndCache(localStudentNumber);
         return const Right(unit);
@@ -96,7 +96,7 @@ class CounselorRepoImp implements CounselorRepo {
         return Left(failure);
       },
       (_) async {
-        print('✅ [Repo] Attendance deleted successfully from remote');
+        print(' [Repo] Attendance deleted successfully from remote');
         _fetchStudentProfileFromNetworkAndCache(localStudentNumber);
         return Right(unit);
       },
@@ -206,7 +206,7 @@ class CounselorRepoImp implements CounselorRepo {
     String reason,
   ) async {
     if (!await networkInfo.isConnected) {
-      print('❌ [Repo] No internet connection');
+      print('[Repo] No internet connection');
       return Left(OfflineFailure());
     }
 
@@ -219,13 +219,13 @@ class CounselorRepoImp implements CounselorRepo {
         reason,
       );
 
-      print('✅ [Repo] Warning added successfully');
+      print(' [Repo] Warning added successfully');
 
       _fetchStudentProfileFromNetworkAndCache(localStudentNumber);
 
       return Right(warningModel.toEntity());
     } catch (e) {
-      print('❌ [Repo] Failed to add warning: $e');
+      print(' [Repo] Failed to add warning: $e');
       return Left(ServerFailure());
     }
   }
@@ -263,7 +263,7 @@ class CounselorRepoImp implements CounselorRepo {
       await cache.cachegrades(remoted);
       return Right(remoted.map((e) => e.toEntity()).toList());
     } catch (e) {
-      print("❌ Error in _fetchFromNetworkAndCache: $e");
+      print(" Error in _fetchFromNetworkAndCache: $e");
 
       return Left(ServerFailure());
     }

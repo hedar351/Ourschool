@@ -140,7 +140,8 @@ class _ExamMarksCardState extends State<ExamMarksCard>
   Widget _buildDetailBadge(
     BuildContext context,
     String label,
-    String value, {
+    String value,
+    String maxvalue, {
     bool isHighlight = false,
   }) {
     final theme = Theme.of(context);
@@ -176,7 +177,7 @@ class _ExamMarksCardState extends State<ExamMarksCard>
               ),
             ),
             TextSpan(
-              text: value,
+              text: "$maxvalue/$value",
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
           ],
@@ -280,7 +281,8 @@ class _ExamMarksCardState extends State<ExamMarksCard>
           ),
           SizedBox(height: 8.h),
 
-          if (mark.quiz1 != null ||
+          if (mark.oral != null ||
+              mark.quiz1 != null ||
               mark.quiz2 != null ||
               mark.homework != null ||
               mark.finalExam != null) ...[
@@ -289,29 +291,40 @@ class _ExamMarksCardState extends State<ExamMarksCard>
               spacing: 6.w,
               runSpacing: 6.h,
               children: [
+                if (mark.oral != null)
+                  _buildDetailBadge(
+                    context,
+                    S.of(context).oral,
+                    mark.oral.toString(),
+                    mark.maxOral.toString(),
+                  ),
                 if (mark.quiz1 != null)
                   _buildDetailBadge(
                     context,
                     S.of(context).quiz1,
                     mark.quiz1.toString(),
+                    mark.maxQuiz1.toString(),
                   ),
                 if (mark.quiz2 != null)
                   _buildDetailBadge(
                     context,
                     S.of(context).quiz2,
                     mark.quiz2.toString(),
+                    mark.maxQuiz2.toString(),
                   ),
                 if (mark.homework != null)
                   _buildDetailBadge(
                     context,
                     S.of(context).homework,
                     mark.homework.toString(),
+                    mark.maxHomework.toString(),
                   ),
                 if (mark.finalExam != null)
                   _buildDetailBadge(
                     context,
                     S.of(context).final_exam,
                     mark.finalExam.toString(),
+                    mark.maxFinalExam.toString(),
                     isHighlight: true,
                   ),
               ],

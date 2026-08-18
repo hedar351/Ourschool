@@ -29,6 +29,7 @@ class _NavHomePageState extends State<NavHomePage>
   int _currentIndex = 0;
   late final PageController _pageController;
 
+  bool get _isActivitySupervisor => widget.user.role == "ActivitySupervisor";
   bool get _isCounselor => widget.user.role == "Counselor";
   bool get _isLibrarian => widget.user.role == "Librarian";
   bool get _isStudent => widget.user.role == "Student";
@@ -40,7 +41,10 @@ class _NavHomePageState extends State<NavHomePage>
       'icon': Icons.home_outlined,
       'activeIcon': Icons.home_rounded,
       'label': S.of(context).Home,
-      'page': BulletinScreen(isStudent: _isStudent),
+      'page': BulletinScreen(
+        isStudent: _isStudent,
+        isActivitySupervisor: _isActivitySupervisor,
+      ),
     });
 
     if (_isStudent) {
@@ -67,10 +71,7 @@ class _NavHomePageState extends State<NavHomePage>
         'label': S.of(context).Students,
         'page': const ClassAndSectionsScreen(),
       });
-    } else {
-      // ✅ إذا كان الدور Librarian أو أي دور آخر، لا نضيف صفحة ثانية
-      // (نتركها فارغة حتى لا يختل الترتيب)
-    }
+    } else {}
 
     if (_isStudent) {
       config.add({

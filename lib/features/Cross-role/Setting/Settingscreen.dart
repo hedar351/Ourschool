@@ -332,7 +332,7 @@ class _ModernSettingTile extends StatelessWidget {
                   ),
                 ),
               ),
-              // ?trailing,
+              ?trailing,
               if (trailing == null && onTap != null)
                 Icon(
                   Icons.chevron_left_rounded,
@@ -495,9 +495,6 @@ class _SettingsScreenState extends State<SettingsScreen>
     _animationController.forward();
   }
 
-  // ---------------------------------------------------------
-  // Dialogs Logic (محفوظ كما هو مع تحسين بسيط في الشكل)
-  // ---------------------------------------------------------
   void _showAboutDialog(BuildContext context) {
     showDialog(
       context: context,

@@ -20,19 +20,22 @@ class ActivitiesModelAdapter extends TypeAdapter<ActivitiesModel> {
       activityName: fields[0] as String?,
       status: fields[1] as String?,
       date: fields[2] as String?,
+      localActivityId: fields[3] as int?,
     );
   }
 
   @override
   void write(BinaryWriter writer, ActivitiesModel obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(4)
       ..writeByte(0)
       ..write(obj.activityName)
       ..writeByte(1)
       ..write(obj.status)
       ..writeByte(2)
-      ..write(obj.date);
+      ..write(obj.date)
+      ..writeByte(3)
+      ..write(obj.localActivityId);
   }
 
   @override

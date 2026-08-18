@@ -1,5 +1,3 @@
-// lib/features/Library/data/models/reserve_book_model.dart
-
 import 'package:hive/hive.dart';
 import 'package:school/features/Student/domain/entity/Library/reserveBookInfoEntity.dart';
 

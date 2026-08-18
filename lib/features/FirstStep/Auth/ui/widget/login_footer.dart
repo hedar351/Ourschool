@@ -1,5 +1,3 @@
-// lib/features/Auth/ui/widget/login_footer.dart
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school/features/FirstStep/SchoolsInfo/UI/page/schools_screen.dart';
@@ -44,7 +42,7 @@ class LoginFooter extends StatelessWidget {
           onPressed: isLoading
               ? null
               : () {
-                  Navigator.push(
+                  Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                       builder: (context) => const SchoolsScreen(),

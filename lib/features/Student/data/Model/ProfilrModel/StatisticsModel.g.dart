@@ -18,21 +18,15 @@ class StatisticsModelAdapter extends TypeAdapter<StatisticsModel> {
     };
     return StatisticsModel(
       totalAttendance: fields[0] as int?,
-      totalActivities: fields[1] as int?,
-      totalWarnings: fields[2] as int?,
     );
   }
 
   @override
   void write(BinaryWriter writer, StatisticsModel obj) {
     writer
-      ..writeByte(3)
-      ..writeByte(0)
-      ..write(obj.totalAttendance)
       ..writeByte(1)
-      ..write(obj.totalActivities)
-      ..writeByte(2)
-      ..write(obj.totalWarnings);
+      ..writeByte(0)
+      ..write(obj.totalAttendance);
   }
 
   @override

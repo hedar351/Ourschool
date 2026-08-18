@@ -24,11 +24,16 @@ void showEditDialog(
         parent: animation,
         curve: Curves.easeOutBack,
       );
-      return ScaleTransition(
-        scale: Tween<double>(begin: 0.7, end: 1.0).animate(curvedAnimation),
-        child: FadeTransition(
-          opacity: Tween<double>(begin: 0.0, end: 1.0).animate(curvedAnimation),
-          child: child,
+      return RepaintBoundary(
+        child: ScaleTransition(
+          scale: Tween<double>(begin: 0.7, end: 1.0).animate(curvedAnimation),
+          child: FadeTransition(
+            opacity: Tween<double>(
+              begin: 0.0,
+              end: 1.0,
+            ).animate(curvedAnimation),
+            child: child,
+          ),
         ),
       );
     },

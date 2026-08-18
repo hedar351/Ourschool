@@ -8,7 +8,7 @@ class StudentInfoEntity extends Equatable {
   final String? gradeName;
   final int? localSectionNumber;
   final int? localGradeNumber;
-  final int? academicYear;
+  // final AcademicYearEntity? academicYear;
   final String? guardianName;
   final String? guardianPhone;
 
@@ -20,7 +20,7 @@ class StudentInfoEntity extends Equatable {
     required this.gradeName,
     required this.localSectionNumber,
     required this.localGradeNumber,
-    required this.academicYear,
+    // required this.academicYear,
     required this.guardianName,
     required this.guardianPhone,
   });
@@ -33,7 +33,7 @@ class StudentInfoEntity extends Equatable {
     gradeName,
     localSectionNumber,
     localGradeNumber,
-    academicYear,
+    // academicYear,
     guardianName,
     guardianPhone,
   ];

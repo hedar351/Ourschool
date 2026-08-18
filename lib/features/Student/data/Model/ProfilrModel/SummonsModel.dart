@@ -1,5 +1,3 @@
-// lib/features/Student/data/model/Student-FullProfile/SummonsModel.dart
-
 import 'package:hive/hive.dart';
 import 'package:school/features/Student/domain/entity/Student-FullProfile/SummonsEntity.dart';
 

@@ -1,5 +1,3 @@
-// lib/features/Student/data/model/Student-FullProfile/StudentInfoModel.dart
-
 import 'package:hive/hive.dart';
 import 'package:school/features/Student/domain/entity/Student-FullProfile/StudentInfoEntity.dart';
 
@@ -29,13 +27,13 @@ class StudentInfoModel extends HiveObject {
   final int? localGradeNumber;
 
   @HiveField(7)
-  final int? academicYear;
-
-  @HiveField(8)
+  // final int? academicYear;
   final String? guardianName;
 
-  @HiveField(9)
+  @HiveField(8)
   final String? guardianPhone;
+
+  // @HiveField(9)
 
   StudentInfoModel({
     required this.name,
@@ -45,7 +43,7 @@ class StudentInfoModel extends HiveObject {
     required this.gradeName,
     required this.localSectionNumber,
     required this.localGradeNumber,
-    required this.academicYear,
+    // required this.academicYear,
     required this.guardianName,
     required this.guardianPhone,
   });
@@ -60,7 +58,7 @@ class StudentInfoModel extends HiveObject {
       gradeName: entity.gradeName,
       localSectionNumber: entity.localSectionNumber,
       localGradeNumber: entity.localGradeNumber,
-      academicYear: entity.academicYear,
+      // academicYear: entity.academicYear,
       guardianName: entity.guardianName,
       guardianPhone: entity.guardianPhone,
     );
@@ -76,7 +74,7 @@ class StudentInfoModel extends HiveObject {
       gradeName: json['gradeName'] as String?,
       localSectionNumber: json['localSectionNumber'] as int?,
       localGradeNumber: json['localGradeNumber'] as int?,
-      academicYear: json['academicYear'] as int?,
+      // academicYear: json['academicYear'] as int?,
       guardianName: json['guardianName'] as String?,
       guardianPhone: json['guardianPhone'] as String?,
     );
@@ -92,7 +90,7 @@ class StudentInfoModel extends HiveObject {
       gradeName: gradeName,
       localSectionNumber: localSectionNumber,
       localGradeNumber: localGradeNumber,
-      academicYear: academicYear,
+      // academicYear: academicYear,
       guardianName: guardianName,
       guardianPhone: guardianPhone,
     );
@@ -108,7 +106,7 @@ class StudentInfoModel extends HiveObject {
       'gradeName': gradeName,
       'localSectionNumber': localSectionNumber,
       'localGradeNumber': localGradeNumber,
-      'academicYear': academicYear,
+      // 'academicYear': academicYear,
       'guardianName': guardianName,
       'guardianPhone': guardianPhone,
     };

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:school/core/auto_refresh_mixin.dart';
 import 'package:school/core/widget/Loadingwidget.dart';
 import 'package:school/core/widget/SnackBar/Message.dart';
 import 'package:school/features/Counselor/domain/Entities/StudentsProfileEntity/Counselor_WarningsEntity.dart';
@@ -13,11 +12,13 @@ import 'package:school/features/Student/ui/ProfileScreen/dialogs/attendance_dial
 import 'package:school/features/Student/ui/ProfileScreen/dialogs/summons_dialog.dart';
 import 'package:school/features/Student/ui/ProfileScreen/dialogs/warnings_dialog.dart';
 import 'package:school/features/Student/ui/ProfileScreen/widget/academic_info_card.dart';
+import 'package:school/features/Student/ui/ProfileScreen/widget/activities_section.dart';
 import 'package:school/features/Student/ui/ProfileScreen/widget/animated_section.dart';
 import 'package:school/features/Student/ui/ProfileScreen/widget/exam_marks_card.dart';
 import 'package:school/features/Student/ui/ProfileScreen/widget/loans_section.dart';
 import 'package:school/features/Student/ui/ProfileScreen/widget/quick_stats_row.dart';
 import 'package:school/features/Student/ui/ProfileScreen/widget/schedule_image_card.dart';
+import 'package:school/features/Student/ui/ProfileScreen/widget/statistics_summary_card.dart';
 import 'package:school/features/Student/ui/bloc/ProfileBloc/student_bloc.dart';
 import 'package:school/generated/l10n.dart';
 
@@ -32,8 +33,9 @@ class _AcademicRecordScreenState extends State<AcademicRecordScreen>
     with
         WidgetsBindingObserver,
         TickerProviderStateMixin,
-        AutomaticKeepAliveClientMixin,
-        AutoRefreshMixin<AcademicRecordScreen> {
+        AutomaticKeepAliveClientMixin
+// AutoRefreshMixin<AcademicRecordScreen>
+{
   late SnackBarMessage snackBarMessage;
 
   late AnimationController _mainAnimController;
@@ -41,13 +43,13 @@ class _AcademicRecordScreenState extends State<AcademicRecordScreen>
   late List<Animation<Offset>> _slideAnimations;
   late List<Animation<double>> _scaleAnimations;
 
-  final int _totalSections = 5;
+  final int _totalSections = 8;
   final double _iconSize = 80.w;
   final double _gapSmall = 16.h;
   final double _gapMedium = 8.h;
 
-  @override
-  int get refreshInterval => 400;
+  // @override
+  // int get refreshInterval => 400;
 
   @override
   bool get wantKeepAlive => true;
@@ -107,23 +109,24 @@ class _AcademicRecordScreenState extends State<AcademicRecordScreen>
     _initAnimations();
     _loadData();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      restartAutoRefresh();
+      // restartAutoRefresh();
     });
   }
 
-  @override
-  Future<void> onAutoRefresh() async {
-    print('🔄 [AutoRefresh] تحديث ملف الطالب تلقائياً...');
-    if (mounted) {
-      context.read<StudentBloc>().add(RefreshStudentProfileEvent());
-    }
-  }
+  // @override
+  // Future<void> onAutoRefresh() async {
+  //   print('🔄 [AutoRefresh] تحديث ملف الطالب تلقائياً...');
+  //   if (mounted) {
+  //     context.read<StudentBloc>().add(RefreshStudentProfileEvent());
+  //   }
+  // }
 
   Widget _buildContent(BuildContext context, Studentfullprofileentity profile) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final studentInfo = profile.studentInfo!;
-    final statistics = profile.statistics!;
+    final statistics = profile.statistics;
+    final marksStatistics = profile.marksstatistics;
     final semesterMarks1 = profile.semesterMarks1 ?? [];
     final semesterMarks2 = profile.semesterMark2 ?? [];
     final attendances = profile.attendance ?? [];
@@ -131,6 +134,8 @@ class _AcademicRecordScreenState extends State<AcademicRecordScreen>
     final summons = profile.summons ?? [];
     final scheduleImage = profile.scheduleImage;
     final loans = profile.loans ?? [];
+    final activities = profile.activities ?? [];
+
     return CustomScrollView(
       slivers: [
         // AppBar
@@ -168,6 +173,15 @@ class _AcademicRecordScreenState extends State<AcademicRecordScreen>
                         fontSize: 16.sp,
                       ),
                     ),
+
+                    // SizedBox(height: 4.h),
+                    // Text(
+                    //   'رقم الطالب: ${studentInfo.localStudentNumber ?? 'غير محدد'}',
+                    //   style: theme.textTheme.bodySmall?.copyWith(
+                    //     color: colorScheme.onPrimary.withOpacity(0.7),
+                    //     fontSize: 12.sp,
+                    //   ),
+                    // ),
                   ],
                 ),
               ),
@@ -180,6 +194,7 @@ class _AcademicRecordScreenState extends State<AcademicRecordScreen>
           padding: EdgeInsets.all(16.w),
           sliver: SliverList(
             delegate: SliverChildListDelegate([
+              // 1. المعلومات الأساسية
               AnimatedSection(
                 fadeAnim: _fadeAnimations[0],
                 slideAnim: _slideAnimations[0],
@@ -204,32 +219,62 @@ class _AcademicRecordScreenState extends State<AcademicRecordScreen>
               ),
               SizedBox(height: 16.h),
 
+              // 3. إحصائيات العلامات
               AnimatedSection(
                 fadeAnim: _fadeAnimations[2],
                 slideAnim: _slideAnimations[2],
                 scaleAnim: _scaleAnimations[2],
+                child: StatisticsSummaryCard(
+                  marksStatistics: marksStatistics,
+                  statistics: statistics,
+                  semester1Average: profile.semester1Average ?? 0,
+                  semester2Average: profile.semester2Average ?? 0,
+                  finalAverage: profile.finalAverage ?? 0,
+                ),
+              ),
+              SizedBox(height: 16.h),
+
+              // 4. علامات الفصول
+              AnimatedSection(
+                fadeAnim: _fadeAnimations[3],
+                slideAnim: _slideAnimations[3],
+                scaleAnim: _scaleAnimations[3],
                 child: ExamMarksCard(
                   semesterMarks1: semesterMarks1,
                   semesterMarks2: semesterMarks2,
                 ),
               ),
               SizedBox(height: 16.h),
+
+              // 5. الجدول الدراسي
               if (scheduleImage != null && scheduleImage.isNotEmpty)
                 AnimatedSection(
-                  fadeAnim: _fadeAnimations[3],
-                  slideAnim: _slideAnimations[3],
-                  scaleAnim: _scaleAnimations[3],
+                  fadeAnim: _fadeAnimations[4],
+                  slideAnim: _slideAnimations[4],
+                  scaleAnim: _scaleAnimations[4],
                   child: ScheduleImageCard(imageUrl: scheduleImage),
                 ),
               SizedBox(height: 16.h),
 
+              // 6. الاستعارات
               AnimatedSection(
-                fadeAnim: _fadeAnimations[4],
-                slideAnim: _slideAnimations[4],
-                scaleAnim: _scaleAnimations[4],
+                fadeAnim: _fadeAnimations[5],
+                slideAnim: _slideAnimations[5],
+                scaleAnim: _scaleAnimations[5],
                 child: LoansSection(loans: loans),
               ),
+              SizedBox(height: 16.h),
 
+              // 7. الأنشطة
+              AnimatedSection(
+                fadeAnim: _fadeAnimations[6],
+                slideAnim: _slideAnimations[6],
+                scaleAnim: _scaleAnimations[6],
+                child: ActivitiesSection(activities: activities),
+              ),
+              SizedBox(height: 16.h),
+
+              // 8. مساحة فارغة للأسفل
               SizedBox(height: 80.h),
             ]),
           ),
@@ -299,7 +344,6 @@ class _AcademicRecordScreenState extends State<AcademicRecordScreen>
     );
   }
 
-  // ---- Animations ----
   void _initAnimations() {
     _mainAnimController = AnimationController(
       vsync: this,
@@ -307,49 +351,54 @@ class _AcademicRecordScreenState extends State<AcademicRecordScreen>
     );
 
     _fadeAnimations = List.generate(_totalSections, (index) {
+      final start = index / _totalSections;
+      final end = (index + 1) / _totalSections + 0.1;
+      final clampedEnd = end.clamp(0.0, 1.0);
+      final clampedStart = start.clamp(0.0, clampedEnd);
+
       return Tween<double>(begin: 0.0, end: 1.0).animate(
         CurvedAnimation(
           parent: _mainAnimController,
-          curve: Interval(
-            index * 0.2,
-            1.0 - (_totalSections - index - 1) * 0.15,
-            curve: Curves.easeOut,
-          ),
+          curve: Interval(clampedStart, clampedEnd, curve: Curves.easeOut),
         ),
       );
     });
 
     _slideAnimations = List.generate(_totalSections, (index) {
+      final start = index / _totalSections;
+      final end = (index + 1) / _totalSections + 0.1;
+      final clampedEnd = end.clamp(0.0, 1.0);
+      final clampedStart = start.clamp(0.0, clampedEnd);
+
       return Tween<Offset>(
         begin: const Offset(0, 0.5),
         end: Offset.zero,
       ).animate(
         CurvedAnimation(
           parent: _mainAnimController,
-          curve: Interval(
-            index * 0.2,
-            1.0 - (_totalSections - index - 1) * 0.15,
-            curve: Curves.easeOut,
-          ),
+          curve: Interval(clampedStart, clampedEnd, curve: Curves.easeOut),
         ),
       );
     });
 
     _scaleAnimations = List.generate(_totalSections, (index) {
+      final start = index / _totalSections;
+      final end = (index + 1) / _totalSections + 0.1;
+      final clampedEnd = end.clamp(0.0, 1.0);
+      final clampedStart = start.clamp(0.0, clampedEnd);
+
       return Tween<double>(begin: 0.8, end: 1.0).animate(
         CurvedAnimation(
           parent: _mainAnimController,
-          curve: Interval(
-            index * 0.2,
-            1.0 - (_totalSections - index - 1) * 0.15,
-            curve: Curves.easeOut,
-          ),
+          curve: Interval(clampedStart, clampedEnd, curve: Curves.easeOut),
         ),
       );
     });
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _mainAnimController.forward();
+      if (mounted) {
+        _mainAnimController.forward();
+      }
     });
   }
 

@@ -41,6 +41,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "Cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
     "Home": MessageLookupByLibrary.simpleMessage("Home"),
     "Info": MessageLookupByLibrary.simpleMessage("My Profile"),
+    "Information": MessageLookupByLibrary.simpleMessage("details"),
     "Language": MessageLookupByLibrary.simpleMessage("Language"),
     "Log": MessageLookupByLibrary.simpleMessage("Log"),
     "Logout": MessageLookupByLibrary.simpleMessage("Logout"),
@@ -56,7 +57,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "Sections": MessageLookupByLibrary.simpleMessage("Sections"),
     "Settings": MessageLookupByLibrary.simpleMessage("Settings"),
     "Stay_update_with_activities": MessageLookupByLibrary.simpleMessage(
-      "Stay updated with the latest news and school activities",
+      "Stay updated with the latest news and \n school activities",
     ),
     "Students": MessageLookupByLibrary.simpleMessage("Students"),
     "Theme": MessageLookupByLibrary.simpleMessage("Theme"),
@@ -89,13 +90,44 @@ class MessageLookup extends MessageLookupByLibrary {
     "account_not_available": MessageLookupByLibrary.simpleMessage(
       "This account is currently not available for viewing",
     ),
+    "activity_description_hint": MessageLookupByLibrary.simpleMessage(
+      "Enter activity description",
+    ),
+    "activity_description_label": MessageLookupByLibrary.simpleMessage(
+      "Activity Description",
+    ),
+    "activity_description_required": MessageLookupByLibrary.simpleMessage(
+      "Please enter activity description",
+    ),
+    "activity_expiry_date_hint": MessageLookupByLibrary.simpleMessage(
+      "Select expiry date",
+    ),
+    "activity_expiry_date_label": MessageLookupByLibrary.simpleMessage(
+      "Expiry Date",
+    ),
+    "activity_expiry_date_required": MessageLookupByLibrary.simpleMessage(
+      "Please select expiry date",
+    ),
+    "activity_title_hint": MessageLookupByLibrary.simpleMessage(
+      "Enter activity title",
+    ),
+    "activity_title_label": MessageLookupByLibrary.simpleMessage(
+      "Activity Title",
+    ),
+    "activity_title_required": MessageLookupByLibrary.simpleMessage(
+      "Please enter activity title",
+    ),
     "add": MessageLookupByLibrary.simpleMessage("Add"),
+    "add_activity_title": MessageLookupByLibrary.simpleMessage(
+      "Add New Activity",
+    ),
     "add_book": MessageLookupByLibrary.simpleMessage("Add Book"),
     "add_mark": MessageLookupByLibrary.simpleMessage("Add Mark"),
     "add_warning_title": MessageLookupByLibrary.simpleMessage(
       "Add New Warning",
     ),
     "adding": MessageLookupByLibrary.simpleMessage("Adding..."),
+    "adding_activity": MessageLookupByLibrary.simpleMessage("Adding..."),
     "affiliatedSchools": MessageLookupByLibrary.simpleMessage(
       "Affiliated Schools",
     ),
@@ -108,8 +140,16 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "app_version": MessageLookupByLibrary.simpleMessage("1.0.0"),
     "app_version_info": MessageLookupByLibrary.simpleMessage("Version: 1.0.0"),
+    "approved": MessageLookupByLibrary.simpleMessage("Approved"),
+    "author": MessageLookupByLibrary.simpleMessage("Author"),
     "authorLabel": MessageLookupByLibrary.simpleMessage("Author"),
     "available": MessageLookupByLibrary.simpleMessage("Available"),
+    "available_copies": MessageLookupByLibrary.simpleMessage(
+      "Available Copies",
+    ),
+    "available_for_loan_now": MessageLookupByLibrary.simpleMessage(
+      "Available for Now",
+    ),
     "bookDetailsAvailableCopies": MessageLookupByLibrary.simpleMessage(
       "Available Copies",
     ),
@@ -149,6 +189,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "browse_school": MessageLookupByLibrary.simpleMessage(
       "Browse school information",
     ),
+    "by": MessageLookupByLibrary.simpleMessage("By"),
     "call": MessageLookupByLibrary.simpleMessage("Call"),
     "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
     "class_name": MessageLookupByLibrary.simpleMessage("Class"),
@@ -163,13 +204,26 @@ class MessageLookup extends MessageLookupByLibrary {
       " Phone: +963 11 123 4567",
     ),
     "contact_us": MessageLookupByLibrary.simpleMessage("Contact Us"),
+    "currently_unavailable": MessageLookupByLibrary.simpleMessage(
+      "Currently Unavailable",
+    ),
     "date": MessageLookupByLibrary.simpleMessage("Date"),
     "date_unknown": MessageLookupByLibrary.simpleMessage("Unknown date"),
     "delet_book": MessageLookupByLibrary.simpleMessage(
       "Are you sure you want to delete this book?\nThis action cannot be undone.",
     ),
     "delete": MessageLookupByLibrary.simpleMessage("Delete"),
+    "delete_confirmation_content": MessageLookupByLibrary.simpleMessage(
+      "Are you sure you want to delete this activity?\nThis action cannot be undone.",
+    ),
+    "delete_confirmation_title": MessageLookupByLibrary.simpleMessage(
+      "Confirm Deletion",
+    ),
+    "deleting": MessageLookupByLibrary.simpleMessage("Deleting..."),
     "edit": MessageLookupByLibrary.simpleMessage("Edit"),
+    "edit_activity_title": MessageLookupByLibrary.simpleMessage(
+      "Edit Activity",
+    ),
     "edit_mark": MessageLookupByLibrary.simpleMessage("Edit Mark"),
     "empty_cache_failure": MessageLookupByLibrary.simpleMessage(
       "No cached user found",
@@ -189,6 +243,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "loadingDataMessage": MessageLookupByLibrary.simpleMessage(
       "Loading data...",
     ),
+    "loan_status": MessageLookupByLibrary.simpleMessage("Loan Status "),
     "loans": MessageLookupByLibrary.simpleMessage("loans"),
     "loansManagementSubtitle": MessageLookupByLibrary.simpleMessage(
       "Browse and track current loans",
@@ -244,6 +299,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "password_min_length": MessageLookupByLibrary.simpleMessage(
       "Password must be at least 6 characters",
     ),
+    "pending": MessageLookupByLibrary.simpleMessage("Pending"),
     "phone": MessageLookupByLibrary.simpleMessage("Phone"),
     "please_enter_max_score": MessageLookupByLibrary.simpleMessage(
       "Please enter the max score",
@@ -279,6 +335,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "quiz_type_3": MessageLookupByLibrary.simpleMessage("Homework"),
     "quiz_type_5": MessageLookupByLibrary.simpleMessage("Final Exam"),
     "reason": MessageLookupByLibrary.simpleMessage("Reason"),
+    "registrants_list": MessageLookupByLibrary.simpleMessage(
+      "Registrants List",
+    ),
+    "rejected": MessageLookupByLibrary.simpleMessage("Rejected"),
     "remember_me": MessageLookupByLibrary.simpleMessage("Remember me"),
     "reservationsManagementSubtitle": MessageLookupByLibrary.simpleMessage(
       "Browse and track available requests",
@@ -296,6 +356,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "role_student": MessageLookupByLibrary.simpleMessage("Student"),
     "role_teacher": MessageLookupByLibrary.simpleMessage("Teacher"),
     "save": MessageLookupByLibrary.simpleMessage("save"),
+    "saving": MessageLookupByLibrary.simpleMessage("Saving..."),
     "schedule": MessageLookupByLibrary.simpleMessage("Schedule"),
     "school_description": MessageLookupByLibrary.simpleMessage(
       "An integrated educational environment that aims to develop skills and build the student\'s personality in an atmosphere of values, respect, and excellence.",
@@ -364,6 +425,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "teachersOf": MessageLookupByLibrary.simpleMessage("Teachers of"),
     "teachingStaff": MessageLookupByLibrary.simpleMessage("Teaching Staff"),
     "title": MessageLookupByLibrary.simpleMessage("Our School"),
+    "total": MessageLookupByLibrary.simpleMessage("Total"),
     "total_books": MessageLookupByLibrary.simpleMessage("Total Books"),
     "tryAnotherFilter": MessageLookupByLibrary.simpleMessage(
       "Try another filter",

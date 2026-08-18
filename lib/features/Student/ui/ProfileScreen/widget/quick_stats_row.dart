@@ -1,5 +1,3 @@
-// lib/features/Student/presentation/widgets/quick_stats_row.dart
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school/features/Student/domain/entity/Student-FullProfile/StatisticsEntity.dart';
@@ -7,7 +5,7 @@ import 'package:school/features/Student/ui/ProfileScreen/widget/pulsing_icon.dar
 import 'package:school/generated/l10n.dart';
 
 class QuickStatsRow extends StatelessWidget {
-  final StatisticsEntity statistics;
+  final StatisticsEntity? statistics;
   final int warningsCount;
   final int summonsCount;
   final VoidCallback onAttendanceTap;
@@ -32,7 +30,7 @@ class QuickStatsRow extends StatelessWidget {
           child: _buildStatCard(
             context,
             title: S.of(context).Attendance,
-            value: '${statistics.totalAttendance ?? 0}',
+            value: '${statistics?.totalAttendance ?? 0}',
             icon: Icons.calendar_today,
             color: Colors.red,
             onTap: onAttendanceTap,

@@ -41,11 +41,11 @@ class AcademicInfoCard extends StatelessWidget {
               S.of(context).class_name,
               '${studentInfo.gradeName ?? ''} - ${studentInfo.sectionName ?? ''}',
             ),
-            _buildInfoRow(
-              context,
-              S.of(context).academic_year,
-              '${studentInfo.academicYear ?? ''}',
-            ),
+            // _buildInfoRow(
+            //   context,
+            //   S.of(context).academic_year,
+            //   '${studentInfo.academicYear ?? ''}',
+            // ),
             _buildInfoRow(
               context,
               S.of(context).guardianName,

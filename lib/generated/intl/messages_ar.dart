@@ -39,6 +39,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "Cancel": MessageLookupByLibrary.simpleMessage("الغاء"),
     "Home": MessageLookupByLibrary.simpleMessage("الرئيسية"),
     "Info": MessageLookupByLibrary.simpleMessage("السجل الأكاديمي"),
+    "Information": MessageLookupByLibrary.simpleMessage("تفاصيل"),
     "Language": MessageLookupByLibrary.simpleMessage("اللغة"),
     "Logout": MessageLookupByLibrary.simpleMessage("تسجيل الخروج"),
     "My_Reservations": MessageLookupByLibrary.simpleMessage("حجوزاتي"),
@@ -82,13 +83,44 @@ class MessageLookup extends MessageLookupByLibrary {
     "account_not_available": MessageLookupByLibrary.simpleMessage(
       "هذا الحساب غير متوفر للعرض حالياً",
     ),
+    "activity_description_hint": MessageLookupByLibrary.simpleMessage(
+      "أدخل وصف النشاط",
+    ),
+    "activity_description_label": MessageLookupByLibrary.simpleMessage(
+      "وصف النشاط",
+    ),
+    "activity_description_required": MessageLookupByLibrary.simpleMessage(
+      "الرجاء إدخال وصف النشاط",
+    ),
+    "activity_expiry_date_hint": MessageLookupByLibrary.simpleMessage(
+      "اختر تاريخ الانتهاء",
+    ),
+    "activity_expiry_date_label": MessageLookupByLibrary.simpleMessage(
+      "تاريخ الانتهاء",
+    ),
+    "activity_expiry_date_required": MessageLookupByLibrary.simpleMessage(
+      "الرجاء اختيار تاريخ الانتهاء",
+    ),
+    "activity_title_hint": MessageLookupByLibrary.simpleMessage(
+      "أدخل عنوان النشاط",
+    ),
+    "activity_title_label": MessageLookupByLibrary.simpleMessage(
+      "عنوان النشاط",
+    ),
+    "activity_title_required": MessageLookupByLibrary.simpleMessage(
+      "الرجاء إدخال عنوان النشاط",
+    ),
     "add": MessageLookupByLibrary.simpleMessage("إضافة"),
+    "add_activity_title": MessageLookupByLibrary.simpleMessage(
+      "إضافة نشاط جديد",
+    ),
     "add_book": MessageLookupByLibrary.simpleMessage("إضافة كتاب"),
     "add_mark": MessageLookupByLibrary.simpleMessage("إضافة علامة"),
     "add_warning_title": MessageLookupByLibrary.simpleMessage(
       "إضافة إنذار جديد",
     ),
     "adding": MessageLookupByLibrary.simpleMessage("جاري الإضافة..."),
+    "adding_activity": MessageLookupByLibrary.simpleMessage("جاري الإضافة..."),
     "affiliatedSchools": MessageLookupByLibrary.simpleMessage(
       "المدارس المنتسبة",
     ),
@@ -101,8 +133,14 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "app_version": MessageLookupByLibrary.simpleMessage("1.0.0"),
     "app_version_info": MessageLookupByLibrary.simpleMessage("الإصدار: 1.0.0"),
+    "approved": MessageLookupByLibrary.simpleMessage("مقبول"),
+    "author": MessageLookupByLibrary.simpleMessage("المؤلف"),
     "authorLabel": MessageLookupByLibrary.simpleMessage("المؤلف"),
     "available": MessageLookupByLibrary.simpleMessage("متاح"),
+    "available_copies": MessageLookupByLibrary.simpleMessage("النسخ المتاحة"),
+    "available_for_loan_now": MessageLookupByLibrary.simpleMessage(
+      "متاح للاستعارة الآن",
+    ),
     "bookDetailsAvailableCopies": MessageLookupByLibrary.simpleMessage(
       "النسخ المتاحة",
     ),
@@ -138,6 +176,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "browse_school": MessageLookupByLibrary.simpleMessage(
       "تصفح معلومات المدرسة",
     ),
+    "by": MessageLookupByLibrary.simpleMessage("بواسطة"),
     "call": MessageLookupByLibrary.simpleMessage("اتصال"),
     "cancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
     "class_name": MessageLookupByLibrary.simpleMessage("الصف"),
@@ -152,13 +191,24 @@ class MessageLookup extends MessageLookupByLibrary {
       " الهاتف: +963 11 123 4567",
     ),
     "contact_us": MessageLookupByLibrary.simpleMessage("اتصل بنا"),
+    "currently_unavailable": MessageLookupByLibrary.simpleMessage(
+      "غير متاح حالياً",
+    ),
     "date": MessageLookupByLibrary.simpleMessage("التاريخ"),
     "date_unknown": MessageLookupByLibrary.simpleMessage("تاريخ غير محدد"),
     "delet_book": MessageLookupByLibrary.simpleMessage(
       "هل أنت متأكد من رغبتك في حذف هذا الكتاب؟\nلا يمكن التراجع عن هذا الإجراء.",
     ),
     "delete": MessageLookupByLibrary.simpleMessage("حذف"),
+    "delete_confirmation_content": MessageLookupByLibrary.simpleMessage(
+      "هل أنت متأكد من رغبتك في حذف هذا النشاط؟\nلا يمكن التراجع عن هذا الإجراء.",
+    ),
+    "delete_confirmation_title": MessageLookupByLibrary.simpleMessage(
+      "تأكيد الحذف",
+    ),
+    "deleting": MessageLookupByLibrary.simpleMessage("جاري الحذف..."),
     "edit": MessageLookupByLibrary.simpleMessage("تعديل"),
+    "edit_activity_title": MessageLookupByLibrary.simpleMessage("تعديل النشاط"),
     "edit_mark": MessageLookupByLibrary.simpleMessage("تعديل علامة"),
     "empty_cache_failure": MessageLookupByLibrary.simpleMessage(
       "لا يوجد بيانات مخزنة",
@@ -178,6 +228,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "loadingDataMessage": MessageLookupByLibrary.simpleMessage(
       "جاري إحضار البيانات...",
     ),
+    "loan_status": MessageLookupByLibrary.simpleMessage("حالة الاستعارة"),
     "loans": MessageLookupByLibrary.simpleMessage("الاستعارات"),
     "loansManagementSubtitle": MessageLookupByLibrary.simpleMessage(
       "استعراض وتتبع الاستعارات الحالية",
@@ -239,6 +290,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "password_min_length": MessageLookupByLibrary.simpleMessage(
       "كلمة المرور يجب أن تكون 6 أحرف على الأقل",
     ),
+    "pending": MessageLookupByLibrary.simpleMessage("قيد الانتظار"),
     "phone": MessageLookupByLibrary.simpleMessage("رقم الهاتف"),
     "please_enter_max_score": MessageLookupByLibrary.simpleMessage(
       "يرجى إدخال العلامة الكاملة",
@@ -274,6 +326,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "quiz_type_3": MessageLookupByLibrary.simpleMessage("واجب"),
     "quiz_type_5": MessageLookupByLibrary.simpleMessage("نهائي"),
     "reason": MessageLookupByLibrary.simpleMessage("السبب"),
+    "registrants_list": MessageLookupByLibrary.simpleMessage("قائمة المسجلين"),
+    "rejected": MessageLookupByLibrary.simpleMessage("مرفوض"),
     "remember_me": MessageLookupByLibrary.simpleMessage("تذكرني"),
     "reservationsManagementSubtitle": MessageLookupByLibrary.simpleMessage(
       "استعراض وتتبع الطلبات المتاحة",
@@ -290,6 +344,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "role_student": MessageLookupByLibrary.simpleMessage("طالب"),
     "role_teacher": MessageLookupByLibrary.simpleMessage("معلم"),
     "save": MessageLookupByLibrary.simpleMessage("حفظ"),
+    "saving": MessageLookupByLibrary.simpleMessage("جاري التعديل..."),
     "schedule": MessageLookupByLibrary.simpleMessage("الجدول الدراسي"),
     "school_description": MessageLookupByLibrary.simpleMessage(
       "بيئة تعليمية متكاملة تهدف إلى تطوير المهارات وبناء شخصية الطالب في جو من القيم والاحترام والتميز.",
@@ -362,6 +417,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "teachersOf": MessageLookupByLibrary.simpleMessage("معلمي"),
     "teachingStaff": MessageLookupByLibrary.simpleMessage("الكادر التدريسي"),
     "title": MessageLookupByLibrary.simpleMessage("مدرستنا"),
+    "total": MessageLookupByLibrary.simpleMessage("الإجمالي"),
     "total_books": MessageLookupByLibrary.simpleMessage(" إجمالي الكتب"),
     "tryAnotherFilter": MessageLookupByLibrary.simpleMessage(
       "حاول اختيار فلتر آخر",

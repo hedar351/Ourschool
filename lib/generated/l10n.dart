@@ -1211,10 +1211,10 @@ class S {
     return Intl.message('Bulletin', name: 'Bulletin', desc: '', args: []);
   }
 
-  /// `Stay updated with the latest news and school activities`
+  /// `Stay updated with the latest news and \n school activities`
   String get Stay_update_with_activities {
     return Intl.message(
-      'Stay updated with the latest news and school activities',
+      'Stay updated with the latest news and \n school activities',
       name: 'Stay_update_with_activities',
       desc: '',
       args: [],
@@ -1789,6 +1789,241 @@ class S {
   /// `save`
   String get save {
     return Intl.message('save', name: 'save', desc: '', args: []);
+  }
+
+  /// `By`
+  String get by {
+    return Intl.message('By', name: 'by', desc: '', args: []);
+  }
+
+  /// `Author`
+  String get author {
+    return Intl.message('Author', name: 'author', desc: '', args: []);
+  }
+
+  /// `Available Copies`
+  String get available_copies {
+    return Intl.message(
+      'Available Copies',
+      name: 'available_copies',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Loan Status `
+  String get loan_status {
+    return Intl.message(
+      'Loan Status ',
+      name: 'loan_status',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Available for Now`
+  String get available_for_loan_now {
+    return Intl.message(
+      'Available for Now',
+      name: 'available_for_loan_now',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Currently Unavailable`
+  String get currently_unavailable {
+    return Intl.message(
+      'Currently Unavailable',
+      name: 'currently_unavailable',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add New Activity`
+  String get add_activity_title {
+    return Intl.message(
+      'Add New Activity',
+      name: 'add_activity_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Activity Title`
+  String get activity_title_label {
+    return Intl.message(
+      'Activity Title',
+      name: 'activity_title_label',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter activity title`
+  String get activity_title_hint {
+    return Intl.message(
+      'Enter activity title',
+      name: 'activity_title_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter activity title`
+  String get activity_title_required {
+    return Intl.message(
+      'Please enter activity title',
+      name: 'activity_title_required',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Activity Description`
+  String get activity_description_label {
+    return Intl.message(
+      'Activity Description',
+      name: 'activity_description_label',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter activity description`
+  String get activity_description_hint {
+    return Intl.message(
+      'Enter activity description',
+      name: 'activity_description_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please enter activity description`
+  String get activity_description_required {
+    return Intl.message(
+      'Please enter activity description',
+      name: 'activity_description_required',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Expiry Date`
+  String get activity_expiry_date_label {
+    return Intl.message(
+      'Expiry Date',
+      name: 'activity_expiry_date_label',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select expiry date`
+  String get activity_expiry_date_hint {
+    return Intl.message(
+      'Select expiry date',
+      name: 'activity_expiry_date_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please select expiry date`
+  String get activity_expiry_date_required {
+    return Intl.message(
+      'Please select expiry date',
+      name: 'activity_expiry_date_required',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Adding...`
+  String get adding_activity {
+    return Intl.message(
+      'Adding...',
+      name: 'adding_activity',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Confirm Deletion`
+  String get delete_confirmation_title {
+    return Intl.message(
+      'Confirm Deletion',
+      name: 'delete_confirmation_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to delete this activity?\nThis action cannot be undone.`
+  String get delete_confirmation_content {
+    return Intl.message(
+      'Are you sure you want to delete this activity?\nThis action cannot be undone.',
+      name: 'delete_confirmation_content',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Deleting...`
+  String get deleting {
+    return Intl.message('Deleting...', name: 'deleting', desc: '', args: []);
+  }
+
+  /// `Edit Activity`
+  String get edit_activity_title {
+    return Intl.message(
+      'Edit Activity',
+      name: 'edit_activity_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Saving...`
+  String get saving {
+    return Intl.message('Saving...', name: 'saving', desc: '', args: []);
+  }
+
+  /// `details`
+  String get Information {
+    return Intl.message('details', name: 'Information', desc: '', args: []);
+  }
+
+  /// `Registrants List`
+  String get registrants_list {
+    return Intl.message(
+      'Registrants List',
+      name: 'registrants_list',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pending`
+  String get pending {
+    return Intl.message('Pending', name: 'pending', desc: '', args: []);
+  }
+
+  /// `Approved`
+  String get approved {
+    return Intl.message('Approved', name: 'approved', desc: '', args: []);
+  }
+
+  /// `Rejected`
+  String get rejected {
+    return Intl.message('Rejected', name: 'rejected', desc: '', args: []);
+  }
+
+  /// `Total`
+  String get total {
+    return Intl.message('Total', name: 'total', desc: '', args: []);
   }
 }
 

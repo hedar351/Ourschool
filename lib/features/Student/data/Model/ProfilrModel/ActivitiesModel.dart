@@ -1,5 +1,3 @@
-// lib/features/Student/data/model/Student-FullProfile/ActivitiesModel.dart
-
 import 'package:hive/hive.dart';
 import 'package:school/features/Student/domain/entity/Student-FullProfile/ActivitiesEntity.dart';
 
@@ -15,11 +13,13 @@ class ActivitiesModel extends HiveObject {
 
   @HiveField(2)
   final String? date;
-
+  @HiveField(3)
+  final int? localActivityId;
   ActivitiesModel({
     required this.activityName,
     required this.status,
     required this.date,
+    required this.localActivityId,
   });
 
   // ----- fromEntity -----
@@ -28,6 +28,7 @@ class ActivitiesModel extends HiveObject {
       activityName: entity.activityName,
       status: entity.status,
       date: entity.date,
+      localActivityId: entity.localActivityId,
     );
   }
 
@@ -36,7 +37,8 @@ class ActivitiesModel extends HiveObject {
     return ActivitiesModel(
       activityName: json['activityName'] as String?,
       status: json['status'] as String?,
-      date: json['createdAt'] as String?, // JSON يستخدم createdAt
+      date: json['createdAt'] as String?,
+      localActivityId: json['localActivityId'] as int?,
     );
   }
 
@@ -46,11 +48,17 @@ class ActivitiesModel extends HiveObject {
       activityName: activityName,
       status: status,
       date: date,
+      localActivityId: localActivityId,
     );
   }
 
   // ----- toJson -----
   Map<String, dynamic> toJson() {
-    return {'activityName': activityName, 'status': status, 'date': date};
+    return {
+      'activityName': activityName,
+      'status': status,
+      'date': date,
+      'localActivityId': localActivityId,
+    };
   }
 }

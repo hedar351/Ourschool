@@ -1,5 +1,3 @@
-// lib/features/SchoolsInfo/data/models/TeacherInfoModel.dart
-
 import 'package:hive/hive.dart';
 import 'package:school/features/FirstStep/SchoolsInfo/domain/Entities/TeacherInfoEntity.dart';
 

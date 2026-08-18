@@ -38,13 +38,6 @@ abstract class CounselorRepo {
   Future<Either<Failures, StudentsBySectionEntity>>
   getStudentsBySectionWithCache(int localGradeNumber, int localSectionNumber);
 
-  // image
-  // Future<Either<Failures, PostscheduleImageEntity>> postscheduleImage(
-  //   int localGradeNumber,
-  //   int localSectionNumber,
-  //   String image,
-  // );
-
   // Actions
   Future<Either<Failures, CounselorWarningsentity>> postWarnings(
     int localStudentNumber,

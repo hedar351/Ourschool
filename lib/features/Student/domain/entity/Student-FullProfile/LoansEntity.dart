@@ -1,5 +1,3 @@
-// lib/features/Student/domain/entity/Student-FullProfile/loansEntity.dart
-
 import 'package:equatable/equatable.dart';
 
 class Loansentity extends Equatable {

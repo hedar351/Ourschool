@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:school/core/auto_refresh_mixin.dart';
 import 'package:school/core/injection.dart' as di;
 import 'package:school/core/widget/Loadingwidget.dart';
 import 'package:school/core/widget/SnackBar/Message.dart';
@@ -26,10 +25,9 @@ class Booksscreen extends StatefulWidget {
 }
 
 class _BooksscreenState extends State<Booksscreen>
-    with
-        WidgetsBindingObserver,
-        AutomaticKeepAliveClientMixin,
-        AutoRefreshMixin<Booksscreen> {
+    with WidgetsBindingObserver, AutomaticKeepAliveClientMixin
+// AutoRefreshMixin<Booksscreen>
+{
   late SnackBarMessage snackBarMessage;
 
   final TextEditingController _searchController = TextEditingController();
@@ -47,8 +45,8 @@ class _BooksscreenState extends State<Booksscreen>
   final double _gapSmall = 16.h;
   final double _gapMedium = 8.h;
 
-  @override
-  int get refreshInterval => 600;
+  // @override
+  // int get refreshInterval => 600;
   @override
   bool get wantKeepAlive => true;
 
@@ -128,13 +126,13 @@ class _BooksscreenState extends State<Booksscreen>
     _loadData();
   }
 
-  @override
-  Future<void> onAutoRefresh() async {
-    print('🔄 [AutoRefresh] تحديث الكتب في BooksScreen...');
-    if (mounted) {
-      context.read<LibrarianBloc>().add(RefreshBooksLibrarianEvent());
-    }
-  }
+  // @override
+  // Future<void> onAutoRefresh() async {
+  //   print('🔄 [AutoRefresh] تحديث الكتب في BooksScreen...');
+  //   if (mounted) {
+  //     context.read<LibrarianBloc>().add(RefreshBooksLibrarianEvent());
+  //   }
+  // }
 
   void _applyFilter() {
     final query = _searchQueryNotifier.value.toLowerCase().trim();
@@ -171,17 +169,19 @@ class _BooksscreenState extends State<Booksscreen>
                           parent: animation,
                           curve: Curves.easeOutBack,
                         );
-                        return ScaleTransition(
-                          scale: Tween<double>(
-                            begin: 0.7,
-                            end: 1.0,
-                          ).animate(curvedAnimation),
-                          child: FadeTransition(
-                            opacity: Tween<double>(
-                              begin: 0.0,
+                        return RepaintBoundary(
+                          child: ScaleTransition(
+                            scale: Tween<double>(
+                              begin: 0.7,
                               end: 1.0,
                             ).animate(curvedAnimation),
-                            child: child,
+                            child: FadeTransition(
+                              opacity: Tween<double>(
+                                begin: 0.0,
+                                end: 1.0,
+                              ).animate(curvedAnimation),
+                              child: child,
+                            ),
                           ),
                         );
                       },
@@ -229,17 +229,19 @@ class _BooksscreenState extends State<Booksscreen>
                           parent: animation,
                           curve: Curves.easeOutBack,
                         );
-                        return ScaleTransition(
-                          scale: Tween<double>(
-                            begin: 0.7,
-                            end: 1.0,
-                          ).animate(curvedAnimation),
-                          child: FadeTransition(
-                            opacity: Tween<double>(
-                              begin: 0.0,
+                        return RepaintBoundary(
+                          child: ScaleTransition(
+                            scale: Tween<double>(
+                              begin: 0.7,
                               end: 1.0,
                             ).animate(curvedAnimation),
-                            child: child,
+                            child: FadeTransition(
+                              opacity: Tween<double>(
+                                begin: 0.0,
+                                end: 1.0,
+                              ).animate(curvedAnimation),
+                              child: child,
+                            ),
                           ),
                         );
                       },
@@ -285,17 +287,19 @@ class _BooksscreenState extends State<Booksscreen>
                           parent: animation,
                           curve: Curves.easeOutBack,
                         );
-                        return ScaleTransition(
-                          scale: Tween<double>(
-                            begin: 0.7,
-                            end: 1.0,
-                          ).animate(curvedAnimation),
-                          child: FadeTransition(
-                            opacity: Tween<double>(
-                              begin: 0.0,
+                        return RepaintBoundary(
+                          child: ScaleTransition(
+                            scale: Tween<double>(
+                              begin: 0.7,
                               end: 1.0,
                             ).animate(curvedAnimation),
-                            child: child,
+                            child: FadeTransition(
+                              opacity: Tween<double>(
+                                begin: 0.0,
+                                end: 1.0,
+                              ).animate(curvedAnimation),
+                              child: child,
+                            ),
                           ),
                         );
                       },

@@ -1,31 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:school/core/auto_refresh_mixin.dart';
 import 'package:school/core/widget/Loadingwidget.dart';
 import 'package:school/core/widget/SnackBar/Message.dart';
+import 'package:school/features/Activities/UI/widget/showAddActivityDialog.dart';
 import 'package:school/features/Cross-role/Bulletin/ui/bloc/bulletin_bloc.dart';
 import 'package:school/features/Cross-role/Bulletin/ui/widget/BulletinCard.dart';
 import 'package:school/generated/l10n.dart';
 
 class BulletinScreen extends StatefulWidget {
   final bool isStudent;
-  const BulletinScreen({super.key, required this.isStudent});
+  final bool isActivitySupervisor;
+  const BulletinScreen({
+    super.key,
+    required this.isStudent,
+    required this.isActivitySupervisor,
+  });
 
   @override
   State<BulletinScreen> createState() => _BulletinScreenState();
 }
 
 class _BulletinScreenState extends State<BulletinScreen>
-    with
-        WidgetsBindingObserver,
-        AutomaticKeepAliveClientMixin,
-        AutoRefreshMixin<BulletinScreen> {
+    with WidgetsBindingObserver, AutomaticKeepAliveClientMixin {
+  // AutoRefreshMixin<BulletinScreen>
+
   late SnackBarMessage snackBarMessage;
   int _selectedTab = 0;
 
-  @override
-  int get refreshInterval => 240;
+  // @override
+  // int get refreshInterval => 240;
 
   @override
   bool get wantKeepAlive => true;
@@ -106,6 +110,7 @@ class _BulletinScreenState extends State<BulletinScreen>
                               entity: currentItems[index],
                               color: activeColor,
                               isStudent: widget.isStudent,
+                              isActivitySupervisor: widget.isActivitySupervisor,
                             ),
                           );
                         }, childCount: currentItems.length),
@@ -168,13 +173,13 @@ class _BulletinScreenState extends State<BulletinScreen>
     _loadData();
   }
 
-  @override
-  Future<void> onAutoRefresh() async {
-    print('🔄 [AutoRefresh] تحديث الكتب تلقائياً...');
-    if (mounted) {
-      context.read<BulletinBloc>().add(RefreshBulletinsEvent());
-    }
-  }
+  // @override
+  // Future<void> onAutoRefresh() async {
+  //   print('🔄 [AutoRefresh] تحديث الكتب تلقائياً...');
+  //   if (mounted) {
+  //     context.read<BulletinBloc>().add(RefreshBulletinsEvent());
+  //   }
+  // }
 
   Widget _buildEmptyState(BuildContext context, Color activeColor) {
     final theme = Theme.of(context);
@@ -217,23 +222,58 @@ class _BulletinScreenState extends State<BulletinScreen>
     //   child:
     Padding(
       padding: EdgeInsets.fromLTRB(15.w, 15.h, 15.w, 15.h),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Row(
         children: [
-          Text(
-            S.of(context).Bulletin,
-            style: theme.textTheme.headlineLarge?.copyWith(
-              fontWeight: FontWeight.w800,
-              letterSpacing: -0.5,
-            ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                S.of(context).Bulletin,
+                style: theme.textTheme.headlineLarge?.copyWith(
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: -0.5,
+                ),
+              ),
+              SizedBox(height: 4.h),
+              Text(
+                S.of(context).Stay_update_with_activities,
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: theme.colorScheme.onSurface.withOpacity(0.6),
+                ),
+              ),
+            ],
           ),
-          SizedBox(height: 4.h),
-          Text(
-            S.of(context).Stay_update_with_activities,
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: theme.colorScheme.onSurface.withOpacity(0.6),
+          Spacer(),
+          if (widget.isActivitySupervisor)
+            GestureDetector(
+              onTap: () => showAddActivityDialog(context),
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+                decoration: BoxDecoration(
+                  gradient: const LinearGradient(
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                    colors: [Color(0xFF00695C), Color(0xFFFFB300)],
+                  ),
+                  borderRadius: BorderRadius.circular(12.r),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.add_rounded, size: 20.w, color: Colors.white),
+                    SizedBox(width: 8.w),
+                    Text(
+                      S.of(context).add,
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
-          ),
         ],
       ),
       // ),

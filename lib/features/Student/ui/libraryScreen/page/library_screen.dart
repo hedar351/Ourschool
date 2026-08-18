@@ -3,16 +3,14 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:school/core/auto_refresh_mixin.dart';
 import 'package:school/core/injection.dart' as di;
 import 'package:school/core/widget/Loadingwidget.dart';
 import 'package:school/core/widget/SnackBar/Message.dart';
 import 'package:school/features/Student/domain/entity/Library/BookEntity.dart';
 import 'package:school/features/Student/ui/bloc/libraryBloc/library_bloc.dart';
 import 'package:school/features/Student/ui/bloc/reservation_bloc/reservation_bloc.dart';
-import 'package:school/features/Student/ui/bloc/reservation_bloc/reservation_event.dart';
 import 'package:school/features/Student/ui/libraryScreen/Widget/book_card.dart';
-import 'package:school/features/Student/ui/libraryScreen/Widget/reservations_dialog.dart'; // تأكد من صحة المسار واسم الملف
+import 'package:school/features/Student/ui/libraryScreen/Widget/reservations_dialog.dart';
 import 'package:school/generated/l10n.dart';
 
 class LibraryScreen extends StatefulWidget {
@@ -23,10 +21,9 @@ class LibraryScreen extends StatefulWidget {
 }
 
 class _LibraryScreenState extends State<LibraryScreen>
-    with
-        WidgetsBindingObserver,
-        AutomaticKeepAliveClientMixin,
-        AutoRefreshMixin<LibraryScreen> {
+    with WidgetsBindingObserver, AutomaticKeepAliveClientMixin
+// AutoRefreshMixin<LibraryScreen>
+{
   late SnackBarMessage snackBarMessage;
 
   final TextEditingController _searchController = TextEditingController();
@@ -44,8 +41,8 @@ class _LibraryScreenState extends State<LibraryScreen>
 
   final double _gapSmall = 16.h;
   final double _gapMedium = 8.h;
-  @override
-  int get refreshInterval => 600;
+  // @override
+  // int get refreshInterval => 600;
   @override
   bool get wantKeepAlive => true;
   @override
@@ -132,16 +129,16 @@ class _LibraryScreenState extends State<LibraryScreen>
     _loadData();
   }
 
-  @override
-  Future<void> onAutoRefresh() async {
-    print(
-      '🔄 [AutoRefresh][RefreshBooksEvent][RefreshReservationsEvent] تحديث الكتب تلقائياً...',
-    );
-    if (mounted) {
-      context.read<LibraryBloc>().add(RefreshBooksEvent());
-      context.read<ReservationsBloc>().add(RefreshReservationsEvent());
-    }
-  }
+  // @override
+  // Future<void> onAutoRefresh() async {
+  //   print(
+  //     '🔄 [AutoRefresh][RefreshBooksEvent][RefreshReservationsEvent] تحديث الكتب تلقائياً...',
+  //   );
+  //   if (mounted) {
+  //     context.read<LibraryBloc>().add(RefreshBooksEvent());
+  //     context.read<ReservationsBloc>().add(RefreshReservationsEvent());
+  //   }
+  // }
 
   void _applyFilter() {
     final query = _searchQueryNotifier.value.toLowerCase().trim();

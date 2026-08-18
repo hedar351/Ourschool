@@ -1,5 +1,3 @@
-// lib/features/Auth/ui/widget/login_form.dart
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:school/generated/l10n.dart';

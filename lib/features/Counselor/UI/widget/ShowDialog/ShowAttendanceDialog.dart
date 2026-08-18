@@ -1,5 +1,3 @@
-// lib/features/Counselor/UI/widget/ShowDialog/ShowAttendanceDialog.dart
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -26,11 +24,7 @@ void showAttendanceDialog(
   final double headerPaddingVertical = 10.h;
   final double headerIconSize = 15.w;
   final double headerFontSize = 13.sp;
-  // final double itemPaddingHorizontal = 4.w;
-  // final double itemPaddingVertical = 4.h;
-  // final double dateIconSize = 11.w;
-  // final double dateFontSize = 14.sp;
-  // final double deleteIconSize = 20.w;
+
   final double buttonFontSize = 14.sp;
   final double borderRadius = 10.r;
   final double dialogBorderRadius = 24.r;

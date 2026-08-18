@@ -1,5 +1,3 @@
-// lib/features/Counselor/UI/bloc/Attendance/attendance_event.dart
-
 part of 'attendance_bloc.dart';
 
 // ====== إضافة غياب ======

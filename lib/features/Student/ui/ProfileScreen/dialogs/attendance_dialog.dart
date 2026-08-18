@@ -27,7 +27,6 @@ class AttendanceDialog extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            // ---- مؤشر السحب (للدلالة على قابلية التمرير) ----
             Container(
               width: 40.w,
               height: 4.h,

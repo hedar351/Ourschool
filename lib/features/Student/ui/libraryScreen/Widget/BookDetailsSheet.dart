@@ -171,7 +171,7 @@ class _BookDetailsSheetState extends State<BookDetailsSheet>
                       ),
                       SizedBox(height: 4.h),
                       Text(
-                        'بواسطة: ${widget.book.author}',
+                        '${S.of(context).by}: ${widget.book.author}',
                         style: TextStyle(
                           fontSize: 13.sp,
                           color: Colors.grey.shade600,
@@ -205,7 +205,7 @@ class _BookDetailsSheetState extends State<BookDetailsSheet>
                     children: [
                       _buildModernDetailRow(
                         icon: Icons.person_rounded,
-                        label: 'المؤلف',
+                        label: S.of(context).author,
                         value: widget.book.author,
                         theme: theme,
                       ),
@@ -216,9 +216,9 @@ class _BookDetailsSheetState extends State<BookDetailsSheet>
                       ),
                       _buildModernDetailRow(
                         icon: Icons.copy_all_rounded,
-                        label: 'النسخ المتاحة',
+                        label: S.of(context).available_copies,
                         value:
-                            '${widget.book.availableCopies} من أصل ${widget.book.copies}',
+                            '${widget.book.availableCopies} / ${widget.book.copies}',
                         theme: theme,
                       ),
                       Divider(
@@ -230,10 +230,10 @@ class _BookDetailsSheetState extends State<BookDetailsSheet>
                         icon: isAvailable
                             ? Icons.check_circle_rounded
                             : Icons.cancel_rounded,
-                        label: 'حالة الاستعارة',
+                        label: S.of(context).loan_status,
                         value: isAvailable
-                            ? 'متاح للاستعارة الآن'
-                            : 'غير متاح حالياً',
+                            ? S.of(context).available_for_loan_now
+                            : S.of(context).currently_unavailable,
                         valueColor: statusColor,
                         theme: theme,
                       ),

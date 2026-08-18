@@ -24,16 +24,15 @@ class StudentInfoModelAdapter extends TypeAdapter<StudentInfoModel> {
       gradeName: fields[4] as String?,
       localSectionNumber: fields[5] as int?,
       localGradeNumber: fields[6] as int?,
-      academicYear: fields[7] as int?,
-      guardianName: fields[8] as String?,
-      guardianPhone: fields[9] as String?,
+      guardianName: fields[7] as String?,
+      guardianPhone: fields[8] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, StudentInfoModel obj) {
     writer
-      ..writeByte(10)
+      ..writeByte(9)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
@@ -49,10 +48,8 @@ class StudentInfoModelAdapter extends TypeAdapter<StudentInfoModel> {
       ..writeByte(6)
       ..write(obj.localGradeNumber)
       ..writeByte(7)
-      ..write(obj.academicYear)
-      ..writeByte(8)
       ..write(obj.guardianName)
-      ..writeByte(9)
+      ..writeByte(8)
       ..write(obj.guardianPhone);
   }
 

@@ -290,18 +290,7 @@ class _CounselorStudentsScreenState extends State<CounselorStudentsScreen>
                   ),
                   borderRadius: BorderRadius.circular(avatarRadius),
                 ),
-                child: Center(
-                  child:
-                      //  Text(
-                      //   student.name?.isNotEmpty == true ? student.name![0] : '?',
-                      //   style: TextStyle(
-                      //     fontSize: avatarFontSize,
-                      //     fontWeight: FontWeight.bold,
-                      //     color: Colors.white,
-                      //   ),
-                      // ),
-                      Icon(Icons.person),
-                ),
+                child: Center(child: Icon(Icons.person)),
               ),
               SizedBox(width: 16.w),
               Expanded(
