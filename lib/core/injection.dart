@@ -14,8 +14,10 @@ import 'package:school/features/Activities/data/repo_imp/activity_repo_imp.dart'
 import 'package:school/features/Activities/domain/repo/activites_repo.dart';
 import 'package:school/features/Activities/domain/useCase/activities_registrations_use_case.dart';
 import 'package:school/features/Activities/domain/useCase/add_activity_use_case.dart';
+import 'package:school/features/Activities/domain/useCase/approve_registrations_use_case.dart';
 import 'package:school/features/Activities/domain/useCase/delete_activity_use_case.dart';
 import 'package:school/features/Activities/domain/useCase/edit_activity_use_case.dart';
+import 'package:school/features/Activities/domain/useCase/reject_registrations_use_case.dart';
 import 'package:school/features/Librarian/UI/Bloc/AddDeleteEdit/add_delete_edit_bloc.dart';
 import 'package:school/features/Librarian/UI/Bloc/BookLoansBloc/book_loans_bloc.dart';
 import 'package:school/features/Librarian/UI/Bloc/BookReservationsBloc/book_reservations_loans_bloc.dart';
@@ -398,7 +400,8 @@ void _initActivities() {
 
   sl.registerLazySingleton(() => DeleteActivityUseCase(repository: sl()));
   sl.registerLazySingleton(() => ActivitiesRegistrationsUseCase(repo: sl()));
-
+  sl.registerLazySingleton(() => ApproveRegistrationsUseCase(repository: sl()));
+  sl.registerLazySingleton(() => RejectRegistrationsUseCase(repository: sl()));
   // ============================================================
   // ====== Bloc ======
   // ============================================================
@@ -409,6 +412,8 @@ void _initActivities() {
       editActivityUseCase: sl(),
       deleteActivityUseCase: sl(),
       activitiesRepo: sl(),
+      approveRegistrationsUseCase: sl(),
+      rejectRegistrationsUseCase: sl(),
     ),
   );
   sl.registerFactory(
@@ -471,6 +476,7 @@ void _initAuth() {
       librarianLoansCacheDataSource: sl(),
       bookReservationsCacheDataSource: sl(),
       bookLoansCacheDataSource: sl(),
+      activitiesRegistrationsCacheDataSource: sl(),
     ),
   );
 

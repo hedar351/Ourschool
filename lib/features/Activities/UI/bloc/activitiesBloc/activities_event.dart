@@ -1,4 +1,3 @@
-
 part of 'activities_bloc.dart';
 
 // ============================================================
@@ -28,6 +27,19 @@ class AddActivityEvent extends ActivitiesEvent {
 
   @override
   List<Object> get props => [title, description, expiryDate];
+}
+
+class ApproveRegistrationEvent extends ActivitiesEvent {
+  final int activityId;
+  final int studentLocalNumber;
+
+  const ApproveRegistrationEvent({
+    required this.activityId,
+    required this.studentLocalNumber,
+  });
+
+  @override
+  List<Object> get props => [activityId, studentLocalNumber];
 }
 
 // ============================================================
@@ -62,6 +74,23 @@ class EditActivityEvent extends ActivitiesEvent {
 
   @override
   List<Object> get props => [localActivityId, title, description, expiryDate];
+}
+
+// ============================================================
+// ====== REJECT REGISTRATION ======
+// ============================================================
+
+class RejectRegistrationEvent extends ActivitiesEvent {
+  final int activityId;
+  final int studentLocalNumber;
+
+  const RejectRegistrationEvent({
+    required this.activityId,
+    required this.studentLocalNumber,
+  });
+
+  @override
+  List<Object> get props => [activityId, studentLocalNumber];
 }
 
 // ============================================================

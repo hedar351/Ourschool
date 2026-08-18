@@ -1,4 +1,3 @@
-
 import 'dart:async';
 
 import 'package:equatable/equatable.dart';
@@ -7,8 +6,10 @@ import 'package:school/core/const.dart';
 import 'package:school/features/Activities/domain/repo/activites_repo.dart';
 import 'package:school/features/Activities/domain/useCase/add_activity_use_case.dart'
     show AddActivityUseCase;
+import 'package:school/features/Activities/domain/useCase/approve_registrations_use_case.dart';
 import 'package:school/features/Activities/domain/useCase/delete_activity_use_case.dart';
 import 'package:school/features/Activities/domain/useCase/edit_activity_use_case.dart';
+import 'package:school/features/Activities/domain/useCase/reject_registrations_use_case.dart';
 
 part 'activities_event.dart';
 part 'activities_state.dart';
@@ -18,7 +19,8 @@ class ActivitiesBloc extends Bloc<ActivitiesEvent, ActivitiesState> {
   final EditActivityUseCase editActivityUseCase;
   final DeleteActivityUseCase deleteActivityUseCase;
   final ActivitesRepo activitiesRepo;
-
+  final ApproveRegistrationsUseCase approveRegistrationsUseCase;
+  final RejectRegistrationsUseCase rejectRegistrationsUseCase;
   StreamSubscription? _subscription;
 
   ActivitiesBloc({
@@ -27,11 +29,14 @@ class ActivitiesBloc extends Bloc<ActivitiesEvent, ActivitiesState> {
     required this.editActivityUseCase,
     required this.deleteActivityUseCase,
     required this.activitiesRepo,
+    required this.approveRegistrationsUseCase,
+    required this.rejectRegistrationsUseCase,
   }) : super(ActivitiesInitial()) {
     on<AddActivityEvent>(_onAddActivity);
     on<EditActivityEvent>(_onEditActivity);
     on<DeleteActivityEvent>(_onDeleteActivity);
-
+    on<ApproveRegistrationEvent>(_onApproveRegistration);
+    on<RejectRegistrationEvent>(_onRejectRegistration);
     on<ResetActivitiesState>(_onReset);
   }
 
@@ -64,6 +69,20 @@ class ActivitiesBloc extends Bloc<ActivitiesEvent, ActivitiesState> {
     );
   }
 
+  Future<void> _onApproveRegistration(
+    ApproveRegistrationEvent event,
+    Emitter<ActivitiesState> emit,
+  ) async {
+    emit(ActivitiesLoading());
+    final result = await approveRegistrationsUseCase(
+      event.activityId,
+      event.studentLocalNumber,
+    );
+    result.fold(
+      (failure) => emit(ActivitiesError(message: mapFailureToMessage(failure))),
+      (_) => emit(ActivitiesSuccess(message: 'تم قبول التسجيل بنجاح')),
+    );
+  }
   // ============================================================
   // ====== DELETE ACTIVITY ======
   // ============================================================
@@ -104,6 +123,25 @@ class ActivitiesBloc extends Bloc<ActivitiesEvent, ActivitiesState> {
         emit(ActivitiesSuccess(message: 'تم تعديل النشاط بنجاح'));
         // add(RefreshActivitiesEvent());
       },
+    );
+  }
+
+  // ============================================================
+  // ====== REJECT REGISTRATION ======
+  // ============================================================
+
+  Future<void> _onRejectRegistration(
+    RejectRegistrationEvent event,
+    Emitter<ActivitiesState> emit,
+  ) async {
+    emit(ActivitiesLoading());
+    final result = await rejectRegistrationsUseCase(
+      event.activityId,
+      event.studentLocalNumber,
+    );
+    result.fold(
+      (failure) => emit(ActivitiesError(message: mapFailureToMessage(failure))),
+      (_) => emit(ActivitiesSuccess(message: 'تم رفض التسجيل بنجاح')),
     );
   }
 

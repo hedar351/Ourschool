@@ -48,6 +48,26 @@ class ActivityRepoImp implements ActivitesRepo {
   }
 
   @override
+  Future<Either<Failures, Unit>> approveRegistrations(
+    int activityId,
+    int studentLocalNumber,
+  ) async {
+    if (!await networkInfo.isConnected) {
+      print('🔴 [Repo] لا يوجد اتصال بالإنترنت');
+      return Left(OfflineFailure());
+    }
+
+    try {
+      await remote.approveRegistration(activityId, studentLocalNumber);
+      print(' [Repo] تم قبول التسجيل بنجاح');
+      return const Right(unit);
+    } catch (e) {
+      print('🔴 [Repo] فشل قبول التسجيل: $e');
+      return Left(ServerFailure(message: e.toString()));
+    }
+  }
+
+  @override
   Future<Either<Failures, Unit>> deleteActivities(int localActivityId) async {
     print('[Repo] deleteActivities() - حذف النشاط رقم $localActivityId');
 
@@ -116,6 +136,26 @@ class ActivityRepoImp implements ActivitesRepo {
       return await _fetchFromNetworkAndCache(id);
     } else {
       return Left(OfflineFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failures, Unit>> rejectRegistrations(
+    int activityId,
+    int studentLocalNumber,
+  ) async {
+    if (!await networkInfo.isConnected) {
+      print('🔴 [Repo] لا يوجد اتصال بالإنترنت');
+      return Left(OfflineFailure());
+    }
+
+    try {
+      await remote.rejectRegistration(activityId, studentLocalNumber);
+      print(' [Repo] تم رفض التسجيل بنجاح');
+      return const Right(unit);
+    } catch (e) {
+      print('🔴 [Repo] فشل رفض التسجيل: $e');
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 

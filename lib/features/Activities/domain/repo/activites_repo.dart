@@ -8,18 +8,28 @@ abstract class ActivitesRepo {
     String description,
     String expiryDate,
   );
+  Future<Either<Failures, Unit>> approveRegistrations(
+    int id,
+    int studentLocalNumber,
+  );
   Future<Either<Failures, Unit>> deleteActivities(int localActivityId);
+
   Future<Either<Failures, Unit>> editActivities(
     int localActivityId,
     String title,
     String description,
     String expiryDate,
   );
-
   Future<Either<Failures, ActivitiesRegistrationsEntity>>
   getActivitieRegistration(int id);
+
   Future<Either<Failures, ActivitiesRegistrationsEntity>>
   getActivitieRegistrationWithCache(int id);
+
+  Future<Either<Failures, Unit>> rejectRegistrations(
+    int id,
+    int studentLocalNumber,
+  );
 
   Stream<ActivitiesRegistrationsEntity> watchCachedActivitieRegistration(
     int id,

@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:school/core/const.dart';
+import 'package:school/features/Activities/data/data_source/activities_registrations_cache_data_source.dart';
 import 'package:school/features/Counselor/data/DataSources/Grade/cachedatasource.dart';
 import 'package:school/features/Counselor/data/DataSources/StudentList/Cachedatasource.dart';
 import 'package:school/features/Counselor/data/DataSources/StudentProfile/cachDataStudentProfile.dart';
@@ -38,6 +39,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   LibrarianLoansCacheDataSource librarianLoansCacheDataSource;
   BookReservationsCacheDataSource bookReservationsCacheDataSource;
   BookLoansCacheDataSource bookLoansCacheDataSource;
+  ActivitiesRegistrationsCacheDataSource activitiesRegistrationsCacheDataSource;
+
   AuthBloc({
     required this.cacheTeacherStudentsList,
     required this.cacheDataStudentProfile,
@@ -54,6 +57,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     required this.librarianLoansCacheDataSource,
     required this.bookReservationsCacheDataSource,
     required this.bookLoansCacheDataSource,
+    required this.activitiesRegistrationsCacheDataSource,
   }) : super(AuthInitial()) {
     on<LoginEvent>(_onLogin);
     on<CheckAuthEvent>(_onCheckAuth);
@@ -73,6 +77,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     await librarianLoansCacheDataSource.deleteLibrarianLoans();
     await bookReservationsCacheDataSource.deleteBookAllReservations();
     await bookLoansCacheDataSource.deleteAllBookLoans();
+    await activitiesRegistrationsCacheDataSource.deleteAll();
   }
 
   Future<void> _onCheckAuth(

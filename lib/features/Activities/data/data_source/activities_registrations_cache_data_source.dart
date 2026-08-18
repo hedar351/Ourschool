@@ -1,4 +1,4 @@
-
+import 'package:dartz/dartz.dart';
 import 'package:hive/hive.dart';
 import 'package:school/core/error/EXP.dart';
 import 'package:school/features/Activities/data/model/activities_registrations_model.dart';
@@ -9,6 +9,7 @@ abstract class ActivitiesRegistrationsCacheDataSource {
     int activityId,
   );
   Future<void> deleteActivitiesRegistrations(int activityId);
+  Future<void> deleteAll();
   Future<ActivitiesRegistrationsModel> getCachedActivitiesRegistrations(
     int activityId,
   );
@@ -45,6 +46,12 @@ class ActivitiesRegistrationsCacheDataSourceImpl
     );
     await box.delete(key);
     print(' [Activities Registrations Cache] تم الحذف');
+  }
+
+  @override
+  Future<Unit> deleteAll() async {
+    await box.clear();
+    return unit;
   }
 
   @override
