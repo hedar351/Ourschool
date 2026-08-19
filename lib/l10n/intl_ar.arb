@@ -72,6 +72,7 @@
   "select_warning_type": "اختر نوع الإنذار",
   "type_behavior": "سلوك",
   "type_dismissal_warning": "إنذار فصل",
+  "register": "تسجيل",
   "cancel": "إلغاء",
   "add": "إضافة",
   "please_select_type_and_reason": "يرجى اختيار النوع وملء السبب",

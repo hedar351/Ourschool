@@ -69,8 +69,11 @@ import 'package:school/features/Student/data/Model/ProfilrModel/loan_model.dart'
 import 'package:school/features/Student/data/RepoImp/library_repo_imp.dart';
 import 'package:school/features/Student/domain/Repo/library_repo.dart';
 import 'package:school/features/Student/domain/useCase/GetReserveBookUseCase.dart';
+import 'package:school/features/Student/domain/useCase/delete_register_use_case.dart';
 import 'package:school/features/Student/domain/useCase/get_books_usecase.dart';
+import 'package:school/features/Student/domain/useCase/register_use_case.dart';
 import 'package:school/features/Student/domain/useCase/reserveBookUseCase.dart';
+import 'package:school/features/Student/ui/bloc/ActivityRegistrationBloc/activity_registration_bloc.dart';
 import 'package:school/features/Student/ui/bloc/libraryBloc/library_bloc.dart';
 import 'package:school/features/Student/ui/bloc/reservation_bloc/reservation_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -866,12 +869,19 @@ void _initStudent(Box<StudentFullProfileModel> studentProfileBox) {
 
   // Student UseCase
   sl.registerLazySingleton(() => Getfullprofileusecase(repo: sl()));
-
+  sl.registerLazySingleton(() => RegisterUseCase(repository: sl()));
+  sl.registerLazySingleton(() => DeleteRegisterUseCase(repository: sl()));
   // Student Bloc
   sl.registerLazySingleton(
     () => StudentBloc(getFullProfileUseCase: sl(), studentRepo: sl()),
   );
-
+  sl.registerFactory(
+    () => ActivityRegistrationBloc(
+      registerUseCase: sl(),
+      deleteRegisterUseCase: sl(),
+      studentRepo: sl(),
+    ),
+  );
   print('✅ Student feature registered');
 }
 

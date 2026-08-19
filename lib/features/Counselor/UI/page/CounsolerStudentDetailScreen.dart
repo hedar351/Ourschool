@@ -33,17 +33,16 @@ class CounsolerStudentDetailScreen extends StatefulWidget {
 
 class _CounsolerStudentDetailScreenState
     extends State<CounsolerStudentDetailScreen>
-    with SingleTickerProviderStateMixin
-// AutoRefreshMixin<CounsolerStudentDetailScreen>
-{
+    with TickerProviderStateMixin {
   late AnimationController _controller;
   bool _loaded = false;
   final double _contentPadding = 16.w;
   final double _gapLarge = 24.h;
   final double _gapMedium = 16.h;
   final double _gapSmall = 12.h;
-  // @override
-  // int get refreshInterval => 300;
+
+  late TabController _tabController;
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -133,6 +132,7 @@ class _CounsolerStudentDetailScreenState
   @override
   void dispose() {
     _controller.dispose();
+    _tabController.dispose();
     super.dispose();
   }
 
@@ -143,19 +143,8 @@ class _CounsolerStudentDetailScreenState
       vsync: this,
       duration: const Duration(milliseconds: 500),
     );
+    _tabController = TabController(length: 2, vsync: this);
   }
-
-  // @override
-  // Future<void> onAutoRefresh() async {
-  //   print('🔄 [AutoRefresh][StudentProfileBloc] تحديث تلقائياً...');
-  //   if (mounted) {
-  //     context.read<StudentProfileBloc>().add(
-  //       RefreshStudentProfileEvent(
-  //         localStudentNumber: widget.localStudentNumber,
-  //       ),
-  //     );
-  //   }
-  // }
 
   Widget _buildErrorState(BuildContext context, String message) {
     return Center(
@@ -188,6 +177,90 @@ class _CounsolerStudentDetailScreenState
     );
   }
 
+  // ============================================================
+  // ====== قسم العلامات مع TabBar (مثل ExamMarksCard) ======
+  // ============================================================
+
+  Widget _buildMarksSection(
+    BuildContext context,
+    List<CounselorMarkentity> semester1Marks,
+    List<CounselorMarkentity> semester2Marks,
+  ) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Icon(Icons.bar_chart, color: theme.colorScheme.primary, size: 22.w),
+            SizedBox(width: 8.w),
+            Text(
+              S.of(context).marks_title,
+              style: theme.textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: theme.colorScheme.primary,
+                fontSize: 16.sp,
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: _gapSmall),
+
+        // شريط التنقل بين الفصول (TabBar)
+        Container(
+          height: 42.h,
+          padding: EdgeInsets.all(3.w),
+          decoration: BoxDecoration(
+            color: theme.colorScheme.surfaceContainerHighest.withOpacity(0.4),
+            borderRadius: BorderRadius.circular(12.r),
+          ),
+          child: TabBar(
+            controller: _tabController,
+            indicatorSize: TabBarIndicatorSize.tab,
+            dividerColor: Colors.transparent,
+            indicator: BoxDecoration(
+              borderRadius: BorderRadius.circular(10.r),
+              color: colorScheme.primary,
+              boxShadow: [
+                BoxShadow(
+                  color: colorScheme.primary.withOpacity(0.2),
+                  blurRadius: 4,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+            labelColor: colorScheme.onPrimary,
+            unselectedLabelColor: theme.textTheme.bodyMedium?.color,
+            labelStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 13.sp),
+            unselectedLabelStyle: TextStyle(
+              fontWeight: FontWeight.w500,
+              fontSize: 13.sp,
+            ),
+            tabs: [
+              Tab(text: S.of(context).semester_1),
+              Tab(text: S.of(context).semester_2),
+            ],
+          ),
+        ),
+        SizedBox(height: 16.h),
+
+        // عرض علامات الفصل المختار
+        SizedBox(
+          height: 400.h, // ارتفاع ثابت لاحتواء البطاقات
+          child: TabBarView(
+            controller: _tabController,
+            children: [
+              _buildSemesterMarksList(context, semester1Marks),
+              _buildSemesterMarksList(context, semester2Marks),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget _buildProfileContent(
     BuildContext context,
     CounselorStudentfullprofile profile,
@@ -195,56 +268,13 @@ class _CounsolerStudentDetailScreenState
   ) {
     final theme = Theme.of(context);
     final student = profile.studententity;
-    // final subjects = profile.subjectsentity ?? [];
     final marks = profile.makrentity;
     final warnings = profile.warningsentity ?? [];
     final attendance = profile.attendance ?? [];
 
-    List<Widget> marksWidgets = [];
-    if (marks != null && marks.isNotEmpty) {
-      final marksBySemester = <int, List<CounselorMarkentity>>{};
-      for (var mark in marks) {
-        final semester = mark.semester ?? 0;
-        marksBySemester.putIfAbsent(semester, () => []).add(mark);
-      }
-
-      for (final entry in marksBySemester.entries) {
-        final semester = entry.key;
-        final semesterMarks = entry.value;
-
-        final semesterTitle = switch (semester) {
-          1 => S.of(context).semester_1,
-          2 => S.of(context).semester_2,
-          _ => '${S.of(context).semester} $semester',
-        };
-
-        marksWidgets.add(
-          Padding(
-            padding: EdgeInsets.only(top: 8.h, bottom: 8.h),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.bookmark,
-                  color: theme.colorScheme.primary,
-                  size: 22.w,
-                ),
-                SizedBox(width: 8.w),
-                Text(
-                  semesterTitle,
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: theme.colorScheme.primary,
-                    fontSize: 16.sp,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-        marksWidgets.addAll(semesterMarks.map((m) => MarkCard(mark: m)));
-        marksWidgets.add(SizedBox(height: 8.h));
-      }
-    }
+    // تقسيم العلامات حسب الفصل
+    final semester1Marks = marks?.where((m) => m.semester == 1).toList() ?? [];
+    final semester2Marks = marks?.where((m) => m.semester == 2).toList() ?? [];
 
     return Scaffold(
       appBar: AppBar(
@@ -331,34 +361,10 @@ class _CounsolerStudentDetailScreenState
                     ),
 
                     SizedBox(height: _gapMedium),
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.bar_chart,
-                          color: theme.colorScheme.primary,
-                          size: 22.w,
-                        ),
-                        SizedBox(width: 8.w),
-                        Text(
-                          S.of(context).marks_title,
-                          style: theme.textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: theme.colorScheme.primary,
-                            fontSize: 16.sp,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: _gapSmall),
-                    if (marks != null && marks.isNotEmpty)
-                      ...marksWidgets
-                    else
-                      Text(
-                        S.of(context).There_are_no_Marks_at_the_moment,
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          fontSize: 14.sp,
-                        ),
-                      ),
+
+                    // ====== العلامات مع TabBar ======
+                    _buildMarksSection(context, semester1Marks, semester2Marks),
+
                     SizedBox(height: _gapLarge),
                   ],
                 ),
@@ -378,6 +384,49 @@ class _CounsolerStudentDetailScreenState
             ),
         ],
       ),
+    );
+  }
+
+  // ============================================================
+  // ====== قائمة علامات الفصل ======
+  // ============================================================
+
+  Widget _buildSemesterMarksList(
+    BuildContext context,
+    List<CounselorMarkentity> marks,
+  ) {
+    final theme = Theme.of(context);
+
+    if (marks.isEmpty) {
+      return Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.assignment_late_outlined,
+              size: 42.w,
+              color: theme.hintColor.withOpacity(0.4),
+            ),
+            SizedBox(height: 10.h),
+            Text(
+              S.of(context).There_are_no_Marks_at_the_moment,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: theme.hintColor,
+                fontSize: 14.sp,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    return ListView.separated(
+      physics: const BouncingScrollPhysics(),
+      itemCount: marks.length,
+      separatorBuilder: (_, _) => SizedBox(height: 10.h),
+      itemBuilder: (context, index) {
+        return MarkCard(mark: marks[index]);
+      },
     );
   }
 

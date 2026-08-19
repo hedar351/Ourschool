@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:school/core/const.dart';
@@ -13,7 +14,9 @@ StudentFullProfileModel _parseStudentProfile(String responseBody) {
 }
 
 abstract class StudentRemoteDataSource {
+  Future<Unit> deleteRegister(int activityId);
   Future<StudentFullProfileModel> getFullProfile();
+  Future<Unit> register(int activityId);
 }
 
 class StudentRemoteDataSourceImpl implements StudentRemoteDataSource {
@@ -24,6 +27,48 @@ class StudentRemoteDataSourceImpl implements StudentRemoteDataSource {
     required this.client,
     required this.authLocalDataSource,
   });
+
+  @override
+  Future<Unit> deleteRegister(int activityId) async {
+    print('🗑️ [Remote] بدء إلغاء التسجيل في النشاط رقم $activityId');
+
+    final token = await authLocalDataSource.getToken();
+    if (token.isEmpty) {
+      print(' [Remote] التوكن فارغ');
+      throw TokenNotFoundExp();
+    }
+
+    final url = Uri.parse(
+      '$baseUrl/student/activities/registrations/$activityId',
+    );
+    print(' [Remote] إرسال طلب DELETE إلى: $url');
+
+    final response = await client.delete(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    print(' [Remote] حالة الاستجابة: ${response.statusCode}');
+    print(' [Remote] نص الرد: ${response.body}');
+
+    if (response.statusCode == 200 ||
+        response.statusCode == 201 ||
+        response.statusCode == 204) {
+      print(' [Remote] تم إلغاء التسجيل بنجاح');
+      return unit;
+    } else {
+      String errorMessage = 'فشل إلغاء التسجيل';
+      try {
+        final Map<String, dynamic> decoded = json.decode(response.body);
+        errorMessage = decoded['message'] as String? ?? errorMessage;
+      } catch (_) {}
+      print('🔴 [Remote] فشل الطلب: $errorMessage');
+      throw ServerExp(message: errorMessage);
+    }
+  }
 
   @override
   Future<StudentFullProfileModel> getFullProfile() async {
@@ -63,6 +108,46 @@ class StudentRemoteDataSourceImpl implements StudentRemoteDataSource {
     } else {
       print('🔴 [Remote] فشل الطلب، رمي ServerExp');
       throw ServerExp();
+    }
+  }
+
+  // في StudentRemoteDataSourceImpl
+
+  @override
+  Future<Unit> register(int activityId) async {
+    print(' [Remote] بدء التسجيل في النشاط رقم $activityId');
+
+    final token = await authLocalDataSource.getToken();
+    if (token.isEmpty) {
+      print('🔴 [Remote] التوكن فارغ');
+      throw TokenNotFoundExp();
+    }
+
+    final url = Uri.parse('$baseUrl/student/activities/$activityId/register');
+    print(' [Remote] إرسال طلب POST إلى: $url');
+
+    final response = await client.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    print(' [Remote] حالة الاستجابة: ${response.statusCode}');
+    print(' [Remote] نص الرد: ${response.body}');
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      print('✅ [Remote] تم التسجيل بنجاح');
+      return unit;
+    } else {
+      String errorMessage = 'فشل التسجيل';
+      try {
+        final Map<String, dynamic> decoded = json.decode(response.body);
+        errorMessage = decoded['message'] as String? ?? errorMessage;
+      } catch (_) {}
+      print('🔴 [Remote] فشل الطلب - $errorMessage');
+      throw ServerExp(message: errorMessage);
     }
   }
 }

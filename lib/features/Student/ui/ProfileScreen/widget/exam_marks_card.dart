@@ -240,13 +240,10 @@ class _ExamMarksCardState extends State<ExamMarksCard>
       decoration: BoxDecoration(
         color: theme.cardColor,
         borderRadius: BorderRadius.circular(14.r),
-        border: Border.all(
-          color: theme.dividerColor.withOpacity(0.12),
-          width: 1.w,
-        ),
+        border: Border.all(color: theme.dividerColor, width: 1.w),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.02),
+            color: Colors.black,
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),

@@ -269,6 +269,11 @@ class S {
     );
   }
 
+  /// `register`
+  String get register {
+    return Intl.message('register', name: 'register', desc: '', args: []);
+  }
+
   /// `Settings`
   String get Settings {
     return Intl.message('Settings', name: 'Settings', desc: '', args: []);

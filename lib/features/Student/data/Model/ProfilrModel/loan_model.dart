@@ -45,8 +45,8 @@ class LoanModel extends HiveObject {
       localLoanNumber: json['localLoanNumber'] as int?,
       localBookNumber: json['localBookNumber'] as int?,
       bookTitle: json['bookTitle'] as String?,
-      loanDate: json['loanDate'] as String?,
-      dueDate: json['dueDate'] as String?,
+      loanDate: json['date'] as String?,
+      dueDate: json['expiryDate'] as String?,
     );
   }
 

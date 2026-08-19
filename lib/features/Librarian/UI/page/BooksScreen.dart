@@ -25,9 +25,7 @@ class Booksscreen extends StatefulWidget {
 }
 
 class _BooksscreenState extends State<Booksscreen>
-    with WidgetsBindingObserver, AutomaticKeepAliveClientMixin
-// AutoRefreshMixin<Booksscreen>
-{
+    with WidgetsBindingObserver, AutomaticKeepAliveClientMixin {
   late SnackBarMessage snackBarMessage;
 
   final TextEditingController _searchController = TextEditingController();
@@ -45,8 +43,6 @@ class _BooksscreenState extends State<Booksscreen>
   final double _gapSmall = 16.h;
   final double _gapMedium = 8.h;
 
-  // @override
-  // int get refreshInterval => 600;
   @override
   bool get wantKeepAlive => true;
 
@@ -58,36 +54,49 @@ class _BooksscreenState extends State<Booksscreen>
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       body: SafeArea(
-        child: BlocConsumer<LibrarianBloc, LibrarianState>(
-          listener: (context, state) {
-            if (state is LibrarianError) {
-              snackBarMessage.errorMessage(
-                message: state.message,
-                context: context,
-              );
-            }
-            if (state is LibrarianLoaded) {
-              _allBooks = state.books;
-              _applyFilter();
-            }
-          },
-          builder: (context, state) {
-            if (state is LibrarianError) {
-              return _buildErrorState(context, state.message);
-            }
-            if (state is LibrarianLoading) return const Loadingwidget();
+        child: Column(
+          children: [
+            _buildSearchBar(context),
+            _buildActionButtons(context),
+            _buildSearchStats(context),
+            Expanded(
+              child: BlocConsumer<LibrarianBloc, LibrarianState>(
+                listener: (context, state) {
+                  if (state is LibrarianError) {
+                    snackBarMessage.errorMessage(
+                      message: state.message,
+                      context: context,
+                    );
+                  }
+                  if (state is LibrarianLoaded) {
+                    _allBooks = state.books;
+                    _applyFilter();
+                  }
+                },
+                builder: (context, state) {
+                  if (state is LibrarianError) {
+                    return _buildErrorState(context, state.message);
+                  }
+                  if (state is LibrarianLoading) {
+                    return const Loadingwidget();
+                  }
 
-            if (state is LibrarianLoaded) {
-              if (state.books.isEmpty) return _buildEmptyState(context);
-              return _buildLoadedStateWithBooks(
-                context,
-                state.books,
-                state.isRevalidating,
-              );
-            }
+                  if (state is LibrarianLoaded) {
+                    if (state.books.isEmpty) {
+                      return _buildEmptyState(context);
+                    }
+                    return _buildBooksList(
+                      context,
+                      state.books,
+                      state.isRevalidating,
+                    );
+                  }
 
-            return const Loadingwidget();
-          },
+                  return const Loadingwidget();
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -125,14 +134,6 @@ class _BooksscreenState extends State<Booksscreen>
 
     _loadData();
   }
-
-  // @override
-  // Future<void> onAutoRefresh() async {
-  //   print('🔄 [AutoRefresh] تحديث الكتب في BooksScreen...');
-  //   if (mounted) {
-  //     context.read<LibrarianBloc>().add(RefreshBooksLibrarianEvent());
-  //   }
-  // }
 
   void _applyFilter() {
     final query = _searchQueryNotifier.value.toLowerCase().trim();
@@ -211,9 +212,7 @@ class _BooksscreenState extends State<Booksscreen>
               ),
             ),
           ),
-
           SizedBox(width: 8.w),
-
           Expanded(
             child: ElevatedButton.icon(
               onPressed: () {
@@ -334,58 +333,7 @@ class _BooksscreenState extends State<Booksscreen>
     );
   }
 
-  Widget _buildEmptyState(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.library_books_outlined,
-            size: 64.w,
-            color: Colors.grey.shade400,
-          ),
-          SizedBox(height: 12.h),
-          Text(
-            'لا توجد كتب في المكتبة حالياً',
-            style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildErrorState(BuildContext context, String message) {
-    final theme = Theme.of(context);
-
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.wifi_off_rounded,
-            size: _iconSize,
-            color: Colors.red.shade300,
-          ),
-          SizedBox(height: _gapSmall),
-          Text(
-            message,
-            textAlign: TextAlign.center,
-            style: theme.textTheme.titleMedium?.copyWith(fontSize: 16.sp),
-          ),
-          SizedBox(height: _gapMedium),
-          TextButton.icon(
-            onPressed: () {
-              context.read<LibrarianBloc>().add(RefreshBooksLibrarianEvent());
-            },
-            icon: Icon(Icons.refresh, size: 20.w),
-            label: Text(S.of(context).retry, style: TextStyle(fontSize: 14.sp)),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildLoadedStateWithBooks(
+  Widget _buildBooksList(
     BuildContext context,
     List<BookEntity> books,
     bool isRevalidating,
@@ -401,10 +349,6 @@ class _BooksscreenState extends State<Booksscreen>
             child: CustomScrollView(
               physics: const BouncingScrollPhysics(),
               slivers: [
-                SliverToBoxAdapter(child: _buildSearchBar(context)),
-                SliverToBoxAdapter(child: _buildActionButtons(context)),
-                SliverToBoxAdapter(child: _buildSearchStats(context)),
-
                 ValueListenableBuilder<bool>(
                   valueListenable: _isReadyToAnimate,
                   builder: (context, isReady, _) {
@@ -456,12 +400,10 @@ class _BooksscreenState extends State<Booksscreen>
                     );
                   },
                 ),
-
                 SliverToBoxAdapter(child: SizedBox(height: 40.h)),
               ],
             ),
           ),
-
           if (isRevalidating)
             Positioned(
               top: 0,
@@ -473,6 +415,57 @@ class _BooksscreenState extends State<Booksscreen>
                 minHeight: 2.5.h,
               ),
             ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildEmptyState(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.library_books_outlined,
+            size: 64.w,
+            color: Colors.grey.shade400,
+          ),
+          SizedBox(height: 12.h),
+          Text(
+            'لا توجد كتب في المكتبة حالياً',
+            style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildErrorState(BuildContext context, String message) {
+    final theme = Theme.of(context);
+
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.wifi_off_rounded,
+            size: _iconSize,
+            color: Colors.red.shade300,
+          ),
+          SizedBox(height: _gapSmall),
+          Text(
+            message,
+            textAlign: TextAlign.center,
+            style: theme.textTheme.titleMedium?.copyWith(fontSize: 16.sp),
+          ),
+          SizedBox(height: _gapMedium),
+          TextButton.icon(
+            onPressed: () {
+              context.read<LibrarianBloc>().add(RefreshBooksLibrarianEvent());
+            },
+            icon: Icon(Icons.refresh, size: 20.w),
+            label: Text(S.of(context).retry, style: TextStyle(fontSize: 14.sp)),
+          ),
         ],
       ),
     );

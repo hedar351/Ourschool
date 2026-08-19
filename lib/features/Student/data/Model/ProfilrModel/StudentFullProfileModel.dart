@@ -138,7 +138,10 @@ class StudentFullProfileModel extends HiveObject {
       attendance: (data['attendance'] as List? ?? [])
           .map((e) => Attendancemodel.fromJson(e as Map<String, dynamic>))
           .toList(),
-      scheduleImage: data['scheduleImage'] as String?,
+      scheduleImage: data['scheduleImage'] != null
+          ? (data['scheduleImage'] as Map<String, dynamic>)['imageUrl']
+                as String?
+          : null,
       activities: (data['activities'] as List? ?? [])
           .map((e) => ActivitiesModel.fromJson(e as Map<String, dynamic>))
           .toList(),

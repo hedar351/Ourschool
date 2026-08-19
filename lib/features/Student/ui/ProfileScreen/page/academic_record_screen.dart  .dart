@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:school/core/injection.dart' as di;
 import 'package:school/core/widget/Loadingwidget.dart';
 import 'package:school/core/widget/SnackBar/Message.dart';
 import 'package:school/features/Counselor/domain/Entities/StudentsProfileEntity/Counselor_WarningsEntity.dart';
@@ -19,6 +20,7 @@ import 'package:school/features/Student/ui/ProfileScreen/widget/loans_section.da
 import 'package:school/features/Student/ui/ProfileScreen/widget/quick_stats_row.dart';
 import 'package:school/features/Student/ui/ProfileScreen/widget/schedule_image_card.dart';
 import 'package:school/features/Student/ui/ProfileScreen/widget/statistics_summary_card.dart';
+import 'package:school/features/Student/ui/bloc/ActivityRegistrationBloc/activity_registration_bloc.dart';
 import 'package:school/features/Student/ui/bloc/ProfileBloc/student_bloc.dart';
 import 'package:school/generated/l10n.dart';
 
@@ -270,11 +272,13 @@ class _AcademicRecordScreenState extends State<AcademicRecordScreen>
                 fadeAnim: _fadeAnimations[6],
                 slideAnim: _slideAnimations[6],
                 scaleAnim: _scaleAnimations[6],
-                child: ActivitiesSection(activities: activities),
+                child: BlocProvider(
+                  create: (context) => di.sl<ActivityRegistrationBloc>(),
+                  child: ActivitiesSection(activities: activities),
+                ),
               ),
               SizedBox(height: 16.h),
 
-              // 8. مساحة فارغة للأسفل
               SizedBox(height: 80.h),
             ]),
           ),

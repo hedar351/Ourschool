@@ -99,6 +99,29 @@ class ActivityInfoDialogContentState extends State<ActivityInfoDialogContent> {
               color: Colors.transparent,
               child: InkWell(
                 borderRadius: BorderRadius.circular(50.r),
+                onTap: () => context.read<ActivitiesRegistrationsBloc>().add(
+                  RefreshActivitiesRegistrationsEvent(
+                    activityId: widget.activityId,
+                  ),
+                ),
+                child: Container(
+                  padding: EdgeInsets.all(6.w),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: theme.dividerColor.withOpacity(0.05),
+                  ),
+                  child: Icon(
+                    Icons.refresh,
+                    size: 20.w,
+                    color: theme.hintColor,
+                  ),
+                ),
+              ),
+            ),
+            Material(
+              color: Colors.transparent,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(50.r),
                 onTap: () => Navigator.pop(context),
                 child: Container(
                   padding: EdgeInsets.all(6.w),

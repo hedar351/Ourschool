@@ -215,7 +215,9 @@ class _LibraryScreenState extends State<LibraryScreen>
               context.read<LibraryBloc>().add(RefreshBooksEvent()),
           color: Theme.of(context).colorScheme.primary,
           child: CustomScrollView(
-            physics: const BouncingScrollPhysics(),
+            physics: const AlwaysScrollableScrollPhysics(
+              parent: BouncingScrollPhysics(),
+            ),
             slivers: [
               SliverToBoxAdapter(child: _buildSearchBar(context)),
               SliverToBoxAdapter(child: _buildSearchStats(context)),

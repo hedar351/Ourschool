@@ -40,6 +40,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   BookReservationsCacheDataSource bookReservationsCacheDataSource;
   BookLoansCacheDataSource bookLoansCacheDataSource;
   ActivitiesRegistrationsCacheDataSource activitiesRegistrationsCacheDataSource;
+  // CacheTeacherStudentProfile cacheTeacherStudentProfile;
 
   AuthBloc({
     required this.cacheTeacherStudentsList,
@@ -78,6 +79,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     await bookReservationsCacheDataSource.deleteBookAllReservations();
     await bookLoansCacheDataSource.deleteAllBookLoans();
     await activitiesRegistrationsCacheDataSource.deleteAll();
+    await cacheTeacherStudentProfile.deleteCachedTeacherStudentProfile();
   }
 
   Future<void> _onCheckAuth(

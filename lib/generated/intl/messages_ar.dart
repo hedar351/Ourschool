@@ -326,6 +326,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "quiz_type_3": MessageLookupByLibrary.simpleMessage("واجب"),
     "quiz_type_5": MessageLookupByLibrary.simpleMessage("نهائي"),
     "reason": MessageLookupByLibrary.simpleMessage("السبب"),
+    "register": MessageLookupByLibrary.simpleMessage("تسجيل"),
     "registrants_list": MessageLookupByLibrary.simpleMessage("قائمة المسجلين"),
     "rejected": MessageLookupByLibrary.simpleMessage("مرفوض"),
     "remember_me": MessageLookupByLibrary.simpleMessage("تذكرني"),

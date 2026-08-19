@@ -335,6 +335,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "quiz_type_3": MessageLookupByLibrary.simpleMessage("Homework"),
     "quiz_type_5": MessageLookupByLibrary.simpleMessage("Final Exam"),
     "reason": MessageLookupByLibrary.simpleMessage("Reason"),
+    "register": MessageLookupByLibrary.simpleMessage("register"),
     "registrants_list": MessageLookupByLibrary.simpleMessage(
       "Registrants List",
     ),
