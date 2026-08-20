@@ -8,7 +8,6 @@ import 'package:school/generated/l10n.dart';
 class TeacherMarkCard extends StatelessWidget {
   final SemesterMarks mark;
 
-  // ✅ حسابات القيم الثابتة خارج build
   final double cardPadding = 14.w;
 
   final double chipPaddingHorizontal = 8.w;
@@ -89,30 +88,51 @@ class TeacherMarkCard extends StatelessWidget {
               ],
             ),
             SizedBox(height: gapMedium),
-            Row(
+            Column(
               children: [
-                _buildMarkChip(
-                  context,
-                  label: S.of(context).oral,
-                  value: mark.quiz1,
+                Row(
+                  children: [
+                    _buildMarkChip(
+                      context,
+                      label: S.of(context).oral,
+                      value: mark.oral,
+                      maxvalue: mark.oral,
+                    ),
+                    SizedBox(width: gapSmall),
+
+                    _buildMarkChip(
+                      context,
+                      label: S.of(context).quiz1,
+                      value: mark.quiz1,
+                      maxvalue: mark.maxQuiz1,
+                    ),
+                    SizedBox(width: gapSmall),
+                    _buildMarkChip(
+                      context,
+                      label: S.of(context).quiz2,
+                      value: mark.quiz2,
+                      maxvalue: mark.maxQuiz2,
+                    ),
+                  ],
                 ),
-                SizedBox(width: gapSmall),
-                _buildMarkChip(
-                  context,
-                  label: S.of(context).oral_2,
-                  value: mark.quiz2,
-                ),
-                SizedBox(width: gapSmall),
-                _buildMarkChip(
-                  context,
-                  label: S.of(context).homework,
-                  value: mark.homework,
-                ),
-                SizedBox(width: gapSmall),
-                _buildMarkChip(
-                  context,
-                  label: S.of(context).final_exam,
-                  value: mark.finalExam,
+                SizedBox(height: 10),
+                Row(
+                  children: [
+                    // SizedBox(width: gapSmall),
+                    _buildMarkChip(
+                      context,
+                      label: S.of(context).homework,
+                      value: mark.homework,
+                      maxvalue: mark.maxHomework,
+                    ),
+                    SizedBox(width: gapSmall),
+                    _buildMarkChip(
+                      context,
+                      label: S.of(context).final_exam,
+                      value: mark.finalExam,
+                      maxvalue: mark.maxFinalExam,
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -126,6 +146,7 @@ class TeacherMarkCard extends StatelessWidget {
     BuildContext context, {
     required String label,
     required double? value,
+    required double? maxvalue,
   }) {
     final theme = Theme.of(context);
     return Container(
@@ -152,7 +173,7 @@ class TeacherMarkCard extends StatelessWidget {
             ),
           ),
           Text(
-            value?.toStringAsFixed(0) ?? '0',
+            " ${value?.toStringAsFixed(0) ?? '0'} / ${maxvalue!.toStringAsFixed(0)}",
             style: TextStyle(
               fontSize: chipValueFontSize,
               fontWeight: FontWeight.w600,

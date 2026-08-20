@@ -266,13 +266,12 @@ class _CounsolerStudentDetailScreenState
     CounselorStudentfullprofile profile,
     bool isRevalidating,
   ) {
-    final theme = Theme.of(context);
+    // final theme = Theme.of(context);
     final student = profile.studententity;
     final marks = profile.makrentity;
     final warnings = profile.warningsentity ?? [];
     final attendance = profile.attendance ?? [];
 
-    // تقسيم العلامات حسب الفصل
     final semester1Marks = marks?.where((m) => m.semester == 1).toList() ?? [];
     final semester2Marks = marks?.where((m) => m.semester == 2).toList() ?? [];
 
@@ -386,10 +385,6 @@ class _CounsolerStudentDetailScreenState
       ),
     );
   }
-
-  // ============================================================
-  // ====== قائمة علامات الفصل ======
-  // ============================================================
 
   Widget _buildSemesterMarksList(
     BuildContext context,

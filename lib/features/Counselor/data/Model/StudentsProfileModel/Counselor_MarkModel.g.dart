@@ -26,13 +26,14 @@ class CounselorMarkModelAdapter extends TypeAdapter<CounselorMarkModel> {
       homework: fields[6] as int?,
       finalExam: fields[7] as int?,
       total: fields[8] as int?,
+      oral: fields[9] as int?,
     );
   }
 
   @override
   void write(BinaryWriter writer, CounselorMarkModel obj) {
     writer
-      ..writeByte(9)
+      ..writeByte(10)
       ..writeByte(0)
       ..write(obj.subjectId)
       ..writeByte(1)
@@ -50,7 +51,9 @@ class CounselorMarkModelAdapter extends TypeAdapter<CounselorMarkModel> {
       ..writeByte(7)
       ..write(obj.finalExam)
       ..writeByte(8)
-      ..write(obj.total);
+      ..write(obj.total)
+      ..writeByte(9)
+      ..write(obj.oral);
   }
 
   @override

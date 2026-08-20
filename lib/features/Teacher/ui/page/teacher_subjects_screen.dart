@@ -24,15 +24,12 @@ class _SubjectWithSchool {
 class _TeacherSubjectsScreenState extends State<TeacherSubjectsScreen> {
   @override
   Widget build(BuildContext context) {
-    return
-    // BlocProvider(
-    // create: (_) => di.sl<TeacherBloc>()..add(GetTeacherEvent()),
-    // child:
-    BlocBuilder<TeacherBloc, TeacherState>(
+    return BlocBuilder<TeacherBloc, TeacherState>(
       builder: (context, state) {
         if (state is TeacherLoading) {
           return const Loadingwidget();
         }
+
         if (state is TeacherLoaded) {
           final profile = state.profile;
           final teacher = profile.teacherInfo;
@@ -61,16 +58,9 @@ class _TeacherSubjectsScreenState extends State<TeacherSubjectsScreen> {
               onRefresh: () async {
                 context.read<TeacherBloc>().add(RefreshTeacherEvent());
               },
-              color: Colors.transparent,
-              backgroundColor: Colors.transparent,
-              strokeWidth: 0,
+              color: Theme.of(context).colorScheme.primary,
               child: subjectsWithSchool.isEmpty
-                  ? Center(
-                      child: Text(
-                        "S.of(context).no_subjects",
-                        style: TextStyle(fontSize: 16.sp),
-                      ),
-                    )
+                  ? _buildEmptyState(context)
                   : ListView.builder(
                       padding: EdgeInsets.all(16.w),
                       physics: const AlwaysScrollableScrollPhysics(),
@@ -83,24 +73,131 @@ class _TeacherSubjectsScreenState extends State<TeacherSubjectsScreen> {
             ),
           );
         }
+
         if (state is TeacherError) {
-          return Center(
-            child: Text(state.message, style: TextStyle(fontSize: 16.sp)),
-          );
+          return _buildErrorState(context, state.message);
         }
+
         return const Loadingwidget();
       },
-      // ),
     );
   }
+
+  // ============================================================
+  // ====== حالة عدم وجود بيانات ======
+  // ============================================================
+
+  Widget _buildEmptyState(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 24.w),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: EdgeInsets.all(24.w),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.primary.withOpacity(0.08),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                Icons.school_outlined,
+                size: 64.w,
+                color: theme.colorScheme.primary.withOpacity(0.6),
+              ),
+            ),
+            SizedBox(height: 20.h),
+            Text(
+              S.of(context).no_subjects_available,
+              style: TextStyle(
+                fontSize: 18.sp,
+                fontWeight: FontWeight.bold,
+                color: theme.colorScheme.onSurface,
+              ),
+            ),
+            SizedBox(height: 8.h),
+            Text(
+              S.of(context).no_subjects_description,
+              style: TextStyle(fontSize: 14.sp, color: theme.hintColor),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 20.h),
+            OutlinedButton.icon(
+              onPressed: () {
+                context.read<TeacherBloc>().add(RefreshTeacherEvent());
+              },
+              icon: Icon(Icons.refresh_rounded, size: 18.w),
+              label: Text(S.of(context).retry),
+              style: OutlinedButton.styleFrom(
+                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.r),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // ============================================================
+  // ====== حالة الخطأ ======
+  // ============================================================
+
+  Widget _buildErrorState(BuildContext context, String message) {
+    final theme = Theme.of(context);
+
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 24.w),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.wifi_off_rounded,
+              size: 64.w,
+              color: theme.colorScheme.error.withOpacity(0.6),
+            ),
+            SizedBox(height: 16.h),
+            Text(
+              message,
+              style: TextStyle(
+                fontSize: 16.sp,
+                color: theme.colorScheme.onSurface,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 20.h),
+            ElevatedButton.icon(
+              onPressed: () {
+                context.read<TeacherBloc>().add(RefreshTeacherEvent());
+              },
+              icon: Icon(Icons.refresh_rounded, size: 18.w),
+              label: Text(S.of(context).retry),
+              style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.r),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // ============================================================
+  // ====== بطاقة المادة ======
+  // ============================================================
 
   Widget _buildSubjectCard(BuildContext context, _SubjectWithSchool item) {
     final theme = Theme.of(context);
     final subject = item.subject;
     final school = item.school;
-
-    // ignore: unused_local_variable
-    for (var grade in subject.grades) {}
 
     return Card(
       margin: EdgeInsets.only(bottom: 12.h),

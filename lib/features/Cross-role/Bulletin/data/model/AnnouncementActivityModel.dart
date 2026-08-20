@@ -20,7 +20,8 @@ class AnnouncementActivityModel extends HiveObject {
   final String schoolName;
   @HiveField(5)
   final String type;
-
+  @HiveField(6)
+  // final DateTime? expiryDate;
   AnnouncementActivityModel({
     required this.id,
     required this.title,
@@ -28,6 +29,7 @@ class AnnouncementActivityModel extends HiveObject {
     required this.date,
     required this.schoolName,
     required this.type,
+    // required this.expiryDate,
   });
 
   factory AnnouncementActivityModel.fromEntity(
@@ -40,6 +42,7 @@ class AnnouncementActivityModel extends HiveObject {
       date: entity.date,
       schoolName: entity.schoolName,
       type: entity.type,
+      // expiryDate: entity.expiryDate,
     );
   }
 
@@ -51,6 +54,7 @@ class AnnouncementActivityModel extends HiveObject {
       date: DateTime.parse(json['date']),
       schoolName: json['schoolName'],
       type: json['type'],
+      // expiryDate: DateTime.parse(json['expiryDate']),
     );
   }
 
@@ -62,6 +66,7 @@ class AnnouncementActivityModel extends HiveObject {
       date: date,
       schoolName: schoolName,
       type: type,
+      // expiryDate: expiryDate,
     );
   }
 
@@ -73,6 +78,7 @@ class AnnouncementActivityModel extends HiveObject {
       'date': date,
       'schoolName': schoolName,
       'type': type,
+      // 'expiryDate': expiryDate,
     };
   }
 }

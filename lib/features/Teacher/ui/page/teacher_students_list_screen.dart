@@ -41,7 +41,6 @@ class _TeacherStudentsListScreenState extends State<TeacherStudentsListScreen> {
   final TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
 
-  // ✅ حسابات القيم الثابتة خارج build
   final double emptyIconSize = 80.w;
   final double emptyGap = 16.h;
   final double searchBarHorizontalPadding = 16.w;
@@ -149,11 +148,24 @@ class _TeacherStudentsListScreenState extends State<TeacherStudentsListScreen> {
               ),
             ),
             SizedBox(height: 8.h),
-            Text(
-              S.of(context).Pull_down_to_refresh,
-              style: theme.textTheme.bodySmall?.copyWith(
-                color: theme.colorScheme.outline,
-                fontSize: 12.sp,
+            OutlinedButton.icon(
+              onPressed: () async {
+                context.read<TeacherStudentListBloc>().add(
+                  RefreshTeacherStudentsEvent(
+                    localGradeNumber: widget.localGradeNumber,
+                    localSectionNumber: widget.localSectionNumber,
+                    localSubjectId: widget.localSubjectId,
+                    schoolId: widget.school.schoolId!,
+                  ),
+                );
+              },
+              icon: Icon(Icons.refresh_rounded, size: 18.w),
+              label: Text(S.of(context).retry),
+              style: OutlinedButton.styleFrom(
+                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.r),
+                ),
               ),
             ),
           ],

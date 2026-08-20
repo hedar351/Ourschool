@@ -94,6 +94,8 @@
   "moreTeachers": "معلمين آخرين",
   "teachersOf": "معلمي",
   "noTeachers": "لا يوجد معلمين في هذه المدرسة",
+  "no_subjects_available": "لا توجد مواد متاحة",
+  "no_subjects_description": "لم يتم تعيين أي مواد لك حالياً",
   "teacherDetails": "تفاصيل المعلم",
   "contactInfo": "معلومات التواصل",
   "fullName": "الاسم الكامل",

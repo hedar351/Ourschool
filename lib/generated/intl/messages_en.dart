@@ -286,6 +286,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "no_marks_semester_2": MessageLookupByLibrary.simpleMessage(
       "No marks for semester 2",
     ),
+    "no_subjects_available": MessageLookupByLibrary.simpleMessage(
+      "No subjects available",
+    ),
+    "no_subjects_description": MessageLookupByLibrary.simpleMessage(
+      "No subjects have been assigned to you yet",
+    ),
     "not_specified": MessageLookupByLibrary.simpleMessage("Not specified"),
     "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
     "offline_failure": MessageLookupByLibrary.simpleMessage(

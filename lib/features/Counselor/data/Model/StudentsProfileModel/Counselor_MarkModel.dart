@@ -31,7 +31,8 @@ class CounselorMarkModel extends HiveObject {
 
   @HiveField(8)
   final int? total;
-
+  @HiveField(9)
+  final int? oral;
   CounselorMarkModel({
     required this.subjectId,
     required this.localSubjectId,
@@ -42,6 +43,7 @@ class CounselorMarkModel extends HiveObject {
     required this.homework,
     required this.finalExam,
     required this.total,
+    required this.oral,
   });
 
   factory CounselorMarkModel.fromEntity(CounselorMarkentity entity) {
@@ -55,6 +57,7 @@ class CounselorMarkModel extends HiveObject {
       homework: entity.homework,
       finalExam: entity.finalExam,
       total: entity.total,
+      oral: entity.oral,
     );
   }
 
@@ -69,6 +72,7 @@ class CounselorMarkModel extends HiveObject {
       homework: (json['homework'] as num?)?.toInt(),
       finalExam: (json['finalExam'] as num?)?.toInt(),
       total: (json['total'] as num?)?.toInt(),
+      oral: (json['oral'] as num?)?.toInt(),
     );
   }
   CounselorMarkentity toEntity() {
@@ -82,6 +86,7 @@ class CounselorMarkModel extends HiveObject {
       homework: homework,
       finalExam: finalExam,
       total: total,
+      oral: oral,
     );
   }
 
@@ -96,6 +101,7 @@ class CounselorMarkModel extends HiveObject {
       'homework': homework,
       'finalExam': finalExam,
       'total': total,
+      'oral': oral,
     };
   }
 }

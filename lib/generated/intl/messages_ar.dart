@@ -277,6 +277,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "no_marks_semester_2": MessageLookupByLibrary.simpleMessage(
       "لا توجد علامات للفصل الثاني",
     ),
+    "no_subjects_available": MessageLookupByLibrary.simpleMessage(
+      "لا توجد مواد متاحة",
+    ),
+    "no_subjects_description": MessageLookupByLibrary.simpleMessage(
+      "لم يتم تعيين أي مواد لك حالياً",
+    ),
     "not_specified": MessageLookupByLibrary.simpleMessage("غير محدد"),
     "notifications": MessageLookupByLibrary.simpleMessage("الإشعارات"),
     "offline_failure": MessageLookupByLibrary.simpleMessage(

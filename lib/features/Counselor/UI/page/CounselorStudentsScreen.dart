@@ -134,9 +134,23 @@ class _CounselorStudentsScreenState extends State<CounselorStudentsScreen>
             style: theme.textTheme.titleMedium?.copyWith(fontSize: 16.sp),
           ),
           SizedBox(height: 8.h),
-          Text(
-            S.of(context).Pull_down_to_refresh,
-            style: theme.textTheme.bodySmall?.copyWith(fontSize: 12.sp),
+          OutlinedButton.icon(
+            onPressed: () async {
+              context.read<StudentsBloc>().add(
+                RefreshStudentsEvent(
+                  localGradeNumber: widget.localGradeNumber,
+                  localSectionNumber: widget.localSectionNumber,
+                ),
+              );
+            },
+            icon: const Icon(Icons.refresh_rounded),
+            label: Text(S.of(context).retry),
+            style: OutlinedButton.styleFrom(
+              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.h),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12.r),
+              ),
+            ),
           ),
         ],
       ),

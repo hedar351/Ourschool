@@ -25,6 +25,8 @@
   "Ok": "Ok",
   "Username": "Please enter your username",
   "Password": "Please enter your password",
+  "no_subjects_available": "No subjects available",
+  "no_subjects_description": "No subjects have been assigned to you yet",
   "register": "register",
   "Settings": "Settings",
   "Home": "Home",

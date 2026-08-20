@@ -37,9 +37,9 @@ class ActivitiesRemoteDataImp implements ActivitiesRemoteData {
     String expiryDate,
   ) async {
     print(' [Activities Remote] بدء إضافة نشاط جديد');
-    print(
-      ' [Activities Remote] العنوان: $title, الوصف: $description, تاريخ الانتهاء: $expiryDate',
-    );
+    // print(' [Activities Remote] العنوان: $title');
+    // print(' [Activities Remote] الوصف: $description');
+    // print(' [Activities Remote] تاريخ الانتهاء: $expiryDate');
 
     final token = await authLocalDataSource.getToken();
     if (token.isEmpty) {
@@ -47,14 +47,30 @@ class ActivitiesRemoteDataImp implements ActivitiesRemoteData {
       throw TokenNotFoundExp();
     }
 
+    String formattedExpiryDate = expiryDate;
+    try {
+      final parsedDate = DateTime.parse(expiryDate);
+      formattedExpiryDate =
+          '${parsedDate.year}-'
+          '${parsedDate.month.toString().padLeft(2, '0')}-'
+          '${parsedDate.day.toString().padLeft(2, '0')}'
+          'T${parsedDate.hour.toString().padLeft(2, '0')}:'
+          '${parsedDate.minute.toString().padLeft(2, '0')}:'
+          '${parsedDate.second.toString().padLeft(2, '0')}.000Z';
+    } catch (e) {
+      print('⚠️ [Activities Remote] فشل تحليل التاريخ: $e');
+    }
+
     final body = json.encode({
-      'title': title,
-      'description': description,
-      'expiryDate': expiryDate,
+      'title': title.trim(),
+      'description': description.trim(),
+      'expiryDate': formattedExpiryDate,
     });
 
+    final url = Uri.parse('$baseUrl/activities');
+
     final response = await client.post(
-      Uri.parse('$baseUrl/activities'),
+      url,
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer $token',
@@ -78,6 +94,50 @@ class ActivitiesRemoteDataImp implements ActivitiesRemoteData {
       throw ServerExp(message: errorMessage);
     }
   }
+  // @override
+  // Future<Unit> addActivities(
+  //   String title,
+  //   String description,
+  //   String expiryDate,
+  // ) async {
+  //   print(' [Activities Remote] بدء إضافة نشاط جديد');
+  //   print(' [Activities Remote] العنوان: $title');
+  //   print(' [Activities Remote] الوصف: $description');
+  //   print(' [Activities Remote] تاريخ الانتهاء: $expiryDate');
+  //   final token = await authLocalDataSource.getToken();
+  //   if (token.isEmpty) {
+  //     print('🔴 [Activities Remote] التوكن فارغ');
+  //     throw TokenNotFoundExp();
+  //   }
+  //   final body = json.encode({
+  //     'title': title,
+  //     'description': description,
+  //     'expiryDate': expiryDate,
+  //   });
+  //   print(' [Activities Remote] الـ Body المرسل: $body');
+  //   final response = await client.post(
+  //     Uri.parse('$baseUrl/activities'),
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       'Authorization': 'Bearer $token',
+  //     },
+  //     body: body,
+  //   );
+  //   print(' [Activities Remote] حالة الاستجابة: ${response.statusCode}');
+  //   print(' [Activities Remote] نص الرد: ${response.body}');
+  //   if (response.statusCode == 200 || response.statusCode == 201) {
+  //     print(' [Activities Remote] تم إضافة النشاط بنجاح');
+  //     return unit;
+  //   } else {
+  //     String errorMessage = 'فشل إضافة النشاط';
+  //     try {
+  //       final Map<String, dynamic> decoded = json.decode(response.body);
+  //       errorMessage = decoded['message'] as String? ?? errorMessage;
+  //     } catch (_) {}
+  //     print('🔴 [Activities Remote] فشل إضافة النشاط - الرسالة: $errorMessage');
+  //     throw ServerExp(message: errorMessage);
+  //   }
+  // }
 
   @override
   Future<Unit> deleteActivities(int localActivityId) async {
@@ -131,11 +191,23 @@ class ActivitiesRemoteDataImp implements ActivitiesRemoteData {
       print('🔴 [Activities Remote] التوكن فارغ');
       throw TokenNotFoundExp();
     }
-
+    String formattedExpiryDate = expiryDate;
+    try {
+      final parsedDate = DateTime.parse(expiryDate);
+      formattedExpiryDate =
+          '${parsedDate.year}-'
+          '${parsedDate.month.toString().padLeft(2, '0')}-'
+          '${parsedDate.day.toString().padLeft(2, '0')}'
+          'T${parsedDate.hour.toString().padLeft(2, '0')}:'
+          '${parsedDate.minute.toString().padLeft(2, '0')}:'
+          '${parsedDate.second.toString().padLeft(2, '0')}.000Z';
+    } catch (e) {
+      print('⚠️ [Activities Remote] فشل تحليل التاريخ: $e');
+    }
     final body = json.encode({
       'title': title,
       'description': description,
-      'expiryDate': expiryDate,
+      'expiryDate': formattedExpiryDate,
     });
 
     final response = await client.put(

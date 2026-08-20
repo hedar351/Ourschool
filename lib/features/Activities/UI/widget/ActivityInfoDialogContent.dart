@@ -388,7 +388,7 @@ class ActivityInfoDialogContentState extends State<ActivityInfoDialogContent> {
   }
 
   Widget _buildRegistrationsStats(BuildContext context) {
-    final theme = Theme.of(context);
+    // final theme = Theme.of(context);
 
     return BlocBuilder<
       ActivitiesRegistrationsBloc,

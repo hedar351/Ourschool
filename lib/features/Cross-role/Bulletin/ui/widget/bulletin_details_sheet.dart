@@ -168,6 +168,27 @@ class _BulletinDetailsSheetContent extends StatelessWidget {
                               ),
                             ],
                           ),
+
+                          // Row(
+                          //   children: [
+                          //     Icon(
+                          //       Icons.calendar_today_rounded,
+                          //       size: 16.w,
+                          //       color: theme.colorScheme.onSurface.withOpacity(
+                          //         0.6,
+                          //       ),
+                          //     ),
+                          //     SizedBox(width: 6.w),
+                          //     Text(
+                          //       formatDate(entity.expiryDate),
+                          //       style: theme.textTheme.bodyMedium?.copyWith(
+                          //         color: theme.colorScheme.onSurface
+                          //             .withOpacity(0.6),
+                          //         fontWeight: FontWeight.w500,
+                          //       ),
+                          //     ),
+                          //   ],
+                          // ),
                         ],
                       ),
                     ),

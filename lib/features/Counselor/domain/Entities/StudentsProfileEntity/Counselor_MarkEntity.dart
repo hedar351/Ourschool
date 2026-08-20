@@ -5,6 +5,7 @@ class CounselorMarkentity extends Equatable {
   final int? localSubjectId;
   final String? subjectName;
   final int? semester;
+  final int? oral;
   final int? quiz1;
   final int? quiz2;
   final int? homework;
@@ -21,6 +22,7 @@ class CounselorMarkentity extends Equatable {
     required this.homework,
     required this.finalExam,
     required this.total,
+    required this.oral,
   });
 
   @override
@@ -34,5 +36,6 @@ class CounselorMarkentity extends Equatable {
     homework,
     finalExam,
     total,
+    oral,
   ];
 }

@@ -269,6 +269,26 @@ class S {
     );
   }
 
+  /// `No subjects available`
+  String get no_subjects_available {
+    return Intl.message(
+      'No subjects available',
+      name: 'no_subjects_available',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No subjects have been assigned to you yet`
+  String get no_subjects_description {
+    return Intl.message(
+      'No subjects have been assigned to you yet',
+      name: 'no_subjects_description',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `register`
   String get register {
     return Intl.message('register', name: 'register', desc: '', args: []);

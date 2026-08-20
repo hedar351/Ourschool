@@ -347,7 +347,9 @@ class _BooksscreenState extends State<Booksscreen>
                 context.read<LibrarianBloc>().add(RefreshBooksLibrarianEvent()),
             color: Theme.of(context).colorScheme.primary,
             child: CustomScrollView(
-              physics: const BouncingScrollPhysics(),
+              physics: const AlwaysScrollableScrollPhysics(
+                parent: BouncingScrollPhysics(),
+              ),
               slivers: [
                 ValueListenableBuilder<bool>(
                   valueListenable: _isReadyToAnimate,

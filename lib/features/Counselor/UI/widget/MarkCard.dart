@@ -105,8 +105,9 @@ class MarkCard extends StatelessWidget {
               spacing: 6.w,
               runSpacing: 6.h,
               children: [
-                _buildGradeChip(S.of(context).oral, mark.quiz1),
-                _buildGradeChip(S.of(context).oral_2, mark.quiz2),
+                _buildGradeChip(S.of(context).oral, mark.oral),
+                _buildGradeChip(S.of(context).quiz1, mark.quiz1),
+                _buildGradeChip(S.of(context).quiz2, mark.quiz2),
                 _buildGradeChip(S.of(context).homework, mark.homework),
                 _buildGradeChip(S.of(context).final_exam, mark.finalExam),
               ],
