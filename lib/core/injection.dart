@@ -76,6 +76,9 @@ import 'package:school/features/Student/domain/useCase/reserveBookUseCase.dart';
 import 'package:school/features/Student/ui/bloc/ActivityRegistrationBloc/activity_registration_bloc.dart';
 import 'package:school/features/Student/ui/bloc/libraryBloc/library_bloc.dart';
 import 'package:school/features/Student/ui/bloc/reservation_bloc/reservation_bloc.dart';
+import 'package:school/features/Teacher/data/dataSources/remote_data_teacher_schedule_image.dart';
+import 'package:school/features/Teacher/domain/UseCases/get_teacher_schedule_image_use_case.dart';
+import 'package:school/features/Teacher/ui/bloc/TeacherScheduleImageBloc/schedule_image_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // ----- Counselor -----
@@ -930,7 +933,12 @@ void _initTeacher({
   sl.registerLazySingleton<Marksremotedatasources>(
     () => MarksremotedatasourcesImp(client: sl(), authLocalDataSource: sl()),
   );
-
+  sl.registerLazySingleton<RemoteDataTeacherScheduleImage>(
+    () => RemoteDataTeacherScheduleImageImp(
+      client: sl(),
+      authLocalDataSource: sl(),
+    ),
+  );
   // ----- 6.4 Repository -----
   sl.registerLazySingleton<Teacherrepo>(
     () => Teacherrepoimp(
@@ -942,6 +950,7 @@ void _initTeacher({
       remoteStudentProfile: sl(),
       cacheStudentProfile: sl(),
       marksremotedatasources: sl(),
+      remoteDataTeacherScheduleImage: sl(),
     ),
   );
 
@@ -954,7 +963,9 @@ void _initTeacher({
   sl.registerLazySingleton(() => Addmarksusecase(repository: sl()));
   sl.registerLazySingleton(() => Deletemarksusecase(repository: sl()));
   sl.registerLazySingleton(() => Editmarkusecase(repository: sl()));
-
+  sl.registerLazySingleton(
+    () => GetTeacherScheduleImageUseCase(repository: sl()),
+  );
   // ----- 6.6 Blocs -----
   sl.registerFactory(() => TeacherBloc(teacherRepo: sl()));
   sl.registerFactory(() => TeacherStudentListBloc(teacherRepo: sl()));
@@ -971,6 +982,8 @@ void _initTeacher({
       editMarksUseCase: sl(),
     ),
   );
-
+  sl.registerFactory(
+    () => ScheduleImageBloc(getTeacherScheduleImageUseCase: sl()),
+  );
   print('✅ Teacher feature registered');
 }

@@ -10,7 +10,7 @@ abstract class LibraryCacheDataSource {
   Future<void> cacheReservations(ReservationsModel reservations);
   Future<void> deleteBooks();
   Future<void> deleteReservations();
-
+  // Future<void> deleteBook(int localBookNumber, ReservationsModel reservations);
   Future<List<BookModel>> getCachedBooks();
   Future<ReservationsModel> getCachedReservations();
   Stream<List<BookModel>> watchCachedBooks();
@@ -106,4 +106,16 @@ class LibraryCacheDataSourceImpl implements LibraryCacheDataSource {
       return reservations;
     });
   }
+
+  // @override
+  // Future<void> deleteBook(int localBookNumber,ReservationsModel reservations) async {
+  //   final key = 'cached_books'; // حسب هيكل الكاش لديك
+  //   final books = box.get(key) as List<BookModel>?;
+  //   if (books != null) {
+  //     final updatedBooks = books
+  //         .where((book) => book.localBookNumber != localBookNumber)
+  //         .toList();
+  //     await box.put(key, updatedBooks);
+  //   }
+  // }
 }

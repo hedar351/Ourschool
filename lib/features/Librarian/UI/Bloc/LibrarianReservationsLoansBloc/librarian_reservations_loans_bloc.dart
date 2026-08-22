@@ -24,7 +24,6 @@ class LibrarianReservationsLoansBloc
   Stream<LibrarianReservationsEntity>? _cachedReservationsStream;
   StreamSubscription? _reservationsSubscription;
 
-  //  جاري الإعارات (للتحضير للمستقبل)
   Stream<LibrarianLoansEntity>? _cachedLoansStream;
   StreamSubscription? _loansSubscription;
 
@@ -135,8 +134,12 @@ class LibrarianReservationsLoansBloc
     Emitter<LibrarianReservationsLoansState> emit,
   ) async {
     final either = await librarianRepo.getgetLibrarianReservationsWithCache(
-      event.status ?? 'Pending',
+      event.status ?? ' ',
     );
+    print("Bloc =================");
+    print(event.status);
+
+    print("Bloc =================");
     either.fold(
       (failure) =>
           emit(ReservationsError(message: mapFailureToMessage(failure))),
@@ -148,6 +151,7 @@ class LibrarianReservationsLoansBloc
             currentStatus: event.status,
           ),
         );
+        add(WatchCachedReservationsEvent(status: event.status));
       },
     );
   }
@@ -284,9 +288,7 @@ class LibrarianReservationsLoansBloc
     _reservationsSubscription = _cachedReservationsStream?.listen((
       reservations,
     ) {
-      if (state is ReservationsLoaded) {
-        add(UpdateCachedReservationsEvent(reservations: reservations));
-      }
+      add(UpdateCachedReservationsEvent(reservations: reservations));
     });
   }
 }

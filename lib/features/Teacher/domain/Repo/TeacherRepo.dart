@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:school/core/error/failures.dart';
 import 'package:school/features/Counselor/domain/Entities/StudentsBySectionEntity/StudentsBySectionEntity.dart';
+import 'package:school/features/Counselor/domain/Entities/scheduleImageEntity/GetscheduleImageEntity.dart';
 import 'package:school/features/Teacher/domain/Entities/TeacherProfileEntities/Teacher_fullProfileEntity.dart';
 import 'package:school/features/Teacher/domain/Entities/TeacherStudentProfile/TeacherStudentProfileEntity.dart';
 
@@ -63,12 +64,15 @@ abstract class Teacherrepo {
   Future<Either<Failures, TeacherFullprofileentity>>
   getTeacherFullprofileWithCache();
 
+  Future<Either<Failures, Getscheduleimageentity>> getTeacherScheduleImage(
+    int schoolId,
+  );
+
   Future<Either<Failures, Teacherstudentprofileentity>>
   getTeacherStudentsProfile(int localStudentNumber, int schoolId);
 
   Future<Either<Failures, Teacherstudentprofileentity>>
   getTeacherStudentsProfileWithCached(int localStudentNumber, int schoolId);
-
   // ====================================================================
   // ====== 3. TEACHER STUDENT PROFILE ======
   // ====================================================================
@@ -80,6 +84,7 @@ abstract class Teacherrepo {
     int schoolId,
   );
   Stream<TeacherFullprofileentity> watchCachedgetTeacherFullprofile();
+
   Stream<Teacherstudentprofileentity> watchCacheTeacherStudentsProfile(
     int localStudentNumber,
     int schoolId,

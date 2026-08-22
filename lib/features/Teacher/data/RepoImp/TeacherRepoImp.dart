@@ -9,6 +9,7 @@ import 'package:school/core/services/network.dart';
 // ====== DOMAIN ======
 // ======================================================================
 import 'package:school/features/Counselor/domain/Entities/StudentsBySectionEntity/StudentsBySectionEntity.dart';
+import 'package:school/features/Counselor/domain/Entities/scheduleImageEntity/GetscheduleImageEntity.dart';
 // ======================================================================
 // ====== DATA SOURCES ======
 // ======================================================================
@@ -23,6 +24,7 @@ import 'package:school/features/Teacher/data/dataSources/TeacherStudentProfile/R
 // ----- Teacher Students List -----
 import 'package:school/features/Teacher/data/dataSources/TeacherStudentsList/CacheTeacherStudentsList.dart';
 import 'package:school/features/Teacher/data/dataSources/TeacherStudentsList/RemotedataTeacherStudentsList.dart';
+import 'package:school/features/Teacher/data/dataSources/remote_data_teacher_schedule_image.dart';
 import 'package:school/features/Teacher/domain/Entities/TeacherProfileEntities/Teacher_fullProfileEntity.dart';
 import 'package:school/features/Teacher/domain/Entities/TeacherStudentProfile/TeacherStudentProfileEntity.dart';
 import 'package:school/features/Teacher/domain/Repo/TeacherRepo.dart';
@@ -43,7 +45,7 @@ class Teacherrepoimp implements Teacherrepo {
   final Marksremotedatasources marksremotedatasources;
   // ----- Core -----
   final NetworkInfo networkInfo;
-
+  final RemoteDataTeacherScheduleImage remoteDataTeacherScheduleImage;
   Teacherrepoimp({
     required this.remote,
     required this.cache,
@@ -53,6 +55,7 @@ class Teacherrepoimp implements Teacherrepo {
     required this.cacheStudentProfile,
     required this.networkInfo,
     required this.marksremotedatasources,
+    required this.remoteDataTeacherScheduleImage,
   });
 
   @override
@@ -237,6 +240,24 @@ class Teacherrepoimp implements Teacherrepo {
       return await _fetchFromNetworkAndCache();
     } else {
       return Left(OfflineFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failures, Getscheduleimageentity>> getTeacherScheduleImage(
+    int schoolId,
+  ) async {
+    try {
+      final model = await remoteDataTeacherScheduleImage.getTecherScheduleImage(
+        schoolId,
+      );
+      return Right(model);
+    } on ServerExp {
+      return Left(ServerFailure());
+    } on TokenNotFoundExp {
+      return Left(EmptyCacheFailure());
+    } catch (e) {
+      return Left(ServerFailure());
     }
   }
 

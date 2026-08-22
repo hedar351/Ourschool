@@ -11,7 +11,7 @@ class LoanCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final isOverdue = false;
+    // final isOverdue = false;
 
     return Container(
       margin: EdgeInsets.only(bottom: 10.h),
@@ -93,7 +93,7 @@ class LoanCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(10.r),
             ),
             child: Text(
-              isOverdue ? 'متأخر' : 'نشط',
+              'نشط',
               style: TextStyle(
                 fontSize: 10.sp,
                 fontWeight: FontWeight.w600,

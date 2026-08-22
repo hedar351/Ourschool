@@ -37,6 +37,7 @@ class ActivityRegistrationBloc
     Emitter<ActivityRegistrationState> emit,
   ) async {
     emit(ActivityRegistrationLoading());
+    print("ActivityRegistrationLoading========================");
     final result = await deleteRegisterUseCase(event.activityId);
     result.fold(
       (failure) => emit(

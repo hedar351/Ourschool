@@ -11,7 +11,7 @@ void routing(
 ) {
   if (role != "Admin" &&
       // role != "Librarian" &&
-      role != "Manager" &&
+      role != "Principal" &&
       role != "Secretary") {
     Navigator.of(context).pushAndRemoveUntil(
       MaterialPageRoute(

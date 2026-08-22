@@ -148,7 +148,7 @@ class ActivitiesRemoteDataImp implements ActivitiesRemoteData {
       print('🔴 [Activities Remote] التوكن فارغ');
       throw TokenNotFoundExp();
     }
-
+    print(localActivityId);
     final response = await client.delete(
       Uri.parse('$baseUrl/activities/$localActivityId'),
       headers: {

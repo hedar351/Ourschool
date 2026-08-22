@@ -34,11 +34,14 @@ class ActivitiesModel extends HiveObject {
 
   // ----- fromJson -----
   factory ActivitiesModel.fromJson(Map<String, dynamic> json) {
+    print("📥 [ActivitiesModel] معالجة JSON: $json");
+    print("📥 [ActivitiesModel] activityId: ${json['activityId']}");
+    print("📥 [ActivitiesModel] activityName: ${json['activityName']}");
     return ActivitiesModel(
       activityName: json['activityName'] as String?,
       status: json['status'] as String?,
       date: json['createdAt'] as String?,
-      localActivityId: json['localActivityId'] as int?,
+      localActivityId: json['activityId'] as int?,
     );
   }
 
@@ -58,7 +61,7 @@ class ActivitiesModel extends HiveObject {
       'activityName': activityName,
       'status': status,
       'date': date,
-      'localActivityId': localActivityId,
+      'activityId': localActivityId,
     };
   }
 }

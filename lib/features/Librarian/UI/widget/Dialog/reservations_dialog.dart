@@ -613,13 +613,10 @@ class _ReservationsDialogState extends State<ReservationsDialog> {
                                 reservation.localStudentNumber ?? 0,
                           ),
                         );
-                        // context.read<LibrarianReservationsLoansBloc>().add(
-                        //   RefreshReservationsEvent(
-                        //     status: _selectedStatus == 'Approved'
-                        //         ? null
-                        //         : _selectedStatus,
-                        //   ),
-                        // );
+                        print(_selectedStatus);
+                        context.read<LibrarianReservationsLoansBloc>().add(
+                          RefreshReservationsEvent(status: 'Approved'),
+                        );
                       },
                       tooltip: 'اعارة',
                     ),
